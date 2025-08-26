@@ -134,7 +134,7 @@ $(document).ready(function() {
             { "data": 2, "orderable": false, "searchable": true },
             { "data": 3, "orderable": false, "searchable": true },
             { "data": 4, "orderable": false, "searchable": true },
-            { "data": 6, "orderable": true, "searchable": false },
+            { "data": 5, "orderable": true, "searchable": false },
             {
             "data": null,
             "orderable": false,
