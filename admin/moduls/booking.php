@@ -75,13 +75,8 @@
 														<th><?php echo $lang['package_name'] ?></th>
 														<th><?php echo $lang['customer_name'] ?></th>
 														<th><?php echo $lang['mobile_number'] ?></th>
-														<th><?php echo $lang['baby_name'] ?></th>
-														<th><?php echo $lang['baby_age'] ?></th>
-														<th><?php echo $lang['instructions'] ?></th>
 														<th><?php echo $lang['booking_date'] ?></th>
 														<th><?php echo $lang['booking_time'] ?></th>
-														<th><?php echo $lang['extra_items'] ?></th>
-														<th><?php echo $lang['booking_price'] ?></th>
 														<th><?php echo $lang['is_active'] ?></th>
 														<th><?php echo $lang['actions'] ?></th>
 													</tr>
@@ -154,19 +149,13 @@ $(document).ready(function() {
             { "data": 4, "orderable": true, "searchable": true },
             { "data": 5, "orderable": true, "searchable": true },
             { "data": 6, "orderable": false, "searchable": false },
-            { "data": 7, "orderable": true, "searchable": false },
-            { "data": 8, "orderable": true, "searchable": false },
-            { "data": 9, "orderable": false, "searchable": true },
-            { "data": 10, "orderable": true, "searchable": true },
-            { "data": 11, "orderable": true, "searchable": false },
-            { "data": 12, "orderable": false, "searchable": false},
-            { "data": 13, "orderable": false, "searchable": false },
+            { "data": 7, "orderable": false, "searchable": false },
             {
                 "data": null,
                 "orderable": false,
                 "searchable": false,
                 "render": function(data, type, row) {
-                    var id = row[14]; // booking id
+                    var id = row[8]; // booking id
                     return `<div class='dropdown action-dropdown' style='position:relative;'>
                         <button class='btn btn-primary btn-xs dropdown-toggle' type='button' data-toggle='dropdown'>Actions <span class='caret'></span></button>
                         <ul class='dropdown-menu'>

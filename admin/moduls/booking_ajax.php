@@ -109,15 +109,10 @@ if ($data_result && mysqli_num_rows($data_result) > 0) {
             htmlspecialchars($row['package_name'] ?? ''),
             htmlspecialchars($row['customer_name']),
             htmlspecialchars($row['mobile_number']),
-            htmlspecialchars($row['baby_name']),
-            htmlspecialchars($row['baby_age']),
-            htmlspecialchars($row['instructions']),
-            htmlspecialchars($row['booking_date']),
-            htmlspecialchars($row['booking_time']),
-            $extra_items_html,
-            htmlspecialchars($row['booking_price']) . ' KD',
-            $status_text,
-            htmlspecialchars($row['id']) . ' KD',
+                htmlspecialchars($row['booking_date']),
+                htmlspecialchars($row['booking_time']),
+                $status_text,
+                htmlspecialchars($row['id']),
         );
     }
 }
