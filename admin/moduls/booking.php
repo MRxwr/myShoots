@@ -271,12 +271,17 @@ $(document).ready(function() {
     $('#datable_1 tbody').on('click', '.show-details', function(e) {
         e.preventDefault();
         var id = $(this).data('id');
+        // Show loading spinner overlay before opening modal
+        var $spinner = $('<div id="modal-loading-spinner" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2000; background: rgba(255,255,255,0.7); padding: 40px; border-radius: 8px;"><div style="width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite;"></div></div>');
+        $('body').append($spinner);
         $.ajax({
             url: 'moduls/get_booking_details.php',
             type: 'POST',
             data: {id: id},
             dataType: 'json',
             success: function(res) {
+                $('#modal-loading-spinner').remove();
+                $('#detailsModal').modal('show');
                 if (res.success && res.data) {
                     var details = res.data;
                     var html = '<table class="table table-bordered">';
@@ -285,13 +290,14 @@ $(document).ready(function() {
                     }
                     html += '</table>';
                     $('#detailsModal .modal-body').html(html);
-                    $('#detailsModal').modal('show');
                 } else {
-                    alert('Could not load booking details.');
+                    $('#detailsModal .modal-body').html('<div class="text-danger" style="text-align:center;padding:40px 0;">Could not load booking details.</div>');
                 }
             },
             error: function() {
-                alert('Error loading booking details.');
+                $('#modal-loading-spinner').remove();
+                $('#detailsModal').modal('show');
+                $('#detailsModal .modal-body').html('<div class="text-danger" style="text-align:center;padding:40px 0;">Error loading booking details.</div>');
             }
         });
     });
