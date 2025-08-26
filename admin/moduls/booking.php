@@ -88,11 +88,7 @@ $(document).ready(function() {
         "serverSide": true,
         "ajax": {
             "url": "moduls/booking_ajax.php",
-            "type": "POST",
-            "error": function(xhr, error, thrown) {
-                console.log('AJAX Error:', error, thrown);
-                console.log('Response:', xhr.responseText);
-            }
+            "type": "POST"
         },
         "columns": [
             { "data": 0, "orderable": false },
@@ -125,13 +121,10 @@ $(document).ready(function() {
                 "next": "Next",
                 "previous": "Previous"
             },
-            "emptyTable": "No booking data available" 
+            "emptyTable": "No booking data available"
         },
         "responsive": true,
-        "autoWidth": false,
-        "drawCallback": function(settings) {
-            console.log('DataTable draw completed. Rows:', this.api().rows().count());
-        }
+        "autoWidth": false
     });
 });
 </script>
