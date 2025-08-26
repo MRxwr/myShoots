@@ -72,13 +72,18 @@
                                                         <th><?php echo $lang['sn'] ?></th>
 														<th><?php echo $lang['Invoice_Date'] ?></th>
 														<th><?php echo $lang['transaction_id'] ?></th>
-                                                        <th><?php echo $lang['package_name'] ?></th>
-                                                        <th><?php echo $lang['customer_name'] ?></th>
-                                                        <th><?php echo $lang['mobile_number'] ?></th>
-                                                        <th><?php echo $lang['booking_date'] ?></th>
-                                                        <th><?php echo $lang['booking_time'] ?></th>
-                                                        <th><?php echo $lang['is_active'] ?></th>
-                                                        <th><?php echo $lang['actions'] ?></th>
+														<th><?php echo $lang['package_name'] ?></th>
+														<th><?php echo $lang['customer_name'] ?></th>
+														<th><?php echo $lang['mobile_number'] ?></th>
+														<th><?php echo $lang['baby_name'] ?></th>
+														<th><?php echo $lang['baby_age'] ?></th>
+														<th><?php echo $lang['instructions'] ?></th>
+														<th><?php echo $lang['booking_date'] ?></th>
+														<th><?php echo $lang['booking_time'] ?></th>
+														<th><?php echo $lang['extra_items'] ?></th>
+														<th><?php echo $lang['booking_price'] ?></th>
+														<th><?php echo $lang['is_active'] ?></th>
+														<th><?php echo $lang['actions'] ?></th>
 													</tr>
 												</thead>
 												<tbody>
@@ -148,16 +153,20 @@ $(document).ready(function() {
             { "data": 3, "orderable": true, "searchable": false },
             { "data": 4, "orderable": true, "searchable": true },
             { "data": 5, "orderable": true, "searchable": true },
-            { "data": 6, "orderable": true, "searchable": true },
-            { "data": 7, "orderable": false, "searchable": false },
-            { "data": 8, "orderable": true, "searchable": true },
-            { "data": 9, "orderable": false, "searchable": false },
+            { "data": 6, "orderable": false, "searchable": false },
+            { "data": 7, "orderable": true, "searchable": false },
+            { "data": 8, "orderable": true, "searchable": false },
+            { "data": 9, "orderable": false, "searchable": true },
+            { "data": 10, "orderable": true, "searchable": true },
+            { "data": 11, "orderable": true, "searchable": false },
+            { "data": 12, "orderable": false, "searchable": false},
+            { "data": 13, "orderable": false, "searchable": false },
             {
                 "data": null,
                 "orderable": false,
                 "searchable": false,
                 "render": function(data, type, row) {
-                    var id = row[10]; // booking id
+                    var id = row[14]; // booking id
                     return `<div class='dropdown action-dropdown' style='position:relative;'>
                         <button class='btn btn-primary btn-xs dropdown-toggle' type='button' data-toggle='dropdown'>Actions <span class='caret'></span></button>
                         <ul class='dropdown-menu'>
@@ -173,7 +182,7 @@ $(document).ready(function() {
                 }
             }
         ],
-        "order": [[ 6, "desc" ]], // Order by booking date descending
+        "order": [[ 1, "desc" ]], // Order by Invoice Date descending
         "pageLength": 10,
         "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
         "language": {
