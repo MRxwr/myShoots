@@ -888,12 +888,6 @@ blockquote {
     font-size: 70%;
     text-transform: uppercase;
     padding-top: 15px; }
-/* Sidebar active menu item styling */
-.sidebar .nav > li.active > a,
-.sidebar .nav > li > a.active {
-  background-color: #27ae60 !important;
-  color: #fff !important;
-}
 
 ul.uo-list {
   list-style: disc; }
