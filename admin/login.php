@@ -102,7 +102,7 @@
 			if(isset($_POST['submit']))
 			{
 				//echo "Click";
-				$username = $obj->sanitize($conn,$_POST['username']);
+				echo $username = $obj->sanitize($conn,$_POST['username']);
 				$password = md5($obj->sanitize($conn,$_POST['password']));
 
 				$tbl_name = "tbl_users";
@@ -115,12 +115,12 @@
 				{
 					$_SESSION['login'] = "<div class='success'>".$lang['login_success'].".</div>";
 					$_SESSION['user'] = $username;
-					header('location:'.SITEURL.'admin/');
+					header('location: admin/');
 				}
 				else
 				{
 					$_SESSION['login'] = "<div class='error'>".$lang['login_fail']."</div>";
-					header('location:'.SITEURL.'admin/login.php');
+					header('location: admin/login.php');
 				}
 			}
 		?>
