@@ -49,7 +49,7 @@
 		'title' => 'Title',
 		'description' => 'Description',
 		'category' => 'Category',
-		'is_active' => 'Is Active?',
+		'is_active' => 'Status',
 		'include_in_menu' => 'Include in Menu?',
 		'is_featured' => 'Is Featured?',
 		'actions' => 'Actions',
