@@ -30,8 +30,14 @@
 						<div class="panel panel-default card-view">
 							<div class="panel-wrapper collapse in">
 								<div class="panel-body">
+									<!-- Loading Spinner Container -->
+									<div id="loading-spinner" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; display: none;">
+										<div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+											<span class="sr-only">Loading...</span>
+										</div>
+									</div>
 									<div class="table-wrap">
-										<div class="table-responsive">
+										<div class="table-responsive" id="data-table-container">
 											<table id="datable_1" class="table table-hover display  pb-30" >
 												<thead>
 													<tr>
@@ -83,13 +89,35 @@
 
 <script>
 $(document).ready(function() {
+    // Show loading spinner and dim the table
+    function showLoading() {
+        $('#loading-spinner').show();
+        $('#data-table-container').css('opacity', '0.5');
+    }
+    
+    // Hide loading spinner and restore table opacity
+    function hideLoading() {
+        $('#loading-spinner').hide();
+        $('#data-table-container').css('opacity', '1');
+    }
+    
+    // Show spinner before DataTable initialization
+    showLoading();
+    
     $('#datable_1').DataTable({
         "processing": true,
         "serverSide": true,
         "ajax": {
             "url": "moduls/booking_ajax.php",
             "type": "POST",
+            "beforeSend": function() {
+                showLoading();
+            },
+            "complete": function() {
+                hideLoading();
+            },
             "error": function(xhr, error, code) {
+                hideLoading();
                 console.log('AJAX Error:', xhr.responseText);
                 alert('Error loading data: ' + error);
             }
