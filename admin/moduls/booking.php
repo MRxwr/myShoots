@@ -156,7 +156,7 @@ $(document).ready(function() {
                 "orderable": false,
                 "searchable": false,
                 "render": function(data, type, row) {
-                    var id = row[8]; // booking id
+                    var id = row[9]; // booking id
                     return `<div class='dropdown action-dropdown' style='position:relative;'>
                         <button class='btn btn-primary btn-xs dropdown-toggle' type='button' data-toggle='dropdown'>Actions <span class='caret'></span></button>
                         <ul class='dropdown-menu' style='min-width:120px; padding:0;'>
