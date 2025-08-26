@@ -4,23 +4,12 @@ session_start();
 // Include language configuration
 include('../../languages/lang_config.php');
 
+// Include database configuration
+include('../config/apply.php');
+
 // Check if user is logged in
 if(!isset($_SESSION['user'])) {
     echo json_encode(['error' => 'Unauthorized access']);
-    exit();
-}
-
-// Database connection constants
-define('LOCALHOST', 'localhost');
-define('USERNAME', 'u671249433_myshootDemoUR');
-define('PASSWORD', 'N@b$90949089');
-define('DBNAME', 'u671249433_myshootDemoDb');
-
-// Direct MySQLi connection
-$conn = mysqli_connect(LOCALHOST, USERNAME, PASSWORD, DBNAME);
-
-if (!$conn) {
-    echo json_encode(['error' => 'Database connection failed: ' . mysqli_connect_error()]);
     exit();
 }
 
