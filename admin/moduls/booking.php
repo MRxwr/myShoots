@@ -71,7 +71,6 @@
 											<table id="datable_1" class="table table-hover display  pb-30" >
 												<thead>
 													<tr>
-														
                                                         <th><?php echo $lang['sn'] ?></th>
 														<th><?php echo $lang['Invoice_Date'] ?></th>
 														<th><?php echo $lang['transaction_id'] ?></th>
@@ -86,6 +85,7 @@
                                                         <th><?php echo $lang['extra_items'] ?></th>
                                                         <th><?php echo $lang['booking_price'] ?></th>
                                                         <th><?php echo $lang['is_active'] ?></th>
+                                                        <th>Actions</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -162,7 +162,22 @@ $(document).ready(function() {
             { "data": 10, "orderable": true, "searchable": true },
             { "data": 11, "orderable": true, "searchable": false },
             { "data": 12, "orderable": false, "searchable": false},
-            { "data": 13, "orderable": false, "searchable": false }
+            { "data": 13, "orderable": false, "searchable": false },
+            {
+                "data": null,
+                "orderable": false,
+                "searchable": false,
+                "render": function(data, type, row) {
+                    var id = row[14]; // assuming booking id is sent as 14th column
+                    return `<div class='dropdown'>
+                        <button class='btn btn-primary btn-xs dropdown-toggle' type='button' data-toggle='dropdown'>Actions <span class='caret'></span></button>
+                        <ul class='dropdown-menu'>
+                            <li><a href='#' class='change-status' data-id='${id}'>Change Status</a></li>
+                            <li><a href='#' class='send-sms' data-id='${id}'>Send SMS</a></li>
+                        </ul>
+                    </div>`;
+                }
+            }
         ],
         "order": [[ 7, "desc" ]], // Order by booking date descending
         "pageLength": 10,
@@ -199,13 +214,35 @@ $(document).ready(function() {
     $('.status-filter').on('click', function() {
         var status = $(this).data('status');
         currentStatus = status;
-        
-        // Update active button state
         $('.status-filter').removeClass('active');
         $(this).addClass('active');
-        
-        // Reload the table with the new status filter
         dataTable.ajax.reload();
+    });
+
+    // Delegate actions for dropdown
+    $('#datable_1 tbody').on('click', '.change-status', function(e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        var newStatus = prompt('Enter new status (Yes, No, Pending):');
+        if (newStatus && (newStatus === 'Yes' || newStatus === 'No' || newStatus === 'Pending')) {
+            if (confirm('Are you sure you want to change the status?')) {
+                $.post('moduls/change_status.php', {id: id, status: newStatus}, function(res) {
+                    alert(res.message || 'Status updated!');
+                    dataTable.ajax.reload();
+                }, 'json');
+            }
+        }
+    });
+
+    $('#datable_1 tbody').on('click', '.send-sms', function(e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        if (confirm('Are you sure you want to send SMS?')) {
+            $.post('moduls/send_sms.php', {id: id}, function(res) {
+                alert(res.message || 'SMS sent!');
+                dataTable.ajax.reload();
+            }, 'json');
+        }
     });
 });
 </script>

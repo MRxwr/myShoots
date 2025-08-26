@@ -127,7 +127,8 @@ if ($data_result && mysqli_num_rows($data_result) > 0) {
             htmlspecialchars($row['booking_time']),
             $extra_items_html,
             htmlspecialchars($row['booking_price']) . ' KD',
-            $status_text
+            $status_text,
+            htmlspecialchars($row['id']) . ' KD',
         );
     }
 }
