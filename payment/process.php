@@ -125,5 +125,8 @@ if(isset($_POST['submitBtn'])){
 			die('Error:'.mysqli_error($conn));
 		}
 	}
+}else{
+	// Handle case where booking does not exist
+	die('Booking does not exist');
 }
 ?>
