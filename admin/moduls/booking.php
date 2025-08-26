@@ -236,7 +236,8 @@ $(document).ready(function() {
                     // Find the row and update the status cell
                     var $row = $btn.closest('tr');
                     // The status cell is the 14th column (zero-based index 13)
-                    $row.find('td').eq(13).html(newStatus === 'Yes' ? 'Success' : 'Cancelled');
+                    var statusText = newStatus === 'Yes' ? 'نعم' : 'لا';
+                    $row.find('td').eq(13).html(statusText);
                 }, 'json');
             }
         });
