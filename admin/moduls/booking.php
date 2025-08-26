@@ -68,81 +68,7 @@
 													</tr>
 												</tfoot>
 												<tbody>
-                                               <?php 
-												$tbl_name = 'tbl_booking';
-												$query = $obj->select_data($tbl_name);
-												$res = $obj->execute_query($conn,$query);
-												$sn = 1;
-									
-												if($res)
-												{
-													$count_rows= $obj->num_rows($res);
-													if($count_rows > 0)
-													{
-														while ($row=$obj->fetch_data($res)) {
-															$id = $row['id'];
-															$package_id = $row['package_id'];
-															$transaction_id = $row['transaction_id'];
-															$customer_name = $row['customer_name'];
-															$mobile_number = $row['mobile_number'];
-															$baby_name = $row['baby_name'];
-															$baby_age = $row['baby_age'];
-															$instructions = $row['instructions'];
-															$booking_date = $row['booking_date'];
-															$booking_time = $row['booking_time'];
-															$extra_items = $row['extra_items'];
-															$booking_price = $row['booking_price'];
-															$is_active = $row['status'];
-															$tbl_name1 = 'tbl_packages';
-															$where = 'id='.$package_id;
-												            $query1 = $obj->select_data($tbl_name1,$where);
-															$res1 = $obj->execute_query($conn,$query1);
-															$row1 = $obj->fetch_data($res1);
-															$package_name = @$row1['title_'.$_SESSION['lang']];
-															?>
-									
-															<tr>
-																<td><?php echo $sn++; ?>. </td>
-																<td><?php echo $package_name; ?></td>
-																<td><?php echo $customer_name; ?></td>
-                                                                <td><?php echo $mobile_number; ?></td>
-                                                                <td><?php echo $baby_name; ?></td>
-                                                                <td><?php echo $baby_age; ?></td>
-                                                                <td><?php echo $instructions; ?></td>
-																<td><?php echo $booking_date; ?></td>
-																<td><?php echo $booking_time; ?></td>
-                                                                <td>
-                                                                    <ul class="list-unstyled">
-                                                                    <?php 
-																	if($extra_items != ""){
-                                                                    $rows = json_decode($extra_items); 
-                                                                    foreach($rows as $row ){
-                                                                    echo "<li>- ".$row->item." ".$row->price." KD.</li>";
-                                                                    }
-																	}
-                                                                    ?>
-                                                                    </ul>
-                                                                </td>
-                                                                <td><?php echo $booking_price; ?>KD</td>
-                                                                <td><?php echo $transaction_id; ?></td>
-																
-															   <td>
-																	<?php if($is_active=='Yes'){echo $lang['yes'];}else if($is_active=='No'){echo $lang['no'];} ?>
-																	
-																</td>
-																
-															</tr>
-									
-															<?php
-														}
-													}
-													else
-													{
-														echo "<tr><td colspan='5' class='error'>No Categories Found.</td></tr>";
-													}
-												}
-											?>
-													
+													<!-- Data will be loaded via AJAX -->
 												</tbody>
 											</table>
 										</div>
@@ -154,3 +80,57 @@
 				</div>
 				<!-- /Row -->
     </div>
+
+<script>
+$(document).ready(function() {
+    $('#datable_1').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": "moduls/booking_ajax.php",
+            "type": "POST",
+            "error": function(xhr, error, code) {
+                console.log('AJAX Error:', xhr.responseText);
+                alert('Error loading data: ' + error);
+            }
+        },
+        "columns": [
+            { "data": 0, "orderable": false, "searchable": false },
+            { "data": 1, "orderable": true },
+            { "data": 2, "orderable": true },
+            { "data": 3, "orderable": true },
+            { "data": 4, "orderable": true },
+            { "data": 5, "orderable": true },
+            { "data": 6, "orderable": false },
+            { "data": 7, "orderable": true },
+            { "data": 8, "orderable": true },
+            { "data": 9, "orderable": false, "searchable": false },
+            { "data": 10, "orderable": true },
+            { "data": 11, "orderable": true },
+            { "data": 12, "orderable": false, "searchable": false }
+        ],
+        "order": [[ 7, "desc" ]], // Order by booking date descending
+        "pageLength": 10,
+        "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+        "language": {
+            "processing": "<div class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div>",
+            "search": "Search:",
+            "lengthMenu": "Show _MENU_ entries",
+            "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+            "infoEmpty": "Showing 0 to 0 of 0 entries",
+            "infoFiltered": "(filtered from _TOTAL_ total entries)",
+            "paginate": {
+                "first": "First",
+                "last": "Last",
+                "next": "Next",
+                "previous": "Previous"
+            },
+            "emptyTable": "No booking data available",
+            "zeroRecords": "No matching records found"
+        },
+        "responsive": true,
+        "autoWidth": false,
+        "stateSave": false
+    });
+});
+</script>
