@@ -106,11 +106,8 @@ if ($data_result && mysqli_num_rows($data_result) > 0) {
             $sn++,
             htmlspecialchars($row['created_at']),
             htmlspecialchars($row['transaction_id']),
-            htmlspecialchars($row['package_name'] ?? ''),
             htmlspecialchars($row['customer_name']),
             htmlspecialchars($row['mobile_number']),
-            htmlspecialchars($row['booking_date']),
-            htmlspecialchars($row['booking_time']),
             $status_text,
             htmlspecialchars($row['id']),
         );

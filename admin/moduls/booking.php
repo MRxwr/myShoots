@@ -67,11 +67,8 @@
                                             <th><?php echo $lang['sn'] ?></th>
                                             <th><?php echo $lang['Invoice_Date'] ?></th>
                                             <th><?php echo $lang['transaction_id'] ?></th>
-                                            <th><?php echo $lang['package_name'] ?></th>
                                             <th><?php echo $lang['customer_name'] ?></th>
                                             <th><?php echo $lang['mobile_number'] ?></th>
-                                            <th><?php echo $lang['booking_date'] ?></th>
-                                            <th><?php echo $lang['booking_time'] ?></th>
                                             <th><?php echo $lang['is_active'] ?></th>
                                             <th><?php echo $lang['actions'] ?></th>
                                         </tr>
@@ -134,19 +131,16 @@ $(document).ready(function() {
         "columns": [
             { "data": 0, "orderable": false, "searchable": false },
             { "data": 1, "orderable": true, "searchable": true },
-            { "data": 2, "orderable": true, "searchable": false },
-            { "data": 3, "orderable": true, "searchable": false },
-            { "data": 4, "orderable": true, "searchable": true },
-            { "data": 5, "orderable": true, "searchable": true },
-            { "data": 6, "orderable": false, "searchable": false },
-            { "data": 7, "orderable": false, "searchable": false },
-            { "data": 8, "orderable": false, "searchable": false },
+            { "data": 2, "orderable": false, "searchable": true },
+            { "data": 3, "orderable": false, "searchable": true },
+            { "data": 4, "orderable": false, "searchable": true },
+            { "data": 6, "orderable": true, "searchable": false },
             {
             "data": null,
             "orderable": false,
             "searchable": false,
             "render": function(data, type, row) {
-                var id = row[9]; // booking id
+                var id = row[6]; // booking id
                 return `<div class='dropdown action-dropdown' style='position:relative;'>
                     <button class='btn btn-primary btn-xs dropdown-toggle' type='button' data-toggle='dropdown'>Actions <span class='caret'></span></button>
                     <ul class='dropdown-menu' style='min-width:120px; padding:0;'>
