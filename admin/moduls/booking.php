@@ -176,9 +176,8 @@ $(document).ready(function() {
                                 <li><a href='#' class='send-sms' data-id='${id}'>Send SMS</a></li>
                             </ul>
                             <div class='status-options' style='display:none; position:absolute; left:0; top:100%; background:#fff; border:1px solid #ddd; z-index:99999; min-width:140px; box-shadow:0 2px 8px rgba(0,0,0,0.15);'>
-                                <a href='#' class='change-status' data-id='${id}' data-status='Yes' style='display:block; padding:10px 16px;'>Success</a>
-                                <a href='#' class='change-status' data-id='${id}' data-status='No' style='display:block; padding:10px 16px;'>Cancelled</a>
-                                <a href='#' class='change-status' data-id='${id}' data-status='Pending' style='display:block; padding:10px 16px;'>Pending</a>
+                                <a href='#' class='change-status btn btn-success' data-id='${id}' data-status='Yes' style='display:block; padding:10px 16px; color:#fff; margin-bottom:5px;'>Success</a>
+                                <a href='#' class='change-status btn btn-danger' data-id='${id}' data-status='No' style='display:block; padding:10px 16px; color:#fff;'>Cancelled</a>
                             </div>
                         </ul>
                     </div>`;
