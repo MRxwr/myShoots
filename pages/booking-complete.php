@@ -23,23 +23,20 @@ else{
  	  CURLOPT_HTTPHEADER => array("Authorization: Bearer $token","Content-Type: application/json"),
  	));
 	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
 	$response = curl_exec($curl);
 	$err = curl_error($curl);
-
 	curl_close($curl);
-	if ($err) 
-	{
+	if ($err) {
 		echo "cURL Error #:" . $err;
-	} 
-	else 
-	{
+	} else {
 		$resultMY = json_decode($response, true);
     $orderId = $resultMY["Data"]["InvoiceId"];
+    if( $resultMY["Data"]["InvoiceTransactions"][0]["TransactionStatus"] != "Succss" ){
+      header("LOCATION: booking-faild.php");
+      die();
+    }
     $booking = get_booking_details($orderId);
-
       $id=$booking['id'];
-
       $query = "UPDATE tbl_booking SET status='Yes' WHERE id=$id";
       $res = $obj->execute_query($conn,$query);
 
