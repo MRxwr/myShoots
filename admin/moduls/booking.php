@@ -121,7 +121,7 @@ $(document).ready(function() {
                 "next": "Next",
                 "previous": "Previous"
             },
-            "emptyTable": "No booking data available"
+            "emptyTable": "No booking data available" 
         },
         "responsive": true,
         "autoWidth": false
