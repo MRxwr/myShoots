@@ -169,17 +169,17 @@ $(document).ready(function() {
                 "searchable": false,
                 "render": function(data, type, row) {
                     var id = row[14]; // assuming booking id is sent as 14th column
-                    return `<div class='dropdown'>
+                        return `<div class='dropdown action-dropdown' style='position:relative;'>
                         <button class='btn btn-primary btn-xs dropdown-toggle' type='button' data-toggle='dropdown'>Actions <span class='caret'></span></button>
                         <ul class='dropdown-menu'>
-                            <li class='dropdown-submenu'>
-                                <a tabindex='-1' href='#'>Change Status</a>
-                                <ul class='dropdown-menu'>
-                                    <li><a href='#' class='change-status' data-id='${id}' data-status='Yes'>Success</a></li>
-                                    <li><a href='#' class='change-status' data-id='${id}' data-status='No'>Cancelled</a></li>
-                                </ul>
-                            </li>
-                            <li><a href='#' class='send-sms' data-id='${id}'>Send SMS</a></li>
+                                <li><a href='#' class='show-status-options' data-id='${id}'>Change Status</a></li>
+                                <li><a href='#' class='send-sms' data-id='${id}'>Send SMS</a></li>
+                            </ul>
+                            <div class='status-options' style='display:none; position:absolute; left:100%; top:0; background:#fff; border:1px solid #ddd; z-index:9999; min-width:120px;'>
+                                <a href='#' class='change-status' data-id='${id}' data-status='Yes' style='display:block; padding:8px;'>Success</a>
+                                <a href='#' class='change-status' data-id='${id}' data-status='No' style='display:block; padding:8px;'>Cancelled</a>
+                                <a href='#' class='change-status' data-id='${id}' data-status='Pending' style='display:block; padding:8px;'>Pending</a>
+                            </div>
                         </ul>
                     </div>`;
                 }
@@ -237,6 +237,19 @@ $(document).ready(function() {
             }, 'json');
         }
     });
+        // Show status options inline when 'Change Status' is clicked
+        $('#datable_1 tbody').on('click', '.show-status-options', function(e) {
+            e.preventDefault();
+            $('.status-options').hide(); // Hide any open status options
+            $(this).closest('.action-dropdown').find('.status-options').show();
+        });
+
+        // Hide status options when clicking elsewhere
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('.action-dropdown').length) {
+                $('.status-options').hide();
+            }
+        });
 
     $('#datable_1 tbody').on('click', '.send-sms', function(e) {
         e.preventDefault();
