@@ -48,14 +48,14 @@ if ($row) {
     $err = curl_error($curl);
     curl_close($curl);
     if ($err){
-        echo json_encode(['success' => false, 'message' => "SMS sending failed - {$err}"]);
+        echo json_encode(['success' => false, 'message' => 'SMS sending failed - ' . $err]);
     }else{
         if( str_contains($response, 'ERR') ){
-            echo json_encode(['success' => false, 'message' => "SMS sending failed - {$response}"]);
+            echo json_encode(['success' => false, 'message' => 'Could not send SMS - ' . $response]);
         } else {
             $update = "UPDATE tbl_booking SET sms = 1 WHERE id = $id";
             mysqli_query($conn, $update);
-            echo json_encode(['success' => true, 'message' => "SMS sent successfully"]);
+            echo json_encode(['success' => true, 'message' => 'SMS sent successfully']);
         }
     }
 }else{
