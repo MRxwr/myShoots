@@ -146,7 +146,8 @@ $(document).ready(function() {
             { "data": 9, "orderable": false, "searchable": false },
             { "data": 10, "orderable": true },
             { "data": 11, "orderable": true },
-            { "data": 12, "orderable": false, "searchable": false }
+            { "data": 12, "orderable": false},
+            { "data": 13, "orderable": false, "searchable": false }
         ],
         "order": [[ 7, "desc" ]], // Order by booking date descending
         "pageLength": 10,
