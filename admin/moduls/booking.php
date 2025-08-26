@@ -66,57 +66,92 @@
 
 <!-- Add custom JavaScript for DataTable AJAX loading -->
 <script>
+// Create a directly-loaded fallback table
+function createFallbackTable() {
+    // Destroy any existing DataTable instance
+    if ($.fn.DataTable.isDataTable('#datable_1')) {
+        $('#datable_1').DataTable().destroy();
+    }
+    
+    // Initialize simple DataTable without AJAX
+    $('#datable_1').DataTable({
+        "processing": false,
+        "language": {
+            "emptyTable": "No booking data available"
+        },
+        "pageLength": 25,
+        "responsive": true
+    });
+    
+    // Show a message about falling back to simple mode
+    $('#datable_1_wrapper').prepend(
+        '<div class="alert alert-warning">' +
+        '<strong>Notice:</strong> Using basic table mode due to data loading issues. ' +
+        'Some features may be limited.' +
+        '</div>'
+    );
+}
+
 // Initialize AJAX DataTable with a slight delay to ensure it overrides the default initialization
 $(document).ready(function() {
     // Wait for the default initialization to complete
     setTimeout(function() {
-        // Destroy the existing DataTable instance
-        if ($.fn.DataTable.isDataTable('#datable_1')) {
-            $('#datable_1').DataTable().destroy();
+        try {
+            // Destroy the existing DataTable instance
+            if ($.fn.DataTable.isDataTable('#datable_1')) {
+                $('#datable_1').DataTable().destroy();
+            }
+            
+            // Initialize the new AJAX-powered DataTable
+            $('#datable_1').DataTable({
+                "processing": true,
+                "language": {
+                    "processing": "<div class='fa fa-spinner fa-spin' style='font-size:24px;color:#34495e'></div>",
+                    "emptyTable": "No bookings found"
+                },
+                "serverSide": false,
+                "ajax": {
+                    "url": "moduls/get_bookings_ultra_simple.php",
+                    "type": "GET", // Changed to GET to avoid CORS issues
+                    "dataSrc": "data",
+                    "error": function(xhr, error, thrown) {
+                        // Display error message in console for debugging
+                        console.error("AJAX error:", error, thrown, xhr.responseText);
+                        
+                        // Show a more user-friendly error message
+                        $('#datable_1_wrapper').prepend(
+                            '<div class="alert alert-danger">' +
+                            '<strong>Error loading data:</strong> There was a problem retrieving the booking data. ' +
+                            'Please refresh the page or contact support.' +
+                            '</div>'
+                        );
+                        
+                        // Create fallback table
+                        createFallbackTable();
+                    }
+                },
+                "columns": [
+                    { "data": "sn" },
+                    { "data": "package_name" },
+                    { "data": "customer_name" },
+                    { "data": "mobile_number" },
+                    { "data": "baby_name" },
+                    { "data": "baby_age" },
+                    { "data": "instructions" },
+                    { "data": "booking_date" },
+                    { "data": "booking_time" },
+                    { "data": "extra_items", "render": function(data) { return data || ''; } },
+                    { "data": "booking_price" },
+                    { "data": "transaction_id" },
+                    { "data": "is_active" }
+                ],
+                "pageLength": 25,
+                "responsive": true
+            });
+        } catch (e) {
+            console.error("DataTable initialization error:", e);
+            createFallbackTable();
         }
-        
-        // Initialize the new AJAX-powered DataTable
-        $('#datable_1').DataTable({
-            "processing": true,
-            "language": {
-                "processing": "<div class='spinner-border text-primary' role='status'><span class='sr-only'>Loading...</span></div>"
-            },
-            "serverSide": false,
-            "ajax": {
-                "url": "moduls/get_bookings_simple.php",
-                "type": "POST",
-                "dataSrc": "data",
-                "error": function(xhr, error, thrown) {
-                    // Display error message in console for debugging
-                    console.error("AJAX error:", error, thrown);
-                    
-                    // Show a more user-friendly error message
-                    $('#datable_1_wrapper').prepend(
-                        '<div class="alert alert-danger">' +
-                        '<strong>Error loading data:</strong> There was a problem retrieving the booking data. ' +
-                        'Please refresh the page or contact support.' +
-                        '</div>'
-                    );
-                }
-            },
-            "columns": [
-                { "data": "sn" },
-                { "data": "package_name" },
-                { "data": "customer_name" },
-                { "data": "mobile_number" },
-                { "data": "baby_name" },
-                { "data": "baby_age" },
-                { "data": "instructions" },
-                { "data": "booking_date" },
-                { "data": "booking_time" },
-                { "data": "extra_items", "render": function(data) { return data; } },
-                { "data": "booking_price" },
-                { "data": "transaction_id" },
-                { "data": "is_active" }
-            ],
-            "pageLength": 25,
-            "responsive": true
-        });
-    }, 300); // Increased delay to 300ms to ensure all scripts are loaded
+    }, 500); // Increased delay to 500ms to ensure all scripts are loaded
 });
 </script>

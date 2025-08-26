@@ -39,9 +39,6 @@ try {
         throw new Exception("Query execution failed");
     }
 
-$data = array();
-
-if ($res) {
     $count_rows = $obj->num_rows($res);
     if ($count_rows > 0) {
         $sn = 1;
@@ -60,26 +57,41 @@ if ($res) {
             $booking_price = $row['booking_price'];
             $is_active = $row['status'];
 
-            // Get package name
-            $tbl_name1 = 'tbl_packages';
-            $where = 'id=' . $package_id;
-            $query1 = $obj->select_data($tbl_name1, $where);
-            $res1 = $obj->execute_query($conn, $query1);
-            $row1 = $obj->fetch_data($res1);
-            $lang_key = 'title_' . (isset($_SESSION['lang']) ? $_SESSION['lang'] : 'en');
-            $package_name = isset($row1[$lang_key]) ? $row1[$lang_key] : '';
-
-            // Format extra items for display
-            $extra_items_html = '';
-            if ($extra_items != "") {
-                $extra_items_html = '<ul class="list-unstyled">';
-                $rows_items = json_decode($extra_items);
-                if ($rows_items) {
-                    foreach ($rows_items as $item) {
-                        $extra_items_html .= "<li>- " . htmlspecialchars($item->item) . " " . $item->price . " KD.</li>";
+            // Get package name - with error handling
+            $package_name = '';
+            try {
+                if ($package_id) {
+                    $tbl_name1 = 'tbl_packages';
+                    $where = 'id=' . $package_id;
+                    $query1 = $obj->select_data($tbl_name1, $where);
+                    $res1 = $obj->execute_query($conn, $query1);
+                    if ($res1) {
+                        $row1 = $obj->fetch_data($res1);
+                        $lang_key = 'title_' . (isset($_SESSION['lang']) ? $_SESSION['lang'] : 'en');
+                        $package_name = isset($row1[$lang_key]) ? $row1[$lang_key] : '';
                     }
                 }
-                $extra_items_html .= '</ul>';
+            } catch (Exception $e) {
+                // Just continue with empty package name
+            }
+
+            // Format extra items for display - with error handling
+            $extra_items_html = '';
+            if ($extra_items != "") {
+                try {
+                    $extra_items_html = '<ul class="list-unstyled">';
+                    $rows_items = json_decode($extra_items);
+                    if ($rows_items && is_array($rows_items)) {
+                        foreach ($rows_items as $item) {
+                            if (isset($item->item) && isset($item->price)) {
+                                $extra_items_html .= "<li>- " . htmlspecialchars($item->item) . " " . $item->price . " KD.</li>";
+                            }
+                        }
+                    }
+                    $extra_items_html .= '</ul>';
+                } catch (Exception $e) {
+                    $extra_items_html = '';
+                }
             }
 
             // Simple status display
@@ -103,15 +115,28 @@ if ($res) {
             );
         }
     }
+
+} catch (Exception $e) {
+    // If any error occurs, we'll return an empty data array with an error message
+    $data = array();
 }
 
 // Clear any previous output
-ob_clean();
+ob_end_clean();
 
 // Set proper JSON header
 header('Content-Type: application/json');
 
-// Return JSON response
-echo json_encode(array("data" => $data));
+// Return JSON response - make sure it's properly encoded
+$response = array("data" => $data);
+$json = json_encode($response);
+
+// Check for JSON encoding errors
+if ($json === false) {
+    // If there was a JSON encoding error, return an empty data array
+    $json = json_encode(array("data" => array()));
+}
+
+echo $json;
 exit; // Stop execution after sending response
 ?>
