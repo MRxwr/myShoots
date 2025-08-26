@@ -2,7 +2,8 @@
 include('../languages/lang_config.php');
 include('../admin/config/apply.php');
 include('../includes/functions.php');
-var_dump($_POST);
+// print json
+echo json_encode($_REQUEST);
 if(isset($_POST['submitBtn'])){
 	$select_extra_item = $_POST['select_extra_item'];
 	$comm="";
@@ -126,8 +127,5 @@ if(isset($_POST['submitBtn'])){
 			die('Error:'.mysqli_error($conn));
 		}
 	}
-}else{
-	// Handle case where booking does not exist
-	die('Booking does not exist');
 }
 ?>
