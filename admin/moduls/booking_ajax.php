@@ -13,24 +13,37 @@ if(!isset($_SESSION['user']))
 $draw = isset($_POST['draw']) ? intval($_POST['draw']) : 1;
 $start = isset($_POST['start']) ? intval($_POST['start']) : 0;
 $length = isset($_POST['length']) ? intval($_POST['length']) : 10;
-$search_value = isset($_POST['search']['value']) ? $_POST['search']['value'] : '';
+$search_value = isset($_POST['search']['value']) ? trim($_POST['search']['value']) : '';
+
+// Debug: Log the parameters (remove this after testing)
+error_log("AJAX Params - Draw: $draw, Start: $start, Length: $length, Search: $search_value");
 
 // Base query
 $tbl_name = 'tbl_booking';
 $where_clause = '';
+$search_where = '';
 
 // Add search functionality
 if (!empty($search_value)) {
-    $where_clause = "WHERE customer_name LIKE '%$search_value%' OR mobile_number LIKE '%$search_value%' OR baby_name LIKE '%$search_value%' OR transaction_id LIKE '%$search_value%'";
+    $search_where = "WHERE customer_name LIKE '%$search_value%' OR mobile_number LIKE '%$search_value%' OR baby_name LIKE '%$search_value%' OR transaction_id LIKE '%$search_value%'";
 }
 
-// Count total records
-$count_query = "SELECT COUNT(*) as total FROM $tbl_name $where_clause";
-$count_res = $obj->execute_query($conn, $count_query);
-$total_records = $obj->fetch_data($count_res)['total'];
+// Count total records (without search)
+$total_query = "SELECT COUNT(*) as total FROM $tbl_name";
+$total_res = $obj->execute_query($conn, $total_query);
+$total_records = $obj->fetch_data($total_res)['total'];
 
-// Get filtered records with pagination
-$query = "SELECT * FROM $tbl_name $where_clause ORDER BY id DESC LIMIT $start, $length";
+// Count filtered records (with search if applicable)
+$filtered_query = "SELECT COUNT(*) as total FROM $tbl_name $search_where";
+$filtered_res = $obj->execute_query($conn, $filtered_query);
+$filtered_records = $obj->fetch_data($filtered_res)['total'];
+
+// Get records with pagination and search
+$limit_clause = "LIMIT $start, $length";
+$query = "SELECT * FROM $tbl_name $search_where ORDER BY id DESC $limit_clause";
+
+error_log("SQL Query: $query"); // Debug log
+
 $res = $obj->execute_query($conn, $query);
 
 $data = array();
@@ -103,10 +116,13 @@ if($res && $obj->num_rows($res) > 0)
 // Prepare response
 $response = array(
     "draw" => $draw,
-    "recordsTotal" => $total_records,
-    "recordsFiltered" => $total_records,
+    "recordsTotal" => intval($total_records),
+    "recordsFiltered" => intval($filtered_records),
     "data" => $data
 );
+
+// Debug log
+error_log("Response - Total: $total_records, Filtered: $filtered_records, Data count: " . count($data));
 
 header('Content-Type: application/json');
 echo json_encode($response);
