@@ -90,6 +90,8 @@ if ($data_result && mysqli_num_rows($data_result) > 0) {
         
         $data[] = array(
             $sn++,
+            htmlspecialchars($row['created_at']),
+            htmlspecialchars($row['transaction_id']),
             htmlspecialchars($row['package_name'] ?? ''),
             htmlspecialchars($row['customer_name']),
             htmlspecialchars($row['mobile_number']),
@@ -100,7 +102,6 @@ if ($data_result && mysqli_num_rows($data_result) > 0) {
             htmlspecialchars($row['booking_time']),
             $extra_items_html,
             htmlspecialchars($row['booking_price']) . ' KD',
-            htmlspecialchars($row['transaction_id']),
             $status_text
         );
     }

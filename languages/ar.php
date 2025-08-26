@@ -1,5 +1,6 @@
 <?php 
 	$lang = array(
+		'Invoice_Date' => 'تاريخ الفاتورة',
 		'meta_title' => 'MyShoots',
 		'meta_description' => 'MyShoots',
 		'meta_keywords' => 'MyShoots',

@@ -63,7 +63,10 @@
 											<table id="datable_1" class="table table-hover display  pb-30" >
 												<thead>
 													<tr>
+														
                                                         <th><?php echo $lang['sn'] ?></th>
+														<th><?php echo $lang['Invoice_Date'] ?></th>
+														<th><?php echo $lang['transaction_id'] ?></th>
                                                         <th><?php echo $lang['package_name'] ?></th>
                                                         <th><?php echo $lang['customer_name'] ?></th>
                                                         <th><?php echo $lang['mobile_number'] ?></th>
@@ -74,27 +77,9 @@
                                                         <th><?php echo $lang['booking_time'] ?></th>
                                                         <th><?php echo $lang['extra_items'] ?></th>
                                                         <th><?php echo $lang['booking_price'] ?></th>
-                                                        <th><?php echo $lang['transaction_id'] ?></th>
                                                         <th><?php echo $lang['is_active'] ?></th>
 													</tr>
 												</thead>
-												<tfoot>
-													<tr>
-                                                        <th><?php echo $lang['sn'] ?></th>
-                                                        <th><?php echo $lang['package_name'] ?></th>
-                                                        <th><?php echo $lang['customer_name'] ?></th>
-                                                        <th><?php echo $lang['mobile_number'] ?></th>
-                                                        <th><?php echo $lang['baby_name'] ?></th>
-                                                        <th><?php echo $lang['baby_age'] ?></th>
-                                                        <th><?php echo $lang['instructions'] ?></th>
-                                                        <th><?php echo $lang['booking_date'] ?></th>
-                                                        <th><?php echo $lang['booking_time'] ?></th>
-                                                        <th><?php echo $lang['extra_items'] ?></th>
-                                                        <th><?php echo $lang['booking_price'] ?></th>
-                                                        <th><?php echo $lang['transaction_id'] ?></th>
-                                                        <th><?php echo $lang['is_active'] ?></th>
-													</tr>
-												</tfoot>
 												<tbody>
 													<!-- Data will be loaded via AJAX -->
 												</tbody>

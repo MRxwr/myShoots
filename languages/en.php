@@ -1,5 +1,6 @@
 <?php 
 	$lang = array(
+		'Invoice_Date' => 'Invoice Date',
 		'meta_title' => 'MyShoot : Greate photographer in the World',
 		'meta_description' => 'MyShoot is Greate photographer in the World',
 		'meta_keywords' => 'MyShoot Greate photographer in the World',
