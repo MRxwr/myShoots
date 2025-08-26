@@ -43,7 +43,7 @@
 		<div class="la-anim-1"></div>
 	</div>
 	<!--/Preloader-->
-    <div class="wrapper  theme-1-active pimary-color-green">
+    <div class="wrapper  theme-6-active pimary-color-green">
 	
 		<!-- Top Menu Items -->
 		<nav class="navbar navbar-inverse navbar-fixed-top">
