@@ -236,6 +236,22 @@ $(document).ready(function() {
             }, 'json');
         }
     });
+        $('#datable_1 tbody').on('click', '.change-status', function(e) {
+            e.preventDefault();
+            var $btn = $(this);
+            var id = $btn.data('id');
+            var newStatus = $btn.data('status');
+            $('.status-options').hide();
+            if (confirm('Are you sure you want to change the status to ' + newStatus + '?')) {
+                $.post('moduls/change_status.php', {id: id, status: newStatus}, function(res) {
+                    alert(res.message || 'Status updated!');
+                    // Find the row and update the status cell
+                    var $row = $btn.closest('tr');
+                    // The status cell is the 14th column (zero-based index 13)
+                    $row.find('td').eq(13).html(newStatus === 'Yes' ? 'Success' : 'Cancelled');
+                }, 'json');
+            }
+        });
         // Show status options inline when 'Change Status' is clicked
         $('#datable_1 tbody').on('click', '.show-status-options', function(e) {
             e.preventDefault();
