@@ -56,7 +56,7 @@ $data_query = "SELECT b.*, p.title_" . $_SESSION['lang'] . " as package_name
                LEFT JOIN tbl_packages p ON b.package_id = p.id" . 
                $search_query . 
                " ORDER BY b.id DESC 
-               LIMIT $start, $length";
+               LIMIT 0, 10";
 
 $data_result = mysqli_query($conn, $data_query);
 
