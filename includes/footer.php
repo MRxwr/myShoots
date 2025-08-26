@@ -321,31 +321,31 @@
         	setInterval(fetchdata, 1800000); // 15 minutes
         
         });
-        // onsubmit personalInformation
-          $("#personalInformation").on("submit", function(e) {
-                e.preventDefault(); // Prevent default submission
-                
-                var date = $("#booking_date").val();
-                var time = $("#booking_time").val();
-                var dataString = 'time=' + time + '&date=' + date;
-        
-                $.ajax({
-                    type: 'POST',
-                    url: 'pages/checkBookingExitsAjax.php',
-                    data: dataString,
-                    success: function(result) {
-                        if (result.trim() === 1) { // Trim to remove spaces/newlines
-                            alert("Booking Exists! Please select another date/time.");
-                             e.preventDefault(); // Prevent default submission
-                        } else {
-                            $("#personalInformation")[0].submit(); // Submit form
-                        }
-                    },
-                    error: function() {
-                         e.preventDefault(); // Prevent default submission
-                    }
-                });
-            });
+    // onsubmit personalInformation
+    var submitting = false;
+    $("#personalInformation").on("submit", function(e) {
+      if (submitting) return; // Prevent recursion
+      e.preventDefault();
+      var date = $("#booking_date").val();
+      var time = $("#booking_time").val();
+      var dataString = 'time=' + time + '&date=' + date;
+      $.ajax({
+        type: 'POST',
+        url: 'pages/checkBookingExitsAjax.php',
+        data: dataString,
+        success: function(result) {
+          if (result.trim() === "1") {
+            alert("Booking Exists! Please select another date/time.");
+          } else {
+            submitting = true;
+            $("#personalInformation")[0].submit();
+          }
+        },
+        error: function() {
+          // Optionally handle error
+        }
+      });
+    });
         
          $("body").on("contextmenu", function (e) {
             //e.preventDefault(); // Prevent the right-click menu from appearing

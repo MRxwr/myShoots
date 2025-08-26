@@ -69,29 +69,6 @@ if(isset($_GET['id'])){
                             echo "<option value='".$row->startDate." - ".$row->endDate."'>".$row->startDate." - ".$row->endDate."</option> ";
                             } 
                         }
-                        
-                    // end slots as per packages
-                    
-                    // start global slots for all packages ramadan
-                    // $timerows = array(
-                    //     array('startDate' => '2:00 PM', 'endDate' => '3:00 PM'),
-                    //     array('startDate' => '3:00 PM', 'endDate' => '4:00 PM'),
-                    //     array('startDate' => '4:00 PM', 'endDate' => '5:00 PM'),
-                    //     array('startDate' => '7:30 PM', 'endDate' => '8:30 PM'),
-                    //     array('startDate' => '8:30 PM', 'endDate' => '9:30 PM'),
-                    //     array('startDate' => '9:30 PM', 'endDate' => '10:30 PM'),
-                    //     //array('startDate' => '10:00 PM', 'endDate' => '11:00 PM'),
-                    // );
-                    //var_dump($booktimeArr);
-                    
-                    // foreach ($timerows as $row) {
-                    //     $time = $row['startDate'] . " - " . $row['endDate'];
-                    //     if (!in_array($time, $booktimeArr)) {
-                    //         echo "<option value='" . $row['startDate'] . " - " . $row['endDate'] . "'>" . $row['startDate'] . " - " . $row['endDate'] . "</option>";
-                    //     }
-                    // }
-                    
-                    // end global slots for all packages
                    ?>
                 </select>
               </div>
