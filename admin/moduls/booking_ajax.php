@@ -39,7 +39,7 @@ if (!empty($search_value)) {
                       OR baby_name LIKE '%$search_value%' 
                       OR transaction_id LIKE '%$search_value%'
                       OR booking_date LIKE '%$search_value%'
-                      OR created_at LIKE '%$search_value%'";
+                      OR b.created_at LIKE '%$search_value%'";
 }
 
 // Count total records
