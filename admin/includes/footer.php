@@ -5,19 +5,19 @@
 	<!-- JavaScript -->
 	
     <!-- jQuery -->
-    <script src="<?php echo SITEURL; ?>admin/assets/vendors/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="assets/vendors/bower_components/jquery/dist/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo SITEURL; ?>admin/assets/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="assets/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 	
 	<!-- wysuhtml5 Plugin JavaScript -->
-	<script src="<?php echo SITEURL; ?>admin/assets/vendors/bower_components/wysihtml5x/dist/wysihtml5x.min.js"></script>
+	<script src="assets/vendors/bower_components/wysihtml5x/dist/wysihtml5x.min.js"></script>
 	
-  <script src="<?php echo SITEURL; ?>admin/assets/vendors/bower_components/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.all.js"></script>
+  <script src="assets/vendors/bower_components/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.all.js"></script>
   
-  <script src="<?php echo SITEURL; ?>admin/assets/vendors/bower_components/moment/min/moment.min.js"></script>
-	<script src="<?php echo SITEURL; ?>admin/assets/vendors/jquery-ui.min.js"></script>
-  <script src="<?php echo SITEURL; ?>admin/assets/vendors/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+  <script src="assets/vendors/bower_components/moment/min/moment.min.js"></script>
+	<script src="assets/vendors/jquery-ui.min.js"></script>
+  <script src="assets/vendors/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
   <?php 
 	$tbl_name = 'tbl_booking';
 	$where = " status='Yes'";
@@ -42,10 +42,6 @@
 				$booking_price = $row['booking_price'];
         $is_active = $row['status'];
         $tm = explode('-',$booking_time);
-        // $tm1=str_replace(" PM",":00",$tm[0]);
-        // $tm1=str_replace(" AM",":00",$tm1);
-        // $tm2=str_replace(" PM",":00",$tm[1]);
-        // $tm2=str_replace(" AM",":00",$tm2);
         $std = $row['booking_date'].' '.$tm[0];
         $startdate = date("Y-m-d H:i:s", strtotime($std));
         $etd = $row['booking_date'].' '.$tm[0];
@@ -64,7 +60,6 @@
 	}
 	
   ?>
-  <?php // echo json_encode($events)?>
 	<script>
     /*FullCalendar Init*/
 $(document).ready(function() {
@@ -158,37 +153,37 @@ $(document).ready(function() {
   </script>
 	
 	<!-- Fancy Dropdown JS -->
-	<script src="<?php echo SITEURL; ?>admin/assets/style/dist/js/dropdown-bootstrap-extended.js"></script>
+	<script src="assets/style/dist/js/dropdown-bootstrap-extended.js"></script>
 	
 	<!-- Bootstrap Wysuhtml5 Init JavaScript -->
-	<script src="<?php echo SITEURL; ?>admin/assets/style/dist/js/bootstrap-wysuhtml5-data.js"></script>
+	<script src="assets/style/dist/js/bootstrap-wysuhtml5-data.js"></script>
 	
 	<!-- Slimscroll JavaScript -->
-  <script src="<?php echo SITEURL; ?>admin/assets/style/dist/js/jquery.slimscroll.js"></script>
+  <script src="assets/style/dist/js/jquery.slimscroll.js"></script>
   
   <!-- Progressbar Animation JavaScript -->
-	<script src="<?php echo SITEURL; ?>admin/assets/vendors/bower_components/waypoints/lib/jquery.waypoints.min.js"></script>
-	<script src="<?php echo SITEURL; ?>admin/assets/vendors/bower_components/jquery.counterup/jquery.counterup.min.js"></script>
+	<script src="assets/vendors/bower_components/waypoints/lib/jquery.waypoints.min.js"></script>
+	<script src="assets/vendors/bower_components/jquery.counterup/jquery.counterup.min.js"></script>
 	
 	<!-- Owl JavaScript -->
-	<script src="<?php echo SITEURL; ?>admin/assets/vendors/bower_components/owl.carousel/dist/owl.carousel.min.js"></script>
+	<script src="assets/vendors/bower_components/owl.carousel/dist/owl.carousel.min.js"></script>
 	
 	<!-- Switchery JavaScript -->
-	<script src="<?php echo SITEURL; ?>admin/assets/vendors/bower_components/switchery/dist/switchery.min.js"></script>
+	<script src="assets/vendors/bower_components/switchery/dist/switchery.min.js"></script>
 	
 	<!-- Init JavaScript -->
-	<script src="<?php echo SITEURL; ?>admin/assets/style/dist/js/init.js"></script>
+	<script src="assets/style/dist/js/init.js"></script>
     
     <!-- Bootstrap Daterangepicker JavaScript -->
-		<script src="<?php echo SITEURL; ?>admin/assets/vendors/bower_components/dropify/dist/js/dropify.min.js"></script>
+		<script src="assets/vendors/bower_components/dropify/dist/js/dropify.min.js"></script>
 	
     <!-- Form Flie Upload Data JavaScript -->
-		<script src="<?php echo SITEURL; ?>admin/assets/style/dist/js/form-file-upload-data.js"></script>
+		<script src="assets/style/dist/js/form-file-upload-data.js"></script>
         
         	<!-- Data table JavaScript -->
-	<script src="<?php echo SITEURL; ?>admin/assets/vendors/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
-	<script src="<?php echo SITEURL; ?>admin/assets/style/dist/js/dataTables-data.js"></script>
-     <script src="<?php echo SITEURL; ?>admin/assets/js/custom.js"></script>   
+	<script src="assets/vendors/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+	<script src="assets/style/dist/js/dataTables-data.js"></script>
+     <script src="assets/js/custom.js"></script>   
      
      
       <!-- Bootstrap Date-Picker Plugin -->
@@ -203,7 +198,7 @@ $(document).ready(function(){
 });
 </script>
    
-<script src="<?php echo SITEURL; ?>admin/assets/js/mdtimepicker.js"></script>
+<script src="assets/js/mdtimepicker.js"></script>
 <script>
   $(document).ready(function(){
     $('.timepicker').mdtimepicker(); //Initializes the time picker
@@ -259,7 +254,7 @@ $(function () {
       var r = confirm("<?=$lang['cancel_confirm']?>");
       if (r == true) {
         //var id = this.id;
-        //var cancel_url = "<?php echo SITEURL; ?>admin/index.php?page=booking-success&type=cancel&id="+ id;
+        //var cancel_url = "index.php?page=booking-success&type=cancel&id="+ id;
         //window.location.href = cancel_url;
         $.ajax({
 				type:'POST',
@@ -267,7 +262,7 @@ $(function () {
 				data: {id:id,type:'cancel'},
 				success:function(res){
          if(res=='ok'){
-          var cancel_url = "<?php echo SITEURL; ?>admin/index.php?page=booking-cancel";
+          var cancel_url = "index.php?page=booking-cancel";
           window.location.href = cancel_url;
          }
 				}
@@ -284,7 +279,7 @@ $(function () {
 				data: {id:id,type:'refund'},
 				success:function(res){
          if(res=='ok'){
-          var cancel_url = "<?php echo SITEURL; ?>admin/index.php?page=booking-cancel";
+          var cancel_url = "index.php?page=booking-cancel";
           window.location.href = cancel_url;
          }
 				}
@@ -301,7 +296,7 @@ $(function () {
 				success:function(res){
                 if(res=='ok'){
                     alert("<?=$lang['sms_success']?>");
-                 var cancel_url = "<?php echo SITEURL; ?>admin/index.php?page=booking-success";
+                 var cancel_url = "index.php?page=booking-success";
                   window.location.href = cancel_url;
                  }
 				}
