@@ -159,14 +159,14 @@ $(document).ready(function() {
                     var id = row[9]; // booking id
                     return `<div class='dropdown action-dropdown' style='position:relative;'>
                         <button class='btn btn-primary btn-xs dropdown-toggle' type='button' data-toggle='dropdown'>Actions <span class='caret'></span></button>
-                        <ul class='dropdown-menu'>
-                            <li><a href='#' class='show-status-options' data-id='${id}'>Change Status</a></li>
-                            <li><a href='#' class='send-sms' data-id='${id}'>Send SMS</a></li>
-                            <li><a href='#' class='show-details' data-id='${id}'>More details</a></li>
+                        <ul class='dropdown-menu' style='min-width:120px; padding:0;'>
+                            <li><a href='#' class='show-status-options' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>Change Status</a></li>
+                            <li><a href='#' class='send-sms' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>Send SMS</a></li>
+                            <li><a href='#' class='show-details' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>More details</a></li>
                         </ul>
-                        <div class='status-options' style='display:none; position:absolute; left:0; top:100%; background:#fff; border:1px solid #ddd; z-index:99999; min-width:140px; box-shadow:0 2px 8px rgba(0,0,0,0.15);'>
-                            <a href='#' class='change-status btn btn-success' data-id='${id}' data-status='Yes' style='display:block; padding:10px 16px; color:#fff; margin-bottom:5px;'>Success</a>
-                            <a href='#' class='change-status btn btn-danger' data-id='${id}' data-status='No' style='display:block; padding:10px 16px; color:#fff;'>Cancelled</a>
+                        <div class='status-options' style='display:none; position:absolute; left:100%; top:0; background:#fff; border:1px solid #ddd; z-index:99999; min-width:120px; box-shadow:0 2px 8px rgba(0,0,0,0.15);'>
+                            <a href='#' class='change-status btn' data-id='${id}' data-status='Yes' style='display:block; padding:8px 16px; background:#27ae60; color:#fff; font-size:13px; margin-bottom:5px; border-radius:3px;'>Success</a>
+                            <a href='#' class='change-status btn' data-id='${id}' data-status='No' style='display:block; padding:8px 16px; background:#e74c3c; color:#fff; font-size:13px; border-radius:3px;'>Cancelled</a>
                         </div>
                     </div>`;
                 }
