@@ -53,8 +53,6 @@
 												<tbody>
 												    <!-- Data will be loaded via AJAX -->
 												</tbody>
-													
-												</tbody>
 											</table>
 										</div>
 									</div>
@@ -85,9 +83,21 @@ $(document).ready(function() {
             },
             "serverSide": false,
             "ajax": {
-                "url": "moduls/get_bookings_ajax.php",
+                "url": "moduls/get_bookings_simple.php",
                 "type": "POST",
-                "dataSrc": "data"
+                "dataSrc": "data",
+                "error": function(xhr, error, thrown) {
+                    // Display error message in console for debugging
+                    console.error("AJAX error:", error, thrown);
+                    
+                    // Show a more user-friendly error message
+                    $('#datable_1_wrapper').prepend(
+                        '<div class="alert alert-danger">' +
+                        '<strong>Error loading data:</strong> There was a problem retrieving the booking data. ' +
+                        'Please refresh the page or contact support.' +
+                        '</div>'
+                    );
+                }
             },
             "columns": [
                 { "data": "sn" },
@@ -107,6 +117,6 @@ $(document).ready(function() {
             "pageLength": 25,
             "responsive": true
         });
-    }, 100); // 100ms delay
+    }, 300); // Increased delay to 300ms to ensure all scripts are loaded
 });
 </script>

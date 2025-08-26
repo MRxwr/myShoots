@@ -8,24 +8,6 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Debug mode - uncomment to enable debugging
-// $debug = true;
-$debug = false;
-
-// Debug function to log information
-function debug_log($message, $data = null) {
-    global $debug;
-    if ($debug) {
-        $log = date('Y-m-d H:i:s') . " - " . $message;
-        if ($data !== null) {
-            $log .= " - " . print_r($data, true);
-        }
-        error_log($log, 3, __DIR__ . '/ajax_debug.log');
-    }
-}
-
-debug_log('AJAX endpoint called');
-
 // Include necessary files for database connection
 require_once('../config/constants.php');
 require_once('../config/database.php');
@@ -34,40 +16,9 @@ require_once('../config/functions.php');
 // Set content type to JSON
 header('Content-Type: application/json');
 
-// Check if language is set in session
-if(!isset($_SESSION['lang'])) {
-    $_SESSION['lang'] = 'en';
-}
-
 // Initialize database object
 $obj = new Functions();
 $conn = $obj->db_connect();
-
-// Get language file - using site root
-if (defined('SITEURL')) {
-    debug_log('Using SITEURL for language file path');
-    $langFile = $_SERVER['DOCUMENT_ROOT'] . '/myShoots/languages/' . $_SESSION['lang'] . '.php';
-    debug_log('Language file path: ' . $langFile);
-    
-    if (file_exists($langFile)) {
-        debug_log('Language file exists');
-        require_once($langFile);
-    } else {
-        debug_log('Language file not found');
-        // Fallback language values
-        $lang = array(
-            'yes' => 'Yes',
-            'no' => 'No'
-        );
-    }
-} else {
-    debug_log('SITEURL not defined');
-    // Fallback language values
-    $lang = array(
-        'yes' => 'Yes',
-        'no' => 'No'
-    );
-}
 
 // Fetch booking data
 $tbl_name = 'tbl_booking';
@@ -101,7 +52,8 @@ if ($res) {
             $query1 = $obj->select_data($tbl_name1, $where);
             $res1 = $obj->execute_query($conn, $query1);
             $row1 = $obj->fetch_data($res1);
-            $package_name = @$row1['title_' . $_SESSION['lang']];
+            $lang_key = 'title_' . (isset($_SESSION['lang']) ? $_SESSION['lang'] : 'en');
+            $package_name = isset($row1[$lang_key]) ? $row1[$lang_key] : '';
 
             // Format extra items for display
             $extra_items_html = '';
@@ -116,12 +68,8 @@ if ($res) {
                 $extra_items_html .= '</ul>';
             }
 
-            // Format status - handle language variables safely
-            $status = ($is_active == 'Yes') ? 'Yes' : 'No'; 
-            // Use language variables if available
-            if(isset($lang['yes']) && isset($lang['no'])) {
-                $status = ($is_active == 'Yes') ? $lang['yes'] : $lang['no'];
-            }
+            // Simple status display
+            $status = ($is_active == 'Yes') ? 'Yes' : 'No';
 
             // Add data to array
             $data[] = array(
@@ -143,22 +91,6 @@ if ($res) {
     }
 }
 
-// Return JSON response with proper encoding
-try {
-    $response = json_encode(array("data" => $data));
-    
-    // Check for JSON encoding errors
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        throw new Exception('JSON encoding error: ' . json_last_error_msg());
-    }
-    
-    echo $response;
-} catch (Exception $e) {
-    // Return a proper error response in JSON format
-    header('HTTP/1.1 500 Internal Server Error');
-    echo json_encode(array(
-        'error' => true,
-        'message' => $e->getMessage()
-    ));
-}
+// Return JSON response
+echo json_encode(array("data" => $data));
 ?>
