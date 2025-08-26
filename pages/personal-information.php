@@ -35,7 +35,7 @@ if(isset($_GET['id'])){
           <h2 class="shoots-Head2"><?php echo $lang['personal_information'] ?></h2>
         </div>
         <div class="col-md-8 col-sm-10">
-          <form class="personal-information" id="personalInformation" method="post" action="<?php echo SITEURL; ?>payment/process.php" >
+          <form class="personal-information" method="post" action="<?php echo SITEURL; ?>payment/process.php">
             
             <input type="hidden" id="id" name="id" value="<?php echo $id; ?>" />
             <input type="hidden" id="booking_price" name="booking_price" value="<?php echo $price; ?>" />
@@ -69,6 +69,29 @@ if(isset($_GET['id'])){
                             echo "<option value='".$row->startDate." - ".$row->endDate."'>".$row->startDate." - ".$row->endDate."</option> ";
                             } 
                         }
+                        
+                    // end slots as per packages
+                    
+                    // start global slots for all packages ramadan
+                    // $timerows = array(
+                    //     array('startDate' => '2:00 PM', 'endDate' => '3:00 PM'),
+                    //     array('startDate' => '3:00 PM', 'endDate' => '4:00 PM'),
+                    //     array('startDate' => '4:00 PM', 'endDate' => '5:00 PM'),
+                    //     array('startDate' => '7:30 PM', 'endDate' => '8:30 PM'),
+                    //     array('startDate' => '8:30 PM', 'endDate' => '9:30 PM'),
+                    //     array('startDate' => '9:30 PM', 'endDate' => '10:30 PM'),
+                    //     //array('startDate' => '10:00 PM', 'endDate' => '11:00 PM'),
+                    // );
+                    //var_dump($booktimeArr);
+                    
+                    // foreach ($timerows as $row) {
+                    //     $time = $row['startDate'] . " - " . $row['endDate'];
+                    //     if (!in_array($time, $booktimeArr)) {
+                    //         echo "<option value='" . $row['startDate'] . " - " . $row['endDate'] . "'>" . $row['startDate'] . " - " . $row['endDate'] . "</option>";
+                    //     }
+                    // }
+                    
+                    // end global slots for all packages
                    ?>
                 </select>
               </div>
@@ -167,7 +190,7 @@ if(isset($_GET['id'])){
 			<div class="row pt-4">
               <div class="col-sm-5 col-md-4">&nbsp;</div>
               <div class="col-sm-7 col-md-8">
-                <button type="submit"  name="submitBtn"  class="btn btn-lg btn-outline-primary btn-block btn-rounded"><?php echo $lang['continue_to_payment'] ?></button>
+                <button type="submit"  name="submit"  class="btn btn-lg btn-outline-primary btn-block btn-rounded"><?php echo $lang['continue_to_payment'] ?></button>
               </div>  
             </div>
           </form>
