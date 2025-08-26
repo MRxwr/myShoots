@@ -167,7 +167,7 @@ if(isset($_GET['id'])){
 			<div class="row pt-4">
               <div class="col-sm-5 col-md-4">&nbsp;</div>
               <div class="col-sm-7 col-md-8">
-                <button type="submit"  name="submit"  class="btn btn-lg btn-outline-primary btn-block btn-rounded"><?php echo $lang['continue_to_payment'] ?></button>
+                <button type="submit"  name="submitBtn"  class="btn btn-lg btn-outline-primary btn-block btn-rounded"><?php echo $lang['continue_to_payment'] ?></button>
               </div>  
             </div>
           </form>
