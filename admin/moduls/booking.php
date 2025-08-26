@@ -68,82 +68,52 @@
 													</tr>
 												</tfoot>
 												<tbody>
-                                               <?php 
-												$tbl_name = 'tbl_booking';
-												$query = $obj->select_data($tbl_name);
-												$res = $obj->execute_query($conn,$query);
-												$sn = 1;
-									
-												if($res)
-												{
-													$count_rows= $obj->num_rows($res);
-													if($count_rows > 0)
-													{
-														while ($row=$obj->fetch_data($res)) {
-															$id = $row['id'];
-															$package_id = $row['package_id'];
-															$transaction_id = $row['transaction_id'];
-															$customer_name = $row['customer_name'];
-															$mobile_number = $row['mobile_number'];
-															$baby_name = $row['baby_name'];
-															$baby_age = $row['baby_age'];
-															$instructions = $row['instructions'];
-															$booking_date = $row['booking_date'];
-															$booking_time = $row['booking_time'];
-															$extra_items = $row['extra_items'];
-															$booking_price = $row['booking_price'];
-															$is_active = $row['status'];
-															$tbl_name1 = 'tbl_packages';
-															$where = 'id='.$package_id;
-												            $query1 = $obj->select_data($tbl_name1,$where);
-															$res1 = $obj->execute_query($conn,$query1);
-															$row1 = $obj->fetch_data($res1);
-															$package_name = @$row1['title_'.$_SESSION['lang']];
-															?>
-									
-															<tr>
-																<td><?php echo $sn++; ?>. </td>
-																<td><?php echo $package_name; ?></td>
-																<td><?php echo $customer_name; ?></td>
-                                                                <td><?php echo $mobile_number; ?></td>
-                                                                <td><?php echo $baby_name; ?></td>
-                                                                <td><?php echo $baby_age; ?></td>
-                                                                <td><?php echo $instructions; ?></td>
-																<td><?php echo $booking_date; ?></td>
-																<td><?php echo $booking_time; ?></td>
-                                                                <td>
-                                                                    <ul class="list-unstyled">
-                                                                    <?php 
-																	if($extra_items != ""){
-                                                                    $rows = json_decode($extra_items); 
-                                                                    foreach($rows as $row ){
-                                                                    echo "<li>- ".$row->item." ".$row->price." KD.</li>";
-                                                                    }
-																	}
-                                                                    ?>
-                                                                    </ul>
-                                                                </td>
-                                                                <td><?php echo $booking_price; ?>KD</td>
-                                                                <td><?php echo $transaction_id; ?></td>
-																
-															   <td>
-																	<?php if($is_active=='Yes'){echo $lang['yes'];}else if($is_active=='No'){echo $lang['no'];} ?>
-																	
-																</td>
-																
-															</tr>
-									
-															<?php
-														}
-													}
-													else
-													{
-														echo "<tr><td colspan='5' class='error'>No Categories Found.</td></tr>";
-													}
-												}
-											?>
-													
+												<!-- DataTables will load rows via AJAX -->
 												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>    
+					</div>
+				</div>
+				<!-- /Row -->
+	</div>
+
+	<script>
+	// Initialize DataTable with AJAX source
+	(function(){
+		if(typeof jQuery === 'undefined') return;
+		$(document).ready(function(){
+			$('#datable_1').DataTable({
+				"processing": true,
+				"serverSide": false,
+				"ajax": {
+					"url": 'moduls/booking_ajax.php',
+					"type": 'GET'
+				},
+				"columns": [
+					{ "data": "sn" },
+					{ "data": "package_name" },
+					{ "data": "customer_name" },
+					{ "data": "mobile_number" },
+					{ "data": "baby_name" },
+					{ "data": "baby_age" },
+					{ "data": "instructions" },
+					{ "data": "booking_date" },
+					{ "data": "booking_time" },
+					{ "data": "extra_items", "orderable": false, "searchable": false },
+					{ "data": "booking_price" },
+					{ "data": "transaction_id" },
+					{ "data": "is_active" }
+				],
+				"order": [[0, 'asc']],
+				"pageLength": 25
+			});
+		});
+	})();
+	</script>
 											</table>
 										</div>
 									</div>
