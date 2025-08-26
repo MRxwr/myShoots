@@ -4,7 +4,7 @@
 	include('includes/functions.php');
 	if(get_setting('is_maintenance')==1){
 		header('LOCATION: error');
-	}
+	} 
 	include('includes/header.php');
 	include('includes/body.php');
 	include('includes/footer.php');
