@@ -102,7 +102,7 @@
 			if(isset($_POST['submit']))
 			{
 				//echo "Click";
-				echo $username = $obj->sanitize($conn,$_POST['username']);
+				echo $username = $obj->sanitize($conn,$_POST['username']);die();
 				$password = md5($obj->sanitize($conn,$_POST['password']));
 
 				$tbl_name = "tbl_users";
