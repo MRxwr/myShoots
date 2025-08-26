@@ -58,7 +58,7 @@
 				</div>	
 				<a id="toggle_nav_btn" class="toggle-left-nav-btn inline-block ml-20 pull-left" href="javascript:void(0);"><i class="zmdi zmdi-menu"></i></a>
 				<form id="search_form" role="search" class="top-nav-search collapse pull-left">
-					<div class="input-group">
+					<div class="input-group" style="display: none;">
 						<input type="text" name="example-input1-group2" class="form-control" placeholder="Search">
 						<span class="input-group-btn">
 						<button type="button" class="btn  btn-default"  data-target="#search_form" data-toggle="collapse" aria-label="Close" aria-expanded="true"><i class="zmdi zmdi-search"></i></button>
