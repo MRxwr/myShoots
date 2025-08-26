@@ -224,18 +224,6 @@ $(document).ready(function() {
         dataTable.ajax.reload();
     });
 
-    // Delegate actions for dropdown
-    $('#datable_1 tbody').on('click', '.change-status', function(e) {
-        e.preventDefault();
-        var id = $(this).data('id');
-        var newStatus = $(this).data('status');
-        if (confirm('Are you sure you want to change the status to ' + newStatus + '?')) {
-            $.post('moduls/change_status.php', {id: id, status: newStatus}, function(res) {
-                alert(res.message || 'Status updated!');
-                dataTable.ajax.reload();
-            }, 'json');
-        }
-    });
         $('#datable_1 tbody').on('click', '.change-status', function(e) {
             e.preventDefault();
             var $btn = $(this);
