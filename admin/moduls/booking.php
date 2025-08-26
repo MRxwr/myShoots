@@ -40,6 +40,23 @@
 											0% { transform: rotate(0deg); }
 											100% { transform: rotate(360deg); }
 										}
+										
+										/* Fix for pagination in mobile view */
+										@media (max-width: 767px) {
+											.dataTables_wrapper .dataTables_paginate {
+												margin-bottom: 60px !important; /* Add bottom margin for footer clearance */
+												padding-bottom: 20px !important;
+												float: none !important;
+												text-align: center !important;
+												clear: both !important;
+											}
+											
+											.dataTables_info {
+												margin-bottom: 15px !important;
+												text-align: center !important;
+												width: 100% !important;
+											}
+										}
 									</style>
 									<div class="table-wrap">
 										<div class="table-responsive" id="data-table-container">
@@ -167,7 +184,14 @@ $(document).ready(function() {
         },
         "responsive": true,
         "autoWidth": false,
-        "stateSave": false
+        "stateSave": false,
+        "dom": "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
+               "<'row'<'col-sm-12'tr>>" +
+               "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        "drawCallback": function(settings) {
+            // Add extra bottom padding to ensure pagination doesn't get covered
+            $(".dataTables_wrapper").css("padding-bottom", "30px");
+        }
     });
 });
 </script>
