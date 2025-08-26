@@ -21,12 +21,12 @@ if (!$conn) {
 }
 
 // Get booking info
-echo $query = "SELECT booking_date, booking_time, transaction_id FROM tbl_booking WHERE id = $id";
+// Select all needed columns
+$query = "SELECT id, booking_date, booking_time, transaction_id, mobile_number FROM tbl_booking WHERE id = $id";
 $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);
 if ($row) {
     // Here you would integrate with your SMS API
-    $id = $row['id'];
     $booking_date = $row['booking_date'];
     $booking_time = $row['booking_time'];
     $orderId = $row['transaction_id'];
@@ -50,8 +50,9 @@ if ($row) {
     if ($err){
         echo json_encode(['success' => false, 'message' => 'SMS sending failed']);
     }else{
-        $queryx = $obj->update_data($tbl_name,$data,$where);
-        $res = $obj->execute_query($conn,$queryx);
+        // Mark SMS as sent in the database
+        $update = "UPDATE tbl_booking SET sms = 1 WHERE id = $id";
+        mysqli_query($conn, $update);
         echo json_encode(['success' => true, 'message' => 'SMS sent to ' . $mobile]);
     }
 }else{
