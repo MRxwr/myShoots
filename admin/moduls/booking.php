@@ -270,7 +270,7 @@ $(document).ready(function() {
                 },
                 error: function(xhr) {
                     var msg = 'Error sending SMS.';
-                    alert(responseJSON);
+                    alert(xhr.responseJSON);
                     if (xhr.responseJSON && xhr.responseJSON.message) {
                         msg = xhr.responseJSON.message;
                     } else if (xhr.responseText) {
