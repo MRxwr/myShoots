@@ -58,9 +58,14 @@ if (!empty($search_value)) {
     if (!empty($status_query)) {
         $search_query = " WHERE transaction_id != ''" . $status_query;
     }
+    // Always add transaction_id != '' for all types
+    if (empty($search_query)) {
+        $search_query = " WHERE transaction_id != ''";
+    }
 }
 
 // Count total records
+// Count total records (only with transaction_id)
 $total_query = "SELECT COUNT(*) as total FROM tbl_booking b WHERE transaction_id != ''";
 $total_result = mysqli_query($conn, $total_query);
 $total_records = mysqli_fetch_assoc($total_result)['total'];
