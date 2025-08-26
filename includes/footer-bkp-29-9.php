@@ -1,0 +1,294 @@
+
+
+<!-- Footer -->
+  <footer class="footer text-center " >
+    <div class="container">
+      <div class="row">
+        <div class="col-12 h-100 text-center my-auto">
+          <ul class="list-inline mb-5">
+            <li class="list-inline-item">
+              <a href="#">
+                <i class="fab fa-instagram fa-fw fa-2x"></i>
+              </a>
+            </li>
+            <li class="list-inline-item mr-3">
+              <a href="#">
+                <i class="fab fa-twitter-square fa-fw fa-2x"></i>
+              </a>
+            </li>
+            <li class="list-inline-item mr-3">
+              <a href="#">
+                <i class="fab fa-facebook fa-fw fa-2x"></i>
+              </a>
+            </li>
+            
+          </ul>
+
+          <p class="mb-3 text-center" style="text-align: center !important;"><a href="#"><i class="far fa-envelope mr-1"></i> Hello@myshootskw.com</a></p>
+          
+          <p class="text-muted mb-5 text-uppercase text-center" style="text-align: center !important;">COPYRIGHT 2020 - MYSHOOTS - KUWAIT</p>
+          <p class="theme-color text-center" style="text-align: center !important;">Powered by <a href="http://www.create-kw.com/" target="_blank" class="text-muted">Create-kw.com</a></p>
+
+        </div>
+        
+
+        
+      </div>
+    </div>
+  </footer>
+
+
+  
+  <!-- Bootstrap core JavaScript -->
+  <script src="<?php echo SITEURL; ?>assets/vendor/jquery/jquery.min.js"></script>
+  <script src="<?php echo SITEURL; ?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="<?php echo SITEURL; ?>assets/vendor/js/lightbox-plus-jquery.min.js"></script>
+    <!-- Bootstrap Date-Picker Plugin -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/> 
+<style>
+    .datepicker-inline{
+       width: 100%;
+    }
+    .datepicker table {
+    margin: 0;
+    
+    width: 100%;
+}
+  </style>
+  <?php
+  $disabledDates = get_disabledDate();
+
+  foreach($disabledDates as $key=>$disabledDate){
+           $disabledDateArr[] =date("d-m-Y", strtotime($disabledDate['disabled_date'])); ;	
+       
+  }
+  $blocked_date=stripslashes(json_encode($disabledDateArr));
+   //$disabledDate = implode(',', $disabledDateArr);
+  ?>
+  <script>
+  $(document).ready(function(){
+      var date_input=$('#bookingdate'); //our date input has the name "date"
+      var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+      var options={
+        format: "dd-mm-yyyy",
+		  	inline:true,
+        sideBySide: true,
+        container: container,
+        todayHighlight: true,
+        daysOfWeekDisabled: [4,5,6],
+        datesDisabled: <?=$blocked_date?>,
+        autoclose: true,
+        //startDate: truncateDate(new Date()),
+        startDate: new Date(2020,12,1),
+        icons: {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up: "fa fa-arrow-up",
+                    down: "fa fa-arrow-down"
+                },
+      
+      };
+      date_input.datepicker(options).on('changeDate', showTestDate);
+      function showTestDate(){
+      var value = $('#bookingdate').datepicker('getFormattedDate');
+          $("#date").val(value);
+          
+      }
+    })
+function truncateDate(date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+ }
+	 $(document).ready(function(){
+		  $('#booknow').click(function(){
+		 var date = $("#date").val();
+		 if(date != ""){
+		  window.location.href = "<?php echo SITEURL; ?>index.php?page=personal-information&id=<?php echo $id; ?>&date="+date;
+		 } else{
+			alert("Please select dare!"); 
+			return false;
+		 }
+	  });
+	  })
+  </script>
+  
+<!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+
+  $(document).ready(function () {
+        $("#datepicker").datepicker({
+			dateFormat: 'mm-dd-yy',
+            onSelect: function (dateText, inst) {
+                var date = $(this).val();
+				$('#date').val(date);
+            }
+        });
+    });
+  </script> -->
+  <script src="<?php echo SITEURL; ?>assets/vendor/js/jquery.payform.min.js"></script>
+  <script src="<?php echo SITEURL; ?>assets/vendor/js/script.js"></script>
+  <script src="<?php echo SITEURL; ?>assets/vendor/owlcarousel/owl.carousel.js"></script>
+  <script>
+     $(document).ready(function() {
+       $('.instagram-carousel').owlCarousel({
+         loop: true,
+         autoplay: true,
+         margin: 10,
+         nav: false,
+         dots: false,
+         responsiveClass: true,
+         responsive: {
+           0: {
+             items: 2
+           },
+           600: {
+             items: 4
+           },
+           1000: {
+             items: 6
+           }
+         }
+       })
+     })
+  </script>
+
+  <script>
+    // Get the elements with class="column"
+    var elements = document.getElementsByClassName("column");
+    
+    // Declare a loop variable
+    var i;
+    
+    // Full-width images
+    function one() {
+        for (i = 0; i < elements.length; i++) {
+        elements[i].style.msFlex = "100%";  // IE10
+        elements[i].style.flex = "100%";
+      }
+    }
+    
+    // Two images side by side
+    function two() {
+      for (i = 0; i < elements.length; i++) {
+        elements[i].style.msFlex = "50%";  // IE10
+        elements[i].style.flex = "50%";
+      }
+    }
+    
+    // Four images side by side
+    function four() {
+      for (i = 0; i < elements.length; i++) {
+        elements[i].style.msFlex = "25%";  // IE10
+        elements[i].style.flex = "25%";
+      }
+    }
+    
+    // Add active class to the current button (highlight it)
+    // var header = document.getElementById("myHeader");
+    // var btns = header.getElementsByClassName("btn");
+    // for (var i = 0; i < btns.length; i++) {
+    //   btns[i].addEventListener("click", function() {
+    //     var current = document.getElementsByClassName("active");
+    //     current[0].className = current[0].className.replace(" active", "");
+    //     this.className += " active";
+    //   });
+    // }
+
+    </script>
+        	<!-- Data table JavaScript -->
+	<script src="<?php echo SITEURL; ?>admin/assets/vendors/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+	<script src="<?php echo SITEURL; ?>admin/assets/style/dist/js/dataTables-data.js"></script>
+   
+<script>
+$(document).ready(function(){
+	$('#book-btn').click(function(){
+
+		var searchquery = $("input#bookingid").val();
+    var dataString = 'searchquery='+searchquery;
+   
+		if(searchquery != ''){
+    $('#bars1').show();
+		$.ajax({
+				type:'POST',
+				url:'pages/getBookingDetailsAjax.php',
+				data: dataString,
+				success:function(html){
+          setTimeout(() => {
+            $('#bars1').hide();
+            $('#bookingDataDiv').html(html);
+            $('#datable_1').DataTable({
+              "bFilter": true,
+              "bLengthChange": false,
+              "bPaginate": true,
+              "bInfo": false,
+              });
+            }, 1000);
+				}
+			}); 
+		} else {
+			alert("Please enter reservation number!");
+			return false;
+		}
+	});
+
+$("#booking_time").change(function(){
+    var date = $("#booking_date").val();
+    var time = this.value;
+    var dataString = 'time='+time+'&date='+date;
+	$.ajax({
+				type:'POST',
+				url:'pages/checkBookingDateTimeAjax.php',
+				data: dataString,
+				success:function(result){
+					if(result == 1){
+						 $('#continue_to_payment').prop('disabled', true);
+						 alert("Please select other time!");
+					} else{
+						$('#continue_to_payment').prop('disabled', false);
+					}
+                
+				}
+			}); 
+    
+  });
+	
+});
+
+$("#contactForm").submit(function(event){
+    // cancels the form submission
+    event.preventDefault();
+    submitForm();
+});
+function submitForm(){
+    var name = $("#name").val();
+    var email = $("#email").val();
+    var phone = $("#phone").val();
+    var subject = $("#subject").val();
+    var message = $("#message").val();
+  $('#bars1').show();
+  $.ajax({
+        type: "POST",
+        url: "pages/contactFormAjax.php",
+        data: "name=" + name + "&email=" + email + "&phone=" + phone + "&subject=" + subject + "&message=" + message,
+        success : function(text){
+            if (text == "success"){
+                formSuccess();
+                setTimeout(() => {
+                  $('#bars1').hide();
+                  formSuccess();
+                  }, 1000);
+                
+            }
+        }
+    });
+}
+function formSuccess(){
+    $( "#msgSubmit" ).removeClass( "hidden" );
+}
+
+</script>   
+</body>
+
+</html>
