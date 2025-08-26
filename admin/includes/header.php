@@ -14,17 +14,17 @@
 	<link rel="icon" href="favicon.ico" type="image/x-icon">
 	
 	<!-- Bootstrap Wysihtml5 css -->
-	<link rel="stylesheet" href="assets/vendors/bower_components/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.css?ver=1.0" />
+	<link rel="stylesheet" href="assets/vendors/bower_components/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.css" />
 		<!-- Data table CSS -->
-	<link href="assets/vendors/bower_components/datatables/media/css/jquery.dataTables.min.css?ver=1.0" rel="stylesheet" type="text/css"/>	
+	<link href="assets/vendors/bower_components/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>	
 	<!-- Custom CSS -->
-	<link href="assets/style/dist/css/style.css?ver=1.0" rel="stylesheet" type="text/css">
-    <link href="assets/style/dist/css/mdtimepicker.css?ver=1.0" rel="stylesheet" type="text/css">
+	<link href="assets/style/dist/css/style.css" rel="stylesheet" type="text/css">
+    <link href="assets/style/dist/css/mdtimepicker.css" rel="stylesheet" type="text/css">
     <!-- Calendar CSS -->
-		<link href="assets/vendors/bower_components/fullcalendar/dist/fullcalendar.css?ver=1.0" rel="stylesheet" type="text/css"/>
+		<link href="assets/vendors/bower_components/fullcalendar/dist/fullcalendar.css" rel="stylesheet" type="text/css"/>
 		
 	<!-- Bootstrap Dropify CSS -->
-		<link href="assets/vendors/bower_components/dropify/dist/css/dropify.min.css?ver=1.0" rel="stylesheet" type="text/css"/>
+		<link href="assets/vendors/bower_components/dropify/dist/css/dropify.min.css" rel="stylesheet" type="text/css"/>
           <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.1.js"></script>
         
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
