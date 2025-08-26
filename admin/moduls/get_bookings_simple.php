@@ -1,7 +1,10 @@
 <?php
-// Error reporting for debugging
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// Turn off output buffering
+ob_start();
+
+// Suppress errors from being displayed
+ini_set('display_errors', 0);
+error_reporting(0);
 
 // Start session if not already started
 if (session_status() == PHP_SESSION_NONE) {
@@ -16,14 +19,25 @@ require_once('../config/functions.php');
 // Set content type to JSON
 header('Content-Type: application/json');
 
-// Initialize database object
-$obj = new Functions();
-$conn = $obj->db_connect();
+// Initialize database object and data array
+$data = array();
 
-// Fetch booking data
-$tbl_name = 'tbl_booking';
-$query = $obj->select_data($tbl_name);
-$res = $obj->execute_query($conn, $query);
+try {
+    $obj = new Functions();
+    $conn = $obj->db_connect();
+    
+    if (!$conn) {
+        throw new Exception("Database connection failed");
+    }
+    
+    // Fetch booking data
+    $tbl_name = 'tbl_booking';
+    $query = $obj->select_data($tbl_name);
+    $res = $obj->execute_query($conn, $query);
+    
+    if (!$res) {
+        throw new Exception("Query execution failed");
+    }
 
 $data = array();
 
@@ -91,6 +105,13 @@ if ($res) {
     }
 }
 
+// Clear any previous output
+ob_clean();
+
+// Set proper JSON header
+header('Content-Type: application/json');
+
 // Return JSON response
 echo json_encode(array("data" => $data));
+exit; // Stop execution after sending response
 ?>
