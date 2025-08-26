@@ -21,7 +21,7 @@ if (!$conn) {
 }
 
 // Get booking info
-$query = "SELECT booking_date, booking_time, transaction_id FROM tbl_booking WHERE id = $id";
+echo $query = "SELECT booking_date, booking_time, transaction_id FROM tbl_booking WHERE id = $id";
 $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);
 if ($row) {
