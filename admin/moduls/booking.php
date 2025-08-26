@@ -148,16 +148,21 @@ $(document).ready(function() {
             { "data": 3, "orderable": true, "searchable": false },
             { "data": 4, "orderable": true, "searchable": true },
             { "data": 5, "orderable": true, "searchable": true },
-            { "data": 6, "orderable": true, "searchable": true },
-            { "data": 7, "orderable": false, "searchable": false },
-            { "data": 8, "orderable": true, "searchable": true },
-            { "data": 9, "orderable": false, "searchable": false },
+            { "data": 6, "orderable": false, "searchable": false }, // baby_name
+            { "data": 7, "orderable": false, "searchable": false }, // baby_age
+            { "data": 8, "orderable": false, "searchable": false }, // instructions
+            { "data": 9, "orderable": true, "searchable": true }, // booking_date
+            { "data": 10, "orderable": true, "searchable": true }, // booking_time
+            { "data": 11, "orderable": false, "searchable": false }, // extra_items
+            { "data": 12, "orderable": false, "searchable": false }, // booking_price
+            { "data": 13, "orderable": false, "searchable": false }, // is_active
+            { "data": 14, "orderable": false, "searchable": false }, // booking_id
             {
                 "data": null,
                 "orderable": false,
                 "searchable": false,
                 "render": function(data, type, row) {
-                    var id = row[10]; // update index for booking id
+                    var id = row[14]; // booking id
                     var details = JSON.stringify(row); // pass all row data
                     return `<div class='dropdown action-dropdown' style='position:relative;'>
                         <button class='btn btn-primary btn-xs dropdown-toggle' type='button' data-toggle='dropdown'>Actions <span class='caret'></span></button>
@@ -174,7 +179,7 @@ $(document).ready(function() {
                 }
             }
         ],
-        "order": [[ 6, "desc" ]], // Order by booking date descending
+        "order": [[ 9, "desc" ]], // Order by booking date descending
         "pageLength": 10,
         "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
         "language": {
@@ -273,10 +278,11 @@ $(document).ready(function() {
     $('#datable_1 tbody').on('click', '.show-details', function(e) {
         e.preventDefault();
         var details = JSON.parse(decodeURIComponent($(this).data('details')));
-        var html = '<table class="table table-bordered">';
         var labels = [
-            'SN', 'Invoice Date', 'Transaction ID', 'Package Name', 'Customer Name', 'Mobile Number', 'Booking Date', 'Booking Time', 'Is Active'
+            'SN', 'Invoice Date', 'Transaction ID', 'Package Name', 'Customer Name', 'Mobile Number',
+            'Baby Name', 'Baby Age', 'Instructions', 'Booking Date', 'Booking Time', 'Extra Items', 'Booking Price', 'Status', 'Booking ID'
         ];
+        var html = '<table class="table table-bordered">';
         for (var i = 0; i < labels.length; i++) {
             html += '<tr><th>' + labels[i] + '</th><td>' + (details[i] || '') + '</td></tr>';
         }
