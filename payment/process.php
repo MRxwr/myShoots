@@ -3,8 +3,7 @@ include('../languages/lang_config.php');
 include('../admin/config/apply.php');
 include('../includes/functions.php');
 // print json
-echo json_encode($_REQUEST);
-if(isset($_POST['submitBtn'])){
+if(isset($_POST['booking_date'])){
 	$select_extra_item = $_POST['select_extra_item'];
 	$comm="";
 	$extra_price = 0;
