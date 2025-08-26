@@ -259,10 +259,25 @@ $(document).ready(function() {
         e.preventDefault();
         var id = $(this).data('id');
         if (confirm('Are you sure you want to send SMS?')) {
-            $.post('moduls/send_sms.php', {id: id}, function(res) {
-                alert(res.message || 'SMS sent!');
-                dataTable.ajax.reload();
-            }, 'json');
+            $.ajax({
+                url: 'moduls/send_sms.php',
+                type: 'POST',
+                data: {id: id},
+                dataType: 'json',
+                success: function(res) {
+                    alert(res.message || 'SMS sent!');
+                    //dataTable.ajax.reload();
+                },
+                error: function(xhr) {
+                    var msg = 'Error sending SMS.';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        msg = xhr.responseJSON.message;
+                    } else if (xhr.responseText) {
+                        msg = xhr.responseText;
+                    }
+                    alert(msg);
+                }
+            });
         }
     });
 });
