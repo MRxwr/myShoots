@@ -58,6 +58,14 @@
 											}
 										}
 									</style>
+									<!-- Status Filter Buttons -->
+									<div class="mb-20" style="margin-bottom: 20px;">
+										<div class="btn-group" role="group" aria-label="Status Filters">
+											<button type="button" class="btn btn-default status-filter active" data-status="all">All</button>
+											<button type="button" class="btn btn-success status-filter" data-status="Yes">Success</button>
+											<button type="button" class="btn btn-danger status-filter" data-status="No">Cancelled</button>
+										</div>
+									</div>
 									<div class="table-wrap">
 										<div class="table-responsive" id="data-table-container">
 											<table id="datable_1" class="table table-hover display  pb-30" >
@@ -113,12 +121,19 @@ $(document).ready(function() {
     // Show spinner before DataTable initialization
     showLoading();
     
-    $('#datable_1').DataTable({
+    // Current active status filter
+    var currentStatus = 'all';
+    
+    // Initialize DataTable
+    var dataTable = $('#datable_1').DataTable({
         "processing": true,
         "serverSide": true,
         "ajax": {
             "url": "moduls/booking_ajax.php",
             "type": "POST",
+            "data": function(d) {
+                d.status_filter = currentStatus;
+            },
             "beforeSend": function() {
                 showLoading();
             },
@@ -178,6 +193,19 @@ $(document).ready(function() {
             // Add extra bottom padding to ensure pagination doesn't get covered
             $(".dataTables_wrapper").css("padding-bottom", "30px");
         }
+    });
+    
+    // Status filter button click handler
+    $('.status-filter').on('click', function() {
+        var status = $(this).data('status');
+        currentStatus = status;
+        
+        // Update active button state
+        $('.status-filter').removeClass('active');
+        $(this).addClass('active');
+        
+        // Reload the table with the new status filter
+        dataTable.ajax.reload();
     });
 });
 </script>

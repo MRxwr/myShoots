@@ -29,18 +29,35 @@ $draw = isset($_POST['draw']) ? intval($_POST['draw']) : 1;
 $start = isset($_POST['start']) ? intval($_POST['start']) : 0;
 $length = isset($_POST['length']) ? intval($_POST['length']) : 10;
 $search_value = isset($_POST['search']['value']) ? trim($_POST['search']['value']) : '';
+$status_filter = isset($_POST['status_filter']) ? $_POST['status_filter'] : 'all';
+
+// Status filter WHERE clause
+$status_query = '';
+if ($status_filter != 'all') {
+    $status_filter = mysqli_real_escape_string($conn, $status_filter);
+    if ($status_filter == 'Yes') {
+        $status_query = " AND b.status = 'Yes'";
+    } else if ($status_filter == 'No') {
+        $status_query = " AND b.status = 'No'";
+    }
+}
 
 // Search WHERE clause
 $search_query = '';
 if (!empty($search_value)) {
     $search_value = mysqli_real_escape_string($conn, $search_value);
-    $search_query = " WHERE customer_name LIKE '%$search_value%' 
+    $search_query = " WHERE (customer_name LIKE '%$search_value%' 
                       OR mobile_number LIKE '%$search_value%' 
                       OR baby_name LIKE '%$search_value%' 
                       OR transaction_id LIKE '%$search_value%'
                       OR booking_date LIKE '%$search_value%'
-                      OR b.created_at LIKE '%$search_value%'
-                      AND transaction_id != ''";
+                      OR b.created_at LIKE '%$search_value%')
+                      AND transaction_id != ''" . $status_query;
+} else {
+    // If no search but has status filter
+    if (!empty($status_query)) {
+        $search_query = " WHERE transaction_id != ''" . $status_query;
+    }
 }
 
 // Count total records
