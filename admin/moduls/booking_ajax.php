@@ -43,12 +43,12 @@ if (!empty($search_value)) {
 }
 
 // Count total records
-$total_query = "SELECT COUNT(*) as total FROM tbl_booking";
+$total_query = "SELECT COUNT(*) as total FROM tbl_booking b.*";
 $total_result = mysqli_query($conn, $total_query);
 $total_records = mysqli_fetch_assoc($total_result)['total'];
 
 // Count filtered records (with search)
-$filtered_query = "SELECT COUNT(*) as total FROM tbl_booking" . $search_query;
+$filtered_query = "SELECT COUNT(*) as total FROM tbl_booking b.*" . $search_query;
 $filtered_result = mysqli_query($conn, $filtered_query);
 $filtered_records = mysqli_fetch_assoc($filtered_result)['total'];
 
