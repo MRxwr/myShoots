@@ -148,28 +148,22 @@ $(document).ready(function() {
             { "data": 3, "orderable": true, "searchable": false },
             { "data": 4, "orderable": true, "searchable": true },
             { "data": 5, "orderable": true, "searchable": true },
-            { "data": 6, "orderable": false, "searchable": false }, // baby_name
-            { "data": 7, "orderable": false, "searchable": false }, // baby_age
-            { "data": 8, "orderable": false, "searchable": false }, // instructions
-            { "data": 9, "orderable": true, "searchable": true }, // booking_date
-            { "data": 10, "orderable": true, "searchable": true }, // booking_time
-            { "data": 11, "orderable": false, "searchable": false }, // extra_items
-            { "data": 12, "orderable": false, "searchable": false }, // booking_price
-            { "data": 13, "orderable": false, "searchable": false }, // is_active
-            { "data": 14, "orderable": false, "searchable": false }, // booking_id
+            { "data": 6, "orderable": true, "searchable": true },
+            { "data": 7, "orderable": false, "searchable": false },
+            { "data": 8, "orderable": true, "searchable": true },
+            { "data": 9, "orderable": false, "searchable": false },
             {
                 "data": null,
                 "orderable": false,
                 "searchable": false,
                 "render": function(data, type, row) {
-                    var id = row[14]; // booking id
-                    var details = JSON.stringify(row); // pass all row data
+                    var id = row[10]; // booking id
                     return `<div class='dropdown action-dropdown' style='position:relative;'>
                         <button class='btn btn-primary btn-xs dropdown-toggle' type='button' data-toggle='dropdown'>Actions <span class='caret'></span></button>
                         <ul class='dropdown-menu'>
                             <li><a href='#' class='show-status-options' data-id='${id}'>Change Status</a></li>
                             <li><a href='#' class='send-sms' data-id='${id}'>Send SMS</a></li>
-                            <li><a href='#' class='show-details' data-details='${encodeURIComponent(details)}'>More details</a></li>
+                            <li><a href='#' class='show-details' data-id='${id}'>More details</a></li>
                         </ul>
                         <div class='status-options' style='display:none; position:absolute; left:0; top:100%; background:#fff; border:1px solid #ddd; z-index:99999; min-width:140px; box-shadow:0 2px 8px rgba(0,0,0,0.15);'>
                             <a href='#' class='change-status btn btn-success' data-id='${id}' data-status='Yes' style='display:block; padding:10px 16px; color:#fff; margin-bottom:5px;'>Success</a>
@@ -179,7 +173,7 @@ $(document).ready(function() {
                 }
             }
         ],
-        "order": [[ 9, "desc" ]], // Order by booking date descending
+        "order": [[ 6, "desc" ]], // Order by booking date descending
         "pageLength": 10,
         "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
         "language": {
@@ -274,21 +268,33 @@ $(document).ready(function() {
             });
         }
     });
-    // Show details modal
+    // Show details modal via AJAX
     $('#datable_1 tbody').on('click', '.show-details', function(e) {
         e.preventDefault();
-        var details = JSON.parse(decodeURIComponent($(this).data('details')));
-        var labels = [
-            'SN', 'Invoice Date', 'Transaction ID', 'Package Name', 'Customer Name', 'Mobile Number',
-            'Baby Name', 'Baby Age', 'Instructions', 'Booking Date', 'Booking Time', 'Extra Items', 'Booking Price', 'Status', 'Booking ID'
-        ];
-        var html = '<table class="table table-bordered">';
-        for (var i = 0; i < labels.length; i++) {
-            html += '<tr><th>' + labels[i] + '</th><td>' + (details[i] || '') + '</td></tr>';
-        }
-        html += '</table>';
-        $('#detailsModal .modal-body').html(html);
-        $('#detailsModal').modal('show');
+        var id = $(this).data('id');
+        $.ajax({
+            url: 'moduls/get_booking_details.php',
+            type: 'POST',
+            data: {id: id},
+            dataType: 'json',
+            success: function(res) {
+                if (res.success && res.data) {
+                    var details = res.data;
+                    var html = '<table class="table table-bordered">';
+                    for (var key in details) {
+                        html += '<tr><th>' + key + '</th><td>' + details[key] + '</td></tr>';
+                    }
+                    html += '</table>';
+                    $('#detailsModal .modal-body').html(html);
+                    $('#detailsModal').modal('show');
+                } else {
+                    alert('Could not load booking details.');
+                }
+            },
+            error: function() {
+                alert('Error loading booking details.');
+            }
+        });
     });
 });
 </script>
