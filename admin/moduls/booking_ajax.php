@@ -1,21 +1,13 @@
-<?php
-session_start();
-include('../config/constants.php');
-include('../config/database.php');
-include('../config/functions.php');
+<?php 
+include('../../languages/lang_config.php');
+include('../config/apply.php');
 
 // Check if user is logged in
-if(!isset($_SESSION['admin_user']))
+if(!isset($_SESSION['user']))
 {
     echo json_encode(['error' => 'Unauthorized access']);
     exit();
 }
-
-// Include language file
-$language = $_SESSION['lang'];
-include('../../languages/'.$language.'.php');
-
-$obj = new functions();
 
 // DataTables parameters
 $draw = isset($_POST['draw']) ? intval($_POST['draw']) : 1;
@@ -70,7 +62,7 @@ if($res && $obj->num_rows($res) > 0)
         $package_name = @$row1['title_'.$_SESSION['lang']];
         
         // Format extra items
-        $extra_items_html = '';
+        $extra_items_html = ''; 
         if($extra_items != "") {
             $extra_items_html = '<ul class="list-unstyled">';
             $items = json_decode($extra_items);
