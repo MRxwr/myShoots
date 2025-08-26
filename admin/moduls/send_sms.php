@@ -53,7 +53,7 @@ if ($row) {
         // Mark SMS as sent in the database
         $update = "UPDATE tbl_booking SET sms = 1 WHERE id = $id";
         mysqli_query($conn, $update);
-        echo json_encode(['success' => true, 'message' => 'SMS sent to ' . $mobile]);
+        echo json_encode(['success' => true, 'message' => 'SMS sent to ' . $mobile . " - {$response}"]);
     }
 }else{
     echo json_encode(['success' => false, 'message' => 'Booking not found']);
