@@ -1,7 +1,7 @@
 <?php
 session_start();
 include('../../languages/lang_config.php');
-include('../../admin/config/database.php');
+include('../config/apply.php');
 
 if (!isset($_SESSION['user'])) {
     echo json_encode(['success' => false, 'message' => 'Unauthorized access']);
@@ -21,19 +21,41 @@ if (!$conn) {
 }
 
 // Get booking info
-$query = "SELECT mobile_number, customer_name FROM tbl_booking WHERE id = $id";
+$query = "SELECT booking_date, booking_time, transaction_id FROM tbl_booking WHERE id = $id";
 $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);
-
 if ($row) {
-    $mobile = $row['mobile_number'];
-    $name = $row['customer_name'];
     // Here you would integrate with your SMS API
-    // For demo, just return success
-    echo json_encode(['success' => true, 'message' => 'SMS sent to ' . $mobile]);
-} else {
+    $id = $row['id'];
+    $booking_date = $row['booking_date'];
+    $booking_time = $row['booking_time'];
+    $orderId = $row['transaction_id'];
+    $arabic = ['١','٢','٣','٤','٥','٦','٧','٨','٩','٠'];
+    $english = [ 1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 , 0];
+    $phone = str_replace($arabic, $english, $row['mobile_number']);
+    $mobile = $phone;
+    $message="Your booking has been confirmed with myshoots studio, Date: ".$booking_date.", Time:".$booking_time.",Id: ".$orderId;
+    $message = str_replace(' ','+',$message);
+    $url = 'http://www.kwtsms.com/API/send/?username=ghaliah&password=Gh@li@h91&sender=MyShoots&mobile=965'.$mobile.'&lang=1&message='.$message;
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_CUSTOMREQUEST => "GET",
+    ));
+    $response = curl_exec($curl);
+    $err = curl_error($curl);
+    curl_close($curl);
+    if ($err){
+        echo json_encode(['success' => false, 'message' => 'SMS sending failed']);
+    }else{
+        $queryx = $obj->update_data($tbl_name,$data,$where);
+        $res = $obj->execute_query($conn,$queryx);
+        echo json_encode(['success' => true, 'message' => 'SMS sent to ' . $mobile]);
+    }
+}else{
     echo json_encode(['success' => false, 'message' => 'Booking not found']);
 }
-
 mysqli_close($conn);
 ?>
