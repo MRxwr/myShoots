@@ -32,10 +32,15 @@
 								<div class="panel-body">
 									<!-- Loading Spinner Container -->
 									<div id="loading-spinner" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; display: none;">
-										<div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-											<span class="sr-only">Loading...</span>
+										<div style="width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite;" role="status">
 										</div>
 									</div>
+									<style>
+										@keyframes spin {
+											0% { transform: rotate(0deg); }
+											100% { transform: rotate(360deg); }
+										}
+									</style>
 									<div class="table-wrap">
 										<div class="table-responsive" id="data-table-container">
 											<table id="datable_1" class="table table-hover display  pb-30" >
@@ -91,14 +96,16 @@
 $(document).ready(function() {
     // Show loading spinner and dim the table
     function showLoading() {
-        $('#loading-spinner').show();
+        $('#loading-spinner').css('display', 'block');
         $('#data-table-container').css('opacity', '0.5');
+        console.log('Loading spinner shown');
     }
     
     // Hide loading spinner and restore table opacity
     function hideLoading() {
-        $('#loading-spinner').hide();
+        $('#loading-spinner').css('display', 'none');
         $('#data-table-container').css('opacity', '1');
+        console.log('Loading spinner hidden');
     }
     
     // Show spinner before DataTable initialization
@@ -114,7 +121,9 @@ $(document).ready(function() {
                 showLoading();
             },
             "complete": function() {
-                hideLoading();
+                setTimeout(function() {
+                    hideLoading();
+                }, 500); // Add a small delay to make sure the spinner is visible
             },
             "error": function(xhr, error, code) {
                 hideLoading();
