@@ -61,7 +61,7 @@ if (!empty($search_value)) {
 }
 
 // Count total records
-$total_query = "SELECT COUNT(*) as total FROM tbl_booking b";
+$total_query = "SELECT COUNT(*) as total FROM tbl_booking b WHERE transaction_id != ''";
 $total_result = mysqli_query($conn, $total_query);
 $total_records = mysqli_fetch_assoc($total_result)['total'];
 
