@@ -85,7 +85,7 @@
                                                         <th><?php echo $lang['extra_items'] ?></th>
                                                         <th><?php echo $lang['booking_price'] ?></th>
                                                         <th><?php echo $lang['is_active'] ?></th>
-                                                        <th>Actions</th>
+                                                        <th><?php echo $lang['actions'] ?></th>
 													</tr>
 												</thead>
 												<tbody>
