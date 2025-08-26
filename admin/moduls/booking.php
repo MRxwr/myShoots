@@ -60,11 +60,11 @@
 									</style>
 									<!-- Status Filter Buttons -->
 									<div class="mb-20" style="margin-bottom: 20px;">
-										<div class="btn-group" role="group" aria-label="Status Filters">
-											<button type="button" class="btn btn-default status-filter active" data-status="all">All</button>
-											<button type="button" class="btn btn-success status-filter" data-status="Yes">Success</button>
-											<button type="button" class="btn btn-danger status-filter" data-status="No">Cancelled</button>
-										</div>
+                                        <div class="btn-group" role="group" aria-label="Status Filters" style="gap: 10px;">
+                                            <button type="button" class="btn btn-default status-filter active" data-status="all" style="margin-right:10px;">All</button>
+                                            <button type="button" class="btn btn-success status-filter" data-status="Yes" style="margin-right:10px;">Success</button>
+                                            <button type="button" class="btn btn-danger status-filter" data-status="No">Cancelled</button>
+                                        </div>
 									</div>
 									<div class="table-wrap">
 										<div class="table-responsive" id="data-table-container">
