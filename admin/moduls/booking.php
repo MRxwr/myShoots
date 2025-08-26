@@ -150,12 +150,13 @@ $(document).ready(function() {
             { "data": 5, "orderable": true, "searchable": true },
             { "data": 6, "orderable": false, "searchable": false },
             { "data": 7, "orderable": false, "searchable": false },
+            { "data": 8, "orderable": false, "searchable": false },
             {
                 "data": null,
                 "orderable": false,
                 "searchable": false,
                 "render": function(data, type, row) {
-                    var id = row[8]; // booking id
+                    var id = row[9]; // booking id
                     return `<div class='dropdown action-dropdown' style='position:relative;'>
                         <button class='btn btn-primary btn-xs dropdown-toggle' type='button' data-toggle='dropdown'>Actions <span class='caret'></span></button>
                         <ul class='dropdown-menu'>
