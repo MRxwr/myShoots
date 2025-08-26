@@ -172,7 +172,13 @@ $(document).ready(function() {
                     return `<div class='dropdown'>
                         <button class='btn btn-primary btn-xs dropdown-toggle' type='button' data-toggle='dropdown'>Actions <span class='caret'></span></button>
                         <ul class='dropdown-menu'>
-                            <li><a href='#' class='change-status' data-id='${id}'>Change Status</a></li>
+                            <li class='dropdown-submenu'>
+                                <a tabindex='-1' href='#'>Change Status</a>
+                                <ul class='dropdown-menu'>
+                                    <li><a href='#' class='change-status' data-id='${id}' data-status='Yes'>Success</a></li>
+                                    <li><a href='#' class='change-status' data-id='${id}' data-status='No'>Cancelled</a></li>
+                                </ul>
+                            </li>
                             <li><a href='#' class='send-sms' data-id='${id}'>Send SMS</a></li>
                         </ul>
                     </div>`;
@@ -223,14 +229,12 @@ $(document).ready(function() {
     $('#datable_1 tbody').on('click', '.change-status', function(e) {
         e.preventDefault();
         var id = $(this).data('id');
-        var newStatus = prompt('Enter new status (Yes, No, Pending):');
-        if (newStatus && (newStatus === 'Yes' || newStatus === 'No' || newStatus === 'Pending')) {
-            if (confirm('Are you sure you want to change the status?')) {
-                $.post('moduls/change_status.php', {id: id, status: newStatus}, function(res) {
-                    alert(res.message || 'Status updated!');
-                    dataTable.ajax.reload();
-                }, 'json');
-            }
+        var newStatus = $(this).data('status');
+        if (confirm('Are you sure you want to change the status to ' + newStatus + '?')) {
+            $.post('moduls/change_status.php', {id: id, status: newStatus}, function(res) {
+                alert(res.message || 'Status updated!');
+                dataTable.ajax.reload();
+            }, 'json');
         }
     });
 
