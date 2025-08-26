@@ -1,23 +1,32 @@
 <?php
-// Include necessary files for database connection
-require_once('../config/constants.php');
-require_once('../config/database.php');
-require_once('../config/functions.php');
+// Error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 // Start session if not already started
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+// Include necessary files for database connection
+require_once('../config/constants.php');
+require_once('../config/database.php');
+require_once('../config/functions.php');
+
 // Set content type to JSON
 header('Content-Type: application/json');
+
+// Check if language is set in session
+if(!isset($_SESSION['lang'])) {
+    $_SESSION['lang'] = 'en';
+}
 
 // Initialize database object
 $obj = new Functions();
 $conn = $obj->db_connect();
 
-// Get language file
-include_once("../languages/".$_SESSION['lang'].".php");
+// Get language file - use correct path
+require_once("../../languages/".$_SESSION['lang'].".php");
 
 // Fetch booking data
 $tbl_name = 'tbl_booking';
@@ -66,8 +75,12 @@ if ($res) {
                 $extra_items_html .= '</ul>';
             }
 
-            // Format status
-            $status = ($is_active == 'Yes') ? $lang['yes'] : $lang['no'];
+            // Format status - handle language variables safely
+            $status = ($is_active == 'Yes') ? 'Yes' : 'No'; 
+            // Use language variables if available
+            if(isset($lang['yes']) && isset($lang['no'])) {
+                $status = ($is_active == 'Yes') ? $lang['yes'] : $lang['no'];
+            }
 
             // Add data to array
             $data[] = array(
@@ -89,6 +102,22 @@ if ($res) {
     }
 }
 
-// Return JSON response
-echo json_encode(array("data" => $data));
+// Return JSON response with proper encoding
+try {
+    $response = json_encode(array("data" => $data));
+    
+    // Check for JSON encoding errors
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        throw new Exception('JSON encoding error: ' . json_last_error_msg());
+    }
+    
+    echo $response;
+} catch (Exception $e) {
+    // Return a proper error response in JSON format
+    header('HTTP/1.1 500 Internal Server Error');
+    echo json_encode(array(
+        'error' => true,
+        'message' => $e->getMessage()
+    ));
+}
 ?>
