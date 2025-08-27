@@ -103,9 +103,6 @@ $(document).ready(function() {
     showLoading();
     // Current active status filter
     var currentStatus = 'all';
-    var SuccessfulBooking = '<?php echo direction("Successful","ناجح"); ?>';
-    var CancelledBooking = '<?php echo direction("Cancelled","ملغى"); ?>';
-    var FailedBooking = '<?php echo direction("Failed","فاشل"); ?>';
     // Initialize DataTable
     var dataTable = $('#datable_1').DataTable({
         "processing": true,
@@ -152,9 +149,8 @@ $(document).ready(function() {
                         <li><a href='#' class='show-details' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>More details</a></li>
                     </ul>
                     <div class='status-options' style='display:none; position:absolute; right:100%; top:0; background:#fff; border:1px solid #ddd; z-index:99999; min-width:120px; box-shadow:0 2px 8px rgba(0,0,0,0.15);'>
-                        <a href='#' class='change-status btn' data-id='${id}' data-status='Yes' style='display:block; padding:8px 16px; background:#27ae60; color:#fff; font-size:13px; margin-bottom:5px; border-radius:3px;'>${SuccessfulBooking}</a>
-                        <a href='#' class='change-status btn' data-id='${id}' data-status='No' style='display:block; padding:8px 16px; background:#e74c3c; color:#fff; font-size:13px; border-radius:3px;margin-bottom:5px;'>${CancelledBooking}</a>
-                        <a href='#' class='change-status btn' data-id='${id}' data-status='Failed' style='display:block; padding:8px 16px; background:#e74c3c; color:#fff; font-size:13px; border-radius:3px;'>${FailedBooking}</a>
+                        <a href='#' class='change-status btn' data-id='${id}' data-status='Yes' style='display:block; padding:8px 16px; background:#27ae60; color:#fff; font-size:13px; margin-bottom:5px; border-radius:3px;'>Success</a>
+                        <a href='#' class='change-status btn' data-id='${id}' data-status='No' style='display:block; padding:8px 16px; background:#e74c3c; color:#fff; font-size:13px; border-radius:3px;'>Cancelled</a>
                     </div>
                 </div>`;
             }
