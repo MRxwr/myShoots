@@ -41,7 +41,8 @@
                             <div class="btn-group" role="group" aria-label="Status Filters" style="gap: 10px;">
                                 <button type="button" class="btn btn-default status-filter active" data-status="all" style="margin-right:10px;"><?php echo direction("All", "الكل") ?></button>
                                 <button type="button" class="btn btn-success status-filter" data-status="Yes" style="margin-right:10px;"><?php echo direction("Success", "ناجح") ?></button>
-                                <button type="button" class="btn btn-danger status-filter" data-status="No"><?php echo direction("Cancelled", "ملغى") ?></button>
+                                <button type="button" class="btn btn-danger status-filter" data-status="No"><?php echo direction("Failed", "فاشل") ?></button>
+                                <button type="button" class="btn btn-warning status-filter" data-status="Cancel"><?php echo direction("Cancelled", "ملغي") ?></button>
                             </div>
                         </div>
                         <div class="table-wrap">

@@ -15,6 +15,8 @@ if ($status_filter != 'all') {
         $status_query = " AND b.status = 'Yes'";
     } else if ($status_filter == 'No') {
         $status_query = " AND b.status = 'No'";
+    } else if ($status_filter == 'Cancel') {
+        $status_query = " AND b.status = 'Cancel'";
     }
 }
 
