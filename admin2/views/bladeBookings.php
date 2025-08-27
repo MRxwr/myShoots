@@ -214,10 +214,19 @@ $(document).ready(function() {
             $.post('requests/change_status.php', {id: id, status: newStatus}, function(res) {
                 alert(res.message || 'Status updated!');
                 // Find the row and update the status cell
-                var $row = $btn.closest('tr');
-                // The status cell is the 14th column (zero-based index 13)
-                var statusText = newStatus === 'Yes' ? 'نعم' : 'لا';
-                $row.find('td').eq(13).html(statusText);
+                    var $row = $btn.closest('tr');
+                    // The status cell is the 6th column (zero-based index 5)
+                    var statusText = '';
+                    if (newStatus === 'Yes') {
+                        statusText = successBooking;
+                    } else if (newStatus === 'No') {
+                        statusText = failedBooking;
+                    } else if (newStatus === 'Cancel') {
+                        statusText = cancelBooking;
+                    } else {
+                        statusText = newStatus;
+                    }
+                    $row.find('td').eq(5).html(statusText);
             }, 'json');
         }
     });
