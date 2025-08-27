@@ -203,13 +203,15 @@ $(document).ready(function() {
         var newStatus = $btn.data('status');
         $('.status-options').hide();
         if (confirm('Are you sure you want to change the status to ' + newStatus + '?')) {
+            showLoading();
             $.post('moduls/change_status.php', {id: id, status: newStatus}, function(res) {
+                hideLoading();
                 alert(res.message || 'Status updated!');
                 // Find the row and update the status cell
                 var $row = $btn.closest('tr');
-                // The status cell is the 14th column (zero-based index 13)
-                var statusText = newStatus === 'Yes' ? 'نعم' : 'لا';
-                $row.find('td').eq(13).html(statusText);
+                // The status cell is the correct column (find by header or index)
+                var statusText = newStatus === 'Yes' ? 'نعم' : (newStatus === 'No' ? 'لا' : newStatus);
+                $row.find('td').eq(8).text(statusText); // Update status field
             }, 'json');
         }
     });
