@@ -32,13 +32,13 @@ if( isset($_GET["type"]) && in_array($_GET["type"],$array) ){
 <table class="table display responsive product-overview display dataTable mb-30" id="AjaxTable">
 <thead>
 <tr>
-<th><?php echo $DateTime ?></th>
-<th><?php echo $OrderID ?></th>
-<th><?php echo $Mobile ?></th>
-<th><?php echo $Price ?></th>
-<th><?php echo $methodOfPayment ?></th>
-<th><?php echo $Status ?></th>
-<th><?php echo $Actions ?></th>
+<th><?php echo direction("Date","تاريخ") ?></th>
+<th><?php echo direction("Order ID","رقم الطلب") ?></th>
+<th><?php echo direction("Mobile","رقم الهاتف") ?></th>
+<th><?php echo direction("Price","السعر") ?></th>
+<th><?php echo direction("Payment Method","طريقة الدفع") ?></th>
+<th><?php echo direction("Status","الحالة") ?></th>
+<th><?php echo direction("Actions","العمليات") ?></th>
 </tr>
 </thead>
 <tbody>
