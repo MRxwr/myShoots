@@ -1,11 +1,5 @@
 <?php
 require_once("../includes/checksouthead.php");
-// Check if user is logged in
-if(!isset($_SESSION['user'])) {
-    echo json_encode(['error' => 'Unauthorized access']);
-    exit();
-}
-
 // DataTables server-side processing parameters
 $draw = isset($_POST['draw']) ? intval($_POST['draw']) : 1;
 $start = isset($_POST['start']) ? intval($_POST['start']) : 0;
