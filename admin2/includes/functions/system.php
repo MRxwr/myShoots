@@ -276,25 +276,6 @@ function getPDF($orderId){
     fwrite($fileHandle, $response);
     fclose($fileHandle);
     return "{$settings[0]["website"]}/{$pdfFilePath}";
-	/*
-	$curl = curl_init();
-	curl_setopt_array($curl, array(
-	CURLOPT_URL => "https://automate.createstore.link/api/generate/pdf?url={$settings[0]["website"]}/invoice.php?orderId={$orderId}",
-	CURLOPT_RETURNTRANSFER => true,
-	CURLOPT_ENCODING => '',
-	CURLOPT_MAXREDIRS => 10,
-	CURLOPT_TIMEOUT => 0,
-	CURLOPT_FOLLOWLOCATION => true,
-	CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-	CURLOPT_CUSTOMREQUEST => 'GET',
-	CURLOPT_HTTPHEADER => array(
-		'Cookie: XSRF-TOKEN=eyJpdiI6Ik9TWmJlUDF2VGdNNVIzek5Yc0RHUUE9PSIsInZhbHVlIjoiWUxlSVpqVVZvMFhBbmtwZzM3Z0U3NW5ScFVYeVVhdVA5UU1xMXBTemtrZmJZQnNkNldaUzArZFpuR1krUGp5TzkzaDI1WnZmMEpNdUxtWU5ERVdTRnpzZlBjeVRyR2RTa0IwRDYrRnJ5SW5xMy9ob1JzUkV0anFOdUtlL0ZpcTciLCJtYWMiOiJlMjljZWUwNGJhYmE4NGM2ODc1MjFlMWI1ZGI3YTFjMmMwYjZiMTRiYzAxNzljNGJlYTQ2MTFmYTBjZmUwMTJmIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6IjRoZGhHbHJyTmhjNUZmVUdsZldieHc9PSIsInZhbHVlIjoiOVhSY0VFampJQjJOSVdxVGlCZkZYWmdkb1NoaGExNmduVHlLN2l3bDNQNVd1VnNLTWorMTN6SCtkMGtaVjVOeDl2N1FjZkZrcWlDRVBmcVQzd2FNMWtkYTRYR1NPY0psTFJFakNxbmRQMDduZGNKbU5TN2c1Y2twWWp4c0lEK20iLCJtYWMiOiIwODViMmJlN2RjZjUwZjExMDM0YTU2NGE2NWMyYjc2NDM4MGU3OGE2MDY1YzBkMDQ3MzYzZmVhYTMxMzZkYTM0IiwidGFnIjoiIn0%3D'
-	),
-	));
-	$response = curl_exec($curl);
-	curl_close($curl);
-	return $response;
-	*/
 }
 
 function manifestGenerate(){
