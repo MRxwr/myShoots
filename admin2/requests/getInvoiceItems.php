@@ -1,6 +1,7 @@
 <?php
-die();
+
 require("../admin2/includes/config.php");
+die();
 require("../admin2/includes/functions.php");
 //require("../admin/includes/translate.php");
 
