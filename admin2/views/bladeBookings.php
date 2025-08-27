@@ -41,7 +41,7 @@
                             <div class="btn-group" role="group" aria-label="Status Filters" style="gap: 10px;">
                                 <button type="button" class="btn btn-default status-filter active" data-status="all" style="margin-right:10px;"><?php echo direction("All", "الكل") ?></button>
                                 <button type="button" class="btn btn-success status-filter" data-status="Yes" style="margin-right:10px;"><?php echo direction("Success", "ناجح") ?></button>
-                                <button type="button" class="btn btn-danger status-filter" data-status="No"><?php echo direction("Failed", "فاشل") ?></button>
+                                <button type="button" class="btn btn-danger status-filter" data-status="No" style="margin-right:10px;"><?php echo direction("Failed", "فاشل") ?></button>
                                 <button type="button" class="btn btn-warning status-filter" data-status="Cancel"><?php echo direction("Cancelled", "ملغي") ?></button>
                             </div>
                         </div>
@@ -107,6 +107,9 @@ $(document).ready(function() {
     showLoading();
     // Current active status filter
     var currentStatus = 'all';
+    var successBooking = '<?php echo direction("Successful","ناجح"); ?>';
+    var failedBooking = '<?php echo direction("Failed","فاشل"); ?>';
+    var cancelBooking = '<?php echo direction("Cancelled","ملغي"); ?>';
     // Initialize DataTable
     var dataTable = $('#datable_1').DataTable({
         "processing": true,
@@ -153,8 +156,9 @@ $(document).ready(function() {
                         <li><a href='#' class='show-details' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>More details</a></li>
                     </ul>
                     <div class='status-options' style='display:none; position:absolute; right:100%; top:0; background:#fff; border:1px solid #ddd; z-index:99999; min-width:120px; box-shadow:0 2px 8px rgba(0,0,0,0.15);'>
-                        <a href='#' class='change-status btn' data-id='${id}' data-status='Yes' style='display:block; padding:8px 16px; background:#27ae60; color:#fff; font-size:13px; margin-bottom:5px; border-radius:3px;'>Success</a>
-                        <a href='#' class='change-status btn' data-id='${id}' data-status='No' style='display:block; padding:8px 16px; background:#e74c3c; color:#fff; font-size:13px; border-radius:3px;'>Cancelled</a>
+                        <a href='#' class='change-status btn' data-id='${id}' data-status='Yes' style='display:block; padding:8px 16px; background:#27ae60; color:#fff; font-size:13px; margin-bottom:5px; border-radius:3px;'>${successBooking}</a>
+                        <a href='#' class='change-status btn' data-id='${id}' data-status='No' style='display:block; padding:8px 16px; background:#e74c3c; color:#fff; font-size:13px; border-radius:3px;'>${failedBooking}</a>
+                        <a href='#' class='change-status btn' data-id='${id}' data-status='Cancel' style='display:block; padding:8px 16px; background:#f39c12; color:#fff; font-size:13px; border-radius:3px;'>${cancelBooking}</a>
                     </div>
                 </div>`;
             }
