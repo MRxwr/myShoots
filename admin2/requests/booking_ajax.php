@@ -6,7 +6,7 @@ $start = isset($_POST['start']) ? intval($_POST['start']) : 0;
 $length = isset($_POST['length']) ? intval($_POST['length']) : 10;
 $search_value = isset($_POST['search']['value']) ? trim($_POST['search']['value']) : '';
 $status_filter = isset($_POST['status_filter']) ? $_POST['status_filter'] : 'all';
-
+$_SESSION['lang'] = direction("en","ar");
 // Status filter WHERE clause
 $status_query = '';
 if ($status_filter != 'all') {
@@ -80,9 +80,11 @@ if ($data_result && mysqli_num_rows($data_result) > 0) {
         // Format status
         $status_text = '';
         if ($row['status'] == 'Yes') {
-            $status_text = $lang['yes'];
+            $status_text = direction("Successful","ناجح");
         } else if ($row['status'] == 'No') {
-            $status_text = $lang['no'];
+            $status_text = direction("Failed","فاشل");
+        } else if ($row['status'] == 'cancel') {
+            $status_text = direction("Cancel","ملغي");
         } else {
             $status_text = $row['status'];
         }
