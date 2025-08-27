@@ -1,5 +1,4 @@
 <?php
-/*
 $sql = "SELECT * FROM `s_media` WHERE `id` LIKE '3'";
 $result = $dbconnect->query($sql);
 $row = $result->fetch_assoc();
@@ -25,7 +24,6 @@ $settingsShippingMethod = $row["shippingMethod"];
 $headerButton = $row["headerButton"];
 $websiteColor = $row["websiteColor"];
 $defaultCountry = $row["country"];
-*/
 $settingsLang = (isset($row["language"]) && $row["language"] == "0") ? "ENG" : "AR";
 
 if ( isset($_GET["lang"]) ){
