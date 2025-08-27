@@ -1,6 +1,6 @@
 <?php
-require("../admin/includes/config.php");
-require("../admin/includes/functions.php");
+require("includes/config.php");
+require("includes/functions.php");
 //require("../admin/includes/translate.php");
 
 $array = [1,2,3,4,5,6];
