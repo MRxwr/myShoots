@@ -3,7 +3,7 @@ require_once("../includes/checksouthead.php");
 $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
 $status = isset($_POST['status']) ? $_POST['status'] : '';
 
-if (!$id || !in_array($status, ['Yes', 'No', 'Pending'])) {
+if (!$id || !in_array($status, ['Yes', 'No', 'Cancel'])) {
     echo json_encode(['success' => false, 'message' => 'Invalid parameters']);
     exit();
 }
