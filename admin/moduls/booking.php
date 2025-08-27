@@ -103,6 +103,9 @@ $(document).ready(function() {
     showLoading();
     // Current active status filter
     var currentStatus = 'all';
+    var SuccessfulBooking = '<?php echo direction("Successful","ناجح"); ?>';
+    var CancelledBooking = '<?php echo direction("Cancelled","ملغى"); ?>';
+    var FailedBooking = '<?php echo direction("Failed","فاشل"); ?>';
     // Initialize DataTable
     var dataTable = $('#datable_1').DataTable({
         "processing": true,
@@ -149,8 +152,9 @@ $(document).ready(function() {
                         <li><a href='#' class='show-details' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>More details</a></li>
                     </ul>
                     <div class='status-options' style='display:none; position:absolute; right:100%; top:0; background:#fff; border:1px solid #ddd; z-index:99999; min-width:120px; box-shadow:0 2px 8px rgba(0,0,0,0.15);'>
-                        <a href='#' class='change-status btn' data-id='${id}' data-status='Yes' style='display:block; padding:8px 16px; background:#27ae60; color:#fff; font-size:13px; margin-bottom:5px; border-radius:3px;'>Success</a>
-                        <a href='#' class='change-status btn' data-id='${id}' data-status='No' style='display:block; padding:8px 16px; background:#e74c3c; color:#fff; font-size:13px; border-radius:3px;'>Cancelled</a>
+                        <a href='#' class='change-status btn' data-id='${id}' data-status='Yes' style='display:block; padding:8px 16px; background:#27ae60; color:#fff; font-size:13px; margin-bottom:5px; border-radius:3px;'>${SuccessfulBooking}</a>
+                        <a href='#' class='change-status btn' data-id='${id}' data-status='No' style='display:block; padding:8px 16px; background:#e74c3c; color:#fff; font-size:13px; border-radius:3px;margin-bottom:5px;'>${CancelledBooking}</a>
+                        <a href='#' class='change-status btn' data-id='${id}' data-status='Failed' style='display:block; padding:8px 16px; background:#e74c3c; color:#fff; font-size:13px; border-radius:3px;'>${FailedBooking}</a>
                     </div>
                 </div>`;
             }
@@ -203,15 +207,13 @@ $(document).ready(function() {
         var newStatus = $btn.data('status');
         $('.status-options').hide();
         if (confirm('Are you sure you want to change the status to ' + newStatus + '?')) {
-            showLoading();
             $.post('moduls/change_status.php', {id: id, status: newStatus}, function(res) {
-                hideLoading();
                 alert(res.message || 'Status updated!');
                 // Find the row and update the status cell
                 var $row = $btn.closest('tr');
-                // The status cell is the correct column (find by header or index)
-                var statusText = newStatus === 'Yes' ? 'نعم' : (newStatus === 'No' ? 'لا' : newStatus);
-                $row.find('td').eq(8).text(statusText); // Update status field
+                // The status cell is the 14th column (zero-based index 13)
+                var statusText = newStatus === 'Yes' ? 'نعم' : 'لا';
+                $row.find('td').eq(13).html(statusText);
             }, 'json');
         }
     });
