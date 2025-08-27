@@ -1,21 +1,13 @@
 <?php
-session_start();
-include('../../languages/lang_config.php');
-include('../config/apply.php');
-
-if (!isset($_SESSION['user'])) {
-    echo json_encode(['success' => false, 'message' => 'Unauthorized access']);
-    exit();
-}
-
+require_once("../includes/checksouthead.php");
 $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
 if (!$id) {
     echo json_encode(['success' => false, 'message' => 'Invalid parameters']);
     exit();
 }
 
-$conn = mysqli_connect(LOCALHOST, USERNAME, PASSWORD, DBNAME);
-if (!$conn) {
+$dbconnect = mysqli_connect(LOCALHOST, USERNAME, PASSWORD, DBNAME);
+if (!$dbconnect) {
     echo json_encode(['success' => false, 'message' => 'Database connection failed']);
     exit();
 }
@@ -23,7 +15,7 @@ if (!$conn) {
 // Get booking info
 // Select all needed columns
 $query = "SELECT id, booking_date, booking_time, transaction_id, mobile_number FROM tbl_booking WHERE id = $id";
-$result = mysqli_query($conn, $query);
+$result = mysqli_query($dbconnect, $query);
 $row = mysqli_fetch_assoc($result);
 if ($row) {
     // Here you would integrate with your SMS API
@@ -54,12 +46,12 @@ if ($row) {
             echo json_encode(['success' => false, 'message' => 'Could not send SMS - ' . $response]);
         } else {
             $update = "UPDATE tbl_booking SET sms = 1 WHERE id = $id";
-            mysqli_query($conn, $update);
+            mysqli_query($dbconnect, $update);
             echo json_encode(['success' => true, 'message' => 'SMS sent successfully']);
         }
     }
 }else{
     echo json_encode(['success' => false, 'message' => 'Booking not found']);
 }
-mysqli_close($conn);
+mysqli_close($dbconnect);
 ?>

@@ -1,13 +1,5 @@
 <?php
-session_start();
-include('../../languages/lang_config.php');
-include('../config/apply.php');
-
-if(!isset($_SESSION['user'])) {
-    echo json_encode(['success' => false, 'error' => 'Unauthorized access']);
-    exit();
-}
-
+require_once("../includes/checksouthead.php");
 $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
 if ($id <= 0) {
     echo json_encode(['success' => false, 'error' => 'Invalid booking ID']);
@@ -15,7 +7,7 @@ if ($id <= 0) {
 }
 
 $query = "SELECT b.*, p.title_" . $_SESSION['lang'] . " as package_name FROM tbl_booking b LEFT JOIN tbl_packages p ON b.package_id = p.id WHERE b.id = $id LIMIT 1";
-$result = mysqli_query($conn, $query);
+$result = mysqli_query($dbconnect, $query);
 if ($result && $row = mysqli_fetch_assoc($result)) {
     // Format extra items
     $extra_items = '';
@@ -59,5 +51,5 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
 } else {
     echo json_encode(['success' => false, 'error' => 'Booking not found']);
 }
-mysqli_close($conn);
+mysqli_close($dbconnect);
 ?>
