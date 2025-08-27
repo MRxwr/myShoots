@@ -1,9 +1,6 @@
 <?php
-
-require("../admin2/includes/config.php");
+require("../admin2/includes/checksouthead.php");
 die();
-require("../admin2/includes/functions.php");
-//require("../admin/includes/translate.php");
 
 $array = [1,2,3,4,5,6];
 if( isset($_GET["type"]) && in_array($_GET["type"],$array) ){
