@@ -104,7 +104,7 @@ $(document).ready(function(){
       "pageLength": 10,
       'serverMethod': 'post',
       'ajax': {
-          'url':'../api/getInvoiceItems.php?v=<?=$_GET["v"]?>&type=<?=$tp?>',
+          'url':'../requests/getInvoiceItems.php?v=<?=$_GET["v"]?>&type=<?=$tp?>',
           'dataSrc': function(json) {
               //console.log('Response:', json); // Log the response
               if (!json.aaData) {
