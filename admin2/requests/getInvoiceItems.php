@@ -1,5 +1,5 @@
 <?php
-require("../admin2/includes/checksouthead.php");
+require("../../admin2/includes/checksouthead.php");
 die();
 
 $array = [1,2,3,4,5,6];
