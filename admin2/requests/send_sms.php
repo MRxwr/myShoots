@@ -6,13 +6,6 @@ if (!$id) {
     exit();
 }
 
-$dbconnect = mysqli_connect(LOCALHOST, USERNAME, PASSWORD, DBNAME);
-if (!$dbconnect) {
-    echo json_encode(['success' => false, 'message' => 'Database connection failed']);
-    exit();
-}
-
-// Get booking info
 // Select all needed columns
 $query = "SELECT id, booking_date, booking_time, transaction_id, mobile_number FROM tbl_booking WHERE id = $id";
 $result = mysqli_query($dbconnect, $query);

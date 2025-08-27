@@ -8,12 +8,6 @@ if (!$id || !in_array($status, ['Yes', 'No', 'Pending'])) {
     exit();
 }
 
-$dbconnect = mysqli_connect(LOCALHOST, USERNAME, PASSWORD, DBNAME);
-if (!$dbconnect) {
-    echo json_encode(['success' => false, 'message' => 'Database connection failed']);
-    exit();
-}
-
 $query = "UPDATE tbl_booking SET status = '" . mysqli_real_escape_string($dbconnect, $status) . "' WHERE id = $id";
 $result = mysqli_query($dbconnect, $query);
 
