@@ -5,7 +5,7 @@ if ($id <= 0) {
     echo json_encode(['success' => false, 'error' => 'Invalid booking ID']);
     exit();
 }
-
+$_SESSION['lang'] = direction("en","ar");
 $query = "SELECT b.*, p.title_" . $_SESSION['lang'] . " as package_name FROM tbl_booking b LEFT JOIN tbl_packages p ON b.package_id = p.id WHERE b.id = $id LIMIT 1";
 $result = mysqli_query($dbconnect, $query);
 if ($result && $row = mysqli_fetch_assoc($result)) {
@@ -23,11 +23,11 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
     // Format status
     $status_text = '';
     if ($row['status'] == 'Yes') {
-        $status_text = $lang['yes'];
+        $status_text = direction("Successful","ناجح");
     } else if ($row['status'] == 'No') {
-        $status_text = $lang['no'];
+        $status_text = direction("Failed","فاشل");
     } else if ($row['status'] == 'cancel') {
-        $status_text = $lang['cancel'];
+        $status_text = direction("Cancel","ملغي");
     } else {
         $status_text = $row['status'];
     }
