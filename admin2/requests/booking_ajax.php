@@ -1,12 +1,5 @@
 <?php
-session_start();
-
-// Include language configuration
-include('../../languages/lang_config.php');
-
-// Include database configuration
-include('../config/apply.php');
-
+require_once("../includes/checksouthead.php");
 // Check if user is logged in
 if(!isset($_SESSION['user'])) {
     echo json_encode(['error' => 'Unauthorized access']);
@@ -23,7 +16,7 @@ $status_filter = isset($_POST['status_filter']) ? $_POST['status_filter'] : 'all
 // Status filter WHERE clause
 $status_query = '';
 if ($status_filter != 'all') {
-    $status_filter = mysqli_real_escape_string($conn, $status_filter);
+    $status_filter = mysqli_real_escape_string($dbconnect, $status_filter);
     if ($status_filter == 'Yes') {
         $status_query = " AND b.status = 'Yes'";
     } else if ($status_filter == 'No') {
@@ -34,7 +27,7 @@ if ($status_filter != 'all') {
 // Search WHERE clause
 $search_query = '';
 if (!empty($search_value)) {
-    $search_value = mysqli_real_escape_string($conn, $search_value);
+    $search_value = mysqli_real_escape_string($dbconnect, $search_value);
     $search_query = " WHERE (customer_name LIKE '%$search_value%' 
                       OR mobile_number LIKE '%$search_value%' 
                       OR transaction_id LIKE '%$search_value%'
@@ -54,12 +47,12 @@ if (!empty($search_value)) {
 // Count total records
 // Count total records (only with transaction_id)
 $total_query = "SELECT COUNT(*) as total FROM tbl_booking b WHERE transaction_id != ''";
-$total_result = mysqli_query($conn, $total_query);
+$total_result = mysqli_query($dbconnect, $total_query);
 $total_records = mysqli_fetch_assoc($total_result)['total'];
 
 // Count filtered records (with search)
 $filtered_query = "SELECT COUNT(*) as total FROM tbl_booking b" . $search_query;
-$filtered_result = mysqli_query($conn, $filtered_query);
+$filtered_result = mysqli_query($dbconnect, $filtered_query);
 $filtered_records = mysqli_fetch_assoc($filtered_result)['total'];
 
 // Get data with pagination
@@ -70,7 +63,7 @@ $data_query = "SELECT b.*, p.title_" . $_SESSION['lang'] . " as package_name
                " ORDER BY b.id DESC 
                LIMIT $start, $length";
 
-$data_result = mysqli_query($conn, $data_query);
+$data_result = mysqli_query($dbconnect, $data_query);
 
 $data = array();
 $sn = $start + 1;
@@ -121,7 +114,7 @@ $response = array(
 );
 
 // Close database connection
-mysqli_close($conn);
+mysqli_close($dbconnect);
 
 // Send JSON response
 header('Content-Type: application/json');
