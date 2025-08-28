@@ -59,6 +59,5 @@
 		
 	<!-- Init JavaScript -->
 	<script src="dist/js/init.js?x=1"></script>
-	<script src="js/main.js"></script>
 </body>
 </html>

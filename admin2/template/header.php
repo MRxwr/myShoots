@@ -58,7 +58,6 @@ require ("payment.php");
 	<!-- Custom CSS -->
 	<link href="dist/css/style.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="../css/font-awesome.min.css">
-	<link rel="manifest" href="manifest.json">
 </head>
 
 <body>
