@@ -172,7 +172,7 @@ if( isset($_POST["arTitle"]) ){
 			?>
 			<tr>
 			<td>
-			<input name="rank[]" class="form-control" type="number" value="<?php echo $counter ?>">
+			<input name="rank[]" class="form-control" type="number" value="<?php echo str_pad($counter, 2, '0', STR_PAD_LEFT) ?>">
 			<input name="id[]" class="form-control" type="hidden" value="<?php echo $categories[$i]["id"] ?>">
 			</td>
 			<td id="enTitle<?php echo $categories[$i]["id"]?>" ><?php echo $categories[$i]["enTitle"] ?></td>
