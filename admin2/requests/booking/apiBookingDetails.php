@@ -1,5 +1,4 @@
 <?php
-require_once("../includes/checksouthead.php");
 $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
 if ($id <= 0) {
     echo json_encode(['success' => false, 'error' => 'Invalid booking ID']);

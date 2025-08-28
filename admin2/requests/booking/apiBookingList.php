@@ -1,5 +1,4 @@
 <?php
-require_once("../includes/checksouthead.php");
 // DataTables server-side processing parameters
 $draw = isset($_POST['draw']) ? intval($_POST['draw']) : 1;
 $start = isset($_POST['start']) ? intval($_POST['start']) : 0;

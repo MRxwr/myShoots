@@ -115,7 +115,7 @@ $(document).ready(function() {
         "processing": true,
         "serverSide": true,
         "ajax": {
-            "url": "requests/booking_ajax.php",
+            "url": "requests/index.php?f=booking&endpoint=BookingList",
             "type": "POST",
             "data": function(d) {
             d.status_filter = currentStatus;
@@ -211,7 +211,7 @@ $(document).ready(function() {
         var newStatus = $btn.data('status');
         $('.status-options').hide();
         if (confirm('Are you sure you want to change the status to ' + newStatus + '?')) {
-            $.post('requests/change_status.php', {id: id, status: newStatus}, function(res) {
+            $.post('requests/index.php?f=booking&endpoint=BookingStatus', {id: id, status: newStatus}, function(res) {
                 alert(res.message || 'Status updated!');
                 // Find the row and update the status cell
                     var $row = $btn.closest('tr');
@@ -248,7 +248,7 @@ $(document).ready(function() {
         var id = $(this).data('id');
         if (confirm('Are you sure you want to send SMS?')) {
             $.ajax({
-            url: 'requests/send_sms.php',
+            url: 'requests/index.php?f=booking&endpoint=BookingSMS',
             type: 'POST',
             data: {id: id},
             dataType: 'json',
@@ -274,7 +274,7 @@ $(document).ready(function() {
         var id = $(this).data('id');
         showLoading();
         $.ajax({
-            url: 'requests/get_booking_details.php',
+            url: 'requests/index.php?f=booking&endpoint=BookingDetails',
             type: 'POST',
             data: {id: id},
             dataType: 'json',

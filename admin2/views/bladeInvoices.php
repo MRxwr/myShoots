@@ -104,7 +104,7 @@ $(document).ready(function(){
       "pageLength": 10,
       'serverMethod': 'post',
       'ajax': {
-          'url':'requests/store/getInvoiceItems.php?v=<?=$_GET["v"]?>&type=<?=$tp?>',
+          'url':'requests/index.php?f=store&endpoint=InvoicesList&v=<?=$_GET["v"]?>&type=<?=$tp?>',
           'dataSrc': function(json) {
               //console.log('Response:', json); // Log the response
               if (!json.aaData) {

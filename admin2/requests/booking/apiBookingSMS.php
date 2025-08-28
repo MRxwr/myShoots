@@ -1,5 +1,4 @@
 <?php
-require_once("../includes/checksouthead.php");
 $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
 if (!$id) {
     echo json_encode(['success' => false, 'message' => 'Invalid parameters']);

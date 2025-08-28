@@ -1,5 +1,4 @@
 <?php
-require_once("../includes/checksouthead.php");
 $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
 $status = isset($_POST['status']) ? $_POST['status'] : '';
 
