@@ -87,23 +87,22 @@ if( isset($_POST["arTitle"]) ){
 			<input type="text" name="arTitle" class="form-control" required>
 			</div>
 
-
-			<div class="col-md-6">
-			<label><?php echo direction("English Details","التفاصيل بالإنجليزي") ?></label>
-			<textarea id="enDetails" name="enDetails" class="form-control" required></textarea>
-			</div>
-
-			<div class="col-md-6">
-			<label><?php echo direction("Arabic Details","التفاصيل بالعربي") ?></label>
-			<textarea id="arDetails" name="arDetails" class="form-control" required></textarea>
-			</div>
-			
 			<div class="col-md-4">
 			<label><?php echo direction("Hide Category","أخفي القسم") ?></label>
 			<select name="hidden" class="form-control">
 				<option value="1">No</option>
 				<option value="2">Yes</option>
 			</select>
+			</div>
+
+			<div class="col-md-6">
+			<label><?php echo direction("English Details","التفاصيل بالإنجليزي") ?></label>
+			<textarea name="enDetails" class="tinymce" required></textarea>
+			</div>
+
+			<div class="col-md-6">
+			<label><?php echo direction("Arabic Details","التفاصيل بالعربي") ?></label>
+			<textarea name="arDetails" class="tinymce" required></textarea>
 			</div>
 			
 			<div class="col-md-12">
@@ -116,7 +115,6 @@ if( isset($_POST["arTitle"]) ){
 				<img id="logoImg" src="" style="width:250px;height:250px">
 				</div>
 			</div>
-			
 			
 			<div class="col-md-12" style="margin-top:10px">
 			<input type="submit" class="btn btn-primary" value="<?php echo direction("Submit","أرسل") ?>">
@@ -209,19 +207,6 @@ if( isset($_POST["arTitle"]) ){
 </form>
 </div>
 <script>
-tinymce.init({
-	selector: '#enDetails,#arDetails',
-	height: 200,
-	menubar: false,
-	plugins: [
-		'advlist autolink lists link charmap preview anchor',
-		'searchreplace visualblocks code fullscreen',
-		'insertdatetime table paste code help wordcount'
-	],
-	toolbar: 'undo redo | formatselect | bold italic backcolor | \\n+    alignleft aligncenter alignright alignjustify | \\n+    bullist numlist outdent indent | removeformat | help',
-	content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-});
-
 $(document).on("click",".edit", function(){
 		var id = $(this).attr("id");
 		$("input[name=update]").val(id);
