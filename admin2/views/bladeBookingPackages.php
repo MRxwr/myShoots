@@ -213,8 +213,8 @@ $(document).on("click",".edit", function(){
 
 		$("input[name=arTitle]").val($("#arTitle"+id).html()).focus();
 		$("input[name=enTitle]").val($("#enTitle"+id).html());
-		tinymce.get('enDetails').setContent($("#enDetails"+id).html());
-		tinymce.get('arDetails').setContent($("#arDetails"+id).html());
+		tinymce.get('textarea[name=enDetails]').setContent($("#enDetails"+id).html());
+		tinymce.get('textarea[name=arDetails]').setContent($("#arDetails"+id).html());
 		$("select[name=hidden]").val($("#hidden"+id).html());
 		$("input[type=file]").prop("required",false);
 		$("#logoImg").attr("src","../logos/"+$("#logo"+id).html());
