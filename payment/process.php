@@ -80,7 +80,6 @@ if(isset($_POST['submit'])){
 			)
 		)
 	);
-	var_dump("ive reached here");
 	if ( $response = createAPI($BookingDetails) ) {
 		if ( $response != 0 ) {
 			header('LOCATION:'.$response);die();

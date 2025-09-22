@@ -703,6 +703,7 @@ function compressImage($source, $destination, $quality) {
 
 	// createapi payment
 	function createAPI($BookingDetails){
+		GLOBAL $obj,$conn;
 		// build request body for payapi \\
 		$postMethodLines = array(
 			"endpoint" 				=> "PaymentRequestExcuteNew2024",
@@ -719,7 +720,7 @@ function compressImage($source, $destination, $quality) {
 			"ErrorUrl"				=> "https://myshootskw.net/index.php?page=booking-faild",
 			"invoiceItems" 			=> $BookingDetails['InvoiceItems'],
 		);
-		 echo json_encode($postMethodLines);die();
+		 //echo json_encode($postMethodLines);die();
 		for( $i=0; $i < 10; $i++ ){
 			$curl = curl_init();
 			$headers  = [
@@ -737,7 +738,7 @@ function compressImage($source, $destination, $quality) {
 			$response = curl_exec($curl);
 			curl_close($curl);
 			$resultMY = json_decode($response, true);
-			echo json_encode($resultMY);die();
+			//echo json_encode($resultMY);die();
 			if( isset($resultMY["data"]["InvoiceId"]) ){
 				unset($BookingDetails['InvoiceItems']);
 				$BookingDetails["transaction_id"] = $resultMY["data"]["InvoiceId"];
