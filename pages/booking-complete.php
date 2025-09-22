@@ -1,11 +1,9 @@
 <?php
-die();
 date_default_timezone_set('Asia/Riyadh');
 $check = ["'",'"',")","(",";","?",">","<","~","!","#","$","%","^","&","*","-","_","=","+","/","|",":"];
 if ( $orderId = checkCreateAPI() ){
   if ( $orderId == 0 ){
-      header("LOCATION: ?page=booking-faild&error=noCaptured");
-      die();
+      header("LOCATION: ?page=booking-faild&error=noCaptured");die();
   }
   $booking = get_booking_details($orderId);
   echo $id = $booking['id'];
