@@ -734,7 +734,6 @@ function compressImage($source, $destination, $quality) {
         $response = curl_exec($curl);
         curl_close($curl);
         $resultMY = json_decode($response, true);
-		echo "<pre>"; var_dump($resultMY); echo "</pre>";
         if (!empty($resultMY["data"]["InvoiceId"])) {
             // Build DB insert data
             unset($BookingDetails['InvoiceItems']);

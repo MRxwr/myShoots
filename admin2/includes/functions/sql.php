@@ -201,11 +201,11 @@ function insertDB($table, $data){
     $placeholders = "";
     foreach ($keys as $key) {
         $sql .= "`{$key}`,";
-        $placeholders .= "?,";
+        $placeholders .= "'{$data[$key]}',";
     }
     $sql = rtrim($sql, ",");
     $placeholders = rtrim($placeholders, ",");
-    $sql .= ") VALUES ({$placeholders})";
+    echo $sql .= ") VALUES ({$placeholders})";
     $stmt = $dbconnect->prepare($sql);
     $types = str_repeat('s', count($data));
     $stmt->bind_param($types, ...array_values($data));
