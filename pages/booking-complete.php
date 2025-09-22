@@ -7,11 +7,11 @@ if ( $orderId = checkCreateAPI() ){
       die();
   }
   $booking = get_booking_details($orderId);
-  $id = $booking['id'];
+  echo $id = $booking['id'];
   $query = "UPDATE `tbl_booking` SET `status` = 'Yes' WHERE `id` = {$id}";
   $res = $obj->execute_query($conn,$query);
-  if( $res == true ){
-    $package=get_packages_details($booking['package_id']);
+  if( selectDBNew("tbl_booking",[$id],"`id` = ?","") ){
+    $package = get_packages_details($booking['package_id']);
     $id = $package['id'];
     $price = $package['price'];
     $currency = $package['currency'];
