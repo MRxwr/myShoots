@@ -65,6 +65,7 @@ if(isset($_POST['submit'])){
 		'extra_items' => $extra_items,
 		'booking_price' => $booking_price,
 		'customer_name' => $customer_name,
+		'customer_email' => "hello@myshootskw.net",
 		'mobile_number' => $mobile_number,
 		'baby_name' => $baby_name,
 		'baby_age' => $baby_age,
@@ -80,12 +81,13 @@ if(isset($_POST['submit'])){
 		)
 	);
 	if ( $response = createAPI($BookingDetails) ) {
-		var_dump($response);
 		if ( $response != 0 ) {
 			header('LOCATION:'.$response);die();
 		} else {
 			header("LOCATION: index.php?page=booking-faild&error=gatewayConnection");die();
 		}
+	}else{
+	    header("LOCATION: index.php?page=booking-faild&error=createAPI");die();
 	}
 }
 ?>

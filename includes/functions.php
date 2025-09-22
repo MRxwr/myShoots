@@ -719,7 +719,7 @@ function compressImage($source, $destination, $quality) {
 			"ErrorUrl"				=> "https://myshootskw.net/index.php?page=booking-faild",
 			"invoiceItems" 			=> $BookingDetails['InvoiceItems'],
 		);
-		// echo json_encode($postMethodLines);die();
+		 //echo json_encode($postMethodLines);die();
 		for( $i=0; $i < 10; $i++ ){
 			$curl = curl_init();
 			$headers  = [
@@ -747,13 +747,14 @@ function compressImage($source, $destination, $quality) {
 				$tbl_name = 'tbl_booking';
 				$query = $obj->insert_data($tbl_name,$BookingDetails);
 				$res = $obj->execute_query($conn,$query);
-				if( $res==true ){
+				if( $res == true ){
 					return $resultMY["data"]["PaymentURL"];
+				}else{
+					return 0;
 				}
-			}
-		}
-		if( !isset($resultMY["data"]["InvoiceId"]) ){
-			return 0;
+			}elseif( !isset($resultMY["data"]["InvoiceId"]) ){
+			    return 0;
+		    }
 		}
 	}
 
