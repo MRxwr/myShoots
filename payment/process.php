@@ -16,7 +16,7 @@ if(isset($_POST['submit'])){
 		$comm=",";
 	}
 	
-	$extra_items = "[".$select_extra_item_val."]";
+	$extra_items = "[".$select_extra_item_val."]"; 
 
          $package_id = $obj->sanitize($conn,$_POST['id']);
 			$booking_date = $obj->sanitize($conn,$_POST['booking_date']);
