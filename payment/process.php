@@ -80,8 +80,9 @@ if(isset($_POST['submit'])){
 		)
 	);
 	if ( $response = createAPI($BookingDetails) ) {
+		var_dump($response);
 		if ( $response != 0 ) {
-			header('LOCATION:'.$response);
+			header('LOCATION:'.$response);die();
 		} else {
 			header("LOCATION: index.php?page=booking-faild&error=gatewayConnection");die();
 		}
