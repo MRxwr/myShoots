@@ -745,10 +745,7 @@ function compressImage($source, $destination, $quality) {
 				$BookingDetails["payload"] = json_encode($postMethodLines);
 				$BookingDetails["payloadResponse"] = json_encode($resultMY);
 				$BookingDetails["gatewayLink"] = $resultMY["data"]["PaymentURL"];
-				$tbl_name = 'tbl_booking';
-				$query = $obj->insert_data($tbl_name,$BookingDetails);
-				$res = $obj->execute_query($conn,$query);
-				if( $res == true ){
+				if( insertDB("tbl_booking", $BookingDetails) ){
 					return $resultMY["data"]["PaymentURL"];
 				}else{
 					return 0;
@@ -763,8 +760,7 @@ function compressImage($source, $destination, $quality) {
 	function checkCreateAPI(){
 		GLOBAL $_GET,$obj,$conn;
 		if( isset($_GET["requested_order_id"]) && !empty($_GET["requested_order_id"]) ){
-			$query = "UPDATE tbl_booking SET `gatewayResponse` = '".json_encode($_GET)."' WHERE `transaction_id` = {$_GET["requested_order_id"]}";
-    		$res = $obj->execute_query($conn,$query);
+			updateDB("tbl_booking", array("gatewayResponse" => json_encode($_GET)), "transaction_id = ".$_GET["requested_order_id"]);
 			if( $_GET["result"] != "CAPTURED" ){
 				return 0;
 			}
