@@ -741,10 +741,11 @@ for ($i = 0; $i < 3; $i++) {
 		$BookingDetails["payloadResponse"] = json_encode($resultMY, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
 		$BookingDetails["gatewayLink"]     = $resultMY["data"]["PaymentURL"];
 		// Insert into DB
+
 		if ( insertDB("tbl_booking", $BookingDetails) ){
-			return $resultMY["data"]["PaymentURL"];die();
+			return $resultMY["data"]["PaymentURL"];
 		}else{
-			return 0;die();
+			return 0;
 		}
 	}
 }
