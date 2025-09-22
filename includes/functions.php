@@ -713,8 +713,8 @@ $postMethodLines = array(
 	"CustomerEmail"        => $BookingDetails['customer_email'],
 	"invoiceValue"         => (float)$BookingDetails['booking_price'],
 	"SourceInfo"           => '',
-	"CallBackUrl"          => "https://myshootskw.net/index.php?page=booking-complete",
-	"ErrorUrl"             => "https://myshootskw.net/index.php?page=booking-faild",
+	"CallBackUrl"          => "https://myshootskw.net/index.php",
+	"ErrorUrl"             => "https://myshootskw.net/index.php",
 	"invoiceItems"         => $BookingDetails['InvoiceItems'],
 );
 $headers = ['Content-Type: application/json'];

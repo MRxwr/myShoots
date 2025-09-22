@@ -4,27 +4,27 @@ if(isset($_GET['id'])){
 }else{
   $package = get_packages_details(6);
 }
-         $id = $package['id'];
-          $price = $package['price'];
-          $currency = $package['currency'];
-					$post_title = $package['title_'.$_SESSION['lang']];
-          $post_description = $package['description_'.$_SESSION['lang']];
-          $image_url =$package['image_url'];
-					$created_at = $package['created_at'];
-					$is_extra = $package['is_extra']; 
-					$extra_items = $package['extra_items'];
-          $times = $package['time'];
-          
-          // Date formate					
-          $date = explode('-',$_GET['date']);
-          $booking_date = $date[2].'-'.$date[1].'-'.$date[0];				
-          $booktimes = get_bookingTimeBydate($_GET['id'],$booking_date);
-          $booktimeArr=array(); 
-          if(@count($booktimes) != 0){
-            foreach($booktimes as $key=>$booktime){		
-              $booktimeArr[] = $booktime['booking_time'];
-            }
-          }
+  $id = $package['id'];
+  $price = $package['price'];
+  $currency = $package['currency'];
+  $post_title = $package['title_'.$_SESSION['lang']];
+  $post_description = $package['description_'.$_SESSION['lang']];
+  $image_url =$package['image_url'];
+  $created_at = $package['created_at'];
+  $is_extra = $package['is_extra']; 
+  $extra_items = $package['extra_items'];
+  $times = $package['time'];
+  
+  // Date formate					
+  $date = explode('-',$_GET['date']);
+  $booking_date = $date[2].'-'.$date[1].'-'.$date[0];				
+  $booktimes = get_bookingTimeBydate($_GET['id'],$booking_date);
+  $booktimeArr=array(); 
+  if(@count($booktimes) != 0){
+    foreach($booktimes as $key=>$booktime){		
+      $booktimeArr[] = $booktime['booking_time'];
+    }
+  }
 					
 ?>
 

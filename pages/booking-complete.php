@@ -1,12 +1,10 @@
 <?php
 date_default_timezone_set('Asia/Riyadh');
 $check = ["'",'"',")","(",";","?",">","<","~","!","#","$","%","^","&","*","-","_","=","+","/","|",":"];
-if ( $orderId = checkCreateAPI() ){
-  if ( $orderId == 0 ){
-      header("LOCATION: ?page=booking-faild&error=noCaptured");die();
-  }
+if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
+  $orderId = $_GET["booking_id"];
   $booking = get_booking_details($orderId);
-  echo $id = $booking['id'];
+  $id = $booking['id'];
   $query = "UPDATE `tbl_booking` SET `status` = 'Yes' WHERE `id` = {$id}";
   $res = $obj->execute_query($conn,$query);
   if( selectDBNew("tbl_booking",[$id],"`id` = ?","") ){
