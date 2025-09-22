@@ -1,5 +1,6 @@
 # Ignore configuration files containing sensitive information
 admin/config/constants.php
+admin2/includes/config.php
 
 # Ignore common PHP files
 /vendor/

@@ -206,12 +206,9 @@ function insertDB($table, $data){
     $sql = rtrim($sql, ",");
     $placeholders = rtrim($placeholders, ",");
     $sql .= ") VALUES ({$placeholders})";
-    var_dump($dbconnect->prepare($sql));
-    echo " we are here db";
     $stmt = $dbconnect->prepare($sql);
     $types = str_repeat('s', count($data));
     $stmt->bind_param($types, ...array_values($data));
-    
     if( isset($_GET["v"]) && !empty($_GET["v"]) ){
         $array = array(
             "userId" => $userID,
@@ -222,7 +219,6 @@ function insertDB($table, $data){
         );
         LogsHistory($array);
     }
-   var_dump($stmt->execute());
     if($stmt->execute()){
         return 1;
     }else{
