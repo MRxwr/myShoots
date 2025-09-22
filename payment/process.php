@@ -81,6 +81,8 @@ if(isset($_POST['submit'])){
 		)
 	);
 	if ( $response = createAPI($BookingDetails) ) {
+		var_dump($response); die();
+			// Redirect to payment gateway
 		if ( $response != 0 ) {
 			header('LOCATION:'.$response);die();
 		} else {
