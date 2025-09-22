@@ -348,7 +348,7 @@ if(isset($_GET['page'] ) && $_GET['page'] == "booking-faild"){ ?>
 				data: '',
 				success:function(result){
 					if(result == 1){
-						alert("Session Out!!!");
+						// alert("Session Out!!!");
 						
 					}
 				   }
