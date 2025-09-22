@@ -1,5 +1,6 @@
 <?php 
-
+include_once("../admin2/includes/config.php");
+include_once("../admin2/includes/functions.php");
   function get_setting($set){
 	GLOBAL $obj,$conn;
 	$tbl_name = 'tbl_settings';
