@@ -703,60 +703,58 @@ function compressImage($source, $destination, $quality) {
 
 	// createapi payment
 	function createAPI($BookingDetails){
-		GLOBAL $obj,$conn;
-		// build request body for payapi \\
-		$postMethodLines = array(
-			"endpoint" 				=> "PaymentRequestExcuteNew2024",
-			"apikey" 				=> "CKW-1758573468-6280",
-			"PaymentMethodId" 		=> "1",
-			"CustomerName"			=> $BookingDetails['customer_name'],
-			"DisplayCurrencyIso"	=> "KWD", 
-			"MobileCountryCode"		=> "+965", 
-			"CustomerMobile"		=> substr($BookingDetails['mobile_number'],0,11),
-			"CustomerEmail"			=> $BookingDetails['customer_email'],
-			"invoiceValue"			=> (float)$BookingDetails['booking_price'],
-			"SourceInfo"			=> '',
-			"CallBackUrl"			=> "https://myshootskw.net/index.php?page=booking-complete",
-			"ErrorUrl"				=> "https://myshootskw.net/index.php?page=booking-faild",
-			"invoiceItems" 			=> $BookingDetails['InvoiceItems'],
-		);
-		 //echo json_encode($postMethodLines);die();
-		for( $i=0; $i < 10; $i++ ){
-			$curl = curl_init();
-			$headers  = [
-						'Content-Type:application/json'
-					];
-			curl_setopt_array($curl, array(
-			CURLOPT_URL => 'https://createapi.link/api/v3/index.php',
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_MAXREDIRS => 10,
-			CURLOPT_POST => 1,
-			CURLOPT_CUSTOMREQUEST => 'POST',
-			CURLOPT_POSTFIELDS => json_encode($postMethodLines),
-			CURLOPT_HTTPHEADER => $headers,
-			));
-			$response = curl_exec($curl);
-			curl_close($curl);
-			$resultMY = json_decode($response, true);
-			//echo json_encode($resultMY);die();
-			if( isset($resultMY["data"]["InvoiceId"]) ){
-				unset($BookingDetails['InvoiceItems']);
-				unset($BookingDetails['customer_email']);
-				$BookingDetails["transaction_id"] = $resultMY["data"]["InvoiceId"];
-				$BookingDetails["payload"] = json_encode($postMethodLines);
-				$BookingDetails["payloadResponse"] = json_encode($resultMY);
-				$BookingDetails["gatewayLink"] = $resultMY["data"]["PaymentURL"];
-				var_dump(insertDB("tbl_booking", $BookingDetails));die();
-				if( insertDB("tbl_booking", $BookingDetails) ){
-					return $resultMY["data"]["PaymentURL"];
-				}else{
-					return 0;
-				}
-			}elseif( !isset($resultMY["data"]["InvoiceId"]) ){
-			    return 0;
-		    }
-		}
-	}
+    // Build request body for payment API
+    $postMethodLines = array(
+        "endpoint"             => "PaymentRequestExcuteNew2024",
+        "apikey"               => "CKW-1758573468-6280",
+        "PaymentMethodId"      => "1",
+        "CustomerName"         => $BookingDetails['customer_name'],
+        "DisplayCurrencyIso"   => "KWD", 
+        "MobileCountryCode"    => "+965", 
+        "CustomerMobile"       => substr($BookingDetails['mobile_number'], 0, 11),
+        "CustomerEmail"        => $BookingDetails['customer_email'],
+        "invoiceValue"         => (float)$BookingDetails['booking_price'],
+        "SourceInfo"           => '',
+        "CallBackUrl"          => "https://myshootskw.net/index.php?page=booking-complete",
+        "ErrorUrl"             => "https://myshootskw.net/index.php?page=booking-faild",
+        "invoiceItems"         => $BookingDetails['InvoiceItems'],
+    );
+    $headers = ['Content-Type: application/json'];
+    for ($i = 0; $i < 3; $i++) {
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL            => 'https://createapi.link/api/v3/index.php',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_MAXREDIRS      => 10,
+            CURLOPT_POST           => 1,
+            CURLOPT_CUSTOMREQUEST  => 'POST',
+            CURLOPT_POSTFIELDS     => json_encode($postMethodLines, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES),
+            CURLOPT_HTTPHEADER     => $headers,
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $resultMY = json_decode($response, true);
+        if (!empty($resultMY["data"]["InvoiceId"])) {
+            // Build DB insert data
+            unset($BookingDetails['InvoiceItems']);
+            unset($BookingDetails['customer_email']);
+            $BookingDetails["transaction_id"]  = $resultMY["data"]["InvoiceId"];
+            $BookingDetails["payload"]         = json_encode($postMethodLines, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+            $BookingDetails["payloadResponse"] = json_encode($resultMY, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+            $BookingDetails["gatewayLink"]     = $resultMY["data"]["PaymentURL"];
+            // Insert into DB
+            if (insertDB("tbl_booking", $BookingDetails)) {
+                return $resultMY["data"]["PaymentURL"];
+            } else {
+                error_log("Insert failed: " . print_r($BookingDetails, true));
+                return 0;
+            }
+        }
+    }
+
+    // If we get here, all attempts failed
+    return 0;
+}
 
 	// check createAPI payment
 	function checkCreateAPI(){
