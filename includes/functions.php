@@ -233,23 +233,22 @@ function get_page_details($id){
   //send booking sms
 	function sendkwtsms($mobile,$message){
 		$message = str_replace(' ','+',$message);
-		//$url = 'http://www.kwtsms.com/API/send/?username=badertov&password=471990Bader&sender=MyShoots&mobile=965'.$mobile.'&lang=1&message='.$message;
 		$url = 'http://www.kwtsms.com/API/send/?username=ghaliah&password=Gh@li@h91&sender=MyShoots&mobile=965'.$mobile.'&lang=1&message='.$message;
-		       $curl = curl_init();
-                curl_setopt_array($curl, array(
-                  CURLOPT_URL => $url,
-                  CURLOPT_RETURNTRANSFER => true,
-                  CURLOPT_TIMEOUT => 30,
-                  CURLOPT_CUSTOMREQUEST => "GET",
-                ));
-                $response = curl_exec($curl);
-                $err = curl_error($curl);
-				curl_close($curl);
-				if ($err){
-					return $err;
-				}else{
-					  return $response;	
-				}
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+			CURLOPT_URL => $url,
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_TIMEOUT => 30,
+			CURLOPT_CUSTOMREQUEST => "GET",
+		));
+		$response = curl_exec($curl);
+		$err = curl_error($curl);
+		curl_close($curl);
+		if ($err){
+			return $err;
+		}else{
+				return $response;	
+		}
 	}
 	
 	//send booking email
@@ -258,25 +257,21 @@ function get_page_details($id){
 		$email = $email;
         $subject = 'New Booking';
         $EmailTo = "info@myshootkw.net";
+		$Body = "";
         // prepare email body text
         $Body .= $subject;
         $Body .= "\n";
         $Body .= $message;
         $Body .= "\n";
-         
         // send email
         $success = mail($EmailTo, $subject, $Body, "From:".$email);
-         
         // redirect to success page
         if ($success){
            echo "success";
         }else{
             echo "invalid";
         }
-		
 	}
-
-	// get book time by select date
 	// get book time by select date
 	function get_bookingTimeBydate($id,$date){
 	    GLOBAL $obj,$conn;
@@ -505,6 +500,7 @@ function get_page_details($id){
   function get_tempBookingDateTime(){
 	GLOBAL $obj,$conn;
 	$tbl_name = 'tbl_temp_date_time';
+	$where = "";
 	$query = $obj->select_data($tbl_name,$where);
 	$res = $obj->execute_query($conn,$query);
 	if($res == true)
@@ -704,5 +700,76 @@ function compressImage($source, $destination, $quality) {
 	  }
 	}
 
+	// createapi payment
+	function createAPI($BookingDetails){
+		GLOBAL $obj,$conn;
+		// build request body for payapi \\
+		$postMethodLines = array(
+			"endpoint" 				=> "PaymentRequestExcuteNew2024",
+			"apikey" 				=> "CKW-1758573468-6280",
+			"PaymentMethodId" 		=> "1",
+			"CustomerName"			=> $BookingDetails['customer_name'],
+			"DisplayCurrencyIso"	=> "KWD", 
+			"MobileCountryCode"		=> "+965", 
+			"CustomerMobile"		=> substr($BookingDetails['mobile_number'],0,11),
+			"CustomerEmail"			=> $BookingDetails['customer_email'],
+			"invoiceValue"			=> (float)$BookingDetails['booking_price'],
+			"SourceInfo"			=> '',
+			"CallBackUrl"			=> "https://myshootskw.net/index.php?page=booking-complete",
+			"ErrorUrl"				=> "https://myshootskw.net/index.php?page=booking-faild",
+			"invoiceItems" 			=> $BookingDetails['InvoiceItems'],
+		);
+		// echo json_encode($postMethodLines);die();
+		for( $i=0; $i < 10; $i++ ){
+			$curl = curl_init();
+			$headers  = [
+						'Content-Type:application/json'
+					];
+			curl_setopt_array($curl, array(
+			CURLOPT_URL => 'https://createapi.link/api/v3/index.php',
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_POST => 1,
+			CURLOPT_CUSTOMREQUEST => 'POST',
+			CURLOPT_POSTFIELDS => json_encode($postMethodLines),
+			CURLOPT_HTTPHEADER => $headers,
+			));
+			$response = curl_exec($curl);
+			curl_close($curl);
+			$resultMY = json_decode($response, true);
+			//echo json_encode($resultMY);die();
+			if( isset($resultMY["data"]["InvoiceId"]) ){
+				unset($BookingDetails['InvoiceItems']);
+				$BookingDetails["transaction_id"] = $resultMY["data"]["InvoiceId"];
+				$BookingDetails["payload"] = json_encode($postMethodLines);
+				$BookingDetails["payloadResponse"] = json_encode($resultMY);
+				$BookingDetails["gatewayLink"] = $resultMY["data"]["PaymentURL"];
+				$tbl_name = 'tbl_booking';
+				$query = $obj->insert_data($tbl_name,$BookingDetails);
+				$res = $obj->execute_query($conn,$query);
+				if( $res==true ){
+					return $resultMY["data"]["PaymentURL"];
+				}
+			}
+		}
+		if( !isset($resultMY["data"]["InvoiceId"]) ){
+			return 0;
+		}
+	}
+
+	// check createAPI payment
+	function checkCreateAPI(){
+		GLOBAL $_GET,$obj,$conn;
+		if( isset($_GET["requested_order_id"]) && !empty($_GET["requested_order_id"]) ){
+			$query = "UPDATE tbl_booking SET `gatewayResponse` = '".json_encode($_GET)."' WHERE `transaction_id` = {$_GET["requested_order_id"]}";
+    		$res = $obj->execute_query($conn,$query);
+			if( $_GET["result"] != "CAPTURED" ){
+				return 0;
+			}
+			return $_GET["requested_order_id"];
+		}else{
+			return 0;
+		}
+	}
 ?>
 

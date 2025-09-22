@@ -2,8 +2,7 @@
 include('../languages/lang_config.php');
 include('../admin/config/apply.php');
 include('../includes/functions.php');
-if(isset($_POST['submit']))
-{
+if(isset($_POST['submit'])){
 	$select_extra_item = $_POST['select_extra_item'];
 	$comm="";
 	$extra_price = 0;
@@ -58,82 +57,34 @@ if(isset($_POST['submit']))
       $package_title = $package['title_'.$_SESSION['lang']];
       $customer_mobile=$mobile_number;
     
-      $postData='{
-        "PaymentMethodId":"1",
-        "CustomerName": "'.$customer_name.'",
-        "DisplayCurrencyIso": "KWD",
-        "MobileCountryCode":"+965",
-        "CustomerMobile": "'.$customer_mobile.'",
-        "CustomerEmail": "'.$customer_email.'",
-        "InvoiceValue": 30.5,
-        "CallBackUrl": "'.SITEURL.'index.php?page=booking-complete",
-        "ErrorUrl": "'.SITEURL.'index.php?page=booking-faild",
-        "Language": "en",
-        "CustomerReference" :"Ref 0005",
-        "ExpireDate": "",
-		"SupplierCode": 5,
-        "InvoiceItems": [
-          {
-            "ItemName": "'.$package_title.' ['.$booking_date.'] ['.$booking_time.']",
-            "Quantity": 1,
-            "UnitPrice": 30.5,
-          }
-        ]
-      }';
-      
-     
-####### Initiate Payment ######
-$token = "Fj9A6M-ouf41gJB6Q6Ir6kfVQRZP5pv8Cf5CSAJHELXTMp6BiWRx5zn0vX2Bh-LDCnQ6Al6bw7rr2l0lNz1zi0ZsqAiTj8WuyDkphVdRV9bxooU0uKgX-tvPOFnK4q5wLJwu7afJ5Z4CD2Lnb4IBtNlNDtBBRllAnCR2X34NRoj-xm9e78iyQNZyq50Ae9O5xrzG3jYODBHqU5sjpsokL1KyE8R0DXGcTjIDKre4MDUSubOFQHeXGh9hDVd1Kfts95WM1BbUiFyZDPwreY3uez62TgySfEVdIWDJvCdUi2IihjprCHDFip4ql2L8snGIoGCMgUl6bugVwYgtjmpA63DPbrAfbzTTGsEI7f7nF1nHpfwzIwNab233_1nFmP7bF1v4bsnTpoRYGpZG09XLAx3QNovxnT2sVhgU8JTj3oS5uz71sYniVSix5yb3ZMMbBQSs4LAAJdMmxC2MQxvixZ59_Ls-d_X8VNJxiPcVwUWzHLnWOsArXVJzR_ewewuuT1ybPdTZTmSnKs7KsUqMOg3jlCukjubZ1afHi1T8GgVtNg3vvISYhS2Jk_vkVbdqPJOTOKHwyB-JCvdTLt7le4fi-mUQYBSOIxrSqykNGBwTci70BIZdGpUJNifdjYk7wtu6vV2ZBsF2cHYcExRBE7oT7bM1Z-0Cni-UYyZScX-EbiM6rTXf1WEx2wdInyl2y_Lk4A";
-$basURL = "https://api.myfatoorah.com";
-
-####### Execute Payment ######
- $curl = curl_init();
- curl_setopt_array($curl, array(
-   CURLOPT_URL => "$basURL/v2/ExecutePayment",
-   CURLOPT_CUSTOMREQUEST => "POST",
-   CURLOPT_POSTFIELDS => $postData,
-   CURLOPT_HTTPHEADER => array("Authorization: Bearer $token","Content-Type: application/json"),
- ));
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
-echo $response = curl_exec($curl);
-$err = curl_error($curl);
-
-curl_close($curl);
-
-if ($err) {
-  echo "cURL Error #:" . $err;
-}else {
-  //echo "$response '<br />'";
-    $json = json_decode($response, true);
-    $payment_url = $json["Data"]["PaymentURL"];
-    $orderId = $json["Data"]["InvoiceId"];
-    $tbl_name = 'tbl_booking';
-			$data= "
-                package_id = '$package_id',
-                transaction_id = '$orderId',
-				booking_date = '$booking_date',
-				booking_time = '$booking_time',
-				is_filming = '$is_filming',
-				extra_items = '$extra_items',
-				booking_price = '$booking_price',
-				customer_name = '$customer_name',
-				mobile_number = '$mobile_number',
-				baby_name = '$baby_name',
-				baby_age = '$baby_age',
-                instructions = '$instructions',
-                status ='No',
-				created_at = '$created_at'
-				";
-			$query = $obj->insert_data($tbl_name,$data);
-			$res = $obj->execute_query($conn,$query);
-			if($res==true){
-        $last_id = mysqli_insert_id($conn);
-        header('location:'.$payment_url);
-			}else{
-				//Failed to Add Categoy
-			}
-
-  }
+	  $BookingDetails = array(
+		'package_id' => $package_id,
+		'booking_date' => $booking_date,
+		'booking_time' => $booking_time,
+		'is_filming' => $is_filming,
+		'extra_items' => $extra_items,
+		'booking_price' => $booking_price,
+		'customer_name' => $customer_name,
+		'mobile_number' => $mobile_number,
+		'baby_name' => $baby_name,
+		'baby_age' => $baby_age,
+		'instructions' => $instructions,
+		'status' => 'No',
+		'created_at' => $created_at,
+		"InvoiceItems" => array(
+			array(
+				"ItemName" => $package_title.' ['.$booking_date.'] ['.$booking_time.']',
+				"Quantity" => 1,
+				"UnitPrice" => 30.5,
+			)
+		)
+	);
+	if ( $response = createAPI($BookingDetails) ) {
+		if ( $response != 0 ) {
+			header('LOCATION:'.$response);
+		} else {
+			header("LOCATION: index.php?page=booking-faild&error=gatewayConnection");die();
+		}
+	}
 }
 ?>
