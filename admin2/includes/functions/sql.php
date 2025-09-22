@@ -206,7 +206,7 @@ function insertDB($table, $data){
     $sql = rtrim($sql, ",");
     $placeholders = rtrim($placeholders, ",");
     $sql .= ") VALUES ({$placeholders})";
-    var_dump($dbconnect);
+    var_dump($dbconnect->prepare($sql));
     echo " we are here db";
     $stmt = $dbconnect->prepare($sql);
     $types = str_repeat('s', count($data));
