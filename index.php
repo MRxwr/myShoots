@@ -7,10 +7,12 @@
 	if( get_setting('is_maintenance') == 1 ){
 		header('LOCATION: error');die();
 	} 
-	if( checkCreateAPI() ){
-		header("LOCATION : ?page=booking-complete&booking_id=".$_SESSION['booking_id']);die();
-	}else{
-		header("LOCATION: ?page=booking-faild");die();
+	if( isset($_GET["requested_order_id"]) && !empty($_GET["requested_order_id"]) ){
+		if( checkCreateAPI() ){
+			header("LOCATION : ?page=booking-complete&booking_id=".$_SESSION['booking_id']);die();
+		}else{
+			header("LOCATION: ?page=booking-faild&error=noCaptured");die();
+		}
 	}
 	include('includes/header.php');
 	include('includes/body.php');
