@@ -206,10 +206,11 @@ function insertDB($table, $data){
     $sql = rtrim($sql, ",");
     $placeholders = rtrim($placeholders, ",");
     $sql .= ") VALUES ({$placeholders})";
+    echo " we are here ";
     $stmt = $dbconnect->prepare($sql);
     $types = str_repeat('s', count($data));
     $stmt->bind_param($types, ...array_values($data));
-    echo " we are here ";
+    
     if( isset($_GET["v"]) && !empty($_GET["v"]) ){
         $array = array(
             "userId" => $userID,
