@@ -1,4 +1,5 @@
 <?php
+die();
 date_default_timezone_set('Asia/Riyadh');
 $check = ["'",'"',")","(",";","?",">","<","~","!","#","$","%","^","&","*","-","_","=","+","/","|",":"];
 if ( $orderId = checkCreateAPI() ){

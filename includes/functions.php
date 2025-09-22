@@ -757,7 +757,7 @@ function compressImage($source, $destination, $quality) {
 
 	// check createAPI payment
 	function checkCreateAPI(){
-		GLOBAL $_GET,$obj,$conn;
+		GLOBAL $_GET;
 		if( isset($_GET["requested_order_id"]) && !empty($_GET["requested_order_id"]) ){
 			updateDB("tbl_booking", array("gatewayResponse" => json_encode($_GET)), "transaction_id = ".$_GET["requested_order_id"]);
 			if( $_GET["result"] != "CAPTURED" ){
