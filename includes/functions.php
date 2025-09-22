@@ -732,6 +732,7 @@ for ($i = 0; $i < 3; $i++) {
 	$response = curl_exec($curl);
 	curl_close($curl);
 	$resultMY = json_decode($response, true);
+	echo json_encode($resultMY);
 	if (!empty($resultMY["data"]["InvoiceId"])) {
 		// Build DB insert data
 		unset($BookingDetails['InvoiceItems']);
