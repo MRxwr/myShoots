@@ -206,7 +206,6 @@ function insertDB($table, $data){
     $sql = rtrim($sql, ",");
     $placeholders = rtrim($placeholders, ",");
     $sql .= ") VALUES ({$placeholders})";
-    echo " am here ";die();
     $stmt = $dbconnect->prepare($sql);
     $types = str_repeat('s', count($data));
     $stmt->bind_param($types, ...array_values($data));
@@ -220,6 +219,7 @@ function insertDB($table, $data){
         );
         LogsHistory($array);
     }
+   
     if($stmt->execute()){
         return 1;
     }else{
