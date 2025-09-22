@@ -738,7 +738,7 @@ function compressImage($source, $destination, $quality) {
 			$response = curl_exec($curl);
 			curl_close($curl);
 			$resultMY = json_decode($response, true);
-			//echo json_encode($resultMY);die();
+			echo json_encode($resultMY);die();
 			if( isset($resultMY["data"]["InvoiceId"]) ){
 				unset($BookingDetails['InvoiceItems']);
 				$BookingDetails["transaction_id"] = $resultMY["data"]["InvoiceId"];
