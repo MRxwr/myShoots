@@ -201,7 +201,7 @@ function insertDB($table, $data){
     $placeholders = "";
     foreach ($keys as $key) {
         $sql .= "`{$key}`,";
-        $placeholders .= "?,";
+        $placeholders .= "'{$data[$key]}' ,";
     }
     $sql = rtrim($sql, ",");
     $placeholders = rtrim($placeholders, ",");
