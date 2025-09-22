@@ -741,11 +741,11 @@ function compressImage($source, $destination, $quality) {
 			//echo json_encode($resultMY);die();
 			if( isset($resultMY["data"]["InvoiceId"]) ){
 				unset($BookingDetails['InvoiceItems']);
+				unset($BookingDetails['customer_email']);
 				$BookingDetails["transaction_id"] = $resultMY["data"]["InvoiceId"];
 				$BookingDetails["payload"] = json_encode($postMethodLines);
 				$BookingDetails["payloadResponse"] = json_encode($resultMY);
 				$BookingDetails["gatewayLink"] = $resultMY["data"]["PaymentURL"];
-				var_dump(insertDB("tbl_booking", $BookingDetails));die();
 				if( insertDB("tbl_booking", $BookingDetails) ){
 					return $resultMY["data"]["PaymentURL"];
 				}else{
