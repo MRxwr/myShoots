@@ -5,8 +5,6 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
   $orderId = $_GET["booking_id"];
   $booking = get_booking_details($orderId);
   $id = $booking['id'];
-  $query = "UPDATE `tbl_booking` SET `status` = 'Yes' WHERE `id` = {$id}";
-  $res = $obj->execute_query($conn,$query);
   if( $booking = selectDBNew("tbl_booking",[$id],"`id` = ?","") ){
     $gatewayResponse = json_decode($booking['gatewayResponse'],true);
     if( isset($gatewayResponse['result']) && $gatewayResponse['result'] != 'CAPTURED' ){
