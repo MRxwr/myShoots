@@ -1,16 +1,41 @@
 <?php
-if( isset($_REQUEST["date"]) && !empty($_REQUEST["date"]) ){
+
+if( isset($_REQUEST["date"]) && !empty($_REQUEST["date"]) && isset($_REQUEST["package_id"]) && !empty($_REQUEST["package_id"]) ){
     $settings = selectDB("tbl_settings","`id`='1'");
     $openDate = $settings[0]["open_date"];
     $closeDate = $settings[0]["close_date"];
     $userDate = $_REQUEST["date"];
+    $packageId = intval($_REQUEST["package_id"]);
     $selectedDate = date('Y-m-d', strtotime(str_replace('/', '-', $userDate)));
     if( ($selectedDate >= $openDate) && ($selectedDate <= $closeDate) ){
-        echo outputData(array("message"=>"Valid date"));
+        // Get available times from packages table
+        $package = selectDB("packages", "`id`='{$packageId}'");
+        if(!$package || !isset($package[0]["time"])){
+            echo outputError(array("message"=>"Package not found or no times available."));
+            exit;
+        }
+        $availableTimes = json_decode($package[0]["time"], true);
+        if(!is_array($availableTimes) || count($availableTimes) == 0){
+            echo outputError(array("message"=>"No available times for this package."));
+            exit;
+        }
+        if( $bookingTable = selectDB("bookings", "`package_id`='{$packageId}' AND `booking_date`='{$selectedDate}'") ){
+            $bookedTimes = array_map(function($booking) {
+                return $booking['booking_time'];
+            }, $bookingTable);
+            $freeTimes = array_diff($availableTimes, $bookedTimes);
+            if(count($freeTimes) > 0){
+                echo outputData(array("available_times"=>array_values($freeTimes)));
+            }else{
+                echo outputError(array("message"=>"No available times for this date."));
+            }
+        }else{
+            echo outputData(array("available_times"=>array_values($availableTimes)));
+        }
     }else{
         echo outputError(array("message"=>"Invalid date, Please select date within the allowed period."));
     }
 }else{
-    echo outputError(array("message"=>"Please provide a date."));
+    echo outputError(array("message"=>"Please provide a date and package_id."));
 }
 ?>
