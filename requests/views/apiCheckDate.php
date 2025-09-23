@@ -25,7 +25,7 @@ if( isset($_REQUEST["date"]) && !empty($_REQUEST["date"]) && isset($_REQUEST["pa
             }, $bookingTable);
             $freeTimes = array_diff($availableTimes, $bookedTimes);
             if(count($freeTimes) > 0){
-                echo outputData(array("message"=>"Available times for this date." . json_encode($freeTimes) . " ", "available_times"=>array_values($freeTimes)));
+                echo outputData(array("message"=>"Available times for this date..." . json_encode($freeTimes) . " ", "available_times"=>array_values($freeTimes)));
             }else{
                 echo outputError(array("message"=>"No available times for this date."));
             }
