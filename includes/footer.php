@@ -366,7 +366,7 @@ function checkDateAndRedirect(date, redirectUrl) {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
-    body: 'date=' + encodeURIComponent(date)
+    body: 'package_id=' + encodeURIComponent(<?php echo $_GET["id"]; ?>) + '&date=' + encodeURIComponent(date)
   })
   .then(response => response.json())
   .then(data => {
