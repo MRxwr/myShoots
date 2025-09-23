@@ -9,13 +9,11 @@ if( isset($_REQUEST["date"]) && !empty($_REQUEST["date"]) ){
     $selectedTimestamp = strtotime($selectedDate);
     $openTimestamp = strtotime($openDate);
     $closeTimestamp = strtotime($closeDate);
-    // Echo debug info (remove after debugging)
-    echo "selectedDate: $selectedDate, openDate: $openDate, closeDate: $closeDate<br>";
-    echo "selectedTimestamp: $selectedTimestamp, openTimestamp: $openTimestamp, closeTimestamp: $closeTimestamp<br>";
+    $debugInfo = "selectedDate: $selectedDate, openDate: $openDate, closeDate: $closeDate | selectedTimestamp: $selectedTimestamp, openTimestamp: $openTimestamp, closeTimestamp: $closeTimestamp";
     if( ($selectedTimestamp >= $openTimestamp) && ($selectedTimestamp <= $closeTimestamp) ){
         echo outputData(array("message"=>"Valid date"));
     }else{
-        echo outputError(array("message"=>"{$selectedDate} Invalid date, Please select date within the allowed period."));
+        echo outputError(array("message"=>"$debugInfo | Invalid date, Please select date within the allowed period."));
     }
 }else{
     echo outputError(array("message"=>"Please provide a date."));
