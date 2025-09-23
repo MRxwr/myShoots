@@ -9,6 +9,10 @@ if( isset($_REQUEST["date"]) && !empty($_REQUEST["date"]) ){
     $selectedTimestamp = strtotime($selectedDate);
     $openTimestamp = strtotime($openDate);
     $closeTimestamp = strtotime($closeDate);
+    // Debug output
+    // Remove after debugging
+    error_log("selectedDate: $selectedDate, openDate: $openDate, closeDate: $closeDate");
+    error_log("selectedTimestamp: $selectedTimestamp, openTimestamp: $openTimestamp, closeTimestamp: $closeTimestamp");
     if( ($selectedTimestamp >= $openTimestamp) && ($selectedTimestamp <= $closeTimestamp) ){
         echo outputData(array("message"=>"Valid date"));
     }else{
