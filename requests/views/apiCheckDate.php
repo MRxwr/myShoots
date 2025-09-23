@@ -19,7 +19,7 @@ if( isset($_REQUEST["date"]) && !empty($_REQUEST["date"]) && isset($_REQUEST["pa
             echo outputError(array("message"=>"No available times for this package."));
             exit;
         }
-        if( $bookingTable = selectDB("tbl_bookings", "`booking_date`='{$selectedDate}' AND `status`='Yes'") ){
+        if( $bookingTable = selectDB("tbl_booking", "`booking_date`='{$selectedDate}' AND `status`='Yes'") ){
             $bookedTimes = array_map(function($booking) {
                 return $booking['booking_time'];
             }, $bookingTable);
