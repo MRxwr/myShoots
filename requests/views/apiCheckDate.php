@@ -23,7 +23,10 @@ if( isset($_REQUEST["date"]) && !empty($_REQUEST["date"]) && isset($_REQUEST["pa
             $bookedTimes = array_map(function($booking) {
                 return $booking['booking_time'];
             }, $bookingTable);
-            $freeTimes = array_diff($availableTimes, $bookedTimes);
+            $freeTimes = array_filter($availableTimes, function($slot) use ($bookedTimes) {
+                $slotLabel = $slot['startDate'] . ' - ' . $slot['endDate'];
+                return !in_array($slotLabel, $bookedTimes);
+            });
             if(count($freeTimes) > 0){
                 echo outputData(array("message"=>"Available times for this date..." . json_encode($freeTimes) . " ", "available_times"=>array_values($freeTimes)));
             }else{
