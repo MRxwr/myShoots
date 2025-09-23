@@ -371,6 +371,7 @@ function checkDateAndRedirect(date, redirectUrl) {
   .then(response => response.json())
   .then(data => {
     if (data.ok === true) {
+      alert(data.data.message);
       window.location.href = redirectUrl;
     } else {
       alert((data.data && data.data.message) ? data.data.message : 'Invalid date.');
