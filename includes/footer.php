@@ -373,7 +373,7 @@ function checkDateAndRedirect(date, redirectUrl) {
     if (data.ok === true) {
       window.location.href = redirectUrl;
     } else {
-      alert(data.error || 'Invalid date.');
+      alert((data.data && data.data.message) ? data.data.message : 'Invalid date.');
     }
   })
   .catch(() => {
