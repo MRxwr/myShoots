@@ -7,7 +7,7 @@ if( isset($_REQUEST["date"]) && !empty($_REQUEST["date"]) ){
     if( ($selectedDate >= $openDate) && ($selectedDate <= $closeDate) ){
         echo outputData(array("message"=>"Valid date"));
     }else{
-        echo outputError(array("message"=>"Invalid date, Please select date whithin the allowed period."));
+        echo outputError(array("message"=>"{$selectedDate} Invalid date, Please select date whithin the allowed period."));
     }
 }else{
     echo outputError(array("message"=>"Please provide a date."));
