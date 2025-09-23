@@ -9,7 +9,7 @@ if( isset($_REQUEST["date"]) && !empty($_REQUEST["date"]) && isset($_REQUEST["pa
     $selectedDate = date('Y-m-d', strtotime(str_replace('/', '-', $userDate)));
     if( ($selectedDate >= $openDate) && ($selectedDate <= $closeDate) ){
         // Get available times from packages table
-        $package = selectDB("packages", "`id`='{$packageId}'");
+        $package = selectDB("tbl_packages", "`id`='{$packageId}'");
         if(!$package || !isset($package[0]["time"])){
             echo outputError(array("message"=>"Package not found or no times available."));
             exit;
@@ -19,7 +19,7 @@ if( isset($_REQUEST["date"]) && !empty($_REQUEST["date"]) && isset($_REQUEST["pa
             echo outputError(array("message"=>"No available times for this package."));
             exit;
         }
-        if( $bookingTable = selectDB("bookings", "`package_id`='{$packageId}' AND `booking_date`='{$selectedDate}'") ){
+        if( $bookingTable = selectDB("tbl_bookings", "`package_id`='{$packageId}' AND `booking_date`='{$selectedDate}'") ){
             $bookedTimes = array_map(function($booking) {
                 return $booking['booking_time'];
             }, $bookingTable);
