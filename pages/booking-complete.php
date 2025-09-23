@@ -7,7 +7,11 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
   $id = $booking['id'];
   $query = "UPDATE `tbl_booking` SET `status` = 'Yes' WHERE `id` = {$id}";
   $res = $obj->execute_query($conn,$query);
-  if( selectDBNew("tbl_booking",[$id],"`id` = ?","") ){
+  if( $booking = selectDBNew("tbl_booking",[$id],"`id` = ?","") ){
+    $gatewayResponse = json_decode($booking['gatewayResponse'],true);
+    if( isset($gatewayResponse['result']) && $gatewayResponse['result'] != 'CAPTURED' ){
+        header("LOCATION: ?page=booking-faild&error=notCaptured");die();
+    }
     $package = get_packages_details($booking['package_id']);
     $id = $package['id'];
     $price = $package['price'];

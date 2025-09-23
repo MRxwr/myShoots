@@ -11,7 +11,7 @@
 		if( checkCreateAPI() ){
 			header("LOCATION : ?page=booking-complete&booking_id=".$_SESSION['booking_id']);die();
 		}else{
-			header("LOCATION: ?page=booking-faild&error=notCaptured");die();
+			header("LOCATION: ?page=booking-faild&error=noCaptured");die();
 		}
 	}
 	include('includes/header.php');
