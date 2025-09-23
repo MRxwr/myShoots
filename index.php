@@ -9,7 +9,7 @@
 	} 
 	if( isset($_GET["requested_order_id"]) && !empty($_GET["requested_order_id"]) ){
 		if( checkCreateAPI() ){
-			header("LOCATION : ?page=booking-complete&booking_id=".$_SESSION['booking_id']);die();
+			header("LOCATION : ?page=booking-complete&booking_id=".$_GET['requested_order_id']);die();
 		}else{
 			header("LOCATION: ?page=booking-faild&error=noCaptured");die();
 		}
