@@ -153,16 +153,17 @@ function daysOfWeekDisabled(date){
     //return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 }
 	 $(document).ready(function(){
-		  $('#booknow').click(function(){
-		 var date = $("#date").val();
-		 if(date != ""){
-		  window.location.href = "<?php echo SITEURL; ?>index.php?page=personal-information&id=<?php echo $id; ?>&date="+date;
-		 } else{
-			alert("Please select date!"); 
-			return false;
-		 }
-	  });
-	  })
+    $('#booknow').click(function(){
+      var date = $("#date").val();
+      if(date != ""){
+        var redirectUrl = "<?php echo SITEURL; ?>index.php?page=personal-information&id=<?php echo $id; ?>&date=" + date;
+        checkDateAndRedirect(date, redirectUrl);
+      } else {
+        alert("Please select date!"); 
+        return false;
+      }
+    });
+   })
   </script>
   
 
@@ -358,6 +359,28 @@ if(isset($_GET['page'] ) && $_GET['page'] == "booking-faild"){ ?>
 		});
 		</script>	
     <?php } ?>
+<script>
+function checkDateAndRedirect(date, redirectUrl) {
+  fetch('requests/index.php?endpoint=CheckDate', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: 'date=' + encodeURIComponent(date)
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.ok === true) {
+      window.location.href = redirectUrl;
+    } else {
+      alert(data.error || 'Invalid date.');
+    }
+  })
+  .catch(() => {
+    alert('Error connecting to server.');
+  });
+}
+</script>
 </body>
 
 </html>
