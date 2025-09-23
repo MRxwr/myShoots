@@ -757,11 +757,15 @@ return 0;
 function checkCreateAPI(){
 	GLOBAL $_GET;
 	if( isset($_GET["requested_order_id"]) && !empty($_GET["requested_order_id"]) ){
-		updateDB("tbl_booking", array("gatewayResponse" => json_encode($_GET)), "transaction_id = ".$_GET["requested_order_id"]);
 		if( $_GET["result"] != "CAPTURED" ){
+			if( updateDB("tbl_booking", array("gatewayResponse" => json_encode($_GET), "status" => "No"), "transaction_id = {$_GET["requested_order_id"]} AND status = ''")){
+			}
 			return 0;
+		}else{
+			if( updateDB("tbl_booking", array("gatewayResponse" => json_encode($_GET), "status" => "Yes"), "transaction_id = {$_GET["requested_order_id"]} AND status = ''") ){
+			}
+			return $_GET["requested_order_id"];
 		}
-		return $_GET["requested_order_id"];
 	}else{
 		return 0;
 	}

@@ -72,7 +72,7 @@ if(isset($_POST['submit'])){
 		'baby_name' => $baby_name,
 		'baby_age' => $baby_age,
 		'instructions' => $instructions,
-		'status' => 'No',
+		'status' => '',
 		'created_at' => $created_at,
 		"InvoiceItems" => array(
 			array(
