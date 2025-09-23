@@ -1,6 +1,6 @@
 <?php
 if( isset($_REQUEST["date"]) && !empty($_REQUEST["date"]) ){
-    $settings = selectDB("settings","`id`='1'");
+    $settings = selectDB("tbl_settings","`id`='1'");
     $openDate = $settings[0]["open_date"];
     $closeDate = $settings[0]["close_date"];
     $userDate = $_REQUEST["date"];
