@@ -20,7 +20,7 @@ if(isset($_GET['id'])){
     $date = explode('-',$_GET['date']);
     $booking_date = $date[2].'-'.$date[1].'-'.$date[0];				
   } else {
-    header('location:'.SITEURL.'reservation.php?id='.$id);die();
+    header('location:'.SITEURL.'?page=reservations&id='.$id);die();
   }
   // Get booked time slots for the selected date and package
   $booktimes = get_bookingTimeBydate($_GET['id'],$booking_date);
