@@ -17,8 +17,17 @@ if(isset($_GET['id'])){
   
   // Date formate			
   if( isset($_GET['date']) && !empty($_GET['date']) ) {
-    $date = explode('-',$_GET['date']);
-    $booking_date = $date[2].'-'.$date[1].'-'.$date[0];				
+    $settings = selectDB("tbl_settings","`id`='1'");
+    $openDate = $settings[0]["open_date"];
+    $closeDate = $settings[0]["close_date"];
+    $userDate = $_REQUEST["date"];
+    $selectedDate = date('Y-m-d', strtotime(str_replace('/', '-', $userDate)));
+    if( ($selectedDate >= $openDate) && ($selectedDate <= $closeDate) ){
+      $date = explode('-',$_GET['date']);
+      $booking_date = $date[2].'-'.$date[1].'-'.$date[0];	
+    } else {
+      header('location:'.SITEURL.'?page=reservations&id='.$id);die();
+    }			
   } else {
     header('location:'.SITEURL.'?page=reservations&id='.$id);die();
   }
