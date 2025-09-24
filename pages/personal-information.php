@@ -15,9 +15,14 @@ if(isset($_GET['id'])){
   $extra_items = $package['extra_items'];
   $times = $package['time'];
   
-  // Date formate					
-  $date = explode('-',$_GET['date']);
-  $booking_date = $date[2].'-'.$date[1].'-'.$date[0];				
+  // Date formate			
+  if( isset($_GET['date']) && !empty($_GET['date']) ) {
+    $date = explode('-',$_GET['date']);
+    $booking_date = $date[2].'-'.$date[1].'-'.$date[0];				
+  } else {
+    header('location:'.SITEURL.'reservation.php?id='.$id);
+  }
+  // Get booked time slots for the selected date and package
   $booktimes = get_bookingTimeBydate($_GET['id'],$booking_date);
   $booktimeArr=array(); 
   if(@count($booktimes) != 0){
