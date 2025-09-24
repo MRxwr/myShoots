@@ -17,7 +17,8 @@ function checkBookingTime($date, $time, $package_id) {
             if(!is_array($availableTimes) || count($availableTimes) == 0){
                 return false;
             }
-            if( selectDB("tbl_booking", "`booking_date`='{$selectedDate}' AND `booking_date` NOT LIKE '%0000-00-00%' AND `status`='Yes' AND `booking_time`='{$time}'") ){
+            $where = "`booking_date`='{$selectedDate}' AND `booking_date` NOT LIKE '%0000-00-00%' AND `booking_time`='{$time}' AND ( `status`='Yes' OR ( `status`='' AND TIMESTAMPDIFF(MINUTE, `created_at`, NOW()) < 10 ) )";
+            if( selectDB("tbl_booking", $where) ){          
                 return false;
             }else{
                 return true;

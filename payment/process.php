@@ -93,7 +93,7 @@ if(isset($_POST['submit'])){
 			header("LOCATION: index.php?page=booking-faild&error=createAPI");die();
 		}
 	}else{
-		$checkBookingTime = "Time slot already booked, Please select another time slot.";
+		$checkBookingTime = "Time already booked, Please select another time.";
 		$checkBookingTime = urlencode(base64_encode($checkBookingTime));
 	    header("LOCATION: ".SITEURL."index.php?page=reservations&id=".$package_id."&error=".$checkBookingTime);die();
 	}
