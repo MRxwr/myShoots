@@ -82,7 +82,7 @@ if(isset($_POST['submit'])){
 			)
 		)
 	);
-	if( $checkBookingTime =checkBookingTime($booking_date, $booking_time, $package_id)){
+	if( $checkBookingTime = checkBookingTime($booking_date, $booking_time, $package_id) ){
 		if ( $response = createAPI($BookingDetails) ) {
 			if ( !empty($response) ) {
 				header('LOCATION:'.$response);die();
