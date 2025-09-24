@@ -95,7 +95,7 @@ if(isset($_POST['submit'])){
 	}else{
 		$checkBookingTime = "Time slot already booked, Please select another time slot.";
 		$checkBookingTime = urlencode(base64_encode($checkBookingTime));
-	    header("LOCATION: index.php?page=reservations&id=".$package_id."&error=".$checkBookingTime);die();
+	    header("LOCATION: ".SITEURL."index.php?page=reservations&id=".$package_id."&error=".$checkBookingTime);die();
 	}
 }
 ?>
