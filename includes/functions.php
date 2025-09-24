@@ -275,7 +275,7 @@ function sendkwtemail($email,$message){
 function get_bookingTimeBydate($id,$date){
 	GLOBAL $obj,$conn;
 	$tbl_name = 'tbl_booking';
-	$where = " booking_date like '%".$date."%' AND status='Yes'";
+	$where = "`booking_date` LIKE '{$date}' AND `status` = 'Yes' OR (`status` = '' AND TIMESTAMPDIFF(MINUTE, `created_at`, CONVERT_TZ(NOW(), '+00:00', '+03:00')) < 10 )";
 	$query = $obj->select_data($tbl_name,$where);
 	$res = $obj->execute_query($conn,$query);
 	if($res == true)
