@@ -18,9 +18,9 @@ function checkBookingTime($date, $time, $package_id) {
                 return false;
             }
             if( selectDB("tbl_booking", "`booking_date`='{$selectedDate}' AND `booking_date` NOT LIKE '%0000-00-00%' AND `status`='Yes' AND `booking_time`='{$time}'") ){
-                return true;
-            }else{
                 return false;
+            }else{
+                return true;
             }
         }else{
             return false;
