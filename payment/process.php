@@ -82,14 +82,21 @@ if(isset($_POST['submit'])){
 			)
 		)
 	);
-	if ( $response = createAPI($BookingDetails) ) {
-		if ( !empty($response) ) {
-			header('LOCATION:'.$response);die();
-		} else {
-			header("LOCATION: index.php?page=booking-faild&error=gatewayConnection");die();
+	if( $checkBookingTime =checkBookingTime($booking_date, $booking_time, $package_id)){
+		if ( $response = createAPI($BookingDetails) ) {
+			if ( !empty($response) ) {
+				header('LOCATION:'.$response);die();
+			} else {
+				header("LOCATION: index.php?page=booking-faild&error=gatewayConnection");die();
+			}
+		}else{
+			header("LOCATION: index.php?page=booking-faild&error=createAPI");die();
 		}
 	}else{
-	    header("LOCATION: index.php?page=booking-faild&error=createAPI");die();
+		$checkBookingTime = json_decode($checkBookingTime, true);
+		$checkBookingTime = $checkBookingTime["data"]['message'];
+		$checkBookingTime = urlencode(base64_encode($checkBookingTime));
+	    header("LOCATION: index.php?page=reservations&id=".$package_id."&error=".$checkBookingTime);die();
 	}
 }
 ?>
