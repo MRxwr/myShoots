@@ -39,6 +39,6 @@ if( isset($_REQUEST["date"]) && !empty($_REQUEST["date"]) && isset($_REQUEST["pa
         echo outputError(array("message"=>"Invalid date, Please select date within the allowed period."));
     }
 }else{
-    echo outputError(array("message"=>"Please provide a date and package_id."));
+    echo outputError(array("message"=>"Please provide a date and package."));
 }
 ?>
