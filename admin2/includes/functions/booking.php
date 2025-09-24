@@ -17,7 +17,7 @@ function checkBookingTime($date, $time, $package_id) {
             if(!is_array($availableTimes) || count($availableTimes) == 0){
                 return outputError(array("message"=>"No available times for this package."));die();
             }
-            if( selectDB("tbl_booking", "`booking_date`='{$selectedDate}' AND `status`='Yes' AND `booking_time`='{$time}'") ){
+            if( selectDB("tbl_booking", "`booking_date`='{$selectedDate}' AND `booking_date` NOT LIKE '%0000-00-00%' AND `status`='Yes' AND `booking_time`='{$time}'") ){
                 return true;
             }else{
                 return outputData(array("message"=>"Time slot available."));die();
