@@ -277,8 +277,20 @@ $(document).on("click",".edit", function(){
 					timeData.forEach(function(timeItem) {
 						// Find the option that matches this time JSON string and select it
 						timeSelect.find("option").each(function() {
+							// Try direct comparison first
 							if ($(this).val() === JSON.stringify(timeItem)) {
 								$(this).prop('selected', true);
+							} else {
+								// Try comparing parsed objects in case of format differences
+								try {
+									var optionData = JSON.parse($(this).val());
+									if (optionData.startDate === timeItem.startDate && 
+										optionData.endDate === timeItem.endDate) {
+										$(this).prop('selected', true);
+									}
+								} catch(e) {
+									// Ignore parse errors
+								}
 							}
 						});
 					});

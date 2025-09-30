@@ -27,6 +27,38 @@ if( isset($_POST["updateRank"]) ){
 if( isset($_POST["startTime"]) ){
 	$id = $_POST["update"];
 	unset($_POST["update"]);
+	
+	// Convert 24-hour times to AM/PM format
+	if(isset($_POST["startTime"]) && !empty($_POST["startTime"])) {
+		// Handle various time formats
+		$timeParts = explode(':', $_POST["startTime"]);
+		if(count($timeParts) >= 2) {
+			$hours = intval($timeParts[0]);
+			$minutes = intval($timeParts[1]);
+			
+			$ampm = ($hours >= 12) ? 'PM' : 'AM';
+			$hours = $hours % 12;
+			$hours = $hours ? $hours : 12; // Convert 0 to 12
+			
+			$_POST["startTime"] = sprintf("%d:%02d %s", $hours, $minutes, $ampm);
+		}
+	}
+	
+	if(isset($_POST["closeTime"]) && !empty($_POST["closeTime"])) {
+		// Handle various time formats
+		$timeParts = explode(':', $_POST["closeTime"]);
+		if(count($timeParts) >= 2) {
+			$hours = intval($timeParts[0]);
+			$minutes = intval($timeParts[1]);
+			
+			$ampm = ($hours >= 12) ? 'PM' : 'AM';
+			$hours = $hours % 12;
+			$hours = $hours ? $hours : 12; // Convert 0 to 12
+			
+			$_POST["closeTime"] = sprintf("%d:%02d %s", $hours, $minutes, $ampm);
+		}
+	}
+	
 	if ( $id == 0 ){
 		if( insertDB("tbl_times", $_POST) ){
 			header("LOCATION: ?v=BookingTimes");
@@ -172,7 +204,40 @@ $(document).on("click",".edit", function(){
 		var id = $(this).attr("id");
 		$("input[name=update]").val(id);
 
-		$("input[name=startTime]").val($("#startTime"+id).html()).focus();
-		$("input[name=closeTime]").val($("#closeTime"+id).html());
+		// Convert AM/PM format back to 24-hour format for HTML time input
+		var startTimeAMPM = $("#startTime"+id).html();
+		var closeTimeAMPM = $("#closeTime"+id).html();
+		
+		// Convert AM/PM to 24-hour format
+		function convertTo24Hour(time12h) {
+			if (!time12h) return '';
+			
+			// Handle case when time12h might not have AM/PM
+			if (time12h.indexOf(' ') === -1) {
+				return time12h; // Already might be in 24-hour format
+			}
+			
+			const parts = time12h.split(' ');
+			const time = parts[0];
+			const modifier = parts[1];
+			
+			if (!time || !modifier) return time12h;
+			
+			let [hours, minutes] = time.split(':');
+			hours = parseInt(hours, 10);
+			
+			if (modifier.toUpperCase() === 'PM' && hours < 12) {
+				hours = hours + 12;
+			}
+			
+			if (modifier.toUpperCase() === 'AM' && hours === 12) {
+				hours = 0;
+			}
+			
+			return `${hours.toString().padStart(2, '0')}:${minutes}`;
+		}
+		
+		$("input[name=startTime]").val(convertTo24Hour(startTimeAMPM)).focus();
+		$("input[name=closeTime]").val(convertTo24Hour(closeTimeAMPM));
 })
 </script>
