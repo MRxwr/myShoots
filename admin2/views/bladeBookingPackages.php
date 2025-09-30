@@ -134,9 +134,9 @@ if( isset($_POST["arTitle"]) ){
 			</select>
 			</div>
 			
-			<div id="time-select" class="col-md-6">
+			<div id="time-select" class="col-md-12">
 			<label><?php echo direction("Available Times","الأوقات المتاحة") ?></label>
-			<select name="time[]" class="form-control select2-times" required multiple>
+			<select name="time[]" class="form-control" required multiple>
 				<?php 
 				if($times = selectDB("tbl_times", "`status` = '0' AND `hidden` = '1' ORDER BY `rank` ASC")){
 					foreach($times as $time){
@@ -156,9 +156,9 @@ if( isset($_POST["arTitle"]) ){
 			<small class="text-muted"><?php echo direction("Click on the dropdown to select times","انقر على القائمة المنسدلة لتحديد الأوقات") ?></small>
 			</div>
 			
-			<div id="extras-select" class="col-md-6">
+			<div id="extras-select" class="col-md-12">
 			<label><?php echo direction("Available Extras","الإضافات المتاحة") ?></label>
-			<select name="extra_items[]" class="form-control select2-extras" multiple>
+			<select name="extra_items[]" class="form-control" multiple>
 				<?php 
 				if($extras = selectDB("tbl_extras", "`status` = '0' AND `hidden` = '1' ORDER BY `rank` ASC")){
 					foreach($extras as $extra){
@@ -385,51 +385,187 @@ if( isset($_POST["arTitle"]) ){
 </div>
 <script>
 $(document).ready(function() {
-    // Initialize Select2 when the document is ready
-    initializeSelect2();
-});
-
-// Also add a fallback initialization after window loads
-$(window).on('load', function() {
-    // Double-check if Select2 is initialized
-    if (typeof $.fn.select2 === 'function' && !$('.select2-times').hasClass('select2-hidden-accessible')) {
-        initializeSelect2();
+    // Convert select dropdowns to checkbox-style multi-select
+    createMultiSelectWithCheckboxes('time-select');
+    createMultiSelectWithCheckboxes('extras-select');
+    
+    // Style fixes for RTL support
+    if ($('html').attr('dir') === 'rtl') {
+        $('.checkbox-item label').css('margin-right', '5px');
+        $('.checkbox-item label').css('margin-left', '0');
     }
 });
 
-// Function to initialize Select2
-function initializeSelect2() {
-    // Common Select2 options
-    var select2Options = {
-        allowClear: true,
-        closeOnSelect: false,
-        width: '100%',
-        language: {
-            noResults: function() {
-                return '<?php echo direction("No results found", "لا توجد نتائج") ?>';
-            }
-        }
-    };
+function createMultiSelectWithCheckboxes(containerId) {
+    // Get the select element and its options
+    var $select = $('#' + containerId + ' select');
+    var selectName = $select.attr('name');
+    var isRequired = $select.attr('required') !== undefined;
     
-    // Initialize Select2 for time select
-    $('.select2-times').select2($.extend({}, select2Options, {
-        placeholder: '<?php echo direction("Select Times", "حدد الأوقات") ?>'
-    }));
+    // Get appropriate labels based on the container
+    var selectAllText = containerId === 'time-select' ? 
+        '<?php echo direction("Select All Times", "حدد كل الأوقات") ?>' : 
+        '<?php echo direction("Select All Extras", "حدد كل الإضافات") ?>';
     
-    // Initialize Select2 for extras select
-    $('.select2-extras').select2($.extend({}, select2Options, {
-        placeholder: '<?php echo direction("Select Extras", "حدد الإضافات") ?>'
-    }));
+    var placeholderText = containerId === 'time-select' ? 
+        '<?php echo direction("Select Times", "حدد الأوقات") ?>' : 
+        '<?php echo direction("Select Extras", "حدد الإضافات") ?>';
     
-    // RTL support for Select2
-    if ($('html').attr('dir') === 'rtl') {
-        $('.select2-times, .select2-extras').each(function() {
-            var $select = $(this);
-            if ($select.data('select2')) {
-                $select.select2('destroy');
-            }
-            $select.select2($.extend({}, select2Options, { dir: 'rtl' }));
+    // Create the dropdown container
+    var $container = $('<div class="checkbox-dropdown-container"></div>');
+    var $dropdownHeader = $('<div class="dropdown-header"></div>');
+    var $dropdownText = $('<div class="dropdown-text">' + placeholderText + '</div>');
+    var $dropdownList = $('<div class="dropdown-list" style="display:none;"></div>');
+    
+    // Add select all checkbox
+    var selectAllId = 'select_all_' + containerId;
+    var $selectAllItem = $('<div class="checkbox-item select-all-item"></div>');
+    $selectAllItem.append('<input type="checkbox" id="' + selectAllId + '">');
+    $selectAllItem.append('<label for="' + selectAllId + '">' + selectAllText + '</label>');
+    $dropdownList.append($selectAllItem);
+    
+    // Add search input if there are many options
+    if ($select.find('option').length > 5) {
+        var searchPlaceholder = containerId === 'time-select' ? 
+            '<?php echo direction("Search times...", "البحث عن الأوقات...") ?>' : 
+            '<?php echo direction("Search extras...", "البحث عن الإضافات...") ?>';
+        
+        var $searchContainer = $('<div class="search-container"></div>');
+        var $searchInput = $('<input type="text" class="search-input" placeholder="' + searchPlaceholder + '">');
+        $searchContainer.append($searchInput);
+        $dropdownList.append($searchContainer);
+        
+        // Handle search functionality
+        $searchInput.on('keyup', function() {
+            var searchText = $(this).val().toLowerCase();
+            $('.checkbox-item:not(.select-all-item)', $dropdownList).each(function() {
+                var itemText = $('label', this).text().toLowerCase();
+                if (itemText.indexOf(searchText) > -1) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
         });
+        
+        // Stop propagation when typing in search box
+        $searchInput.on('click', function(e) {
+            e.stopPropagation();
+        });
+    }
+    
+    $dropdownHeader.append($dropdownText);
+    $container.append($dropdownHeader);
+    $container.append($dropdownList);
+    
+    // Convert options to checkboxes
+    $select.find('option').each(function() {
+        var value = $(this).val();
+        var text = $(this).text();
+        var id = 'chk_' + containerId + '_' + Math.floor(Math.random() * 1000000);
+        
+        var $checkbox = $('<div class="checkbox-item"></div>');
+        $checkbox.append('<input type="checkbox" id="' + id + '" value="' + value + '" data-name="' + selectName + '">');
+        $checkbox.append('<label for="' + id + '">' + text + '</label>');
+        
+        $dropdownList.append($checkbox);
+    });
+    
+    // Replace the select with our custom dropdown
+    $select.hide();
+    $select.after($container);
+    
+    // Handle select all checkbox
+    $('#' + selectAllId).on('change', function() {
+        var isChecked = $(this).prop('checked');
+        $dropdownList.find('input[type="checkbox"]:not(#' + selectAllId + ')').prop('checked', isChecked);
+        updateSelectFromCheckboxes(containerId);
+    });
+    
+    // Handle dropdown toggling with arrow rotation
+    $dropdownHeader.on('click', function() {
+        var isOpen = $dropdownList.is(':visible');
+        
+        // Close any other open dropdowns
+        $('.dropdown-list').hide();
+        $('.dropdown-header:after').css('transform', 'rotate(0deg)');
+        
+        if (isOpen) {
+            $dropdownList.hide();
+            $(this).find(':after').css('transform', 'rotate(0deg)');
+        } else {
+            $dropdownList.show();
+            $(this).find(':after').css('transform', 'rotate(180deg)');
+            
+            // Focus search input if it exists
+            $dropdownList.find('.search-input').focus();
+        }
+    });
+    
+    // Handle checkbox changes
+    $dropdownList.find('input[type="checkbox"]').on('change', function() {
+        if ($(this).attr('id') !== selectAllId) {
+            // Update "Select All" checkbox based on other checkboxes
+            var allChecked = $dropdownList.find('input[type="checkbox"]:not(#' + selectAllId + ')').length === 
+                            $dropdownList.find('input[type="checkbox"]:not(#' + selectAllId + '):checked').length;
+            
+            $('#' + selectAllId).prop('checked', allChecked);
+        }
+        
+        updateSelectFromCheckboxes(containerId);
+    });
+    
+    // Close dropdown when clicking outside
+    $(document).on('click', function(e) {
+        if (!$(e.target).closest('#' + containerId + ' .checkbox-dropdown-container').length) {
+            $dropdownList.hide();
+        }
+    });
+    
+    // Stop propagation for checkboxes to prevent dropdown from closing
+    $dropdownList.on('click', function(e) {
+        e.stopPropagation();
+    });
+}
+
+function updateSelectFromCheckboxes(containerId) {
+    var $select = $('#' + containerId + ' select');
+    var $checkboxes = $('#' + containerId + ' .checkbox-item:not(.select-all-item) input[type="checkbox"]:checked');
+    
+    // Clear all selected options
+    $select.find('option:selected').prop('selected', false);
+    
+    // Select options based on checked checkboxes
+    $checkboxes.each(function() {
+        var value = $(this).val();
+        $select.find('option').each(function() {
+            if ($(this).val() === value) {
+                $(this).prop('selected', true);
+            }
+        });
+    });
+    
+    // Update the dropdown text to show selected count
+    var selectedCount = $checkboxes.length;
+    var $dropdownText = $('#' + containerId + ' .dropdown-text');
+    var totalOptions = $('#' + containerId + ' .checkbox-item:not(.select-all-item)').length;
+    
+    if (containerId === 'time-select') {
+        if (selectedCount === 0) {
+            $dropdownText.text('<?php echo direction("Select Times", "حدد الأوقات") ?>');
+        } else if (selectedCount === totalOptions) {
+            $dropdownText.text('<?php echo direction("All Times Selected", "تم تحديد جميع الأوقات") ?>');
+        } else {
+            $dropdownText.text(selectedCount + ' <?php echo direction("Times Selected", "تم تحديد الأوقات") ?>');
+        }
+    } else {
+        if (selectedCount === 0) {
+            $dropdownText.text('<?php echo direction("Select Extras", "حدد الإضافات") ?>');
+        } else if (selectedCount === totalOptions) {
+            $dropdownText.text('<?php echo direction("All Extras Selected", "تم تحديد جميع الإضافات") ?>');
+        } else {
+            $dropdownText.text(selectedCount + ' <?php echo direction("Extras Selected", "تم تحديد الإضافات") ?>');
+        }
     }
 }
 
@@ -446,73 +582,45 @@ $(document).on("click",".edit", function(){
 		// Set multiple time selections
 		if($("#time"+id).html() && $("#time"+id).html() !== ""){
 			try {
-				// Clear previous selections first
-				$('#time-select select').val(null).trigger('change');
-				
-				// Handle the array or string format - using a different approach to decode the HTML entities first
-				var timeContent = $("<div/>").html($("#time"+id).html()).text();
-				var timeData = [];
-				
-				// First try parsing as array directly
+				// Handle the array or string format
+				var timeContent = $("#time"+id).html();
+				var timeData;
+				// First try parsing as array
 				try {
 					timeData = JSON.parse(timeContent);
 				} catch (e) {
-					console.log("First parse attempt failed for time data, trying cleanup methods...");
-					
-					try {
-						// Try removing HTML entity encoding
-						timeContent = timeContent.replace(/&quot;/g, '"')
-							.replace(/&#34;/g, '"')
-							.replace(/&lt;/g, '<')
-							.replace(/&gt;/g, '>')
-							.replace(/&amp;/g, '&');
-						
-						timeData = JSON.parse(timeContent);
-					} catch (e2) {
-						console.log("Second parse attempt failed, trying manual cleanup...");
-						
-						// If it still failed, and it looks like JSON array
-						if (timeContent.trim().startsWith('[') && timeContent.trim().endsWith(']')) {
-							try {
-								// Replace escaped backslashes and quotes appropriately
-								var cleanContent = timeContent.replace(/\\\\/g, "\\").replace(/\\"/g, '"');
-								timeData = JSON.parse(cleanContent);
-							} catch (innerE) {
-								console.error("All parsing attempts failed for time data:", innerE);
-								console.log("Raw time content:", $("#time"+id).html());
-								console.log("Decoded time content:", timeContent);
-								timeData = [];
-							}
-						} else {
-							console.error("Time data is not in expected JSON array format");
+					// If it failed, it might be a string containing the entire array with escaped quotes
+					// Let's try to clean it up
+					if (timeContent.startsWith('[') && timeContent.endsWith(']')) {
+						try {
+							// Replace escaped backslashes and quotes appropriately
+							timeContent = timeContent.replace(/\\\\/g, "\\").replace(/\\"/g, '"');
+							timeData = JSON.parse(timeContent);
+						} catch (innerE) {
+							console.error("Could not parse time data even after cleanup:", innerE);
 							timeData = [];
 						}
+					} else {
+						console.error("Time data is not in expected format:", e);
+						timeData = [];
 					}
 				}
 				
+				// Clear previous selections
+				$('#time-select input[type="checkbox"]').prop('checked', false);
+				
 				// Select each time in the timeData array
-				if (Array.isArray(timeData) && timeData.length > 0) {
-					var selectedValues = [];
-					
+				if (Array.isArray(timeData)) {
 					timeData.forEach(function(timeItem) {
-						// Find the option that matches this time
-						$('#time-select select option').each(function() {
+						// Find the checkbox that matches this time
+						$('#time-select input[type="checkbox"]').each(function() {
 							var optionVal = $(this).val();
-							if (!optionVal) return;
-							
 							var optionData;
 							
 							try {
-								// First decode HTML entities in the option value
-								var decodedOptionVal = $("<div/>").html(optionVal).text();
-								optionData = JSON.parse(decodedOptionVal);
+								optionData = JSON.parse(optionVal);
 							} catch (e) {
-								try {
-									// Try parsing the original value if decoding failed
-									optionData = JSON.parse(optionVal);
-								} catch (e2) {
-									return; // Skip this option if it's not valid JSON
-								}
+								return; // Skip this option if it's not valid JSON
 							}
 							
 							// Compare startDate and endDate
@@ -520,92 +628,62 @@ $(document).on("click",".edit", function(){
 								optionData.startDate && optionData.endDate &&
 								timeItem.startDate === optionData.startDate && 
 								timeItem.endDate === optionData.endDate) {
-								selectedValues.push(optionVal);
+								$(this).prop('checked', true);
 							}
 						});
 					});
 					
-					// Set the selected values using Select2
-					if (selectedValues.length > 0) {
-						$('#time-select select').val(selectedValues).trigger('change');
-					}
+					// Update select from checkboxes
+					updateSelectFromCheckboxes('time-select');
 				}
 			} catch(e) {
-				console.error("Critical error handling time data:", e);
-				$('#time-select select').val(null).trigger('change');
+				console.error("Error handling time data:", e);
 			}
 		}
 		
 		// Set multiple extras selections
 		if($("#extra_items"+id).html() && $("#extra_items"+id).html() !== ""){
 			try {
-				// Clear previous selections first
-				$('#extras-select select').val(null).trigger('change');
+				// Handle the array or string format
+				var extraContent = $("#extra_items"+id).html();
+				var extraData;
 				
-				// Handle the array or string format - using a different approach to decode the HTML entities first
-				var extraContent = $("<div/>").html($("#extra_items"+id).html()).text();
-				var extraData = [];
-				
-				// First try parsing as array directly
+				// First try parsing as array
 				try {
 					extraData = JSON.parse(extraContent);
 				} catch (e) {
-					console.log("First parse attempt failed for extras, trying cleanup methods...");
-					
-					try {
-						// Try removing HTML entity encoding
-						extraContent = extraContent.replace(/&quot;/g, '"')
-							.replace(/&#34;/g, '"')
-							.replace(/&lt;/g, '<')
-							.replace(/&gt;/g, '>')
-							.replace(/&amp;/g, '&');
-						
-						extraData = JSON.parse(extraContent);
-					} catch (e2) {
-						console.log("Second parse attempt failed for extras, trying manual cleanup...");
-						
-						// If it still failed, and it looks like JSON array
-						if (extraContent.trim().startsWith('[') && extraContent.trim().endsWith(']')) {
-							try {
-								// Replace escaped backslashes and quotes appropriately
-								var cleanContent = extraContent.replace(/\\\\/g, "\\").replace(/\\"/g, '"');
-								extraData = JSON.parse(cleanContent);
-							} catch (innerE) {
-								console.error("All parsing attempts failed for extras:", innerE);
-								console.log("Raw extras content:", $("#extra_items"+id).html());
-								console.log("Decoded extras content:", extraContent);
-								extraData = [];
-							}
-						} else {
-							console.error("Extra data is not in expected JSON array format");
+					// If it failed, it might be a string containing the entire array with escaped quotes
+					// Let's try to clean it up
+					if (extraContent.startsWith('[') && extraContent.endsWith(']')) {
+						try {
+							// Replace escaped backslashes and quotes appropriately
+							extraContent = extraContent.replace(/\\\\/g, "\\").replace(/\\"/g, '"');
+							extraData = JSON.parse(extraContent);
+						} catch (innerE) {
+							console.error("Could not parse extra data even after cleanup:", innerE);
 							extraData = [];
 						}
+					} else {
+						console.error("Extra data is not in expected format:", e);
+						extraData = [];
 					}
 				}
 				
+				// Clear previous selections
+				$('#extras-select input[type="checkbox"]').prop('checked', false);
+				
 				// Select each extra in the extraData array
-				if (Array.isArray(extraData) && extraData.length > 0) {
-					var selectedValues = [];
-					
+				if (Array.isArray(extraData)) {
 					extraData.forEach(function(extraItem) {
-						// Find the option that matches this extra
-						$('#extras-select select option').each(function() {
+						// Find the checkbox that matches this extra
+						$('#extras-select input[type="checkbox"]').each(function() {
 							var optionVal = $(this).val();
-							if (!optionVal) return;
-							
 							var optionData;
 							
 							try {
-								// First decode HTML entities in the option value
-								var decodedOptionVal = $("<div/>").html(optionVal).text();
-								optionData = JSON.parse(decodedOptionVal);
+								optionData = JSON.parse(optionVal);
 							} catch (e) {
-								try {
-									// Try parsing the original value if decoding failed
-									optionData = JSON.parse(optionVal);
-								} catch (e2) {
-									return; // Skip this option if it's not valid JSON
-								}
+								return; // Skip this option if it's not valid JSON
 							}
 							
 							// Compare item and price
@@ -613,19 +691,16 @@ $(document).on("click",".edit", function(){
 								optionData.item && optionData.price &&
 								extraItem.item === optionData.item && 
 								extraItem.price === optionData.price) {
-								selectedValues.push(optionVal);
+								$(this).prop('checked', true);
 							}
 						});
 					});
 					
-					// Set the selected values
-					if (selectedValues.length > 0) {
-						$('#extras-select select').val(selectedValues).trigger('change');
-					}
+					// Update select from checkboxes
+					updateSelectFromCheckboxes('extras-select');
 				}
 			} catch(e) {
-				console.error("Critical error handling extra data:", e);
-				$('#extras-select select').val(null).trigger('change');
+				console.error("Error handling extra data:", e);
 			}
 		}
 		
@@ -636,31 +711,124 @@ $(document).on("click",".edit", function(){
 </script>
 
 <style>
-/* Select2 Custom Styles */
-.select2-container--default .select2-selection--multiple {
+.checkbox-dropdown-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+    font-family: inherit;
+}
+
+.dropdown-header {
     border: 1px solid #e2e2e2;
-    min-height: 38px;
+    padding: 10px 15px;
+    cursor: pointer;
+    background-color: #ffffff;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
 }
 
-.select2-container--default.select2-container--focus .select2-selection--multiple {
-    border-color: #66afe9;
-    outline: 0;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
+.dropdown-header:hover {
+    background-color: #f8f8f8;
+    border-color: #d8d8d8;
 }
 
-.select2-container--default .select2-selection--multiple .select2-selection__choice {
-    background-color: #f8f9fa;
-    border: 1px solid #e2e2e2;
-    padding: 3px 8px;
-    margin-top: 5px;
+.dropdown-header:after {
+    content: '▼';
+    font-size: 10px;
+    color: #666;
+    transition: transform 0.2s ease;
 }
 
-/* RTL Support for Select2 */
-html[dir="rtl"] .select2-container--default .select2-selection--multiple .select2-selection__choice {
-    float: right;
+.dropdown-list {
+    position: absolute;
+    width: 100%;
+    border: 1px solid #d8d8d8;
+    border-top: none;
+    max-height: 250px;
+    overflow-y: auto;
+    background-color: white;
+    z-index: 1000;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-top: -1px;
 }
 
-html[dir="rtl"] .select2-container--default .select2-selection--multiple .select2-selection__rendered {
-    padding-right: 8px;
+.checkbox-item {
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.2s ease;
+}
+
+.checkbox-item:last-child {
+    border-bottom: none;
+}
+
+.checkbox-item:hover {
+    background-color: #f5f5f5;
+}
+
+.checkbox-item label {
+    margin-left: 8px;
+    cursor: pointer;
+    flex: 1;
+    font-weight: normal;
+    color: #333;
+}
+
+.checkbox-item input[type="checkbox"] {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+}
+
+/* For RTL support */
+html[dir="rtl"] .dropdown-header:after {
+    margin-right: 10px;
+    margin-left: 0;
+}
+
+html[dir="rtl"] .checkbox-item label {
+    margin-right: 8px;
+    margin-left: 0;
+}
+
+/* Search input styling */
+.search-container {
+    padding: 10px;
+    border-bottom: 1px solid #e2e2e2;
+    background-color: #f9f9f9;
+}
+
+.search-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.search-input:focus {
+    border-color: #999;
+}
+
+/* Select All styling */
+.select-all-item {
+    background-color: #f9f9f9;
+    border-bottom: 2px solid #e2e2e2;
+    font-weight: bold;
+}
+
+/* Active dropdown styling */
+.dropdown-header.active:after {
+    transform: rotate(180deg);
 }
 </style>
