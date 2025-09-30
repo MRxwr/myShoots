@@ -446,27 +446,44 @@ $(document).on("click",".edit", function(){
 		// Set multiple time selections
 		if($("#time"+id).html() && $("#time"+id).html() !== ""){
 			try {
-				// Handle the array or string format
-				var timeContent = $("#time"+id).html();
+				// Handle the array or string format - using a different approach to decode the HTML entities first
+				var timeContent = $("<div/>").html($("#time"+id).html()).text();
 				var timeData;
-				// First try parsing as array
+				
+				// First try parsing as array directly
 				try {
 					timeData = JSON.parse(timeContent);
 				} catch (e) {
-					// If it failed, it might be a string containing the entire array with escaped quotes
-					// Let's try to clean it up
-					if (timeContent.startsWith('[') && timeContent.endsWith(']')) {
-						try {
-							// Replace escaped backslashes and quotes appropriately
-							timeContent = timeContent.replace(/\\\\/g, "\\").replace(/\\"/g, '"');
-							timeData = JSON.parse(timeContent);
-						} catch (innerE) {
-							console.error("Could not parse time data even after cleanup:", innerE);
+					// If direct parsing fails, try different cleanup approaches
+					console.log("First parse attempt failed:", e);
+					
+					try {
+						// Try removing HTML entity encoding
+						timeContent = timeContent.replace(/&quot;/g, '"')
+							.replace(/&#34;/g, '"')
+							.replace(/&lt;/g, '<')
+							.replace(/&gt;/g, '>')
+							.replace(/&amp;/g, '&');
+						
+						timeData = JSON.parse(timeContent);
+					} catch (e2) {
+						console.log("Second parse attempt failed:", e2);
+						
+						// If it still failed, and it looks like JSON array
+						if (timeContent.startsWith('[') && timeContent.endsWith(']')) {
+							try {
+								// Replace escaped backslashes and quotes appropriately
+								timeContent = timeContent.replace(/\\\\/g, "\\").replace(/\\"/g, '"');
+								timeData = JSON.parse(timeContent);
+							} catch (innerE) {
+								console.error("All parsing attempts failed:", innerE);
+								console.log("Raw content:", $("#time"+id).html());
+								timeData = [];
+							}
+						} else {
+							console.error("Time data is not in expected format:", e);
 							timeData = [];
 						}
-					} else {
-						console.error("Time data is not in expected format:", e);
-						timeData = [];
 					}
 				}
 				
@@ -510,28 +527,44 @@ $(document).on("click",".edit", function(){
 		// Set multiple extras selections
 		if($("#extra_items"+id).html() && $("#extra_items"+id).html() !== ""){
 			try {
-				// Handle the array or string format
-				var extraContent = $("#extra_items"+id).html();
+				// Handle the array or string format - using a different approach to decode the HTML entities first
+				var extraContent = $("<div/>").html($("#extra_items"+id).html()).text();
 				var extraData;
 				
-				// First try parsing as array
+				// First try parsing as array directly
 				try {
 					extraData = JSON.parse(extraContent);
 				} catch (e) {
-					// If it failed, it might be a string containing the entire array with escaped quotes
-					// Let's try to clean it up
-					if (extraContent.startsWith('[') && extraContent.endsWith(']')) {
-						try {
-							// Replace escaped backslashes and quotes appropriately
-							extraContent = extraContent.replace(/\\\\/g, "\\").replace(/\\"/g, '"');
-							extraData = JSON.parse(extraContent);
-						} catch (innerE) {
-							console.error("Could not parse extra data even after cleanup:", innerE);
+					// If direct parsing fails, try different cleanup approaches
+					console.log("First parse attempt failed for extras:", e);
+					
+					try {
+						// Try removing HTML entity encoding
+						extraContent = extraContent.replace(/&quot;/g, '"')
+							.replace(/&#34;/g, '"')
+							.replace(/&lt;/g, '<')
+							.replace(/&gt;/g, '>')
+							.replace(/&amp;/g, '&');
+						
+						extraData = JSON.parse(extraContent);
+					} catch (e2) {
+						console.log("Second parse attempt failed for extras:", e2);
+						
+						// If it still failed, and it looks like JSON array
+						if (extraContent.startsWith('[') && extraContent.endsWith(']')) {
+							try {
+								// Replace escaped backslashes and quotes appropriately
+								extraContent = extraContent.replace(/\\\\/g, "\\").replace(/\\"/g, '"');
+								extraData = JSON.parse(extraContent);
+							} catch (innerE) {
+								console.error("All parsing attempts failed for extras:", innerE);
+								console.log("Raw extras content:", $("#extra_items"+id).html());
+								extraData = [];
+							}
+						} else {
+							console.error("Extra data is not in expected format:", e);
 							extraData = [];
 						}
-					} else {
-						console.error("Extra data is not in expected format:", e);
-						extraData = [];
 					}
 				}
 				
