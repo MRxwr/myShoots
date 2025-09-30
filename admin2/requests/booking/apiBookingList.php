@@ -51,7 +51,7 @@ $filtered_result = mysqli_query($dbconnect, $filtered_query);
 $filtered_records = mysqli_fetch_assoc($filtered_result)['total'];
 
 // Get data with pagination
-$data_query = "SELECT b.*, p.title_" . $_SESSION['lang'] . " as package_name 
+echo $data_query = "SELECT b.*, p.title_" . $_SESSION['lang'] . " as package_name 
                FROM tbl_booking b 
                LEFT JOIN tbl_packages p ON b.package_id = p.id" . 
                $search_query . 
