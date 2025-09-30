@@ -5,7 +5,7 @@ if ($id <= 0) {
     exit();
 }
 $_SESSION['lang'] = direction("en","ar");
-$query = "SELECT b.*, p.title_" . $_SESSION['lang'] . " as package_name FROM tbl_booking b LEFT JOIN tbl_packages p ON b.package_id = p.id WHERE b.id = $id LIMIT 1";
+$query = "SELECT b.*, p.{$_SESSION['lang']}Title as package_name FROM tbl_booking b LEFT JOIN tbl_packages p ON b.package_id = p.id WHERE b.id = $id LIMIT 1";
 $result = mysqli_query($dbconnect, $query);
 if ($result && $row = mysqli_fetch_assoc($result)) {
     // Format extra items
