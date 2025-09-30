@@ -183,6 +183,7 @@ if( isset($_POST["startTime"]) ){
                 <a href="<?php echo "?v={$_GET["v"]}&delId={$times[$i]["id"]}" ?>" data-toggle="tooltip" data-original-title="<?php echo direction("Delete","حذف") ?>"><i class="btn btn-danger btn-circle fa fa-close" style="align-content: center;"></i>
                 </a>
 			</td>
+            <div style="display: none"><label id="hidden<?php echo $times[$i]["id"]?>"><?php echo $times[$i]["hidden"] ?></label></div>;
 			</tr>
 			<?php
 			}
@@ -236,8 +237,8 @@ $(document).on("click",".edit", function(){
 			
 			return `${hours.toString().padStart(2, '0')}:${minutes}`;
 		}
-		
 		$("input[name=startTime]").val(convertTo24Hour(startTimeAMPM)).focus();
 		$("input[name=closeTime]").val(convertTo24Hour(closeTimeAMPM));
+        $("select[name=hidden]").val($("#hidden"+id).html());
 })
 </script>

@@ -312,7 +312,6 @@ $(document).on("click",".edit", function(){
 				// Handle the array or string format
 				var timeContent = $("#time"+id).html();
 				var timeData;
-				
 				// First try parsing as array
 				try {
 					timeData = JSON.parse(timeContent);
@@ -333,12 +332,8 @@ $(document).on("click",".edit", function(){
 						timeData = [];
 					}
 				}
-				
 				var timeSelect = $("select[name='time[]']");
-				timeSelect.val(null); // Clear any previous selections
-				
-				console.log("Time data loaded:", timeData);
-				
+				timeSelect.val(null); // Clear any previous selections				
 				// Select each time in the timeData array
 				if (Array.isArray(timeData)) {
 					timeData.forEach(function(timeItem) {
@@ -346,13 +341,11 @@ $(document).on("click",".edit", function(){
 						timeSelect.find("option").each(function() {
 							var optionVal = $(this).val();
 							var optionData;
-							
 							try {
 								optionData = JSON.parse(optionVal);
 							} catch (e) {
 								return; // Skip this option if it's not valid JSON
 							}
-							
 							// Compare startDate and endDate
 							if (timeItem.startDate && timeItem.endDate && 
 								optionData.startDate && optionData.endDate &&
