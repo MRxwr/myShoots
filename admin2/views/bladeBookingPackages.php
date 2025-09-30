@@ -47,6 +47,25 @@ if( isset($_POST["arTitle"]) ){
 		$_POST["time"] = "[]";
 	}
 	
+	// Convert array of extras to JSON string
+	if(isset($_POST["extra_items"]) && is_array($_POST["extra_items"])) {
+		// Parse each extra entry to make sure it's a proper JSON object
+		$parsedExtraArray = [];
+		foreach($_POST["extra_items"] as $extraEntry) {
+			if(is_string($extraEntry)) {
+				// Decode and re-encode to ensure consistent format
+				$decodedExtra = json_decode($extraEntry, true);
+				if(is_array($decodedExtra) && isset($decodedExtra['item']) && isset($decodedExtra['price'])) {
+					$parsedExtraArray[] = $decodedExtra;
+				}
+			}
+		}
+		// Use JSON_UNESCAPED_UNICODE to avoid Unicode escaping and ensure readability
+		$_POST["extra_items"] = json_encode($parsedExtraArray, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+	} else {
+		$_POST["extra_items"] = "[]";
+	}
+	
 	if ( $id == 0 ){
 		if (is_uploaded_file($_FILES['imageurl']['tmp_name'])) {
 			$_POST["imageurl"] = uploadImageBannerFreeImageHost($_FILES['imageurl']['tmp_name']);
@@ -136,6 +155,30 @@ if( isset($_POST["arTitle"]) ){
 			</select>
 			<small class="text-muted"><?php echo direction("Hold Ctrl/Cmd key to select multiple times","اضغط مع الاستمرار على مفتاح Ctrl/Cmd لتحديد أوقات متعددة") ?></small>
 			</div>
+			
+			<div class="col-md-12">
+			<label><?php echo direction("Available Extras","الإضافات المتاحة") ?></label>
+			<select name="extra_items[]" class="form-control" multiple style="height: 150px;">
+				<?php 
+				if($extras = selectDB("tbl_extras", "`status` = '0' AND `hidden` = '1' ORDER BY `rank` ASC")){
+					foreach($extras as $extra){
+						$extraObj = array(
+							'item' => $extra["enTitle"],
+							'item_en' => $extra["enTitle"],
+							'item_ar' => $extra["arTitle"],
+							'price' => $extra["price"]
+						);
+						// Use JSON_UNESCAPED_UNICODE to avoid Unicode escaping
+						$extraData = json_encode($extraObj, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+						// Make sure to properly escape the value attribute
+						echo '<option value="' . htmlspecialchars($extraData, ENT_QUOTES, 'UTF-8') . '">' . 
+							$extra["enTitle"] . ' / ' . $extra["arTitle"] . ' - ' . $extra["price"] . '</option>';
+					}
+				}
+				?>
+			</select>
+			<small class="text-muted"><?php echo direction("Hold Ctrl/Cmd key to select multiple extras","اضغط مع الاستمرار على مفتاح Ctrl/Cmd لتحديد إضافات متعددة") ?></small>
+			</div>
 
 			<div class="col-md-6">
 			<label><?php echo direction("English Details","التفاصيل بالإنجليزي") ?></label>
@@ -195,6 +238,7 @@ if( isset($_POST["arTitle"]) ){
 		<th><?php echo direction("English Title","العنوان بالإنجليزي") ?></th>
 		<th><?php echo direction("Arabic Title","العنوان بالعربي") ?></th>
 		<th><?php echo direction("Time","الوقت") ?></th>
+		<th><?php echo direction("Extras","الإضافات") ?></th>
 		<th class="text-nowrap"><?php echo direction("Action","الإجراء") ?></th>
 		</tr>
 		</thead>
@@ -265,6 +309,49 @@ if( isset($_POST["arTitle"]) ){
 					}
 				?>
 			</td>
+			<td>
+				<?php 
+					if(!empty($categories[$i]["extra_items"])) {
+						// First try normal JSON decode
+						$extraArray = json_decode($categories[$i]["extra_items"], true);
+						
+						// If that fails, try to clean the string and decode again
+						if(!is_array($extraArray)) {
+							$cleanExtra = str_replace('\\', '', $categories[$i]["extra_items"]);
+							$extraArray = json_decode($cleanExtra, true);
+						}
+						
+						// If still not an array, try one more method - could be a JSON string with escaped quotes
+						if(!is_array($extraArray)) {
+							// Remove surrounding quotes if present
+							$tempExtra = trim($categories[$i]["extra_items"]);
+							if(substr($tempExtra, 0, 1) === '"' && substr($tempExtra, -1) === '"') {
+								$tempExtra = substr($tempExtra, 1, -1);
+							}
+							// Replace escaped backslashes and quotes
+							$tempExtra = str_replace('\\"', '"', $tempExtra);
+							$tempExtra = str_replace('\\\\', '\\', $tempExtra);
+							
+							$extraArray = json_decode($tempExtra, true);
+						}
+						
+						if(is_array($extraArray) && count($extraArray) > 0) {
+							echo "<ul style='padding-left: 15px; margin-bottom: 0;'>";
+							foreach($extraArray as $extraItem) {
+								$extraData = is_string($extraItem) ? json_decode($extraItem, true) : $extraItem;
+								if(isset($extraData['item']) && isset($extraData['price'])) {
+									echo "<li>" . $extraData['item_en'] . " / " . $extraData['item_ar'] . " - " . $extraData['price'] . "</li>";
+								}
+							}
+							echo "</ul>";
+						} else {
+							echo direction("No extras set", "لا يوجد إضافات");
+						}
+					} else {
+						echo direction("No extras set", "لا يوجد إضافات");
+					}
+				?>
+			</td>
 			<td class="text-nowrap">
 			
 			<a id="<?php echo $categories[$i]["id"] ?>" class="mr-25 edit" data-toggle="tooltip" data-original-title="<?php echo direction("Edit","تعديل") ?>"> <i class="btn btn-warning btn-circle fa fa-pencil text-inverse m-r-10" style="align-content: center;"></i>
@@ -278,6 +365,7 @@ if( isset($_POST["arTitle"]) ){
 			<div style="display:none"><label id="arDetails<?php echo $categories[$i]["id"]?>"><?php echo $categories[$i]["arDetails"] ?></label></div>
 			<div style="display:none"><label id="logo<?php echo $categories[$i]["id"]?>"><?php echo $categories[$i]["imageurl"] ?></label></div>
 			<div style="display:none"><label id="time<?php echo $categories[$i]["id"]?>"><?php echo htmlspecialchars($categories[$i]["time"]) ?></label></div>
+			<div style="display:none"><label id="extra_items<?php echo $categories[$i]["id"]?>"><?php echo htmlspecialchars($categories[$i]["extra_items"]) ?></label></div>
 			</td>
 			</tr>
 			<?php
@@ -358,6 +446,66 @@ $(document).on("click",".edit", function(){
 				}
 			} catch(e) {
 				console.error("Error handling time data:", e);
+			}
+		}
+		
+		// Set multiple extras selections
+		if($("#extra_items"+id).html() && $("#extra_items"+id).html() !== ""){
+			try {
+				// Handle the array or string format
+				var extraContent = $("#extra_items"+id).html();
+				var extraData;
+				
+				// First try parsing as array
+				try {
+					extraData = JSON.parse(extraContent);
+				} catch (e) {
+					// If it failed, it might be a string containing the entire array with escaped quotes
+					// Let's try to clean it up
+					if (extraContent.startsWith('[') && extraContent.endsWith(']')) {
+						try {
+							// Replace escaped backslashes and quotes appropriately
+							extraContent = extraContent.replace(/\\\\/g, "\\").replace(/\\"/g, '"');
+							extraData = JSON.parse(extraContent);
+						} catch (innerE) {
+							console.error("Could not parse extra data even after cleanup:", innerE);
+							extraData = [];
+						}
+					} else {
+						console.error("Extra data is not in expected format:", e);
+						extraData = [];
+					}
+				}
+				
+				var extraSelect = $("select[name='extra_items[]']");
+				extraSelect.val(null); // Clear any previous selections
+				
+				// Select each extra in the extraData array
+				if (Array.isArray(extraData)) {
+					extraData.forEach(function(extraItem) {
+						// Find the option that matches this extra
+						extraSelect.find("option").each(function() {
+							var optionVal = $(this).val();
+							var optionData;
+							
+							try {
+								optionData = JSON.parse(optionVal);
+							} catch (e) {
+								return; // Skip this option if it's not valid JSON
+							}
+							
+							// Compare item and price
+							if (extraItem.item && extraItem.price && 
+								optionData.item && optionData.price &&
+								extraItem.item === optionData.item && 
+								extraItem.price === optionData.price) {
+								$(this).prop('selected', true);
+							}
+						});
+					});
+				}
+			} catch(e) {
+				console.error("Error handling extra data:", e);
 			}
 		}
 		
