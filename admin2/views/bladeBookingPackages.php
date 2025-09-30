@@ -27,6 +27,14 @@ if( isset($_POST["updateRank"]) ){
 if( isset($_POST["arTitle"]) ){
 	$id = $_POST["update"];
 	unset($_POST["update"]);
+	
+	// Convert array of time slots to JSON string
+	if(isset($_POST["time"]) && is_array($_POST["time"])) {
+		$_POST["time"] = json_encode($_POST["time"], JSON_UNESCAPED_UNICODE);
+	} else {
+		$_POST["time"] = "[]";
+	}
+	
 	if ( $id == 0 ){
 		if (is_uploaded_file($_FILES['imageurl']['tmp_name'])) {
 			$_POST["imageurl"] = uploadImageBannerFreeImageHost($_FILES['imageurl']['tmp_name']);
@@ -94,6 +102,21 @@ if( isset($_POST["arTitle"]) ){
 				<option value="2">Yes</option>
 			</select>
 			</div>
+			
+			<div class="col-md-12">
+			<label><?php echo direction("Available Times","الأوقات المتاحة") ?></label>
+			<select name="time[]" class="form-control" required multiple style="height: 150px;">
+				<?php 
+				if($times = selectDB("tbl_times", "`status` = '0' AND `hidden` = '1' ORDER BY `rank` ASC")){
+					foreach($times as $time){
+						$timeData = '{"startDate":"' . $time["startTime"] . '","endDate":"' . $time["closeTime"] . '"}';
+						echo '<option value=\'' . $timeData . '\'>' . $time["startTime"] . ' - ' . $time["closeTime"] . '</option>';
+					}
+				}
+				?>
+			</select>
+			<small class="text-muted"><?php echo direction("Hold Ctrl/Cmd key to select multiple times","اضغط مع الاستمرار على مفتاح Ctrl/Cmd لتحديد أوقات متعددة") ?></small>
+			</div>
 
 			<div class="col-md-6">
 			<label><?php echo direction("English Details","التفاصيل بالإنجليزي") ?></label>
@@ -152,6 +175,7 @@ if( isset($_POST["arTitle"]) ){
 		<th><?php echo direction("Logo","الشعار") ?></th>
 		<th><?php echo direction("English Title","العنوان بالإنجليزي") ?></th>
 		<th><?php echo direction("Arabic Title","العنوان بالعربي") ?></th>
+		<th><?php echo direction("Time","الوقت") ?></th>
 		<th class="text-nowrap"><?php echo direction("Action","الإجراء") ?></th>
 		</tr>
 		</thead>
@@ -179,6 +203,27 @@ if( isset($_POST["arTitle"]) ){
 			<td><img src="../logos/<?php echo $categories[$i]["imageurl"] ?>" style="width:100px;height:100px"></td>
 			<td id="enTitle<?php echo $categories[$i]["id"]?>" ><?php echo $categories[$i]["enTitle"] ?></td>
 			<td id="arTitle<?php echo $categories[$i]["id"]?>" ><?php echo $categories[$i]["arTitle"] ?></td>
+			<td>
+				<?php 
+					if(!empty($categories[$i]["time"])) {
+						$timeArray = json_decode($categories[$i]["time"], true);
+						if(is_array($timeArray) && count($timeArray) > 0) {
+							echo "<ul style='padding-left: 15px; margin-bottom: 0;'>";
+							foreach($timeArray as $timeItem) {
+								$timeData = is_string($timeItem) ? json_decode($timeItem, true) : $timeItem;
+								if(isset($timeData['startDate']) && isset($timeData['endDate'])) {
+									echo "<li>" . $timeData['startDate'] . " - " . $timeData['endDate'] . "</li>";
+								}
+							}
+							echo "</ul>";
+						} else {
+							echo direction("No time set", "لا يوجد وقت محدد");
+						}
+					} else {
+						echo direction("No time set", "لا يوجد وقت محدد");
+					}
+				?>
+			</td>
 			<td class="text-nowrap">
 			
 			<a id="<?php echo $categories[$i]["id"] ?>" class="mr-25 edit" data-toggle="tooltip" data-original-title="<?php echo direction("Edit","تعديل") ?>"> <i class="btn btn-warning btn-circle fa fa-pencil text-inverse m-r-10" style="align-content: center;"></i>
@@ -191,6 +236,7 @@ if( isset($_POST["arTitle"]) ){
 			<div style="display:none"><label id="enDetails<?php echo $categories[$i]["id"]?>"><?php echo $categories[$i]["enDetails"] ?></label></div>
 			<div style="display:none"><label id="arDetails<?php echo $categories[$i]["id"]?>"><?php echo $categories[$i]["arDetails"] ?></label></div>
 			<div style="display:none"><label id="logo<?php echo $categories[$i]["id"]?>"><?php echo $categories[$i]["imageurl"] ?></label></div>
+			<div style="display:none"><label id="time<?php echo $categories[$i]["id"]?>"><?php echo $categories[$i]["time"] ?></label></div>
 			</td>
 			</tr>
 			<?php
@@ -218,6 +264,30 @@ $(document).on("click",".edit", function(){
 		tinymce.get('enDetails').setContent($("#enDetails"+id).html());
 		tinymce.get('arDetails').setContent($("#arDetails"+id).html());
 		$("select[name=hidden]").val($("#hidden"+id).html());
+		
+		// Set multiple time selections
+		if($("#time"+id).html() && $("#time"+id).html() !== ""){
+			try {
+				var timeData = JSON.parse($("#time"+id).html());
+				var timeSelect = $("select[name='time[]']");
+				timeSelect.val(null); // Clear any previous selections
+				
+				// Select each time in the timeData array
+				if (Array.isArray(timeData)) {
+					timeData.forEach(function(timeItem) {
+						// Find the option that matches this time JSON string and select it
+						timeSelect.find("option").each(function() {
+							if ($(this).val() === JSON.stringify(timeItem)) {
+								$(this).prop('selected', true);
+							}
+						});
+					});
+				}
+			} catch(e) {
+				console.error("Error parsing time data:", e);
+			}
+		}
+		
 		$("input[type=file]").prop("required",false);
 		$("#logoImg").attr("src","../logos/"+$("#logo"+id).html());
 		$("#images").attr("style","margin-top:10px;display:block");
