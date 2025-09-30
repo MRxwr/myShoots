@@ -1,6 +1,6 @@
 <?php
 require ("includes/config.php");
-require ("includes/translate.php");
+//require ("includes/translate.php");
 
 if ( isset($_COOKIE[$cookieSession."A"]) ){
 	header("Location: index");
