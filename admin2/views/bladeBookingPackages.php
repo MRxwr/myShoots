@@ -134,7 +134,7 @@ if( isset($_POST["arTitle"]) ){
 			</select>
 			</div>
 			
-			<div id="time-select" class="col-md-12">
+			<div id="time-select" class="col-md-6">
 			<label><?php echo direction("Available Times","الأوقات المتاحة") ?></label>
 			<select name="time[]" class="form-control" required multiple>
 				<?php 
@@ -156,7 +156,7 @@ if( isset($_POST["arTitle"]) ){
 			<small class="text-muted"><?php echo direction("Click on the dropdown to select times","انقر على القائمة المنسدلة لتحديد الأوقات") ?></small>
 			</div>
 			
-			<div id="extras-select" class="col-md-12">
+			<div id="extras-select" class="col-md-6">
 			<label><?php echo direction("Available Extras","الإضافات المتاحة") ?></label>
 			<select name="extra_items[]" class="form-control" multiple>
 				<?php 
