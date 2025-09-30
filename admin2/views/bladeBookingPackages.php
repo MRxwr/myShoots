@@ -404,6 +404,57 @@ $(document).on("click",".edit", function(){
 				console.error("Error handling time data:", e);
 			}
 		}
+
+        // Set multiple extras selections
+        if($("#extras"+id).html() && $("#extras"+id).html() !== ""){
+            try {
+                var extrasContent = $("#extras"+id).html();
+                var extrasData;
+                // Try parsing as array
+                try {
+                    extrasData = JSON.parse(extrasContent);
+                } catch (e) {
+                    // Try to clean up if needed
+                    if (extrasContent.startsWith('[') && extrasContent.endsWith(']')) {
+                        try {
+                            extrasContent = extrasContent.replace(/\\\\/g, "\\").replace(/\\"/g, '"');
+                            extrasData = JSON.parse(extrasContent);
+                        } catch (innerE) {
+                            console.error("Could not parse extras data even after cleanup:", innerE);
+                            extrasData = [];
+                        }
+                    } else {
+                        console.error("Extras data is not in expected format:", e);
+                        extrasData = [];
+                    }
+                }
+                var extrasSelect = $("select[name='extra_items[]']");
+                extrasSelect.val(null); // Clear previous selections
+                // Select each extra in the extrasData array
+                if (Array.isArray(extrasData)) {
+                    extrasData.forEach(function(extraItem) {
+                        extrasSelect.find("option").each(function() {
+                            var optionVal = $(this).val();
+                            var optionData;
+                            try {
+                                optionData = JSON.parse(optionVal);
+                            } catch (e) {
+                                return;
+                            }
+                            // Compare item and price
+                            if (extraItem.item && optionData.item &&
+                                extraItem.price && optionData.price &&
+                                extraItem.item === optionData.item &&
+                                extraItem.price == optionData.price) {
+                                $(this).prop('selected', true);
+                            }
+                        });
+                    });
+                }
+            } catch(e) {
+                console.error("Error handling extras data:", e);
+            }
+        }
 		
 		$("input[type=file]").prop("required",false);
 		$("#logoImg").attr("src","../logos/"+$("#logo"+id).html());
