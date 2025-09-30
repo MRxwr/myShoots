@@ -446,16 +446,18 @@ $(document).on("click",".edit", function(){
 		// Set multiple time selections
 		if($("#time"+id).html() && $("#time"+id).html() !== ""){
 			try {
+				// Clear previous selections first
+				$('#time-select select').val(null).trigger('change');
+				
 				// Handle the array or string format - using a different approach to decode the HTML entities first
 				var timeContent = $("<div/>").html($("#time"+id).html()).text();
-				var timeData;
+				var timeData = [];
 				
 				// First try parsing as array directly
 				try {
 					timeData = JSON.parse(timeContent);
 				} catch (e) {
-					// If direct parsing fails, try different cleanup approaches
-					console.log("First parse attempt failed:", e);
+					console.log("First parse attempt failed for time data, trying cleanup methods...");
 					
 					try {
 						// Try removing HTML entity encoding
@@ -467,43 +469,50 @@ $(document).on("click",".edit", function(){
 						
 						timeData = JSON.parse(timeContent);
 					} catch (e2) {
-						console.log("Second parse attempt failed:", e2);
+						console.log("Second parse attempt failed, trying manual cleanup...");
 						
 						// If it still failed, and it looks like JSON array
-						if (timeContent.startsWith('[') && timeContent.endsWith(']')) {
+						if (timeContent.trim().startsWith('[') && timeContent.trim().endsWith(']')) {
 							try {
 								// Replace escaped backslashes and quotes appropriately
-								timeContent = timeContent.replace(/\\\\/g, "\\").replace(/\\"/g, '"');
-								timeData = JSON.parse(timeContent);
+								var cleanContent = timeContent.replace(/\\\\/g, "\\").replace(/\\"/g, '"');
+								timeData = JSON.parse(cleanContent);
 							} catch (innerE) {
-								console.error("All parsing attempts failed:", innerE);
-								console.log("Raw content:", $("#time"+id).html());
+								console.error("All parsing attempts failed for time data:", innerE);
+								console.log("Raw time content:", $("#time"+id).html());
+								console.log("Decoded time content:", timeContent);
 								timeData = [];
 							}
 						} else {
-							console.error("Time data is not in expected format:", e);
+							console.error("Time data is not in expected JSON array format");
 							timeData = [];
 						}
 					}
 				}
 				
-				// Clear previous selections
-				$('#time-select select').val(null).trigger('change');
-				
 				// Select each time in the timeData array
-				if (Array.isArray(timeData)) {
+				if (Array.isArray(timeData) && timeData.length > 0) {
 					var selectedValues = [];
 					
 					timeData.forEach(function(timeItem) {
 						// Find the option that matches this time
 						$('#time-select select option').each(function() {
 							var optionVal = $(this).val();
+							if (!optionVal) return;
+							
 							var optionData;
 							
 							try {
-								optionData = JSON.parse(optionVal);
+								// First decode HTML entities in the option value
+								var decodedOptionVal = $("<div/>").html(optionVal).text();
+								optionData = JSON.parse(decodedOptionVal);
 							} catch (e) {
-								return; // Skip this option if it's not valid JSON
+								try {
+									// Try parsing the original value if decoding failed
+									optionData = JSON.parse(optionVal);
+								} catch (e2) {
+									return; // Skip this option if it's not valid JSON
+								}
 							}
 							
 							// Compare startDate and endDate
@@ -517,26 +526,31 @@ $(document).on("click",".edit", function(){
 					});
 					
 					// Set the selected values using Select2
-					$('#time-select select').val(selectedValues).trigger('change');
+					if (selectedValues.length > 0) {
+						$('#time-select select').val(selectedValues).trigger('change');
+					}
 				}
 			} catch(e) {
-				console.error("Error handling time data:", e);
+				console.error("Critical error handling time data:", e);
+				$('#time-select select').val(null).trigger('change');
 			}
 		}
 		
 		// Set multiple extras selections
 		if($("#extra_items"+id).html() && $("#extra_items"+id).html() !== ""){
 			try {
+				// Clear previous selections first
+				$('#extras-select select').val(null).trigger('change');
+				
 				// Handle the array or string format - using a different approach to decode the HTML entities first
 				var extraContent = $("<div/>").html($("#extra_items"+id).html()).text();
-				var extraData;
+				var extraData = [];
 				
 				// First try parsing as array directly
 				try {
 					extraData = JSON.parse(extraContent);
 				} catch (e) {
-					// If direct parsing fails, try different cleanup approaches
-					console.log("First parse attempt failed for extras:", e);
+					console.log("First parse attempt failed for extras, trying cleanup methods...");
 					
 					try {
 						// Try removing HTML entity encoding
@@ -548,43 +562,50 @@ $(document).on("click",".edit", function(){
 						
 						extraData = JSON.parse(extraContent);
 					} catch (e2) {
-						console.log("Second parse attempt failed for extras:", e2);
+						console.log("Second parse attempt failed for extras, trying manual cleanup...");
 						
 						// If it still failed, and it looks like JSON array
-						if (extraContent.startsWith('[') && extraContent.endsWith(']')) {
+						if (extraContent.trim().startsWith('[') && extraContent.trim().endsWith(']')) {
 							try {
 								// Replace escaped backslashes and quotes appropriately
-								extraContent = extraContent.replace(/\\\\/g, "\\").replace(/\\"/g, '"');
-								extraData = JSON.parse(extraContent);
+								var cleanContent = extraContent.replace(/\\\\/g, "\\").replace(/\\"/g, '"');
+								extraData = JSON.parse(cleanContent);
 							} catch (innerE) {
 								console.error("All parsing attempts failed for extras:", innerE);
 								console.log("Raw extras content:", $("#extra_items"+id).html());
+								console.log("Decoded extras content:", extraContent);
 								extraData = [];
 							}
 						} else {
-							console.error("Extra data is not in expected format:", e);
+							console.error("Extra data is not in expected JSON array format");
 							extraData = [];
 						}
 					}
 				}
 				
-				// Clear previous selections
-				$('#extras-select select').val(null).trigger('change');
-				
 				// Select each extra in the extraData array
-				if (Array.isArray(extraData)) {
+				if (Array.isArray(extraData) && extraData.length > 0) {
 					var selectedValues = [];
 					
 					extraData.forEach(function(extraItem) {
 						// Find the option that matches this extra
 						$('#extras-select select option').each(function() {
 							var optionVal = $(this).val();
+							if (!optionVal) return;
+							
 							var optionData;
 							
 							try {
-								optionData = JSON.parse(optionVal);
+								// First decode HTML entities in the option value
+								var decodedOptionVal = $("<div/>").html(optionVal).text();
+								optionData = JSON.parse(decodedOptionVal);
 							} catch (e) {
-								return; // Skip this option if it's not valid JSON
+								try {
+									// Try parsing the original value if decoding failed
+									optionData = JSON.parse(optionVal);
+								} catch (e2) {
+									return; // Skip this option if it's not valid JSON
+								}
 							}
 							
 							// Compare item and price
@@ -598,10 +619,13 @@ $(document).on("click",".edit", function(){
 					});
 					
 					// Set the selected values
-					$('#extras-select select').val(selectedValues).trigger('change');
+					if (selectedValues.length > 0) {
+						$('#extras-select select').val(selectedValues).trigger('change');
+					}
 				}
 			} catch(e) {
-				console.error("Error handling extra data:", e);
+				console.error("Critical error handling extra data:", e);
+				$('#extras-select select').val(null).trigger('change');
 			}
 		}
 		
