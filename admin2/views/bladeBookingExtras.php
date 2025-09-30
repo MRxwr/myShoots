@@ -1,19 +1,19 @@
 <?php 
 if( isset($_GET["hide"]) && !empty($_GET["hide"]) ){
 	if( updateDB("tbl_extras",array('hidden'=> '2'),"`id` = '{$_GET["hide"]}'") ){
-		header("LOCATION: ?v=BookingTimes");
+		header("LOCATION: ?v=BookingExtras");
 	}
 }
 
 if( isset($_GET["show"]) && !empty($_GET["show"]) ){
 	if( updateDB("tbl_extras",array('hidden'=> '1'),"`id` = '{$_GET["show"]}'") ){
-		header("LOCATION: ?v=BookingTimes");
+		header("LOCATION: ?v=BookingExtras");
 	}
 }
 
 if( isset($_GET["delId"]) && !empty($_GET["delId"]) ){
 	if( updateDB("tbl_extras",array('status'=> '1'),"`id` = '{$_GET["delId"]}'") ){
-		header("LOCATION: ?v=BookingTimes");
+		header("LOCATION: ?v=BookingExtras");
 	}
 }
 
@@ -21,7 +21,7 @@ if( isset($_POST["updateRank"]) ){
 	for( $i = 0; $i < sizeof($_POST["rank"]); $i++){
 		updateDB("tbl_extras",array("rank"=>$_POST["rank"][$i]),"`id` = '{$_POST["id"][$i]}'");
 	}
-	header("LOCATION: ?v=BookingTimes");
+	header("LOCATION: ?v=BookingExtras");
 }
 
 if( isset($_POST["enTitle"]) ){
@@ -29,7 +29,7 @@ if( isset($_POST["enTitle"]) ){
 	unset($_POST["update"]);
 	if ( $id == 0 ){
 		if( insertDB("tbl_extras", $_POST) ){
-			header("LOCATION: ?v=BookingTimes");
+			header("LOCATION: ?v=BookingExtras");
 		}else{
 		?>
 		<script>
@@ -39,7 +39,7 @@ if( isset($_POST["enTitle"]) ){
 		}
 	}else{
 		if( updateDB("tbl_extras", $_POST, "`id` = '{$id}'") ){
-			header("LOCATION: ?v=BookingTimes");
+			header("LOCATION: ?v=BookingExtras");
 		}else{
 		?>
 		<script>
