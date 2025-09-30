@@ -6,17 +6,14 @@ if (!$id) {
 }
 
 // Select all needed columns
-$query = "SELECT id, booking_date, booking_time, transaction_id, mobile_number FROM tbl_booking WHERE id = $id";
-$result = mysqli_query($dbconnect, $query);
-$row = mysqli_fetch_assoc($result);
-if ($row) {
+if ($booking = selectDBNew("tbl_booking", [$id] , "id = ?","")) {
     // Here you would integrate with your SMS API
-    $booking_date = $row['booking_date'];
-    $booking_time = $row['booking_time'];
-    $orderId = $row['transaction_id'];
+    $booking_date = $booking[0]['booking_date'];
+    $booking_time = $booking[0]['booking_time'];
+    $orderId = $booking[0]['transaction_id'];
     $arabic = ['١','٢','٣','٤','٥','٦','٧','٨','٩','٠'];
     $english = [ 1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 , 0];
-    $phone = str_replace($arabic, $english, $row['mobile_number']);
+    $phone = str_replace($arabic, $english, $booking[0]['mobile_number']);
     $mobile = $phone;
     $message="Your booking has been confirmed with myshoots studio, Date: ".$booking_date.", Time:".$booking_time.",Id: ".$orderId;
     $message = str_replace(' ','+',$message);
@@ -37,9 +34,12 @@ if ($row) {
         if (strpos($response, 'ERR') !== false) {
             echo json_encode(['success' => false, 'message' => 'Could not send SMS - ' . $response]);
         } else {
-            $update = "UPDATE tbl_booking SET sms = 1 WHERE id = $id";
-            mysqli_query($dbconnect, $update);
-            echo json_encode(['success' => true, 'message' => 'SMS sent successfully']);
+            if( updateDB("tbl_booking", ["sms" => 1], "id = $id") ) {
+                echo json_encode(['success' => true, 'message' => 'SMS sent successfully']);
+            }else{
+                echo json_encode(['success' => false, 'message' => 'SMS sent but failed to update status']);
+            }
+            
         }
     }
 }else{

@@ -7,10 +7,7 @@ if (!$id || !in_array($status, ['Yes', 'No', 'Cancel'])) {
     exit();
 }
 
-$query = "UPDATE tbl_booking SET status = '" . mysqli_real_escape_string($dbconnect, $status) . "' WHERE id = $id";
-$result = mysqli_query($dbconnect, $query);
-
-if ($result) {
+if ( updateDB("tbl_booking", ["status" => $status], "id = $id") ) {
     echo json_encode(['success' => true, 'message' => 'Status updated successfully']);
 } else {
     echo json_encode(['success' => false, 'message' => 'Failed to update status']);
