@@ -158,7 +158,7 @@ if( isset($_POST["arTitle"]) ){
 			
 			<div class="col-md-12">
 			<label><?php echo direction("Available Extras","الإضافات المتاحة") ?></label>
-			<select name="extra_items[]" class="form-control" multiple style="height: 150px;">
+			<select name="extra_items[]" id="extra_items_select" class="form-control select2" multiple="multiple" style="width:100%">
 				<?php 
 				if($extras = selectDB("tbl_extras", "`status` = '0' AND `hidden` = '1' ORDER BY `rank` ASC")){
 					foreach($extras as $extra){
@@ -168,9 +168,7 @@ if( isset($_POST["arTitle"]) ){
 							'item_ar' => $extra["arTitle"],
 							'price' => $extra["price"]
 						);
-						// Use JSON_UNESCAPED_UNICODE to avoid Unicode escaping
 						$extraData = json_encode($extraObj, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-						// Make sure to properly escape the value attribute
 						echo '<option value="' . htmlspecialchars($extraData, ENT_QUOTES, 'UTF-8') . '">' . 
 							$extra["enTitle"] . ' / ' . $extra["arTitle"] . ' - ' . $extra["price"] . '</option>';
 					}
@@ -428,29 +426,41 @@ $(document).on("click",".edit", function(){
                         extrasData = [];
                     }
                 }
-                var extrasSelect = $("select[name='extra_items[]']");
-                extrasSelect.val(null); // Clear previous selections
-                // Select each extra in the extrasData array
-                if (Array.isArray(extrasData)) {
-                    extrasData.forEach(function(extraItem) {
-                        extrasSelect.find("option").each(function() {
-                            var optionVal = $(this).val();
-                            var optionData;
-                            try {
-                                optionData = JSON.parse(optionVal);
-                            } catch (e) {
-                                return;
-                            }
-                            // Compare item and price
-                            if (extraItem.item && optionData.item &&
-                                extraItem.price && optionData.price &&
-                                extraItem.item === optionData.item &&
-                                extraItem.price == optionData.price) {
-                                $(this).prop('selected', true);
-                            }
-                        });
-                    });
-                }
+				var extrasSelect = $("#extra_items_select");
+				extrasSelect.val(null).trigger('change'); // Clear previous selections
+				// Select each extra in the extrasData array
+				if (Array.isArray(extrasData)) {
+					var selectedValues = [];
+					extrasData.forEach(function(extraItem) {
+						extrasSelect.find("option").each(function() {
+							var optionVal = $(this).val();
+							var optionData;
+							try {
+								optionData = JSON.parse(optionVal);
+							} catch (e) {
+								return;
+							}
+							if (extraItem.item && optionData.item &&
+								extraItem.price && optionData.price &&
+								extraItem.item === optionData.item &&
+								extraItem.price == optionData.price) {
+								selectedValues.push(optionVal);
+							}
+						});
+					});
+					extrasSelect.val(selectedValues).trigger('change');
+				}
+			} catch(e) {
+				console.error("Error handling extras data:", e);
+			}
+		}
+$(document).ready(function() {
+	$('#extra_items_select').select2({
+		placeholder: "Select extras",
+		allowClear: true,
+		width: 'resolve'
+	});
+});
             } catch(e) {
                 console.error("Error handling extras data:", e);
             }
