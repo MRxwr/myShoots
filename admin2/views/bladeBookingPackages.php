@@ -384,11 +384,21 @@ if( isset($_POST["arTitle"]) ){
 </form>
 </div>
 <script>
-// Include Select2 library from CDN
-document.write('<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />');
-document.write('<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"><\/script>');
-
 $(document).ready(function() {
+    // Initialize Select2 when the document is ready
+    initializeSelect2();
+});
+
+// Also add a fallback initialization after window loads
+$(window).on('load', function() {
+    // Double-check if Select2 is initialized
+    if (typeof $.fn.select2 === 'function' && !$('.select2-times').hasClass('select2-hidden-accessible')) {
+        initializeSelect2();
+    }
+});
+
+// Function to initialize Select2
+function initializeSelect2() {
     // Common Select2 options
     var select2Options = {
         allowClear: true,
@@ -398,13 +408,6 @@ $(document).ready(function() {
             noResults: function() {
                 return '<?php echo direction("No results found", "لا توجد نتائج") ?>';
             }
-        },
-        templateSelection: function(data) {
-            // For nicer display of selected items
-            if (!data.id) {
-                return data.text;
-            }
-            return $("<span>" + data.text + "</span>");
         }
     };
     
@@ -422,13 +425,13 @@ $(document).ready(function() {
     if ($('html').attr('dir') === 'rtl') {
         $('.select2-times, .select2-extras').each(function() {
             var $select = $(this);
-            var currentOptions = $select.data('select2').options.options;
-            var updatedOptions = $.extend({}, currentOptions, { dir: 'rtl' });
-            
-            $select.select2('destroy').select2(updatedOptions);
+            if ($select.data('select2')) {
+                $select.select2('destroy');
+            }
+            $select.select2($.extend({}, select2Options, { dir: 'rtl' }));
         });
     }
-});
+}
 
 $(document).on("click",".edit", function(){
 		var id = $(this).attr("id");
@@ -496,7 +499,7 @@ $(document).on("click",".edit", function(){
 						});
 					});
 					
-					// Set the selected values
+					// Set the selected values using Select2
 					$('#time-select select').val(selectedValues).trigger('change');
 				}
 			} catch(e) {

@@ -44,6 +44,9 @@
 	<!-- Bootstrap Select JavaScript -->
 	<script src="../vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
 	
+	<!-- Select2 JavaScript -->
+	<script src="../vendors/bower_components/select2/dist/js/select2.full.min.js"></script>
+	
 	<!-- Sweet-Alert  -->
 	<script src="../vendors/bower_components/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="dist/js/sweetalert-data.js"></script>
