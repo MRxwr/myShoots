@@ -136,6 +136,30 @@ if( isset($_POST["arTitle"]) ){
 			</select>
 			<small class="text-muted"><?php echo direction("Hold Ctrl/Cmd key to select multiple times","اضغط مع الاستمرار على مفتاح Ctrl/Cmd لتحديد أوقات متعددة") ?></small>
 			</div>
+			
+			<div class="col-md-12">
+			<label><?php echo direction("Available Extras","الإضافات المتاحة") ?></label>
+			<select name="extra_items[]" class="form-control" multiple style="height: 150px;">
+				<?php 
+				if($extras = selectDB("tbl_extras", "`status` = '0' AND `hidden` = '1' ORDER BY `rank` ASC")){
+					foreach($extras as $extra){
+						$extraObj = array(
+							'item' => $extra["enTitle"],
+							'item_en' => $extra["enTitle"],
+							'item_ar' => $extra["arTitle"],
+							'price' => $extra["price"]
+						);
+						// Use JSON_UNESCAPED_UNICODE to avoid Unicode escaping
+						$extraData = json_encode($extraObj, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+						// Make sure to properly escape the value attribute
+						echo '<option value="' . htmlspecialchars($extraData, ENT_QUOTES, 'UTF-8') . '">' . 
+							$extra["enTitle"] . ' / ' . $extra["arTitle"] . ' - ' . $extra["price"] . '</option>';
+					}
+				}
+				?>
+			</select>
+			<small class="text-muted"><?php echo direction("Hold Ctrl/Cmd key to select multiple extras","اضغط مع الاستمرار على مفتاح Ctrl/Cmd لتحديد إضافات متعددة") ?></small>
+			</div>
 
 			<div class="col-md-6">
 			<label><?php echo direction("English Details","التفاصيل بالإنجليزي") ?></label>
