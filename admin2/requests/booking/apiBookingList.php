@@ -21,29 +21,29 @@ if ($status_filter != 'all') {
 
 // Search WHERE clause
 $search_query = '';
+$where_conditions = array();
+
+// Always filter for non-empty transaction_id
+$where_conditions[] = "transaction_id != ''";
+
+// Add search conditions if search value exists
 if (!empty($search_value)) {
     $search_value = mysqli_real_escape_string($dbconnect, $search_value);
-    $search_conditions = [];
-    $search_conditions[] = "(customer_name LIKE '%$search_value%'"
-        . " OR mobile_number LIKE '%$search_value%'"
-        . " OR transaction_id LIKE '%$search_value%'"
-        . " OR b.created_at LIKE '%$search_value%')";
-    $search_conditions[] = "transaction_id != ''";
-    if (!empty($status_query)) {
-        // Remove leading ' AND ' from $status_query
-        $search_conditions[] = ltrim($status_query, ' AND');
-    }
-    $search_query = " WHERE " . implode(' AND ', $search_conditions);
-} else {
-    // If no search but has status filter
-    if (!empty($status_query)) {
-        $search_query = " WHERE transaction_id != ''" . $status_query;
-    }
-    // Always add transaction_id != '' for all types
-    if (empty($search_query)) {
-        $search_query = " WHERE transaction_id != ''";
-    }
+    $where_conditions[] = "(customer_name LIKE '%$search_value%' 
+                          OR mobile_number LIKE '%$search_value%' 
+                          OR transaction_id LIKE '%$search_value%'
+                          OR b.created_at LIKE '%$search_value%')";
 }
+
+// Add status filter if not 'all'
+if (!empty($status_query)) {
+    // Remove the leading ' AND ' from status_query
+    $status_condition = ltrim($status_query, ' AND ');
+    $where_conditions[] = $status_condition;
+}
+
+// Build the final WHERE clause
+$search_query = " WHERE " . implode(' AND ', $where_conditions);
 
 // Count total records
 // Count total records (only with transaction_id)
