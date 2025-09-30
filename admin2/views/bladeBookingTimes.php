@@ -24,7 +24,7 @@ if( isset($_POST["updateRank"]) ){
 	header("LOCATION: ?v=BookingTimes");
 }
 
-if( isset($_POST["arTitle"]) ){
+if( isset($_POST["startTime"]) ){
 	$id = $_POST["update"];
 	unset($_POST["update"]);
 	if ( $id == 0 ){
