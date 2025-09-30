@@ -30,7 +30,19 @@ if( isset($_POST["arTitle"]) ){
 	
 	// Convert array of time slots to JSON string
 	if(isset($_POST["time"]) && is_array($_POST["time"])) {
-		$_POST["time"] = json_encode($_POST["time"], JSON_UNESCAPED_UNICODE);
+		// Parse each time entry to make sure it's a proper JSON object
+		$parsedTimeArray = [];
+		foreach($_POST["time"] as $timeEntry) {
+			if(is_string($timeEntry)) {
+				// Decode and re-encode to ensure consistent format
+				$decodedTime = json_decode($timeEntry, true);
+				if(is_array($decodedTime) && isset($decodedTime['startDate']) && isset($decodedTime['endDate'])) {
+					$parsedTimeArray[] = $decodedTime;
+				}
+			}
+		}
+		// Use JSON_UNESCAPED_UNICODE to avoid Unicode escaping and ensure readability
+		$_POST["time"] = json_encode($parsedTimeArray, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 	} else {
 		$_POST["time"] = "[]";
 	}
@@ -109,8 +121,15 @@ if( isset($_POST["arTitle"]) ){
 				<?php 
 				if($times = selectDB("tbl_times", "`status` = '0' AND `hidden` = '1' ORDER BY `rank` ASC")){
 					foreach($times as $time){
-						$timeData = '{"startDate":"' . $time["startTime"] . '","endDate":"' . $time["closeTime"] . '"}';
-						echo '<option value=\'' . $timeData . '\'>' . $time["startTime"] . ' - ' . $time["closeTime"] . '</option>';
+						$timeObj = array(
+							'startDate' => $time["startTime"],
+							'endDate' => $time["closeTime"]
+						);
+						// Use JSON_UNESCAPED_UNICODE to avoid Unicode escaping
+						$timeData = json_encode($timeObj, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+						// Make sure to properly escape the value attribute
+						echo '<option value="' . htmlspecialchars($timeData, ENT_QUOTES, 'UTF-8') . '">' . 
+							$time["startTime"] . ' - ' . $time["closeTime"] . '</option>';
 					}
 				}
 				?>
@@ -206,7 +225,29 @@ if( isset($_POST["arTitle"]) ){
 			<td>
 				<?php 
 					if(!empty($categories[$i]["time"])) {
+						// First try normal JSON decode
 						$timeArray = json_decode($categories[$i]["time"], true);
+						
+						// If that fails, try to clean the string and decode again
+						if(!is_array($timeArray)) {
+							$cleanTime = str_replace('\\', '', $categories[$i]["time"]);
+							$timeArray = json_decode($cleanTime, true);
+						}
+						
+						// If still not an array, try one more method - could be a JSON string with escaped quotes
+						if(!is_array($timeArray)) {
+							// Remove surrounding quotes if present
+							$tempTime = trim($categories[$i]["time"]);
+							if(substr($tempTime, 0, 1) === '"' && substr($tempTime, -1) === '"') {
+								$tempTime = substr($tempTime, 1, -1);
+							}
+							// Replace escaped backslashes and quotes
+							$tempTime = str_replace('\\"', '"', $tempTime);
+							$tempTime = str_replace('\\\\', '\\', $tempTime);
+							
+							$timeArray = json_decode($tempTime, true);
+						}
+						
 						if(is_array($timeArray) && count($timeArray) > 0) {
 							echo "<ul style='padding-left: 15px; margin-bottom: 0;'>";
 							foreach($timeArray as $timeItem) {
@@ -236,7 +277,7 @@ if( isset($_POST["arTitle"]) ){
 			<div style="display:none"><label id="enDetails<?php echo $categories[$i]["id"]?>"><?php echo $categories[$i]["enDetails"] ?></label></div>
 			<div style="display:none"><label id="arDetails<?php echo $categories[$i]["id"]?>"><?php echo $categories[$i]["arDetails"] ?></label></div>
 			<div style="display:none"><label id="logo<?php echo $categories[$i]["id"]?>"><?php echo $categories[$i]["imageurl"] ?></label></div>
-			<div style="display:none"><label id="time<?php echo $categories[$i]["id"]?>"><?php echo $categories[$i]["time"] ?></label></div>
+			<div style="display:none"><label id="time<?php echo $categories[$i]["id"]?>"><?php echo htmlspecialchars($categories[$i]["time"]) ?></label></div>
 			</td>
 			</tr>
 			<?php
@@ -268,35 +309,62 @@ $(document).on("click",".edit", function(){
 		// Set multiple time selections
 		if($("#time"+id).html() && $("#time"+id).html() !== ""){
 			try {
-				var timeData = JSON.parse($("#time"+id).html());
+				// Handle the array or string format
+				var timeContent = $("#time"+id).html();
+				var timeData;
+				
+				// First try parsing as array
+				try {
+					timeData = JSON.parse(timeContent);
+				} catch (e) {
+					// If it failed, it might be a string containing the entire array with escaped quotes
+					// Let's try to clean it up
+					if (timeContent.startsWith('[') && timeContent.endsWith(']')) {
+						try {
+							// Replace escaped backslashes and quotes appropriately
+							timeContent = timeContent.replace(/\\\\/g, "\\").replace(/\\"/g, '"');
+							timeData = JSON.parse(timeContent);
+						} catch (innerE) {
+							console.error("Could not parse time data even after cleanup:", innerE);
+							timeData = [];
+						}
+					} else {
+						console.error("Time data is not in expected format:", e);
+						timeData = [];
+					}
+				}
+				
 				var timeSelect = $("select[name='time[]']");
 				timeSelect.val(null); // Clear any previous selections
+				
+				console.log("Time data loaded:", timeData);
 				
 				// Select each time in the timeData array
 				if (Array.isArray(timeData)) {
 					timeData.forEach(function(timeItem) {
-						// Find the option that matches this time JSON string and select it
+						// Find the option that matches this time
 						timeSelect.find("option").each(function() {
-							// Try direct comparison first
-							if ($(this).val() === JSON.stringify(timeItem)) {
+							var optionVal = $(this).val();
+							var optionData;
+							
+							try {
+								optionData = JSON.parse(optionVal);
+							} catch (e) {
+								return; // Skip this option if it's not valid JSON
+							}
+							
+							// Compare startDate and endDate
+							if (timeItem.startDate && timeItem.endDate && 
+								optionData.startDate && optionData.endDate &&
+								timeItem.startDate === optionData.startDate && 
+								timeItem.endDate === optionData.endDate) {
 								$(this).prop('selected', true);
-							} else {
-								// Try comparing parsed objects in case of format differences
-								try {
-									var optionData = JSON.parse($(this).val());
-									if (optionData.startDate === timeItem.startDate && 
-										optionData.endDate === timeItem.endDate) {
-										$(this).prop('selected', true);
-									}
-								} catch(e) {
-									// Ignore parse errors
-								}
 							}
 						});
 					});
 				}
 			} catch(e) {
-				console.error("Error parsing time data:", e);
+				console.error("Error handling time data:", e);
 			}
 		}
 		
