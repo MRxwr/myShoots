@@ -47,6 +47,25 @@ if( isset($_POST["arTitle"]) ){
 		$_POST["time"] = "[]";
 	}
 	
+	// Convert array of extras to JSON string
+	if(isset($_POST["extra_items"]) && is_array($_POST["extra_items"])) {
+		// Parse each extra entry to make sure it's a proper JSON object
+		$parsedExtraArray = [];
+		foreach($_POST["extra_items"] as $extraEntry) {
+			if(is_string($extraEntry)) {
+				// Decode and re-encode to ensure consistent format
+				$decodedExtra = json_decode($extraEntry, true);
+				if(is_array($decodedExtra) && isset($decodedExtra['item']) && isset($decodedExtra['price'])) {
+					$parsedExtraArray[] = $decodedExtra;
+				}
+			}
+		}
+		// Use JSON_UNESCAPED_UNICODE to avoid Unicode escaping and ensure readability
+		$_POST["extra_items"] = json_encode($parsedExtraArray, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+	} else {
+		$_POST["extra_items"] = "[]";
+	}
+	
 	if ( $id == 0 ){
 		if (is_uploaded_file($_FILES['imageurl']['tmp_name'])) {
 			$_POST["imageurl"] = uploadImageBannerFreeImageHost($_FILES['imageurl']['tmp_name']);
