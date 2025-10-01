@@ -271,6 +271,7 @@ if( isset($_POST["arTitle"]) ){
 		<th><?php echo direction("Logo","الشعار") ?></th>
 		<th><?php echo direction("English Title","العنوان بالإنجليزي") ?></th>
 		<th><?php echo direction("Arabic Title","العنوان بالعربي") ?></th>
+		<th><?php echo direction("Price","السعر") ?></th>
 		<th><?php echo direction("Time","الوقت") ?></th>
 		<th class="text-nowrap"><?php echo direction("Action","الإجراء") ?></th>
 		</tr>
@@ -299,6 +300,7 @@ if( isset($_POST["arTitle"]) ){
 			<td><img src="../logos/<?php echo $categories[$i]["imageurl"] ?>" style="width:100px;height:100px"></td>
 			<td id="enTitle<?php echo $categories[$i]["id"]?>" ><?php echo $categories[$i]["enTitle"] ?></td>
 			<td id="arTitle<?php echo $categories[$i]["id"]?>" ><?php echo $categories[$i]["arTitle"] ?></td>
+			<td id="price<?php echo $categories[$i]["id"]?>" ><?php echo $categories[$i]["price"] ?></td>
 			<td>
 				<?php 
 					if(!empty($categories[$i]["time"])) {
@@ -353,6 +355,7 @@ if( isset($_POST["arTitle"]) ){
 			<div style="display:none"><label id="hidden<?php echo $categories[$i]["id"]?>"><?php echo $categories[$i]["hidden"] ?></label></div>
 			<div style="display:none"><label id="enDetails<?php echo $categories[$i]["id"]?>"><?php echo $categories[$i]["enDetails"] ?></label></div>
 			<div style="display:none"><label id="arDetails<?php echo $categories[$i]["id"]?>"><?php echo $categories[$i]["arDetails"] ?></label></div>
+			<div style="display:none"><label id="price<?php echo $categories[$i]["id"]?>"><?php echo $categories[$i]["price"] ?></label></div>
 			<div style="display:none"><label id="logo<?php echo $categories[$i]["id"]?>"><?php echo $categories[$i]["imageurl"] ?></label></div>
 			<div style="display:none"><label id="time<?php echo $categories[$i]["id"]?>"><?php echo htmlspecialchars($categories[$i]["time"]) ?></label></div>
 			<div style="display:none"><label id="extras<?php echo $categories[$i]["id"]?>"><?php echo htmlspecialchars($categories[$i]["extra_items"]) ?></label></div>
