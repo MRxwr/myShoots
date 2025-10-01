@@ -99,7 +99,7 @@ if( isset($_POST["enTitle"]) ){
 
             <div class="col-md-4">
 			<label><?php echo direction("Required?","هل هو مطلوب؟") ?></label>
-			<select name="hidden" class="form-control">
+			<select name="isRequired" class="form-control">
 				<option value="1"><?php echo direction("Yes","نعم") ?></option>
 				<option value="2"><?php echo direction("No","لا") ?></option>
 			</select>
@@ -108,8 +108,8 @@ if( isset($_POST["enTitle"]) ){
 			<div class="col-md-4">
 			<label><?php echo direction("Hide","أخفي") ?></label>
 			<select name="hidden" class="form-control">
-				<option value="1"><?php echo direction("Yes","نعم") ?></option>
-				<option value="2"><?php echo direction("No","لا") ?></option>
+				<option value="1"></option><?php echo direction("No","لا") ?></option>
+				<option value="2"><?php echo direction("Yes","نعم") ?>
 			</select>
 			</div>
 			
