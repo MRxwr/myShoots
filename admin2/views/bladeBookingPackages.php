@@ -27,52 +27,62 @@ if( isset($_POST["updateRank"]) ){
 if( isset($_POST["arTitle"]) ){
 	$id = $_POST["update"];
 	unset($_POST["update"]);
-	
+
 	// Convert array of time slots to JSON string
 	if(isset($_POST["time"]) && is_array($_POST["time"])) {
-		// Parse each time entry to make sure it's a proper JSON object
 		$parsedTimeArray = [];
 		foreach($_POST["time"] as $timeEntry) {
 			if(is_string($timeEntry)) {
-				// Decode and re-encode to ensure consistent format
 				$decodedTime = json_decode($timeEntry, true);
 				if(is_array($decodedTime) && isset($decodedTime['startDate']) && isset($decodedTime['endDate'])) {
 					$parsedTimeArray[] = $decodedTime;
 				}
 			}
 		}
-		// Use JSON_UNESCAPED_UNICODE to avoid Unicode escaping and ensure readability
 		$_POST["time"] = json_encode($parsedTimeArray, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 	} else {
 		$_POST["time"] = "[]";
 	}
-	
+
 	// Convert array of extras to JSON string
 	if(isset($_POST["extra_items"]) && is_array($_POST["extra_items"])) {
-		// Parse each extra entry to make sure it's a proper JSON object
 		$parsedExtraArray = [];
 		foreach($_POST["extra_items"] as $extraEntry) {
 			if(is_string($extraEntry)) {
-				// Decode and re-encode to ensure consistent format
 				$decodedExtra = json_decode($extraEntry, true);
 				if(is_array($decodedExtra) && isset($decodedExtra['item']) && isset($decodedExtra['price'])) {
 					$parsedExtraArray[] = $decodedExtra;
 				}
 			}
 		}
-		// Use JSON_UNESCAPED_UNICODE to avoid Unicode escaping and ensure readability
 		$_POST["extra_items"] = json_encode($parsedExtraArray, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 	} else {
 		$_POST["extra_items"] = "[]";
 	}
-	
+
+	// Convert array of personal info to JSON string
+	if(isset($_POST["personal_info"]) && is_array($_POST["personal_info"])) {
+		$parsedPersonalInfoArray = [];
+		foreach($_POST["personal_info"] as $infoEntry) {
+			if(is_string($infoEntry)) {
+				$decodedInfo = json_decode($infoEntry, true);
+				if(is_array($decodedInfo) && isset($decodedInfo['id']) && isset($decodedInfo['enTitle'])) {
+					$parsedPersonalInfoArray[] = $decodedInfo;
+				}
+			}
+		}
+		$_POST["personalInfo"] = json_encode($parsedPersonalInfoArray, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+	} else {
+		$_POST["personalInfo"] = "[]";
+	}
+	unset($_POST["personal_info"]);
+
 	if ( $id == 0 ){
 		if (is_uploaded_file($_FILES['imageurl']['tmp_name'])) {
 			$_POST["imageurl"] = uploadImageBannerFreeImageHost($_FILES['imageurl']['tmp_name']);
 		} else {
 			$_POST["imageurl"] = "";
 		}
-		
 		if( insertDB("tbl_packages", $_POST) ){
 			header("LOCATION: ?v=BookingPackages");
 		}else{
@@ -89,7 +99,6 @@ if( isset($_POST["arTitle"]) ){
 			$imageurl = selectDB("tbl_packages", "`id` = '{$id}'");
 			$_POST["imageurl"] = $imageurl[0]["imageurl"];
 		}
-		
 		if( updateDB("tbl_packages", $_POST, "`id` = '{$id}'") ){
 			header("LOCATION: ?v=BookingPackages");
 		}else{
@@ -168,9 +177,7 @@ if( isset($_POST["arTitle"]) ){
 							'item_ar' => $extra["arTitle"],
 							'price' => $extra["price"]
 						);
-						// Use JSON_UNESCAPED_UNICODE to avoid Unicode escaping
 						$extraData = json_encode($extraObj, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-						// Make sure to properly escape the value attribute
 						echo '<option value="' . htmlspecialchars($extraData, ENT_QUOTES, 'UTF-8') . '">' . 
 							$extra["enTitle"] . ' / ' . $extra["arTitle"] . ' - ' . $extra["price"] . '</option>';
 					}
@@ -178,6 +185,28 @@ if( isset($_POST["arTitle"]) ){
 				?>
 			</select>
 			<small class="text-muted"><?php echo direction("Hold Ctrl/Cmd key to select multiple extras","اضغط مع الاستمرار على مفتاح Ctrl/Cmd لتحديد إضافات متعددة") ?></small>
+			</div>
+
+			<div class="col-md-12">
+			<label><?php echo direction("Available Personal Info","المعلومات الشخصية المتاحة") ?></label>
+			<select name="personal_info[]" class="form-control" multiple style="height: 150px;">
+				<?php 
+				if($personalInfos = selectDB("tbl_personal_info", "`status` = '0' AND `hidden` = '1' ORDER BY `rank` ASC")){
+					foreach($personalInfos as $info){
+						$infoObj = array(
+							'id' => $info["id"],
+							'enTitle' => $info["enTitle"],
+							'arTitle' => $info["arTitle"],
+							'type' => $info["type"]
+						);
+						$infoData = json_encode($infoObj, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+						echo '<option value="' . htmlspecialchars($infoData, ENT_QUOTES, 'UTF-8') . '">' . 
+							$info["enTitle"] . ' / ' . $info["arTitle"] . '</option>';
+					}
+				}
+				?>
+			</select>
+			<small class="text-muted"><?php echo direction("Hold Ctrl/Cmd key to select multiple personal info fields","اضغط مع الاستمرار على مفتاح Ctrl/Cmd لتحديد معلومات شخصية متعددة") ?></small>
 			</div>
 
 			<div class="col-md-6">
@@ -322,6 +351,7 @@ if( isset($_POST["arTitle"]) ){
 			<div style="display:none"><label id="logo<?php echo $categories[$i]["id"]?>"><?php echo $categories[$i]["imageurl"] ?></label></div>
 			<div style="display:none"><label id="time<?php echo $categories[$i]["id"]?>"><?php echo htmlspecialchars($categories[$i]["time"]) ?></label></div>
 			<div style="display:none"><label id="extras<?php echo $categories[$i]["id"]?>"><?php echo htmlspecialchars($categories[$i]["extra_items"]) ?></label></div>
+			<div style="display:none"><label id="personalInfo<?php echo $categories[$i]["id"]?>"><?php echo htmlspecialchars($categories[$i]["personalInfo"]) ?></label></div>
 			</td>
 			</tr>
 			<?php
@@ -341,123 +371,156 @@ if( isset($_POST["arTitle"]) ){
 </div>
 <script>
 $(document).on("click",".edit", function(){
-		var id = $(this).attr("id");
-		$("input[name=update]").val(id);
+	var id = $(this).attr("id");
+	$("input[name=update]").val(id);
 
-		$("input[name=arTitle]").val($("#arTitle"+id).html()).focus();
-		$("input[name=enTitle]").val($("#enTitle"+id).html());
-		tinymce.get('enDetails').setContent($("#enDetails"+id).html());
-		tinymce.get('arDetails').setContent($("#arDetails"+id).html());
-		$("select[name=hidden]").val($("#hidden"+id).html());
-		
-		// Set multiple time selections
-		if($("#time"+id).html() && $("#time"+id).html() !== ""){
+	$("input[name=arTitle]").val($("#arTitle"+id).html()).focus();
+	$("input[name=enTitle]").val($("#enTitle"+id).html());
+	tinymce.get('enDetails').setContent($("#enDetails"+id).html());
+	tinymce.get('arDetails').setContent($("#arDetails"+id).html());
+	$("select[name=hidden]").val($("#hidden"+id).html());
+
+	// Set multiple time selections
+	if($("#time"+id).html() && $("#time"+id).html() !== ""){
+		try {
+			var timeContent = $("#time"+id).html();
+			var timeData;
 			try {
-				// Handle the array or string format
-				var timeContent = $("#time"+id).html();
-				var timeData;
-				// First try parsing as array
-				try {
-					timeData = JSON.parse(timeContent);
-				} catch (e) {
-					// If it failed, it might be a string containing the entire array with escaped quotes
-					// Let's try to clean it up
-					if (timeContent.startsWith('[') && timeContent.endsWith(']')) {
-						try {
-							// Replace escaped backslashes and quotes appropriately
-							timeContent = timeContent.replace(/\\\\/g, "\\").replace(/\\"/g, '"');
-							timeData = JSON.parse(timeContent);
-						} catch (innerE) {
-							console.error("Could not parse time data even after cleanup:", innerE);
-							timeData = [];
-						}
-					} else {
-						console.error("Time data is not in expected format:", e);
+				timeData = JSON.parse(timeContent);
+			} catch (e) {
+				if (timeContent.startsWith('[') && timeContent.endsWith(']')) {
+					try {
+						timeContent = timeContent.replace(/\\\\/g, "\\").replace(/\\"/g, '"');
+						timeData = JSON.parse(timeContent);
+					} catch (innerE) {
+						console.error("Could not parse time data even after cleanup:", innerE);
 						timeData = [];
 					}
+				} else {
+					console.error("Time data is not in expected format:", e);
+					timeData = [];
 				}
-				var timeSelect = $("select[name='time[]']");
-				timeSelect.val(null); // Clear any previous selections				
-				// Select each time in the timeData array
-				if (Array.isArray(timeData)) {
-					timeData.forEach(function(timeItem) {
-						// Find the option that matches this time
-						timeSelect.find("option").each(function() {
-							var optionVal = $(this).val();
-							var optionData;
-							try {
-								optionData = JSON.parse(optionVal);
-							} catch (e) {
-								return; // Skip this option if it's not valid JSON
-							}
-							// Compare startDate and endDate
-							if (timeItem.startDate && timeItem.endDate && 
-								optionData.startDate && optionData.endDate &&
-								timeItem.startDate === optionData.startDate && 
-								timeItem.endDate === optionData.endDate) {
-								$(this).prop('selected', true);
-							}
-						});
-					});
-				}
-			} catch(e) {
-				console.error("Error handling time data:", e);
 			}
+			var timeSelect = $("select[name='time[]']");
+			timeSelect.val(null);
+			if (Array.isArray(timeData)) {
+				timeData.forEach(function(timeItem) {
+					timeSelect.find("option").each(function() {
+						var optionVal = $(this).val();
+						var optionData;
+						try {
+							optionData = JSON.parse(optionVal);
+						} catch (e) {
+							return;
+						}
+						if (timeItem.startDate && timeItem.endDate && 
+							optionData.startDate && optionData.endDate &&
+							timeItem.startDate === optionData.startDate && 
+							timeItem.endDate === optionData.endDate) {
+							$(this).prop('selected', true);
+						}
+					});
+				});
+			}
+		} catch(e) {
+			console.error("Error handling time data:", e);
 		}
+	}
 
-        // Set multiple extras selections
-        if($("#extras"+id).html() && $("#extras"+id).html() !== ""){
-            try {
-                var extrasContent = $("#extras"+id).html();
-                var extrasData;
-                // Try parsing as array
-                try {
-                    extrasData = JSON.parse(extrasContent);
-                } catch (e) {
-                    // Try to clean up if needed
-                    if (extrasContent.startsWith('[') && extrasContent.endsWith(']')) {
-                        try {
-                            extrasContent = extrasContent.replace(/\\\\/g, "\\").replace(/\\"/g, '"');
-                            extrasData = JSON.parse(extrasContent);
-                        } catch (innerE) {
-                            console.error("Could not parse extras data even after cleanup:", innerE);
-                            extrasData = [];
-                        }
-                    } else {
-                        console.error("Extras data is not in expected format:", e);
-                        extrasData = [];
-                    }
-                }
-                var extrasSelect = $("select[name='extra_items[]']");
-                extrasSelect.val(null); // Clear previous selections
-                // Select each extra in the extrasData array
-                if (Array.isArray(extrasData)) {
-                    extrasData.forEach(function(extraItem) {
-                        extrasSelect.find("option").each(function() {
-                            var optionVal = $(this).val();
-                            var optionData;
-                            try {
-                                optionData = JSON.parse(optionVal);
-                            } catch (e) {
-                                return;
-                            }
-                            // Compare item and price
-                            if (extraItem.item && optionData.item &&
-                                extraItem.price && optionData.price &&
-                                extraItem.item === optionData.item &&
-                                extraItem.price == optionData.price) {
-                                $(this).prop('selected', true);
-                            }
-                        });
-                    });
-                }
-            } catch(e) {
-                console.error("Error handling extras data:", e);
-            }
-        }
-		
-		$("input[type=file]").prop("required",false);
-		$("#logoImg").attr("src","../logos/"+$("#logo"+id).html());
-		$("#images").attr("style","margin-top:10px;display:block");
+	// Set multiple extras selections
+	if($("#extras"+id).html() && $("#extras"+id).html() !== ""){
+		try {
+			var extrasContent = $("#extras"+id).html();
+			var extrasData;
+			try {
+				extrasData = JSON.parse(extrasContent);
+			} catch (e) {
+				if (extrasContent.startsWith('[') && extrasContent.endsWith(']')) {
+					try {
+						extrasContent = extrasContent.replace(/\\\\/g, "\\").replace(/\\"/g, '"');
+						extrasData = JSON.parse(extrasContent);
+					} catch (innerE) {
+						console.error("Could not parse extras data even after cleanup:", innerE);
+						extrasData = [];
+					}
+				} else {
+					console.error("Extras data is not in expected format:", e);
+					extrasData = [];
+				}
+			}
+			var extrasSelect = $("select[name='extra_items[]']");
+			extrasSelect.val(null);
+			if (Array.isArray(extrasData)) {
+				extrasData.forEach(function(extraItem) {
+					extrasSelect.find("option").each(function() {
+						var optionVal = $(this).val();
+						var optionData;
+						try {
+							optionData = JSON.parse(optionVal);
+						} catch (e) {
+							return;
+						}
+						if (extraItem.item && optionData.item &&
+							extraItem.price && optionData.price &&
+							extraItem.item === optionData.item &&
+							extraItem.price == optionData.price) {
+							$(this).prop('selected', true);
+						}
+					});
+				});
+			}
+		} catch(e) {
+			console.error("Error handling extras data:", e);
+		}
+	}
+
+	// Set multiple personal info selections
+	if($("#personalInfo"+id).html() && $("#personalInfo"+id).html() !== ""){
+		try {
+			var personalInfoContent = $("#personalInfo"+id).html();
+			var personalInfoData;
+			try {
+				personalInfoData = JSON.parse(personalInfoContent);
+			} catch (e) {
+				if (personalInfoContent.startsWith('[') && personalInfoContent.endsWith(']')) {
+					try {
+						personalInfoContent = personalInfoContent.replace(/\\\\/g, "\\").replace(/\\"/g, '"');
+						personalInfoData = JSON.parse(personalInfoContent);
+					} catch (innerE) {
+						console.error("Could not parse personal info data even after cleanup:", innerE);
+						personalInfoData = [];
+					}
+				} else {
+					console.error("Personal info data is not in expected format:", e);
+					personalInfoData = [];
+				}
+			}
+			var personalInfoSelect = $("select[name='personal_info[]']");
+			personalInfoSelect.val(null);
+			if (Array.isArray(personalInfoData)) {
+				personalInfoData.forEach(function(infoItem) {
+					personalInfoSelect.find("option").each(function() {
+						var optionVal = $(this).val();
+						var optionData;
+						try {
+							optionData = JSON.parse(optionVal);
+						} catch (e) {
+							return;
+						}
+						if (infoItem.id && optionData.id &&
+							infoItem.id == optionData.id) {
+							$(this).prop('selected', true);
+						}
+					});
+				});
+			}
+		} catch(e) {
+			console.error("Error handling personal info data:", e);
+		}
+	}
+
+	$("input[type=file]").prop("required",false);
+	$("#logoImg").attr("src","../logos/"+$("#logo"+id).html());
+	$("#images").attr("style","margin-top:10px;display:block");
 })
 </script>
