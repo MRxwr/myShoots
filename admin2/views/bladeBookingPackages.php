@@ -379,6 +379,9 @@ $(document).on("click",".edit", function(){
 	tinymce.get('enDetails').setContent($("#enDetails"+id).html());
 	tinymce.get('arDetails').setContent($("#arDetails"+id).html());
 	$("select[name=hidden]").val($("#hidden"+id).html());
+	$("select[name='time[]']").val(null);
+	$("select[name='extras[]']").val(null);
+	$("select[name='personal_info[]']").val(null);
 
 	// Set multiple time selections
 	if($("#time"+id).html() && $("#time"+id).html() !== ""){
