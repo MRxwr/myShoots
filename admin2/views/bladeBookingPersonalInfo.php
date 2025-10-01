@@ -148,43 +148,53 @@ if( isset($_POST["enTitle"]) ){
 		<th>#</th>
 		<th><?php echo direction("English Title","العنوان بالإنجليزي") ?></th>
 		<th><?php echo direction("Arabic Title","العنوان بالعربي") ?></th>
-		<th><?php echo direction("Price","السعر") ?></th>
+		<th><?php echo direction("Type","النوع") ?></th>
+        <th><?php echo direction("Required?","هل هو مطلوب؟") ?></th>
 		<th class="text-nowrap"><?php echo direction("Action","الإجراء") ?></th>
 		</tr>
 		</thead>
 		
 		<tbody>
 		<?php 
-		if( $extras = selectDB("tbl_personal_info","`status` = '0' ORDER BY `rank` ASC") ){
-			for( $i = 0; $i < sizeof($extras); $i++ ){
+		if( $personalInfo = selectDB("tbl_personal_info","`status` = '0' ORDER BY `rank` ASC") ){
+			for( $i = 0; $i < sizeof($personalInfo); $i++ ){
 				$counter = $i + 1;
-			if ( $extras[$i]["hidden"] == 2 ){
+			if ( $personalInfo[$i]["hidden"] == 2 ){
 				$icon = "fa fa-eye";
-				$link = "?v={$_GET["v"]}&show={$extras[$i]["id"]}";
+				$link = "?v={$_GET["v"]}&show={$personalInfo[$i]["id"]}";
 				$hide = direction("Show","إظهار");
 			}else{
 				$icon = "fa fa-eye-slash";
-				$link = "?v={$_GET["v"]}&hide={$extras[$i]["id"]}";
+				$link = "?v={$_GET["v"]}&hide={$personalInfo[$i]["id"]}";
 				$hide = direction("Hide","إخفاء");
 			}
+            $type = ( $personalInfo[$i]["hidden"] == 1 ) ? direction("Text field","حقل نصي") : ( ($personalInfo[$i]["hidden"] == 2) ? direction("Text area","منطقة نص") : ( ($personalInfo[$i]["hidden"] == 3) ? direction("Number","رقم") : ( ($personalInfo[$i]["hidden"] == 4) ? direction("Email","البريد الإلكتروني") : ( ($personalInfo[$i]["hidden"] == 5) ? direction("Date","تاريخ") : ( ($personalInfo[$i]["hidden"] == 6) ? direction("Time","وقت") : direction("Phone Number","رقم الهاتف") ) ) ) ) );
+            $isRequired = ( $personalInfo[$i]["isRequired"] == 1 ) ? direction("Yes","نعم") : direction("No","لا");
 			?>
 			<tr>
 			<td>
 			<input name="rank[]" class="form-control" type="number" value="<?php echo str_pad($counter, 2, '0', STR_PAD_LEFT) ?>">
-			<input name="id[]" class="form-control" type="hidden" value="<?php echo $extras[$i]["id"] ?>">
+			<input name="id[]" class="form-control" type="hidden" value="<?php echo $personalInfo[$i]["id"] ?>">
 			</td>
-			<td id="enTitle<?php echo $extras[$i]["id"]?>" ><?php echo $extras[$i]["enTitle"] ?></td>
-			<td id="arTitle<?php echo $extras[$i]["id"]?>" ><?php echo $extras[$i]["arTitle"] ?></td>
-			<td id="price<?php echo $extras[$i]["id"]?>" ><?php echo $extras[$i]["price"] ?></td>
+			<td id="enTitle<?php echo $personalInfo[$i]["id"]?>" ><?php echo $personalInfo[$i]["enTitle"] ?></td>
+			<td id="arTitle<?php echo $personalInfo[$i]["id"]?>" ><?php echo $personalInfo[$i]["arTitle"] ?></td>
+			<td><?php echo $type ?></td>
+			<td><?php echo $isRequired ?></td>
 			<td class="text-nowrap">
-                <a id="<?php echo $extras[$i]["id"] ?>" class="mr-25 edit" data-toggle="tooltip" data-original-title="<?php echo direction("Edit","تعديل") ?>"> <i class="btn btn-warning btn-circle fa fa-pencil text-inverse m-r-10" style="align-content: center;"></i>
+                <a id="<?php echo $personalInfo[$i]["id"] ?>" class="mr-25 edit" data-toggle="tooltip" data-original-title="<?php echo direction("Edit","تعديل") ?>"> <i class="btn btn-warning btn-circle fa fa-pencil text-inverse m-r-10" style="align-content: center;"></i>
                 </a>
                 <a href="<?php echo $link ?>" class="mr-25" data-toggle="tooltip" data-original-title="<?php echo $hide ?>"> <i class="btn btn-default btn-circle <?php echo $icon ?> text-inverse m-r-10" style="align-content: center;"></i>
                 </a>
-                <a href="<?php echo "?v={$_GET["v"]}&delId={$extras[$i]["id"]}" ?>" data-toggle="tooltip" data-original-title="<?php echo direction("Delete","حذف") ?>"><i class="btn btn-danger btn-circle fa fa-close" style="align-content: center;"></i>
+                <a href="<?php echo "?v={$_GET["v"]}&delId={$personalInfo[$i]["id"]}" ?>" data-toggle="tooltip" data-original-title="<?php echo direction("Delete","حذف") ?>"><i class="btn btn-danger btn-circle fa fa-close" style="align-content: center;"></i>
                 </a>
 			</td>
-            <div style="display: none"><label id="hidden<?php echo $extras[$i]["id"]?>"><?php echo $extras[$i]["hidden"] ?></label></div>;
+            <div style="display: none">
+                <label id="hidden<?php echo $personalInfo[$i]["id"]?>"><?php echo $personalInfo[$i]["hidden"] ?></label>
+                <label id="isRequired<?php echo $personalInfo[$i]["id"]?>"><?php echo $personalInfo[$i]["isRequired"] ?></label>
+                <label id="enPlaceholder<?php echo $personalInfo[$i]["id"]?>"><?php echo $personalInfo[$i]["enPlaceholder"] ?></label>
+                <label id="arPlaceholder<?php echo $personalInfo[$i]["id"]?>"><?php echo $personalInfo[$i]["arPlaceholder"] ?></label>
+                <label id="type<?php echo $personalInfo[$i]["id"]?>"><?php echo $personalInfo[$i]["type"] ?></label>
+            </div>
 			</tr>
 			<?php
 			}
@@ -208,8 +218,10 @@ $(document).on("click",".edit", function(){
 		
 		$("input[name=enTitle]").val($("#enTitle"+id).html()).focus();
 		$("input[name=arTitle]").val($("#arTitle"+id).html());
-		$("input[name=price]").val($("#price"+id).html());
+        $("input[name=enPlaceholder]").val($("#enPlaceholder"+id).html());
+        $("input[name=arPlaceholder]").val($("#arPlaceholder"+id).html());
+        $("select[name=isRequired]").val($("#isRequired"+id).html());
+        $("select[name=type]").val($("#type"+id).html());
         $("select[name=hidden]").val($("#hidden"+id).html());
-
 })
 </script>
