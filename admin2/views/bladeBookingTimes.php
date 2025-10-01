@@ -170,7 +170,7 @@ if( isset($_POST["startTime"]) ){
 			?>
 			<tr>
 			<td>
-			<input name="rank[]" class="form-control" type="number" value="<?php echo str_pad($counter, 2, '0', STR_PAD_LEFT) ?>">
+			<input name="rank[]" class="form-control" type="number" value="<?php echo str_pad($counter, 2, '0', STR_PAD_LEFT) ?>" style="width: 100px;">
 			<input name="id[]" class="form-control" type="hidden" value="<?php echo $times[$i]["id"] ?>">
 			</td>
 			<td id="startTime<?php echo $times[$i]["id"]?>" ><?php echo $times[$i]["startTime"] ?></td>
