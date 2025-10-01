@@ -119,7 +119,7 @@ if( isset($_POST["enTitle"]) ){
 	<table class="table display responsive product-overview mb-30" id="myTable">
 		<thead>
 		<tr>
-		<th>#</th>
+		<th><?php echo direction("Rank","الترتيب") ?></th>
 		<th><?php echo direction("English Title","العنوان بالإنجليزي") ?></th>
 		<th><?php echo direction("Arabic Title","العنوان بالعربي") ?></th>
 		<th><?php echo direction("Price","السعر") ?></th>

@@ -392,6 +392,7 @@ $(document).on("click",".edit", function(){
 	$("select[name='time[]']").val(null);
 	$("select[name='extras[]']").val(null);
 	$("select[name='personal_info[]']").val(null);
+	$("input[name=price]").val($("#price"+id).html());
 
 	// Set multiple time selections
 	if($("#time"+id).html() && $("#time"+id).html() !== ""){

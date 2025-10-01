@@ -146,7 +146,7 @@ if( isset($_POST["startTime"]) ){
 	<table class="table display responsive product-overview mb-30" id="myTable">
 		<thead>
 		<tr>
-		<th>#</th>
+		<th><?php echo direction("Rank","الترتيب") ?></th>
 		<th><?php echo direction("Start Time","وقت البدء") ?></th>
 		<th><?php echo direction("Close Time","وقت الإغلاق") ?></th>
 		<th class="text-nowrap"><?php echo direction("Action","الإجراء") ?></th>
