@@ -168,7 +168,7 @@ if( isset($_POST["enTitle"]) ){
 				$link = "?v={$_GET["v"]}&hide={$personalInfo[$i]["id"]}";
 				$hide = direction("Hide","إخفاء");
 			}
-            $type = ( $personalInfo[$i]["hidden"] == 1 ) ? direction("Text field","حقل نصي") : ( ($personalInfo[$i]["hidden"] == 2) ? direction("Text area","منطقة نص") : ( ($personalInfo[$i]["hidden"] == 3) ? direction("Number","رقم") : ( ($personalInfo[$i]["hidden"] == 4) ? direction("Email","البريد الإلكتروني") : ( ($personalInfo[$i]["hidden"] == 5) ? direction("Date","تاريخ") : ( ($personalInfo[$i]["hidden"] == 6) ? direction("Time","وقت") : direction("Phone Number","رقم الهاتف") ) ) ) ) );
+            $type = ( $personalInfo[$i]["type"] == 1 ) ? direction("Text field","حقل نصي") : ( ($personalInfo[$i]["type"] == 2) ? direction("Text area","منطقة نص") : ( ($personalInfo[$i]["type"] == 3) ? direction("Number","رقم") : ( ($personalInfo[$i]["type"] == 4) ? direction("Email","البريد الإلكتروني") : ( ($personalInfo[$i]["type"] == 5) ? direction("Date","تاريخ") : ( ($personalInfo[$i]["type"] == 6) ? direction("Time","وقت") : direction("Phone Number","رقم الهاتف") ) ) ) ) );
             $isRequired = ( $personalInfo[$i]["isRequired"] == 1 ) ? direction("Yes","نعم") : direction("No","لا");
 			?>
 			<tr>
