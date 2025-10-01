@@ -86,7 +86,7 @@ if( isset($_POST["enTitle"]) ){
 
             <div class="col-md-4">
 			<label><?php echo direction("Type","النوع") ?></label>
-			<select name="hidden" class="form-control">
+			<select name="type" class="form-control">
 				<option value="1"><?php echo direction("Text field","حقل نصي") ?></option>
 				<option value="2"><?php echo direction("Text area","منطقة نص") ?></option>
                 <option value="3"><?php echo direction("Number","رقم") ?></option>
