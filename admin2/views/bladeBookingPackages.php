@@ -125,17 +125,22 @@ if( isset($_POST["arTitle"]) ){
 	<form class="" method="POST" action="" enctype="multipart/form-data">
 		<div class="row m-0">
 
-			<div class="col-md-4">
+			<div class="col-md-3">
 			<label><?php echo direction("English Title","العنوان بالإنجليزي") ?></label>
 			<input type="text" name="enTitle" class="form-control" required>
 			</div>
 
-			<div class="col-md-4">
+			<div class="col-md-3">
 			<label><?php echo direction("Arabic Title","العنوان بالعربي") ?></label>
 			<input type="text" name="arTitle" class="form-control" required>
 			</div>
 
-			<div class="col-md-4">
+			<div class="col-md-3">
+			<label><?php echo direction("Price","السعر") ?></label>
+			<input type="number" step="any" name="price" class="form-control" required>
+			</div>
+
+			<div class="col-md-3">
 			<label><?php echo direction("Hide Category","أخفي القسم") ?></label>
 			<select name="hidden" class="form-control">
 				<option value="1">No</option>
