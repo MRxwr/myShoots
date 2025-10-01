@@ -272,7 +272,7 @@ if( isset($_POST["arTitle"]) ){
 		<th><?php echo direction("English Title","العنوان بالإنجليزي") ?></th>
 		<th><?php echo direction("Arabic Title","العنوان بالعربي") ?></th>
 		<th><?php echo direction("Price","السعر") ?></th>
-		<th><?php echo direction("Time","الوقت") ?></th>
+		<?php /* <th><?php echo direction("Time","الوقت") ?></th> */ ?>
 		<th class="text-nowrap"><?php echo direction("Action","الإجراء") ?></th>
 		</tr>
 		</thead>
@@ -301,6 +301,7 @@ if( isset($_POST["arTitle"]) ){
 			<td id="enTitle<?php echo $categories[$i]["id"]?>" ><?php echo $categories[$i]["enTitle"] ?></td>
 			<td id="arTitle<?php echo $categories[$i]["id"]?>" ><?php echo $categories[$i]["arTitle"] ?></td>
 			<td id="price<?php echo $categories[$i]["id"]?>" ><?php echo $categories[$i]["price"] ?></td>
+			<?php /*
 			<td>
 				<?php 
 					if(!empty($categories[$i]["time"])) {
@@ -344,6 +345,7 @@ if( isset($_POST["arTitle"]) ){
 					}
 				?>
 			</td>
+			*/ ?>
 			<td class="text-nowrap">
 			
 			<a id="<?php echo $categories[$i]["id"] ?>" class="mr-25 edit" data-toggle="tooltip" data-original-title="<?php echo direction("Edit","تعديل") ?>"> <i class="btn btn-warning btn-circle fa fa-pencil text-inverse m-r-10" style="align-content: center;"></i>
