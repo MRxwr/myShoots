@@ -122,11 +122,10 @@
             <!-- The slideshow -->
             <div class="carousel-inner">
 			<?php 
-            $banners=get_banners();
 			    $j = 0;
-            foreach($banners as $key=>$banner){
+            foreach( $banners as $key=>$banner ){
             ?>
-              <div class="carousel-item  <?php if($j ==0){ ?> active <?php } ?>">
+              <div class="carousel-item  <?php if( $j == 0 ){ ?> active <?php } ?>">
                 <img src="<?php echo "uploads/images/".$banner['image']; ?>" class="img-fluid d-block mx-auto" alt="">
               </div>
               <?php 
