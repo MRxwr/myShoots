@@ -1,6 +1,7 @@
 <?php 
 $platforms = ['instagram','twitter','facebook','snapchat','tiktok','whatsapp'];
 $platformsIcons = ['instagram'=>'fab fa-instagram','twitter'=>'fab fa-x-square','facebook'=>'fab fa-facebook','snapchat'=>'fab fa-snapchat-ghost','tiktok'=>'fab fa-tiktok','whatsapp'=>'fab fa-whatsapp'];
+$platformURL = ['instagram'=>'https://www.instagram.com/','twitter'=>'https://twitter.com/','facebook'=>'https://www.facebook.com/','snapchat'=>'https://www.snapchat.com/add/','tiktok'=>'https://www.tiktok.com/@','whatsapp'=>'https://wa.me/'];
 if( $socialMedia = selectDB("s_media","`id` = '1'")){
   $socialMedia = $socialMedia[0];
 }else{
@@ -21,7 +22,7 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
             <?php foreach ($platforms as $platform): ?>
               <?php if( empty($socialMedia[$platform]) || $socialMedia[$platform] == "#" ) continue; ?>
               <li class="list-inline-item mr-3">
-                <a href="<?php echo $socialMedia[$platform]; ?>" target="_blank">
+                <a href="<?php echo $platformURL[$platform].$socialMedia[$platform]; ?>" target="_blank">
                   <i class="<?php echo $platformsIcons[$platform]; ?> fa-fw fa-2x"></i>
                 </a>
               </li>
