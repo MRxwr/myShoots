@@ -109,7 +109,7 @@
             <!-- Indicators -->
             <ul class="carousel-indicators">
             <?php 
-            $banners = selectDB("tbl_banners","`is_active` = '1' ORDER BY `id` ASC");
+            $banners = selectDB("tbl_banners","`is_active` = 'Yes' ORDER BY `id` ASC");
             for( $i = 0; $i < sizeof($banners); $i++ ){
             ?>
               <li data-target="#demo" data-slide-to="<?php echo $i; ?>" <?php echo $active = ( $i == 0 ) ? "class='active'" : ""; ?>></li>

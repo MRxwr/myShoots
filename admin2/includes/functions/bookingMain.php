@@ -33,18 +33,17 @@ if($res == true)
 }
 // get all active banner
 function get_banners(){
-GLOBAL $obj,$conn;
-$tbl_name = 'tbl_banners';
-$where = "is_active='Yes'";
-$query = $obj->select_data($tbl_name,$where);
-$res = $obj->execute_query($conn,$query);
-if($res == true)
-{
-	$count_rows = $obj->num_rows($res);
-	if($count_rows>0){
-			return $res;
-	}  
-}
+	GLOBAL $obj,$conn;
+	$tbl_name = 'tbl_banners';
+	$where = "is_active='Yes'";
+	$query = $obj->select_data($tbl_name,$where);
+	$res = $obj->execute_query($conn,$query);
+	if( $res == true ){
+		$count_rows = $obj->num_rows($res);
+		if( $count_rows > 0 ){
+				return $res;
+		}  
+	}
 }
 
 	// get all active categories
