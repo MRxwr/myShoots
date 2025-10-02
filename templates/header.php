@@ -3,59 +3,61 @@
 <head>
   <meta charset="utf8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta title="description" content="<?php echo $lang['meta_description'] ?>">
+	<meta title="description" content="<?php echo $settingsOgDescription ?>">
 	<meta title="keywords" content="<?php echo $lang['meta_keywords'] ?>">
 	<meta title="Author" content="<?php echo $lang['author'] ?>">
-    <title><?php echo $lang['meta_title'] ?></title>
-
-
-      <!-- Bootstrap core CSS -->
+  <title><?php echo $settingsTitle ?></title>
+  <!-- Bootstrap core CSS -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
   <!-- Custom fonts for this template -->
   <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
   <link href="assets/vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <?php if( isset($_SESSION['lang']) && $_SESSION['lang']=='ar' ){ ?>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.0/css/bootstrap-rtl.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style-nrtl.css?az=2">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.0/css/bootstrap-rtl.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style-nrtl.css?az=2">
   <?php } ?>
   <!--Owl Carousel CSS-->
   <link rel="stylesheet" href="assets/vendor/owlcarousel/owl.carousel.css">
   <link rel="stylesheet" href="assets/vendor/owlcarousel/owl.theme.default.css">
-    <!--Lightbox gallery-->
+  <!--Lightbox gallery-->
   <link rel="stylesheet" href="assets/css/lightbox.min.css">
   <!-- Custom styles for this template -->
   <link href="assets/css/landing-page.css?y=2" rel="stylesheet">
-
- 		<!-- Data table CSS -->
+  <!-- Data table CSS -->
 	<link href="admin/assets/vendors/bower_components/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>	
-
- <style>
-  td.disabled.day {
-   color: #e7888c!important; 
-  }
-  td.today.disabled {
-   color: #000!important; 
-  }
-  html, body {
-    max-width: 100%;
-    overflow-x: hidden;
-}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/> 
+  <style>
+    .datepicker-inline{
+      width: 100%;
+    }
+    .datepicker table {
+      margin: 0;
+      width: 100%;
+    }
+    td.disabled.day {
+    color: #e7888c!important; 
+    }
+    td.today.disabled {
+    color: #000!important; 
+    }
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
  </style>
-
 </head>
 
 <body>
-
   <!-- Navigation -->
   <nav class="navbar fixed-top navbar-expand-md navbar-light bg-white"> 
     <div class="container">
-    <a class="navbar-brand d-lg-none" href="<?php echo $settingsWebsite; ?>"><img src="assets/img/logo.png" width="168"></a>
 
-      <button class="<?php echo direction('mr-auto','ml-auto') ?> mr-3 navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+    <a class="navbar-brand d-lg-none" href="<?php echo $settingsWebsite; ?>"><img src="assets/img/logo.png" width="168"></a>
+    <button class="<?php echo direction('mr-auto','ml-auto') ?> mr-3 navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
     </button>
+    
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav <?php echo direction('mr-auto','ml-auto') ?> mx-md-auto">
         <li class="nav-item active">
@@ -75,7 +77,6 @@
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="<?php echo $settingsWebsite; ?>/?lang=AR"><?php echo direction("Arabic","العربية") ?></a>
           <a class="dropdown-item" href="<?php echo $settingsWebsite; ?>/?lang=ENG"><?php echo direction("English","English") ?></a>
-            
           </div>
         </li>
       </ul>
@@ -92,16 +93,18 @@
         </li>
       </ul>
     </div>
+
     </div>
   </nav>
   
-<?php
-if ( $banners = selectDB("tbl_banners","`is_active` = 'Yes' ORDER BY `id` ASC") ) {
-  $bannersCount = count($banners);
-}else{
-  $bannersCount = 0;
-}
-?>
+  <?php
+  if ( $banners = selectDB("tbl_banners","`is_active` = 'Yes' ORDER BY `id` ASC") ) {
+    $bannersCount = count($banners);
+  }else{
+    $bannersCount = 0;
+  }
+  ?>
+
   <!-- Masthead -->
   <header class="masthead text-white text-center">
     <div class="container-fluid p-0">

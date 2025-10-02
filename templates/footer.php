@@ -24,10 +24,10 @@
             
           </ul>
 
-          <p class="mb-3 text-center" style="text-align: center !important;"><a href="#"><i class="far fa-envelope mr-1"></i> Hello@myshootskw.net</a></p>
+          <p class="mb-3 text-center" style="text-align: center !important;"><a href="#"><i class="far fa-envelope mr-1"></i> <?php echo strtoupper($settingsEmail) ?></a></p>
           
-          <p class="text-muted mb-5 text-uppercase text-center" style="text-align: center !important;">COPYRIGHT 2020 - MYSHOOTS - KUWAIT</p>
-          <p class="theme-color text-center" style="text-align: center !important;">Powered by <a href="http://www.create-kw.com/" target="_blank" class="text-muted">Create-kw.com</a></p>
+          <p class="text-muted mb-5 text-uppercase text-center" style="text-align: center !important;">COPYRIGHT 2020 - <?php echo $settingsTitle ?></p>
+          <p class="theme-color text-center" style="text-align: center !important;">Powered by <a href="http://www.createkuwait.com/" target="_blank" class="text-muted">Createkuwait.com</a></p>
 
         </div>
         
@@ -36,31 +36,16 @@
       </div>
     </div>
   </footer>
-<?php if(!isset($id)){
-    $id=0;
-}
-;?>
   
   <!-- Bootstrap core JavaScript -->
-  <script src="<?php echo SITEURL; ?>assets/vendor/jquery/jquery.min.js"></script>
-  <script src="<?php echo SITEURL; ?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="<?php echo SITEURL; ?>assets/vendor/js/lightbox-plus-jquery.min.js"></script>
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/js/lightbox-plus-jquery.min.js"></script>
     <!-- Bootstrap Date-Picker Plugin -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/> 
-<style>
-    .datepicker-inline{
-       width: 100%;
-    }
-    .datepicker table {
-    margin: 0;
-    
-    width: 100%;
-}
-  </style>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
   <?php
+  $id = ( isset($_GET['id']) && !empty($_GET['id']) ) ? intval($_GET['id']) : 0;
   $disabledDates = get_disabledDate();
-
   foreach($disabledDates as $key=>$disabledDate){
            $disabledDateArr[] =date("d-m-Y", strtotime($disabledDate['disabled_date'])); ;	
        
@@ -156,7 +141,7 @@ function daysOfWeekDisabled(date){
     $('#booknow').click(function(){
       var date = $("#date").val();
       if(date != ""){
-        var redirectUrl = "<?php echo SITEURL; ?>index.php?page=personal-information&id=<?php echo $id; ?>&date=" + date;
+        var redirectUrl = "<?php echo $settingsWebsite; ?>index.php?page=personal-information&id=<?php echo $id; ?>&date=" + date;
         checkDateAndRedirect(date, redirectUrl);
       } else {
         alert("Please select date!"); 
@@ -167,9 +152,9 @@ function daysOfWeekDisabled(date){
   </script>
   
 
-  <script src="<?php echo SITEURL; ?>assets/vendor/js/jquery.payform.min.js"></script>
-  <script src="<?php echo SITEURL; ?>assets/vendor/js/script.js"></script>
-  <script src="<?php echo SITEURL; ?>assets/vendor/owlcarousel/owl.carousel.js"></script>
+  <script src="<?php echo $settingsWebsite; ?>assets/vendor/js/jquery.payform.min.js"></script>
+  <script src="<?php echo $settingsWebsite; ?>assets/vendor/js/script.js"></script>
+  <script src="<?php echo $settingsWebsite; ?>assets/vendor/owlcarousel/owl.carousel.js"></script>
   <script>
      $(document).ready(function() {
        $('.instagram-carousel').owlCarousel({
@@ -228,8 +213,8 @@ function daysOfWeekDisabled(date){
 
     </script>
         	<!-- Data table JavaScript -->
-	<script src="<?php echo SITEURL; ?>admin/assets/vendors/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
-	<script src="<?php echo SITEURL; ?>admin/assets/style/dist/js/dataTables-data.js"></script>
+	<script src="<?php echo $settingsWebsite; ?>admin/assets/vendors/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+	<script src="<?php echo $settingsWebsite; ?>admin/assets/style/dist/js/dataTables-data.js"></script>
    
 <script>
 $(document).ready(function(){
@@ -288,7 +273,7 @@ $(document).ready(function(){
 			success:function(result){
 				if(result == 1){
 					 alert("Session Out!!!");
-					 window.location.href = '<?php echo SITEURL; ?>index.php?page=reservations&id=<?php echo $id; ?>';
+					 window.location.href = '<?php echo $settingsWebsite; ?>index.php?page=reservations&id=<?php echo $id; ?>';
 				}
 			   }
 			}); 
