@@ -14,8 +14,8 @@
           $id = $package['id'];
           $price = $package['price'];
           $currency = $package['currency'];
-          $post_title = $package['title_'.direction('en','ar')];
-          $post_description = $package['description_'.direction('en','ar')];
+          $post_title = $package[direction('en','ar').'Title'];
+          $post_description = $package[direction('en','ar').'Details'];
           $image_url =$package['image_url'];
           $created_at = $package['created_at'];
           $is_extra = $package['is_extra']; 
