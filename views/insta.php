@@ -1,7 +1,9 @@
 <?php 
 include('../languages/lang_config.php');
 include('../admin/config/apply.php');
-include('../includes/functions.php');
+include('../admin2/includes/config.php');
+include('../admin2/includes/functions.php');
+include('../admin2/includes/translate.php');
 ?>
 <!DOCTYPE html>
 <html>
