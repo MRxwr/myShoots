@@ -51,32 +51,30 @@
   <!-- Navigation -->
   <nav class="navbar fixed-top navbar-expand-md navbar-light bg-white"> 
     <div class="container">
-    <a class="navbar-brand d-lg-none" href="<?php echo SITEURL; ?>"><img src="<?php echo SITEURL; ?>assets/img/logo.png" width="168"></a>
-    
-      <button class="<?=($_SESSION['lang']=='ar'?'mr-auto':'ml-auto');?> mr-3 navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand d-lg-none" href="<?php echo $settingsWebsite; ?>"><img src="assets/img/logo.png" width="168"></a>
+
+      <button class="<?php echo direction('mr-auto','ml-auto') ?> mr-3 navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav <?=($_SESSION['lang']=='ar'?'mr-auto':'ml-auto');?> mx-md-auto">
+      <ul class="navbar-nav <?php echo direction('mr-auto','ml-auto') ?> mx-md-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="<?php echo SITEURL; ?>"><?php echo $lang['home'] ?></a>
+          <a class="nav-link" href="<?php echo $settingsWebsite; ?>"><?php echo direction("Home","الرئيسية") ?></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo SITEURL; ?>index.php?page=galleries"><?php echo $lang['gallery'] ?></a>
+          <a class="nav-link" href="<?php echo $settingsWebsite; ?>/?v=galleries"><?php echo direction("Gallery","المعرض") ?></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo SITEURL; ?>index.php?page=reservations-check"><?php echo $lang['reservation'] ?></a>
+          <a class="nav-link" href="<?php echo $settingsWebsite; ?>/?v=reservations-check"><?php echo direction("Reservation","الحجز") ?></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo SITEURL; ?>index.php?page=contact-us">Contact Us</a>
+          <a class="nav-link" href="<?php echo $settingsWebsite; ?>/?v=contact-us"><?php echo direction("Contact Us","تواصل معنا") ?></a>
         </li>
         <li class="nav-item dropdown d-block d-lg-none">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <?=$_SESSION['lang']?>
-          </a>
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo direction("Language","اللغة") ?></a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="<?php echo SITEURL; ?>index.php?lang=ar"><?php echo $lang['arabic'] ?></a>
-          <a class="dropdown-item" href="<?php echo SITEURL; ?>index.php?lang=en"><?php echo $lang['english'] ?></a>
+          <a class="dropdown-item" href="<?php echo $settingsWebsite; ?>/?lang=AR"><?php echo direction("Arabic","العربية") ?></a>
+          <a class="dropdown-item" href="<?php echo $settingsWebsite; ?>/?lang=ENG"><?php echo direction("English","English") ?></a>
             
           </div>
         </li>
@@ -86,12 +84,10 @@
     <div class="d-none d-lg-block">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <?=$_SESSION['lang']?>
-          </a>
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo direction("Language","اللغة") ?></a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item ar" id="lang_ar" href="<?php echo SITEURL; ?>index.php?lang=ar"><?php echo $lang['arabic'] ?></a>
-          <a class="dropdown-item en" id="lang_en" href="<?php echo SITEURL; ?>index.php?lang=en"><?php echo $lang['english'] ?></a>
+          <a class="dropdown-item ar" id="lang_ar" href="<?php echo $settingsWebsite; ?>/?lang=AR"><?php echo direction("Arabic","العربية") ?></a>
+          <a class="dropdown-item en" id="lang_en" href="<?php echo $settingsWebsite; ?>/?lang=ENG"><?php echo direction("English","English") ?></a>
           </div>
         </li>
       </ul>
@@ -105,7 +101,7 @@
     <div class="container-fluid p-0">
       <div class="row no-gutters align-items-center">
         <div class="col-md-5 d-none d-md-block">
-          <a href="<?php echo SITEURL; ?>"><img src="<?php echo SITEURL; ?>assets/img/logo.png" class="w-75 img-fluid .d-sm-none .d-md-block mx-auto py-4"></a>
+          <a href="<?php echo $settingsWebsite; ?>"><img src="assets/img/logo.png" class="w-75 img-fluid .d-sm-none .d-md-block mx-auto py-4"></a>
         </div>
         <div class="col-md-7">
           <div id="demo" class="carousel slide" data-ride="carousel">
@@ -113,11 +109,11 @@
             <!-- Indicators -->
             <ul class="carousel-indicators">
             <?php 
-            $banners=get_banners();
+            $banners = get_banners();
 			    $i = 0;
-            foreach($banners as $key=>$banner){
+            foreach( $banners as $key=>$banner ){
             ?>
-            <li data-target="#demo" data-slide-to="<?php echo $i; ?>" <?php if($i ==0){ ?> class="active" <?php } ?>></li>
+            <li data-target="#demo" data-slide-to="<?php echo $i; ?>" <?php if( $i == 0 ){ ?> class="active" <?php } ?>></li>
             <?php
 			    $i = $i+1;
 			     } ?>
