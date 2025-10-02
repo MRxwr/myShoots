@@ -1,7 +1,6 @@
 <?php 
 	$tbl_name = 'tbl_categories';
 	$where = "is_active='Yes' && include_in_menu='Yes'";
-
 	$query = $obj->select_data($tbl_name,$where);
 	$res = $obj->execute_query($conn,$query);
 	if($res == true)
@@ -15,7 +14,7 @@
 					$category_title = $row['title_'.$_SESSION['lang']];
 					?>
 					<li>
-						<a href="<?php echo SITEURL; ?>index.php?page=cat_posts&id=<?php echo $id; ?>"><?php echo $category_title; ?></a>
+						<a href="?v=cat_posts&id=<?php echo $id; ?>"><?php echo $category_title; ?></a>
 					</li>
 					<?php
 				}
