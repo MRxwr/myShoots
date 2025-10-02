@@ -1,14 +1,6 @@
 <?php 
 function get_setting($set){
-GLOBAL $obj,$conn;
-$tbl_name = 'tbl_settings';
-$where = " id=1 ";
-$query = $obj->select_data($tbl_name,$where);
-$res = $obj->execute_query($conn,$query);
-if($res == true)
-{
-	$count_rows = $obj->num_rows($res);
-	if($count_rows>0){
+	if( $res = selectDB("tbl_settings","`id` = '1'")[0] ){
 		$data = mysqli_fetch_array($res);
 		if(isset($data[$set])){
 			if($set=='open_date' || $set=='close_date'){
@@ -25,11 +17,10 @@ if($res == true)
 			
 		}else{
 			return false;
-		}
-			
+		}	
+	}else{
+		return false;
 	}
-		
-}
 }
 // get all active banner
 function get_banners(){
