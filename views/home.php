@@ -17,9 +17,6 @@
           $post_title = $package[direction('en','ar').'Title'];
           $post_description = $package[direction('en','ar').'Details'];
           $image_url =$package['image_url'];
-          $created_at = $package['created_at'];
-          $is_extra = $package['is_extra']; 
-          $extra_items = $package['extra_items'];
           ?>
           <!-- Package Div Start -->
           <div class="col-md-6 col-sm-6 col-12">
