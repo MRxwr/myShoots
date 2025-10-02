@@ -95,21 +95,28 @@
     </div>
   </nav>
   
-
+<?php
+if ( $banners = selectDB("tbl_banners","`is_active` = 'Yes' ORDER BY `id` ASC") ) {
+  $bannersCount = count($banners);
+}else{
+  $bannersCount = 0;
+}
+?>
   <!-- Masthead -->
   <header class="masthead text-white text-center">
     <div class="container-fluid p-0">
       <div class="row no-gutters align-items-center">
-        <div class="col-md-5 d-none d-md-block">
+
+        <div class="<?php echo ( $bannersCount > 0 ) ? "col-md-5" : "col-md-12" ?> d-none d-md-block">
           <a href="<?php echo $settingsWebsite; ?>"><img src="assets/img/logo.png" class="w-75 img-fluid .d-sm-none .d-md-block mx-auto py-4"></a>
         </div>
-        <div class="col-md-7">
+
+        <div class="col-md-7" <?php echo ( $bannersCount > 0 ) ? "" : "style='display:none'" ?>>
           <div id="demo" class="carousel slide" data-ride="carousel">
 
             <!-- Indicators -->
             <ul class="carousel-indicators">
             <?php 
-            $banners = selectDB("tbl_banners","`is_active` = 'Yes' ORDER BY `id` ASC");
             for( $i = 0; $i < sizeof($banners); $i++ ){
             ?>
               <li data-target="#demo" data-slide-to="<?php echo $i; ?>" <?php echo $active = ( $i == 0 ) ? "class='active'" : ""; ?>></li>
@@ -141,6 +148,7 @@
           
           </div>
         </div>
+
       </div>
     </div>
   </header>
