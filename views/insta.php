@@ -1,9 +1,9 @@
 <?php 
-include('../languages/lang_config.php');
-include('../admin/config/apply.php');
-include('../admin2/includes/config.php');
-include('../admin2/includes/functions.php');
-include('../admin2/includes/translate.php');
+require_once('../languages/lang_config.php');
+require_once('../admin/config/apply.php');
+require_once('../admin2/includes/config.php');
+require_once('../admin2/includes/functions.php');
+require_once('../admin2/includes/translate.php');
 ?>
 <!DOCTYPE html>
 <html>
