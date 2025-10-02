@@ -1,5 +1,12 @@
-
-
+<?php 
+if( $socialMedia = selectDB("s_media","`id` = '1'")){
+  $socialMedia = $socialMedia[0];
+}else{
+  $socialMedia["instagram"] = "#";
+  $socialMedia["twitter"] = "#";
+  $socialMedia["facebook"] = "#";
+}
+?>
 <!-- Footer -->
   <footer class="footer text-center " >
     <div class="container">
@@ -7,17 +14,17 @@
         <div class="col-12 h-100 text-center my-auto">
           <ul class="list-inline mb-5">
             <li class="list-inline-item">
-              <a href="#">
+              <a href="https://www.instagram.com/<?php echo str_replace("https://www.instagram.com/","",$socialMedia["instagram"]); ?>" target="_blank">
                 <i class="fab fa-instagram fa-fw fa-2x"></i>
               </a>
             </li>
             <li class="list-inline-item mr-3">
-              <a href="#">
-                <i class="fab fa-twitter-square fa-fw fa-2x"></i>
+              <a href="https://x.com/<?php echo str_replace("https://x.com/","",$socialMedia["twitter"]); ?>" target="_blank">
+                <i class="fab fa-x-square fa-fw fa-2x"></i>
               </a>
             </li>
             <li class="list-inline-item mr-3">
-              <a href="#">
+              <a href="https://www.facebook.com/<?php echo str_replace("https://www.facebook.com/","",$socialMedia["facebook"]); ?>" target="_blank">
                 <i class="fab fa-facebook fa-fw fa-2x"></i>
               </a>
             </li>
@@ -25,7 +32,6 @@
           </ul>
 
           <p class="mb-3 text-center" style="text-align: center !important;"><a href="#"><i class="far fa-envelope mr-1"></i> <?php echo strtoupper($settingsEmail) ?></a></p>
-          
           <p class="text-muted mb-5 text-uppercase text-center" style="text-align: center !important;">COPYRIGHT 2020 - <?php echo $settingsTitle ?></p>
           <p class="theme-color text-center" style="text-align: center !important;">Powered by <a href="http://www.createkuwait.com/" target="_blank" class="text-muted">Createkuwait.com</a></p>
 
