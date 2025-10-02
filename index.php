@@ -1,4 +1,6 @@
 <?php 
+require_once('languages/lang_config.php');
+require_once('admin/config/apply.php');
 require_once('admin2/includes/config.php');
 require_once('admin2/includes/functions.php');
 require_once('admin2/includes/translate.php');

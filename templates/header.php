@@ -4,8 +4,8 @@
   <meta charset="utf8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta title="description" content="<?php echo $settingsOgDescription ?>">
-	<meta title="keywords" content="<?php echo $lang['meta_keywords'] ?>">
-	<meta title="Author" content="<?php echo $lang['author'] ?>">
+	<meta title="keywords" content="<?php echo "" ?>">
+	<meta title="Author" content="<?php echo "" ?>">
   <title><?php echo $settingsTitle ?></title>
   <!-- Bootstrap core CSS -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
