@@ -13,7 +13,7 @@
   <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
   <link href="assets/vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <?php if( isset($_SESSION['lang']) && $_SESSION['lang']=='ar' ){ ?>
+  <?php if( $directionHTML == 'rtl' ){ ?>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.0/css/bootstrap-rtl.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style-nrtl.css?az=2">
   <?php } ?>
