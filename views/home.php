@@ -22,7 +22,7 @@
      ?>
         <!-- Package Div Start -->
            <div class="col-md-6 col-sm-6 col-12">
-              <a href="<?php echo "{$settingsWebsite}/index.php?page=reservations&id={$id}"; ?>">
+              <a href="<?php echo "{$settingsWebsite}/?v=reservations&id={$id}"; ?>">
               <div class="package-card card m-2">
                 <div class="card-body p-2">
                   <div class="row align-items-center no-gutters">
