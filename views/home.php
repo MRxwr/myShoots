@@ -8,7 +8,7 @@
     </div>
     <div class="row no-gutters">
     <?php 
-      if ( $packages= selectDB("tbl_packages","`status` = '0' AND `hidden` = '1' ORDER BY `rank` ASC") ) {
+      if ( $packages = selectDB("tbl_packages","`status` = '0' AND `hidden` = '1' ORDER BY `rank` ASC") ) {
         for( $i = 0; $i < sizeof($packages); $i++ ){
           $package = $packages[$i];
           $id = $package['id'];
