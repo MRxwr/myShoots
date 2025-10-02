@@ -4,11 +4,11 @@ function get_setting($set){
 		if(isset($data[$set])){
 			if($set=='open_date' || $set=='close_date'){
 				$time = strtotime($data[$set]);
-					if($set=='close_date'){
-						return $final = date("Y-m-d", strtotime("-1 month", $time));
-					}else{
-						return $final = date("Y-m-d", strtotime("-1 month", $time));
-					}
+				if($set=='close_date'){
+					return $final = date("Y-m-d", strtotime("-1 month", $time));
+				}else{
+					return $final = date("Y-m-d", strtotime("-1 month", $time));
+				}
 			}else{
 				return $data[$set];
 			}

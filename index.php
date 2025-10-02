@@ -7,6 +7,7 @@ require_once('templates/header.php');
 if( get_setting('is_maintenance') == 1 ){
 	header('LOCATION: error');die();
 } 
+
 if( isset($_GET["requested_order_id"]) && !empty($_GET["requested_order_id"]) ){
 	if( checkCreateAPI() ){
 		header("LOCATION : ?v=booking-complete&booking_id=".$_GET['requested_order_id']);die();

@@ -23,7 +23,7 @@
                   <h5 class="package-head"><?= $package[direction('en','ar')."Title"] ?></h5>
                     <?= $package[direction('en','ar')."Details"] ?>
                     <p class="theme-color package-price-tag text-right">
-                      <span><?php echo direction("Price","السعر") ?>:</span><span class="ml-2"><?= $package["price"] ?><?= $package["currency"] ?></span></p>
+                      <span><?php echo direction("Price","القيمة") ?>:</span><span class="ml-2"><?= $package["price"] ?> <?= $package["currency"] ?></span></p>
                   </div>
                   <div class="col-lg-5 col-md-4 order-lg-3 order-md-2 order-sm-1 order-1">
                     <img src="logos/<?= $package["imageurl"] ?>" class="img-rounded img-fluid d-block mx-auto mb-md-0 mb-3">
