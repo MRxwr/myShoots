@@ -48,7 +48,7 @@
   <div class="container" style="max-width: 1340px;">
     <div class="row">
       <div class="col-12">
-        <h2 class="shoots-Head"><?php echo $lang['follow_us'] ?></h2>
+        <h2 class="shoots-Head"><?php echo direction("Gallery","الصور") ?></h2>
       </div>
     </div>
   </div>
@@ -59,23 +59,27 @@
   <div class="container" style="max-width: 1340px;">
     <div class="row">
       <div class="col-12">
-        <h2 class="shoots-Head"><?php echo $lang['about_us'] ?></h2>
+        <h2 class="shoots-Head"><?php echo direction("About Us","من نحن") ?></h2>
       </div>
     </div>
   </div>
   <div class="container-fluid p-0 bg-light">
     <div class="row no-gutters align-items-center">
       <div class="col-md-7">
-        <img src="<?php echo SITEURL; ?>assets/img/shoots-about.png" class="img-fluid d-block mx-auto">
+        <img src="assets/img/shoots-about.png" class="img-fluid d-block mx-auto">
       </div>
       <div class="col-md-5 p-3 p-md-5">
-        <h2 class="mb-5">Photography</h2>
-        <h5 class="mb-4">Creative Photography Theme</h5>
+        <h2 class="mb-5"><?php echo direction("Photography","تصوير") ?></h2>
+        <h5 class="mb-4"><?php echo direction("Creative Photography Theme","ثيمة تصوير إبداعية") ?></h5>
               <?php 
-              $about=get_page_details(7);
+              if( $about = selectDB("tbl_pages","`id` = '7' AND `is_active` = 'Yes'") ){
+                $about = $about[0];
+              }else{
+                $about["description".direction("en","ar")] = "";
+              }
               ?>
-        <p class="about-para"><?php echo $about['description_'.$_SESSION['lang']]; ?></p>
-        <a href="<?php echo SITEURL; ?>index.php?page=galleries" class="btn btn-lg btn-outline-secondary px-5 mt-5">Gallery</a>
+        <p class="about-para"><?php echo $about['description_'.direction("en","ar")]; ?></p>
+        <a href="?v=galleries" class="btn btn-lg btn-outline-secondary px-5 mt-5"><?php echo direction("Gallery","الصور") ?></a>
       </div>
     </div>
   </div>
