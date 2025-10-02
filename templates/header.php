@@ -110,27 +110,25 @@
             <ul class="carousel-indicators">
             <?php 
             $banners = get_banners();
-			    $i = 0;
-            foreach( $banners as $key=>$banner ){
+            for( $i = 0; $i < sizeof($banners); $i++ ){
             ?>
-            <li data-target="#demo" data-slide-to="<?php echo $i; ?>" <?php if( $i == 0 ){ ?> class="active" <?php } ?>></li>
+              <li data-target="#demo" data-slide-to="<?php echo $i; ?>" <?php echo $active = ( $i == 0 ) ? "class='active'" : ""; ?>></li>
             <?php
-			    $i = $i+1;
-			     } ?>
+            } 
+            ?>
             </ul>
           
             <!-- The slideshow -->
             <div class="carousel-inner">
-			<?php 
-			    $j = 0;
-            foreach( $banners as $key=>$banner ){
+			      <?php 
+            for( $i = 0; $i < sizeof($banners); $i++ ){ 
             ?>
-              <div class="carousel-item  <?php if( $j == 0 ){ ?> active <?php } ?>">
-                <img src="<?php echo "uploads/images/".$banner['image']; ?>" class="img-fluid d-block mx-auto" alt="">
+              <div class="carousel-item <?php echo $active = ( $i == 0 ) ? "active" : ""; ?>">
+                <img src="<?php echo "uploads/images/".$banners[$i]['image']; ?>" class="img-fluid d-block mx-auto" alt="">
               </div>
-              <?php 
-			      $j = $j+1;
-			  } ?>
+            <?php 
+			      }
+            ?>
             </div>
           
             <!-- Left and right controls -->
