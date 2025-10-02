@@ -53,7 +53,7 @@
     </div>
   </div>
 </section>
-<iframe name="frame" style="width:100%; min-height:350px;" id="frame" src="<?php echo SITEURL; ?>views/insta.php" allowtransparency="true" frameborder="0"></iframe>
+<iframe name="frame" style="width:100%; min-height:350px;" id="frame" src="<?php echo $settingsWebsite ?>/views/insta.php" allowtransparency="true" frameborder="0"></iframe>
 
 <section class="pb-0">
   <div class="container" style="max-width: 1340px;">
