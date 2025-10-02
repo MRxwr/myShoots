@@ -298,7 +298,7 @@ function submitForm(){
   $('#bars1').show();
   $.ajax({
     type: "POST",
-    url: "pages/contactFormAjax.php",
+    url: "views/contactFormAjax.php",
     data: "name=" + name + "&email=" + email + "&phone=" + phone + "&subject=" + subject + "&message=" + message,
     success : function(text){
       if ( text == "success" ){
