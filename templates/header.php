@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html <?php if(isset($_SESSION['lang']) && $_SESSION['lang']=='ar'){ ?>dir="rtl" lang="ar"<?php }else{ ?>lang="en"<?php } ?> >
+<html <?php echo direction("lang='en'","dir='rtl' lang='ar'") ?> >
 <head>
   <meta charset="utf8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,27 +10,27 @@
 
 
       <!-- Bootstrap core CSS -->
-  <link href="<?php echo SITEURL; ?>assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom fonts for this template -->
-  <link href="<?php echo SITEURL; ?>assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-  <link href="<?php echo SITEURL; ?>assets/vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="assets/vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <?php if(isset($_SESSION['lang']) && $_SESSION['lang']=='ar'){ ?>
+  <?php if( isset($_SESSION['lang']) && $_SESSION['lang']=='ar' ){ ?>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.0/css/bootstrap-rtl.css" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo SITEURL; ?>assets/css/style-nrtl.css?az=2">
+    <link rel="stylesheet" href="assets/css/style-nrtl.css?az=2">
   <?php } ?>
   <!--Owl Carousel CSS-->
-  <link rel="stylesheet" href="<?php echo SITEURL; ?>assets/vendor/owlcarousel/owl.carousel.css">
-  <link rel="stylesheet" href="<?php echo SITEURL; ?>assets/vendor/owlcarousel/owl.theme.default.css">
+  <link rel="stylesheet" href="assets/vendor/owlcarousel/owl.carousel.css">
+  <link rel="stylesheet" href="assets/vendor/owlcarousel/owl.theme.default.css">
     <!--Lightbox gallery-->
-  <link rel="stylesheet" href="<?php echo SITEURL; ?>assets/css/lightbox.min.css">
+  <link rel="stylesheet" href="assets/css/lightbox.min.css">
   <!-- Custom styles for this template -->
-  <link href="<?php echo SITEURL; ?>assets/css/landing-page.css?y=2" rel="stylesheet">
-  
+  <link href="assets/css/landing-page.css?y=2" rel="stylesheet">
+
  		<!-- Data table CSS -->
-	<link href="<?php echo SITEURL; ?>admin/assets/vendors/bower_components/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>	
-  
+	<link href="admin/assets/vendors/bower_components/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>	
+
  <style>
   td.disabled.day {
    color: #e7888c!important; 
