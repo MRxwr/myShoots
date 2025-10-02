@@ -2,6 +2,7 @@
 require_once('admin2/includes/config.php');
 require_once('admin2/includes/functions.php');
 require_once('admin2/includes/translate.php');
+var_dump($directionHTML);
 require_once('templates/header.php');
 
 if( get_setting('is_maintenance') == 1 ){
