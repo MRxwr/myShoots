@@ -1,10 +1,15 @@
 <?php 
+$platforms = ['instagram','twitter','facebook','snapchat','tiktok','whatsapp'];
+$platformsIcons = ['instagram'=>'fab fa-instagram','twitter'=>'fab fa-x-square','facebook'=>'fab fa-facebook','snapchat'=>'fab fa-snapchat-ghost','tiktok'=>'fab fa-tiktok','whatsapp'=>'fab fa-whatsapp'];
 if( $socialMedia = selectDB("s_media","`id` = '1'")){
   $socialMedia = $socialMedia[0];
 }else{
   $socialMedia["instagram"] = "#";
   $socialMedia["twitter"] = "#";
   $socialMedia["facebook"] = "#";
+  $socialMedia["snapchat"] = "#";
+  $socialMedia["tiktok"] = "#";
+  $socialMedia["whatsapp"] = "#";
 }
 ?>
 <!-- Footer -->
@@ -13,22 +18,14 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
       <div class="row">
         <div class="col-12 h-100 text-center my-auto">
           <ul class="list-inline mb-5">
-            <li class="list-inline-item">
-              <a href="https://www.instagram.com/<?php echo str_replace("https://www.instagram.com/","",$socialMedia["instagram"]); ?>" target="_blank">
-                <i class="fab fa-instagram fa-fw fa-2x"></i>
-              </a>
-            </li>
-            <li class="list-inline-item mr-3">
-              <a href="https://x.com/<?php echo str_replace("https://x.com/","",$socialMedia["twitter"]); ?>" target="_blank">
-                <i class="fab fa-x-square fa-fw fa-2x"></i>
-              </a>
-            </li>
-            <li class="list-inline-item mr-3">
-              <a href="https://www.facebook.com/<?php echo str_replace("https://www.facebook.com/","",$socialMedia["facebook"]); ?>" target="_blank">
-                <i class="fab fa-facebook fa-fw fa-2x"></i>
-              </a>
-            </li>
-            
+            <?php foreach ($platforms as $platform): ?>
+              <?php if( empty($socialMedia[$platform]) || $socialMedia[$platform] == "#" ) continue; ?>
+              <li class="list-inline-item mr-3">
+                <a href="<?php echo $socialMedia[$platform]; ?>" target="_blank">
+                  <i class="<?php echo $platformsIcons[$platform]; ?> fa-fw fa-2x"></i>
+                </a>
+              </li>
+            <?php endforeach; ?>
           </ul>
 
           <p class="mb-3 text-center" style="text-align: center !important;"><a href="#"><i class="far fa-envelope mr-1"></i> <?php echo strtoupper($settingsEmail) ?></a></p>
