@@ -1,7 +1,6 @@
 <?php 
 function get_setting($set){
-	if( $res = selectDB("tbl_settings","`id` = '1'")[0] ){
-		$data = mysqli_fetch_array($res);
+	if( $data = selectDB("tbl_settings","`id` = '1'")[0] ){
 		if(isset($data[$set])){
 			if($set=='open_date' || $set=='close_date'){
 				$time = strtotime($data[$set]);
@@ -9,12 +8,10 @@ function get_setting($set){
 						return $final = date("Y-m-d", strtotime("-1 month", $time));
 					}else{
 						return $final = date("Y-m-d", strtotime("-1 month", $time));
-						//return $final = date("Y-m-d", strtotime("-0 month", $time));
 					}
 			}else{
 				return $data[$set];
 			}
-			
 		}else{
 			return false;
 		}	
