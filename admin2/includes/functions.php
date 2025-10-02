@@ -10,4 +10,5 @@ require_once("functions/vouchers.php");
 require_once("functions/products.php");
 require_once("functions/currency.php");
 require_once("functions/booking.php");
+require_once("functions/bookingMain.php");
 ?>
