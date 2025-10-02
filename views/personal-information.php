@@ -1,7 +1,7 @@
 <?php 
 var_dump($_REQUEST);
 if( isset($_GET['id']) && !empty($_GET['id']) ){
-  if( $package = selectDBNew("tbl_packages",[intval($_GET['id'])],"`id` = ? AND `status`='0' AND `hidden`='1'","") ){
+  if( $package = selectDBNew("tbl_packages",[intval($_GET['id'])],"`id` = ? AND `status` = '0' AND `hidden` = '1'","") ){
   }else{
     header('location: ?v=home&error='.urlencode(base64_encode(direction("Package not found","الباقة غير موجودة"))));die();
   }
