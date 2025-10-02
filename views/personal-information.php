@@ -1,8 +1,11 @@
 <?php 
-if(isset($_GET['id'])){
-  $package = get_packages_details($_GET['id']);
+if( isset($_GET['id']) && !empty($_GET['id']) ) {
+  if( $package = selectDBNew("tbl_packages",[intval($_GET['id'])],"`id` = ? AND `status`='0' AND `hidden`='1'","") ){
+  }else{
+    header('location: ?v=home&error='.urlencode(base64_encode(direction("Package not found","الباقة غير موجودة"))));die();
+  }
 }else{
-  $package = get_packages_details(6);
+  header('location: ?v=home');die();
 }
   $id = $package['id'];
   $price = $package['price'];
@@ -26,10 +29,10 @@ if(isset($_GET['id'])){
       $date = explode('-',$_GET['date']);
       $booking_date = $date[2].'-'.$date[1].'-'.$date[0];	
     } else {
-      header('location:'.SITEURL.'?page=reservations&id='.$id);die();
+      header('location: ?v=reservations&id='.$id);die();
     }			
   } else {
-    header('location:'.SITEURL.'?page=reservations&id='.$id);die();
+    header('location: ?v=reservations&id='.$id);die();
   }
   // Get booked time slots for the selected date and package
   $booktimes = get_bookingTimeBydate($_GET['id'],$booking_date);
@@ -46,31 +49,31 @@ if(isset($_GET['id'])){
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <h2 class="shoots-Head2"><?php echo $lang['personal_information'] ?></h2>
+          <h2 class="shoots-Head2"><?php echo direction("Personal Information","معلومات شخصية") ?></h2>
         </div>
         <div class="col-md-8 col-sm-10">
-          <form class="personal-information" method="post" action="<?php echo SITEURL; ?>payment/process.php">
+          <form class="personal-information" method="post" action="payment/process.php">
             
             <input type="hidden" id="id" name="id" value="<?php echo $id; ?>" />
             <input type="hidden" id="booking_price" name="booking_price" value="<?php echo $price; ?>" />
             <input type="hidden" id="hid_extra_items" name="hid_extra_items" value='<?php echo $extra_items; ?>' />
             <div class="form-group row">
-              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo $lang['package_choosen'] ?>:</label>
+              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo direction("Package Choosen","الباقة المختارة") ?>:</label>
               <div class="col-sm-7 col-md-8">
                 <input type="text" readonly class="form-control-plaintext" id="" value="<?=$post_title?>">
               </div>
             </div>
             <div class="form-group row">
-              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo $lang['date'] ?>:</label>
+              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo direction("Date","التاريخ") ?>:</label>
               <div class="col-sm-7 col-md-8">
                 <input type="text" readonly class="form-control-plaintext" name="booking_date" id="booking_date" value="<?php if(isset($_GET['date'])){echo $_GET['date']; } ?>">
               </div>
             </div>
             <div class="form-group row">
-              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo $lang['preffered_time'] ?>:</label>
+              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo direction("Preferred Time","الوقت المفضل") ?>:</label>
               <div class="col-sm-7 col-md-8">
                 <select class="form-control form-control-lg" id="booking_time" name="booking_time" style="max-width: 300px;" required>
-                <option value=""  ><?php echo $lang['select_time'] ?></option>
+                <option value=""  ><?php echo direction("Select Time","اختر الوقت") ?></option>
                 <?php 
                     $rows = json_decode($times); 
                     
@@ -83,36 +86,13 @@ if(isset($_GET['id'])){
                             echo "<option value='".$row->startDate." - ".$row->endDate."'>".$row->startDate." - ".$row->endDate."</option> ";
                             } 
                         }
-                        
-                    // end slots as per packages
-                    
-                    // start global slots for all packages ramadan
-                    // $timerows = array(
-                    //     array('startDate' => '2:00 PM', 'endDate' => '3:00 PM'),
-                    //     array('startDate' => '3:00 PM', 'endDate' => '4:00 PM'),
-                    //     array('startDate' => '4:00 PM', 'endDate' => '5:00 PM'),
-                    //     array('startDate' => '7:30 PM', 'endDate' => '8:30 PM'),
-                    //     array('startDate' => '8:30 PM', 'endDate' => '9:30 PM'),
-                    //     array('startDate' => '9:30 PM', 'endDate' => '10:30 PM'),
-                    //     //array('startDate' => '10:00 PM', 'endDate' => '11:00 PM'),
-                    // );
-                    //var_dump($booktimeArr);
-                    
-                    // foreach ($timerows as $row) {
-                    //     $time = $row['startDate'] . " - " . $row['endDate'];
-                    //     if (!in_array($time, $booktimeArr)) {
-                    //         echo "<option value='" . $row['startDate'] . " - " . $row['endDate'] . "'>" . $row['startDate'] . " - " . $row['endDate'] . "</option>";
-                    //     }
-                    // }
-                    
-                    // end global slots for all packages
                    ?>
                 </select>
               </div>
             </div>
             
             <div class="form-group row">
-              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo $lang['extra'] ?>:</label>
+              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo direction("Extra","اضافي") ?>:</label>
               <div class="col-sm-7 col-md-8">
                <!-- <label class="form-check-label" for="defaultCheck1">
                 	<span class="form-control-plaintext"><?php //echo $lang['filming'] ?></span>
@@ -138,40 +118,40 @@ if(isset($_GET['id'])){
             </div>
 
             <div class="form-group row">
-              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo $lang['customer_name'] ?>:</label>
+              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo direction("Name","الاسم") ?>:</label>
               <div class="col-sm-7 col-md-8">
                 <input type="text" class="form-control form-control-lg" id="customer_name" name="customer_name" required >
               </div>
             </div>
 
             <div class="form-group row" style="display:none">
-              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo $lang['customer_email'] ?>:</label>
+              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo direction("Email","البريد الإلكتروني") ?>:</label>
               <div class="col-sm-7 col-md-8">
                 <input type="email" class="form-control form-control-lg" id="customer_email" name="customer_email" value="Hello@myshootskw.com" required>
               </div>
             </div>
 
             <div class="form-group row">
-              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo $lang['mobile_number'] ?>:</label>
+              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo direction("Mobile Number","رقم الهاتف") ?>:</label>
               <div class="col-sm-7 col-md-8">
                 <input type="text" class="form-control form-control-lg" id="mobile_number" name="mobile_number" required>
               </div>
             </div>
             <div class="form-group row">
-              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo $lang['baby_name'] ?>:</label>
+              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo direction("Baby Name","اسم الطفل") ?>:</label>
               <div class="col-sm-7 col-md-8">
                 <input type="text" class="form-control form-control-lg" id="baby_name" name="baby_name">
               </div>
             </div>
             <div class="form-group row">
-              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo $lang['baby_age'] ?>:</label>
+              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo direction("Baby Age","عمر الطفل") ?>:</label>
               <div class="col-sm-7 col-md-8">
                 <input type="text" class="form-control form-control-lg" id="baby_age" name="baby_age">
               </div>
             </div>
 
             <div class="form-group row">
-              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo $lang['instructions'] ?>:</label>
+              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo direction("Instructions","تعليمات") ?>:</label>
               <div class="col-sm-7 col-md-8">
                 <textarea name="instructions" id="instructions" class="form-control form-control-lg"  rows="4" placeholder=""></textarea>
               </div>
@@ -183,19 +163,19 @@ if(isset($_GET['id'])){
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" name="termsandcondition" required>
                     <label class="form-check-label" for="defaultCheck1">
-                      <span class="form-control-plaintext"> <?php echo $lang['i_agree'] ?> <a href="<?php echo SITEURL; ?>index.php?page=terms-and-condition" targer="_blank"><?php echo $lang['terms_and_condition'] ?></a> </span>
+                      <span class="form-control-plaintext"> <?php echo direction("I agree","أوافق") ?> <a href="<?php echo "?v=terms-and-condition"; ?>" target="_blank"><?php echo direction("Terms and Conditions","الشروط والأحكام") ?></a> </span>
                     </label>
                   </div>
 				  
 				  <div class="reservation">
           <h5 class="theme-color mt-4">
-            <span>Deposit:</span> <span>30.500 KD</span>
+            <span><?php echo direction("Deposit","عربون") ?>:</span> <span>30.500 KD</span>
           </h5>
           <p class="theme-color mb-1 pl-2">
-            Deposit are not refundable.
+            <?php echo direction("Deposit are not refundable.","العربون غير قابل للاسترداد.") ?>
           </p>
           <p class="theme-color pl-2">
-            0.500 is the payment gateway transaction fees.
+            <?php echo direction("0.500 is the payment gateway transaction fees.","0.500 هي رسوم معاملات بوابة الدفع.") ?>
           </p>
         </div> 
               </div>
@@ -204,7 +184,7 @@ if(isset($_GET['id'])){
 			<div class="row pt-4">
               <div class="col-sm-5 col-md-4">&nbsp;</div>
               <div class="col-sm-7 col-md-8">
-                <button type="submit"  name="submit"  class="btn btn-lg btn-outline-primary btn-block btn-rounded"><?php echo $lang['continue_to_payment'] ?></button>
+                <button type="submit"  name="submit"  class="btn btn-lg btn-outline-primary btn-block btn-rounded"><?php echo direction("Continue to Payment","المتابعة إلى الدفع") ?></button>
               </div>  
             </div>
           </form>

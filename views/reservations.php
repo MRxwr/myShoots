@@ -1,13 +1,4 @@
 <?php 
-if( isset($_GET['error']) && !empty($_GET['error']) ){
-    $error = $_GET['error'];
-    $error = base64_decode(urldecode($error));
-    echo "
-    <script>
-        alert('".$error."');
-    </script>
-    ";
-}
 if(isset($_GET['id'])){
   $package = get_packages_details($_GET['id']);
 }else{

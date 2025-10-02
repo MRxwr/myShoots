@@ -16,6 +16,16 @@ if( isset($_GET["requested_order_id"]) && !empty($_GET["requested_order_id"]) ){
 	}
 }
 
+if( isset($_GET['error']) && !empty($_GET['error']) ){
+    $error = $_GET['error'];
+    $error = base64_decode(urldecode($error));
+    echo "
+    <script>
+        alert('".$error."');
+    </script>
+    ";
+}
+
 if( isset($_GET["v"]) && searchFile("views","{$_GET["v"]}.php") ){
 	require_once("views/".searchFile("views","{$_GET["v"]}.php"));
 }else{
