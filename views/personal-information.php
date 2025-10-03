@@ -5,10 +5,10 @@ if( isset($_GET['id']) && !empty($_GET['id']) ){
     
   }else{
     var_dump($_REQUEST);
-    header('location: index.php?v=home&error='.urlencode(base64_encode(direction("Package not found","الباقة غير موجودة"))));die();
+    header('LOCATION: ?v=home&error='.urlencode(base64_encode(direction("Package not found","الباقة غير موجودة"))));die();
   }
 }else{
-  header('location: index.php?v=home');die();
+  header('LOCATION: ?v=home');die();
 }
   $id = $package['id'];
   $price = $package['price'];
@@ -32,10 +32,10 @@ if( isset($_GET['id']) && !empty($_GET['id']) ){
       $date = explode('-',$_GET['date']);
       $booking_date = $date[2].'-'.$date[1].'-'.$date[0];	
     } else {
-      header('location: ?v=reservations&id='.$id);die();
+      header('LOCATION: ?v=reservations&id='.$id);die();
     }			
   } else {
-    header('location: ?v=reservations&id='.$id);die();
+    header('LOCATION: ?v=reservations&id='.$id);die();
   }
   // Get booked time slots for the selected date and package
   $booktimes = get_bookingTimeBydate($_GET['id'],$booking_date);
