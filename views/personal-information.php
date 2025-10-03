@@ -4,7 +4,12 @@ if( isset($_GET['id']) && !empty($_GET['id']) ){
   if( $package = selectDBNew("tbl_packages",[intval($_GET['id'])],"`id` = ? AND `status` = '0' AND `hidden` = '1'","") ){
     
   }else{
-    header('LOCATION: ?v=home&error='.urlencode(base64_encode(direction("Package not found","الباقة غير موجودة"))));die();
+    echo "
+    <script>
+      window.location.href='?v=home&error=".urlencode(base64_encode(direction("Package not found","الباقة غير موجودة")))."';
+    </script>
+    ";
+    die();
   }
 }else{
   header('LOCATION: ?v=home');die();
