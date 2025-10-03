@@ -5,10 +5,10 @@ if( isset($_GET['id']) && !empty($_GET['id']) ){
     
   }else{
     var_dump($_REQUEST);
-    header('location: ?v=home&error='.urlencode(base64_encode(direction("Package not found","الباقة غير موجودة"))));die();
+    header('location: index.php?v=home&error='.urlencode(base64_encode(direction("Package not found","الباقة غير موجودة"))));die();
   }
 }else{
-  header('location: ?v=home');die();
+  header('location: index.php?v=home');die();
 }
   $id = $package['id'];
   $price = $package['price'];
