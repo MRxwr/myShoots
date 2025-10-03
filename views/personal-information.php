@@ -12,7 +12,12 @@ if( isset($_GET['id']) && !empty($_GET['id']) ){
     die();
   }
 }else{
-  header('LOCATION: ?v=home');die();
+  echo "
+    <script>
+      window.location.href='?v=home&error=".urlencode(base64_encode(direction("package not found","الباقة غير موجودة")))."';
+    </script>
+    ";
+    die();
 }
   $id = $package['id'];
   $price = $package['price'];
@@ -36,10 +41,20 @@ if( isset($_GET['id']) && !empty($_GET['id']) ){
       $date = explode('-',$_GET['date']);
       $booking_date = $date[2].'-'.$date[1].'-'.$date[0];	
     } else {
-      header('LOCATION: ?v=reservations&id='.$id);die();
+      echo "
+      <script>
+        window.location.href='?v=home&error=".urlencode(base64_encode(direction("Selected date is not available","التاريخ المحدد غير متوفر")))."';
+      </script>
+      ";
+      die();
     }			
   } else {
-    header('LOCATION: ?v=reservations&id='.$id);die();
+    echo "
+    <script>
+      window.location.href='?v=home&error=".urlencode(base64_encode(direction("No date selected","لم يتم تحديد تاريخ")))."';
+    </script>
+    ";
+    die();
   }
   // Get booked time slots for the selected date and package
   $booktimes = get_bookingTimeBydate($_GET['id'],$booking_date);
