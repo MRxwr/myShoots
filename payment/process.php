@@ -47,7 +47,7 @@ if(isset($_POST['submit'])){
 		'booking_price' => $booking_price,
 		'customer_name' => "{$package_title}",
 		'customer_email' => "{$settingsEmail}",
-		'mobile_number' => "{$settingsMobile}",
+	'mobile_number' => substr($settingsMobile, 3),
 		'personal_info' => json_encode($_POST['personalInfo'],JSON_UNESCAPED_UNICODE),
 		'status' => '',
 		'created_at' => $created_at,
