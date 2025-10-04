@@ -100,26 +100,12 @@ if( $res = selectDBNew("tbl_packages",[$id],"`status` = '0' AND `hidden` = '1' A
 	}
 }
 // get  all galleries image by category id
-function get_galleries($catid=0){
-
-GLOBAL $obj,$conn;
-$tbl_name = 'tbl_galleries';
-if($catid>0){
-	$where = "is_active='Yes' && category=".$catid; 
-}else{
-	$where = "is_active='Yes'";
-}
-//$where = "is_active='Yes' && category=".$catid;
-$query = $obj->select_data($tbl_name,$where);
-$res = $obj->execute_query($conn,$query);
-if($res == true)
-{
-	$count_rows = $obj->num_rows($res);
-	if($count_rows>0){
+function get_galleries($cat=''){
+	if( $res = selectDB("tbl_galleries","`status` = '0'") ){
+		if( count($res) > 0 ){
 			return $res;
+		}
 	}
-	
-}
 }
 
 // get  all themes image by package id
