@@ -261,7 +261,7 @@ function updateDB($table, $data, $where) {
     
 
     if ($stmt->execute()) {
-        if ($stmt->affected_rows > 0) {
+        if ( $stmt->affected_rows > 0 ) {
             return 1;
         } else {
             $error = array("msg" => "no rows updated");
