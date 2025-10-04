@@ -29,7 +29,7 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
             <?php endforeach; ?>
           </ul>
 
-          <p class="mb-3 text-center" style="text-align: center !important;"><a href="#"><i class="far fa-envelope mr-1"></i> <?php echo strtoupper($settingsEmail) ?></a></p>
+          <p class="mb-3 text-center" style="text-align: center !important;"><a href="#"><i class="far fa-envelope mr-1"></i> <?php echo strtoupper($bookingSettings['email']) ?></a></p>
           <p class="text-muted mb-5 text-uppercase text-center" style="text-align: center !important;">COPYRIGHT 2020 - <?php echo $settingsTitle ?></p>
           <p class="theme-color text-center" style="text-align: center !important;">Powered by <a href="http://www.createkuwait.com/" target="_blank" class="text-muted">Createkuwait.com</a></p>
 
