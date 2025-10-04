@@ -1,8 +1,17 @@
 <?php 
 
-if( isset($_GET['id']) && !empty($_GET['id']) ){
-  if( $package = selectDBNew("tbl_packages",[intval($_GET['id'])],"`id` = ? AND `status` = '0' AND `hidden` = '1'","") ){
-    
+if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
+  if( $package = selectDBNew("tbl_packages",[$_GET['id']],"`id` = ? AND `status` = '0' AND `hidden` = '1'","") ){
+    $id = $package['id'];
+    $price = $package['price'];
+    $currency = $package['currency'];
+    $post_title = $package['title_'.direction("en","ar")];
+    $post_description = $package['description_'.direction("en","ar")];
+    $image_url =$package['imageurl'];
+    $created_at = $package['created_at'];
+    $is_extra = $package['is_extra']; 
+    $extra_items = $package['extra_items'];
+    $times = $package['time'];
   }else{
     echo "
     <script>
@@ -19,17 +28,6 @@ if( isset($_GET['id']) && !empty($_GET['id']) ){
     ";
     die();
 }
-  $id = $package['id'];
-  $price = $package['price'];
-  $currency = $package['currency'];
-  $post_title = $package['title_'.$_SESSION['lang']];
-  $post_description = $package['description_'.$_SESSION['lang']];
-  $image_url =$package['image_url'];
-  $created_at = $package['created_at'];
-  $is_extra = $package['is_extra']; 
-  $extra_items = $package['extra_items'];
-  $times = $package['time'];
-  
   // Date formate			
   if( isset($_GET['date']) && !empty($_GET['date']) ) {
     $settings = selectDB("tbl_settings","`id`='1'");
