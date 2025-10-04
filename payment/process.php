@@ -16,21 +16,12 @@ if(isset($_POST['submit'])){
 		$comm = ",";
 	}
 	
-	$extra_items = "[".$select_extra_item_val."]"; 
-	$package_id = $obj->sanitize($conn,$_POST['id']);
-	$booking_date = $obj->sanitize($conn,$_POST['booking_date']);
+	$extra_items = "[{$select_extra_item_val}]"; 
+	$package_id = $_POST['id'];
+	$booking_date = $_POST['booking_date'];
 	$date = explode('-',$booking_date);
 	$booking_date = $date[2].'-'.$date[1].'-'.$date[0];
 	$booking_time = $_POST['booking_time'];
-	$customer_name = $_POST['customer_name'];
-	$customer_email = $_POST['customer_email'];
-	$arabic = ['١','٢','٣','٤','٥','٦','٧','٨','٩','٠'];
-	$english = [ 1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 , 0];
-	$phone = str_replace($arabic, $english, $_POST['mobile_number']);
-	$mobile_number = $phone;
-	$instructions = ( isset($_POST['instructions']) ) ? $_POST['instructions'] : '' ;
-	$baby_age = ( isset($_POST['baby_age']) ) ? $_POST['baby_age'] : '' ;
-	$baby_name = ( isset($_POST['baby_name']) ) ? $_POST['baby_name'] : '' ;
 	$is_filming = ( isset($_POST['is_filming']) ) ? $_POST['is_filming'] : 0 ;
 	date_default_timezone_set('Asia/Riyadh');
 	$created_at = date('Y-m-d H:i:s');
@@ -47,8 +38,7 @@ if(isset($_POST['submit'])){
 	}	 
 
 	$package = get_packages_details($package_id);
-	$package_title = $package['title_'.$_SESSION['lang']];
-	$customer_mobile=$mobile_number;
+	$package_title = $package[direction('en','ar').'Title'];
 	$BookingDetails = array(
 		'package_id' => $package_id,
 		'booking_date' => $booking_date,

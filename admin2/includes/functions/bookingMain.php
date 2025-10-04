@@ -378,49 +378,27 @@ function get_referral_details($code){
 	}
 	
 
-	function check_bookingTimeAnddate($date,$time,$package_id){
-	GLOBAL $obj,$conn;
-	$tbl_name = 'tbl_booking';
-	
-	///$where = " booking_date like '%".$date."%' AND booking_time like '%".$time."%'  AND package_id=".$package_id." AND status='Yes'";
-	$where = " booking_date like '%".$date."%' AND booking_time like '%".$time."%'  AND status='Yes'";
-	$query = $obj->select_data($tbl_name,$where);
-	$res = $obj->execute_query($conn,$query);
-	//var_dump($res);
-	if($res == true)
-	{       
-			$count_rows = $obj->num_rows($res);
-		if($count_rows>0){
+function check_bookingTimeAnddate($date,$time,$package_id){
+	if($res = selectDBNew("tbl_booking",[$date,$time],"`booking_date` LIKE ? AND `booking_time` LIKE ? AND `status` = 'Yes'","")){       
+		if( count($res) > 0 ){
 				return true;
 		}else{
-			$tbl_name = 'tbl_booking';
-			$where = " booking_date like '%".$date."%' AND booking_time like '%".$time."%' AND  status='No' AND created_at > now() - interval 30 MINUTE";
-				$query2nd = $obj->select_data($tbl_name,$where);
-				$ress = $obj->execute_query($conn,$query2nd);
-				if($ress == true)
-				{       
-					$count_rowss = $obj->num_rows($ress);
-					if($count_rowss>0){
-						return true;
-					}else{
-						return false;
-					}
-				}
-		} 
-		
-	}else{
-		$where2 = " booking_date like '%".$date."%' AND booking_time like '%".$time."%'   AND status='No' AND created_at > now() - interval 30 MINUTE";
-				$query2 = $obj->select_data($tbl_name,$where2);
-				$res2 = $obj->execute_query($conn,$query2);
-				if($res2 == true)
-				{       
-					$count_rows = $obj->num_rows($res);
-					if($count_rows>0){
-						return true;
-					}
+			if($ress = selectDBNew("tbl_booking",[$date,$time],"`booking_date` LIKE ? AND `booking_time` LIKE ? AND `status` = 'No' AND TIMESTAMPDIFF(MINUTE, `created_at`, CONVERT_TZ(NOW(), '+00:00', '+03:00')) < 30","")){       
+				if( count($ress) > 0 ){
+					return true;
 				}else{
-					return false; 
+					return false;
 				}
+			}
+		} 
+	}else{
+		if( $res2 = selectDBNew("tbl_booking",[$date,$time],"`booking_date` LIKE ? AND `booking_time` LIKE ? AND `status` = 'No' AND TIMESTAMPDIFF(MINUTE, `created_at`, CONVERT_TZ(NOW(), '+00:00', '+03:00')) < 30","")){
+			if( count($res2) > 0 ){
+				return true;
+			}else{
+				return false; 
+			}
+		}
 	}
 }
 
