@@ -1,4 +1,5 @@
 <?php 
+var_dump($_REQUEST);
 if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
   if( $package = selectDBNew("tbl_packages",["id"=>$_GET['id']],"`status` = '0' AND `hidden` = '1' AND `id` = ?","") ){
     $package = $package[0];
@@ -27,7 +28,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
   ";
   die();
 }
-var_dump($_REQUEST);
+
 ?>
   <section>
     <div class="container">

@@ -26,7 +26,6 @@ if( isset($_GET['error']) && !empty($_GET['error']) ){
     ";
 }
 
-var_dump($_GET);
 if( isset($_GET["v"]) && searchFile("views","{$_GET["v"]}.php") ){
 	require_once("views/".searchFile("views","{$_GET["v"]}.php"));
 }else{
