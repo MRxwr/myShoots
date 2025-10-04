@@ -189,20 +189,11 @@ function get_bookingSearch($searchquery){
 	}
 }
 // get  package details by package id
-	function get_booking_details($bookid){
-	GLOBAL $obj,$conn;
-	$tbl_name = 'tbl_booking';
-	$where = "transaction_id=".$bookid;
-	$query = $obj->select_data($tbl_name,$where);
-	$res = $obj->execute_query($conn,$query);
-	if($res == true)
-	{
-		$count_rows = $obj->num_rows($res);
-		if($count_rows>0){
-		//return $res -> fetch_row();
-		return mysqli_fetch_array($res);		  
+function get_booking_details($bookid){
+	if($res = selectDBNew("tbl_booking",[$bookid],"`transaction_id` = ?","") ){
+		if( count($res) > 0 ){
+			return $res[0];
 		}
-		
 	}
 }
 
