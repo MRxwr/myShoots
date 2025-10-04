@@ -38,7 +38,6 @@ if(isset($_POST['submit'])){
 
 	$package = get_packages_details($package_id);
 	$package_title = $package[direction('en','ar').'Title'];
-	var_dump($package_title);die();
 	$BookingDetails = array(
 		'package_id' => $package_id,
 		'booking_date' => $booking_date,
@@ -62,6 +61,7 @@ if(isset($_POST['submit'])){
 	);
 
 	if( $checkBookingTime = checkBookingTime($booking_date, $booking_time, $package_id) ){
+		var_dump($checkBookingTime);die();
 		if ( $response = createAPI($BookingDetails) ) {
 			if ( !empty($response) ) {
 				header('LOCATION:'.$response);die();
