@@ -66,7 +66,9 @@ $sn = $start + 1;
 if ($data_result && mysqli_num_rows($data_result) > 0) {
     while ($row = mysqli_fetch_assoc($data_result)) {
         // Format extra items
+        
         $extra_items_html = '';
+        /*
         if (!empty($row['extra_items'])) {
             $extra_items_html = '<ul class="list-unstyled">';
             $items = json_decode($row['extra_items']);
@@ -77,7 +79,7 @@ if ($data_result && mysqli_num_rows($data_result) > 0) {
             }
             $extra_items_html .= '</ul>';
         }
-        
+        */
         // Format status
         $status_text = '';
         if ($row['status'] == 'Yes') {
