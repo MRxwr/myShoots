@@ -71,13 +71,13 @@
         <h2 class="mb-5"><?php echo direction("Photography","تصوير") ?></h2>
         <h5 class="mb-4"><?php echo direction("Creative Photography Theme","ثيمة تصوير إبداعية") ?></h5>
               <?php 
-              if( $about = selectDB("tbl_pages","`id` = '7' AND `is_active` = 'Yes'") ){
+              if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = '1") ){
                 $about = $about[0];
               }else{
-                $about["description".direction("en","ar")] = "";
+                $about[direction("en","ar")."Details"] = "";
               }
               ?>
-        <p class="about-para"><?php echo $about['description_'.direction("en","ar")]; ?></p>
+        <p class="about-para"><?php echo $about[direction("en","ar")."Details"]; ?></p>
         <a href="?v=galleries" class="btn btn-lg btn-outline-secondary px-5 mt-5"><?php echo direction("Gallery","الصور") ?></a>
       </div>
     </div>
