@@ -68,7 +68,7 @@ if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = 
 <section class="pb-0">
   <div class="container" style="max-width: 1340px;">
     <div class="row">
-      <div class="col-12">
+      <div class="col-12 text-center">
         <h2 class="shoots-Head" style="position: relative; display: inline-block; padding-bottom: 15px;">
           <?php echo $about[direction("en","ar")."Title"] ?>
           <span style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%);"></span>
@@ -92,7 +92,7 @@ if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = 
 <section class="pb-0">
   <div class="container" style="max-width: 1340px;">
     <div class="row">
-      <div class="col-12">
+      <div class="col-12 text-center">
         <h2 class="shoots-Head" style="position: relative; display: inline-block; padding-bottom: 15px;">
           <?php echo direction("Gallery","الصور") ?>
           <span style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%);"></span>
