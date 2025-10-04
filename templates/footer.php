@@ -57,8 +57,9 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
   <?php
   $id = ( isset($_GET['id']) && !empty($_GET['id']) ) ? intval($_GET['id']) : 0;
   $disabledDates = get_disabledDate();
+  var_dump($disabledDates);
   foreach( $disabledDates as $key => $disabledDate ){
-    $disabledDateArr[] =date("d-m-Y", strtotime($disabledDate['disabled_date'])); ;	
+    $disabledDateArr[] = date("d-m-Y", strtotime($disabledDate['disabled_date']));
   }
   // Function call with passing the start date and end date 
   $daterange = getDatesFromRange('2021-06-01', '2021-12-31');
