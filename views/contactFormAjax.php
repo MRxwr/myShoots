@@ -1,11 +1,19 @@
 <?php
+require_once("../admin2/includes/config.php");
+require_once("../admin2/includes/functions.php");
+require_once("../admin2/includes/translate.php");
+if( $bookingSettings = selectDB('tbl_settings', "`id` = '1'") ){
+    $bookingSettings = $bookingSettings[0];
+}else{
+    $bookingSettings = array();
+}
 $name = $_POST["name"];
 $email = $_POST["email"];
 $phone = $_POST["phone"];
 $subject = $_POST["subject"];
 $message = $_POST["message"];
  
-$EmailTo = "Hello@myshootskw.com";
+$EmailTo = ( isset($bookingSettings['email']) && !empty($bookingSettings['email']) ) ? $bookingSettings['email'] : 'nasserhatab@gmail.com';
  
 // prepare email body text
 $Body .= "Subject: ";
