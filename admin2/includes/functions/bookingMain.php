@@ -93,21 +93,11 @@ function get_packages($cat=0){
 
 // get  package details by package id
 function get_packages_details($id){
-GLOBAL $obj,$conn;
-$tbl_name = 'tbl_packages';
-$where = "is_active='Yes' && id=".$id;
-$query = $obj->select_data($tbl_name,$where);
-$res = $obj->execute_query($conn,$query);
-if($res == true)
-{
-	$count_rows = $obj->num_rows($res);
-	if($count_rows>0){
-	//return $res -> fetch_row();
-	return mysqli_fetch_array($res);
-			
+if( $res = selectDBNew("tbl_packages",[$id],"`status` = '0' AND `hidden` = '1' AND `id` = ?","") ){
+	if( count($res) > 0 ){
+		return $res[0];
+		}
 	}
-	
-}
 }
 // get  all galleries image by category id
 function get_galleries($catid=0){
