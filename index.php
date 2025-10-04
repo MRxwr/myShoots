@@ -2,7 +2,7 @@
 require_once('admin2/includes/config.php');
 require_once('admin2/includes/functions.php');
 require_once('admin2/includes/translate.php');
-require_once('templates/header.php');
+
 
 if( get_setting('is_maintenance') == 1 ){
 	header('LOCATION: error');die();
@@ -25,7 +25,7 @@ if( isset($_GET['error']) && !empty($_GET['error']) ){
     </script>
     ";
 }
-
+require_once('templates/header.php');
 if( isset($_GET["v"]) && searchFile("views","{$_GET["v"]}.php") ){
 	require_once("views/".searchFile("views","{$_GET["v"]}.php"));
 }else{
