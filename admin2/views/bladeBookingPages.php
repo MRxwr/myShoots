@@ -148,8 +148,8 @@ if( isset($_POST["enTitle"]) ){
 			</td>
             <div style="display: none">
                 <label id="hidden<?php echo $pages[$i]["id"]?>"><?php echo $pages[$i]["hidden"] ?></label>
-                <label id="enDetails<?php echo $pages[$i]["id"]?>"><?php echo $pages[$i]["enDetails"] ?></label>
-                <label id="arDetails<?php echo $pages[$i]["id"]?>"><?php echo $pages[$i]["arDetails"] ?></label>
+                <label id="enDetails<?php echo $pages[$i]["id"]?>"><?php echo urldecode($pages[$i]["enDetails"]) ?></label>
+                <label id="arDetails<?php echo $pages[$i]["id"]?>"><?php echo urldecode($pages[$i]["arDetails"]) ?></label>
             </div>
 			</tr>
 			<?php
@@ -173,8 +173,12 @@ $(document).on("click",".edit", function(){
 		
 		$("input[name=enTitle]").val($("#enTitle"+id).html()).focus();
 		$("input[name=arTitle]").val($("#arTitle"+id).html());
-        $("input[name=enDetails]").val($("#enDetails"+id).html());
-        $("input[name=arDetails]").val($("#arDetails"+id).html());
+		if (tinymce.get('enDetails')) {
+			tinymce.get('enDetails').setContent($("#enDetails"+id).html());
+		}
+		if (tinymce.get('arDetails')) {
+			tinymce.get('arDetails').setContent($("#arDetails"+id).html());
+		}
         $("select[name=hidden]").val($("#hidden"+id).html());
 })
 </script>
