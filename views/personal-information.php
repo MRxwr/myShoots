@@ -13,6 +13,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
     $is_extra = $package['is_extra']; 
     $extra_items = $package['extra_items'];
     $times = $package['time'];
+    $personalInfoFields = json_decode($package['personalInfo'], true);
   }else{
     echo "
     <script>
@@ -131,45 +132,49 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
               </div>
             </div>
 
-            <div class="form-group row">
-              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo direction("Name","الاسم") ?>:</label>
-              <div class="col-sm-7 col-md-8">
-                <input type="text" class="form-control form-control-lg" id="customer_name" name="customer_name" required >
-              </div>
-            </div>
+            <!-- personal info dynamic fields -->
+            <?php
+            if (is_array($personalInfoFields)) {
+              foreach ($personalInfoFields as $field) {
+                $label = isset($field[direction('en','ar').'Title']) ? $field[direction('en','ar').'Title'] : (isset($field['enTitle']) ? $field['enTitle'] : $field['arTitle']);
+                $type = isset($field['type']) ? intval($field['type']) : 1;
+                $id = isset($field['id']) ? $field['id'] : '';
+                $name = "personalInfo[$id]";
+                echo '<div class="form-group row">';
+                echo '<label class="col-sm-5 col-md-4 col-form-label">'.htmlspecialchars($label).':</label>';
+                echo '<div class="col-sm-7 col-md-8">';
+                switch($type) {
+                  case 1: // text field
+                    echo '<input type="text" class="form-control form-control-lg" name="'.$name.'" required >';
+                    break;
+                  case 2: // textarea
+                    echo '<textarea class="form-control form-control-lg" name="'.$name.'" required></textarea>';
+                    break;
+                  case 3: // numbers only
+                    echo '<input type="number" class="form-control form-control-lg" name="'.$name.'" required >';
+                    break;
+                  case 4: // email
+                    echo '<input type="email" class="form-control form-control-lg" name="'.$name.'" required >';
+                    break;
+                  case 5: // date
+                    echo '<input type="date" class="form-control form-control-lg" name="'.$name.'" required >';
+                    break;
+                  case 6: // time
+                    echo '<input type="time" class="form-control form-control-lg" name="'.$name.'" required >';
+                    break;
+                  case 7: // phone number (11 digits, English only)
+                    echo '<input type="tel" class="form-control form-control-lg" name="'.$name.'" pattern="[0-9]{11}" inputmode="numeric" maxlength="11" minlength="11" required placeholder="XXXXXXXXXXX">';
+                    break;
+                  default:
+                    echo '<input type="text" class="form-control form-control-lg" name="'.$name.'" required >';
+                }
+                echo '</div>';
+                echo '</div>';
+              }
+            }
+            ?>
 
-            <div class="form-group row" style="display:none">
-              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo direction("Email","البريد الإلكتروني") ?>:</label>
-              <div class="col-sm-7 col-md-8">
-                <input type="email" class="form-control form-control-lg" id="customer_email" name="customer_email" value="Hello@myshootskw.com" required>
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo direction("Mobile Number","رقم الهاتف") ?>:</label>
-              <div class="col-sm-7 col-md-8">
-                <input type="text" class="form-control form-control-lg" id="mobile_number" name="mobile_number" required>
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo direction("Baby Name","اسم الطفل") ?>:</label>
-              <div class="col-sm-7 col-md-8">
-                <input type="text" class="form-control form-control-lg" id="baby_name" name="baby_name">
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo direction("Baby Age","عمر الطفل") ?>:</label>
-              <div class="col-sm-7 col-md-8">
-                <input type="text" class="form-control form-control-lg" id="baby_age" name="baby_age">
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo direction("Instructions","تعليمات") ?>:</label>
-              <div class="col-sm-7 col-md-8">
-                <textarea name="instructions" id="instructions" class="form-control form-control-lg"  rows="4" placeholder=""></textarea>
-              </div>
-            </div>
+            
 
             <div class="form-group row">
               <label for="" class="col-sm-5 col-md-4 col-form-label"></label>
