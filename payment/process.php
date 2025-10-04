@@ -1,5 +1,4 @@
 <?php
-include('../languages/lang_config.php');
 require_once('../admin2/includes/config.php');
 require_once('../admin2/includes/functions.php');
 require_once('../admin2/includes/translate.php');
@@ -32,7 +31,7 @@ if(isset($_POST['submit'])){
 	}else{
 		$booking_price = $_POST['booking_price'];
 	}
-
+var_dump($booking_price);die();
 	if( check_bookingTimeAnddate($booking_date,$booking_time,$package_id) ){
 		header("LOCATION: {$settingsWebsite}/?v=reservations&id={$package_id}");die();
 	}	 
