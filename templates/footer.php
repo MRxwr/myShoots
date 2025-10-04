@@ -77,6 +77,7 @@ var elements = document.getElementsByClassName("column");
 var i;
 
 $(document).ready(function(){
+  alert(<?=get_setting('close_date')?>);
     var activeMonth = new Date().getMonth() + 1;
     var date_input=$('#bookingdate'); //our date input has the name "date"
     var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
