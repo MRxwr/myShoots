@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <h2 class="shoots-Head2"><?php direction("Your reservation was declined..please try again !!","تم رفض حجزك.. يرجى المحاولة مرة اخرى !!") ?>
+          <h2 class="shoots-Head2"><?php echo direction("Your reservation was declined..please try again !!","تم رفض حجزك.. يرجى المحاولة مرة اخرى !!") ?>
             <span class="theme-bg ml-2" style="border-radius: 30px; color:#FFF; padding: 4px 7px; font-size: 24px;">
               <i class="fa fa-times"></i>
             </span>
