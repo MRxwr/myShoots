@@ -9,6 +9,13 @@ if( isset($_POST["open_date"]) ){
     </script>
     <?php
     }
+}else{
+    $settings = selectDB("tbl_settings", "`id` = '1'");
+    if( $settings && is_array($settings) ){
+        $settings = $settings[0];
+    }else{
+        $settings = array();
+    }
 }
 ?>
 <div class="row">
@@ -27,19 +34,19 @@ if( isset($_POST["open_date"]) ){
 
 			<div class="col-md-4">
 			<label><?php echo direction("Open Date","تاريخ الفتح") ?></label>
-			<input type="date" name="open_date" class="form-control" required>
+			<input type="date" name="open_date" class="form-control" <?php if( $settings["open_date"] ): ?>value="<?php echo $settings["open_date"] ?>"<?php endif; ?> required>
 			</div>
 
             <div class="col-md-4">
 			<label><?php echo direction("Close Date","تاريخ الإغلاق") ?></label>
-			<input type="date" name="close_date" class="form-control" >
+			<input type="date" name="close_date" class="form-control" <?php if( $settings["close_date"] ): ?>value="<?php echo $settings["close_date"] ?>"<?php endif; ?>>
 			</div>
 
 			<div class="col-md-4">
 			<label><?php echo direction("Maintenance Mode","وضع الصيانة") ?></label>
-			<select name="hidden" class="form-control">
-				<option value="0"><?php echo direction("No","لا") ?></option>
-				<option value="1"><?php echo direction("Yes","نعم") ?></option>
+			<select name="is_maintenance" class="form-control">
+				<option value="0" <?php if( $settings["is_maintenance"] == 0 ): ?>selected<?php endif; ?>><?php echo direction("No","لا") ?></option>
+				<option value="1" <?php if( $settings["is_maintenance"] == 1 ): ?>selected<?php endif; ?>><?php echo direction("Yes","نعم") ?></option>
 			</select>
 			</div>
 			
@@ -47,7 +54,7 @@ if( isset($_POST["open_date"]) ){
 			<input type="submit" class="btn btn-primary" value="<?php echo direction("Submit","أرسل") ?>">
 			<input type="hidden" name="update" value="1">
 			</div>
-            
+
 		</div>
 	</form>
 </div>
