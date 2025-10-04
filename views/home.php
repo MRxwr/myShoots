@@ -60,7 +60,34 @@
   <div class="container" style="max-width: 1340px;">
     <div class="row">
       <div class="col-12">
-        <h2 class="shoots-Head"><?php echo direction("Gallery","الصور") ?></h2>
+        <h2 class="shoots-Head" style="position: relative; display: inline-block; padding-bottom: 15px;">
+          <?php echo $about[direction("en","ar")."Title"] ?>
+          <span style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%);"></span>
+        </h2>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid p-0 bg-light">
+    <div class="row no-gutters align-items-center">
+      <div class="col-md-7">
+        <img src="assets/img/shoots-about.png" class="img-fluid d-block mx-auto">
+      </div>
+      <div class="col-md-5 p-3 p-md-5">
+        <p class="about-para"><?php echo urldecode($about[direction("en","ar")."Details"]); ?></p>
+        <a href="?v=galleries" class="btn btn-lg btn-outline-secondary px-5 mt-5"><?php echo direction("Gallery","الصور") ?></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pb-0">
+  <div class="container" style="max-width: 1340px;">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="shoots-Head" style="position: relative; display: inline-block; padding-bottom: 15px;">
+          <?php echo direction("Gallery","الصور") ?>
+          <span style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%);"></span>
+        </h2>
       </div>
     </div>
     <div class="row">
@@ -92,24 +119,3 @@ if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = 
   $about[direction("en","ar")."Title"] = "";
 }
 ?>
-
-<section class="pb-0">
-  <div class="container" style="max-width: 1340px;">
-    <div class="row">
-      <div class="col-12">
-        <h2 class="shoots-Head"><?php echo $about[direction("en","ar")."Title"] ?></h2>
-      </div>
-    </div>
-  </div>
-  <div class="container-fluid p-0 bg-light">
-    <div class="row no-gutters align-items-center">
-      <div class="col-md-7">
-        <img src="assets/img/shoots-about.png" class="img-fluid d-block mx-auto">
-      </div>
-      <div class="col-md-5 p-3 p-md-5">
-        <p class="about-para"><?php echo urldecode($about[direction("en","ar")."Details"]); ?></p>
-        <a href="?v=galleries" class="btn btn-lg btn-outline-secondary px-5 mt-5"><?php echo direction("Gallery","الصور") ?></a>
-      </div>
-    </div>
-  </div>
-</section>
