@@ -347,7 +347,7 @@ function createAPI($BookingDetails){
 		"CustomerName"         => $BookingDetails['customer_name'],
 		"DisplayCurrencyIso"   => "KWD", 
 		"MobileCountryCode"    => "+965", 
-		"CustomerMobile"       => substr($BookingDetails['mobile_number'], 0, 8),
+		"CustomerMobile"       => substr($BookingDetails['mobile_number'], 0, 11),
 		"CustomerEmail"        => $BookingDetails['customer_email'],
 		"invoiceValue"         => 30.5,
 		"SourceInfo"           => '',
@@ -356,7 +356,7 @@ function createAPI($BookingDetails){
 		"invoiceItems"         => $BookingDetails['InvoiceItems'],
 	);
 	$headers = ['Content-Type: application/json'];
-	//var_dump($postMethodLines);die();
+	var_dump($postMethodLines);die();
 	for ($i = 0; $i < 3; $i++) {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
