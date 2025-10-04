@@ -2,7 +2,7 @@
     <div class="container">
       <div class="row">
           <div class="col-12">
-          <h2 class="shoots-Head"><?php echo $lang['reservation_number'] ?></h2>
+          <h2 class="shoots-Head"><?php echo direction("Reservation Number","رقم الحجز") ?></h2>
           </div>
           <div class="col-md-10 col-sm-10">
               <div class="row">
@@ -13,14 +13,14 @@
                 </div>
                 <div class="col-sm-6 col-md-5">
                 <div class="form-group">
-                  <button class="btn btn-lg btn-outline-primary btn-block" style="padding: .75rem;" id="book-btn"><?php echo $lang['submit'] ?></button>
+                  <button class="btn btn-lg btn-outline-primary btn-block" style="padding: .75rem;" id="book-btn"><?php echo direction("Search","بحث") ?></button>
                 </div>
                 </div>
               </div>
             <div class="row mt-5">
               <div class="col-12">
                 <ul class="list-unstyled h5">
-                  <li class="theme-color"><?php echo $lang['reservation_number2'] ?></li>
+                  <li class="theme-color"><?php echo direction("Reservation Number","رقم الحجز") ?></li>
                 </ul>
               </div>
             </div>
