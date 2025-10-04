@@ -115,7 +115,7 @@ $(document).ready(function() {
         "processing": true,
         "serverSide": true,
         "ajax": {
-            "url": "requests/index.php?f=booking&endpoint=BookingList",
+            "url": "../requests/index.php?f=booking&endpoint=BookingList",
             "type": "POST",
             "data": function(d) {
             d.status_filter = currentStatus;

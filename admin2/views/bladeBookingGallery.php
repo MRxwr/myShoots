@@ -299,7 +299,7 @@ function loadGalleryImages(categoryId) {
     $("#existing-images-container").html('<div class="text-center"><i class="fa fa-spinner fa-spin fa-3x"></i></div>');
     
     $.ajax({
-        url: '../requests/galleryImagesAjax.php',
+        url: '../../requests/galleryImagesAjax.php',
         type: 'POST',
         data: { category_id: categoryId, action: 'load' },
         success: function(response) {
@@ -388,7 +388,7 @@ $(document).on("click", ".upload-single-btn", function(){
     btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i>');
     
     $.ajax({
-        url: '../requests/galleryImagesAjax.php',
+        url: '../../requests/galleryImagesAjax.php',
         type: 'POST',
         data: formData,
         processData: false,
@@ -426,7 +426,7 @@ $(document).on("click", ".delete-image-btn", function(){
     var imageItem = $(this).closest('.gallery-image-item');
     
     $.ajax({
-        url: '../requests/index.php?f=booking&endpoint=BookingGalleryImages',
+        url: '../../requests/index.php?f=booking&endpoint=BookingGalleryImages',
         type: 'POST',
         data: { image_id: imageId, action: 'delete' },
         success: function(response) {
