@@ -126,6 +126,6 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
   }
 }else{
   $error = "Invalid Booking ID.";
-  header("LOCATION: ?v=booking-faild&error=".urlencode(base64_encode($error)));die();
+  header("LOCATION: ?v=home&error=".urlencode(base64_encode($error)));die();
 }
 ?>
