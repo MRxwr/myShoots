@@ -50,6 +50,26 @@ if( isset($_POST["open_date"]) ){
 				<option value="1" <?php if( $settings["is_maintenance"] == 1 ): ?>selected<?php endif; ?>><?php echo direction("Yes","نعم") ?></option>
 			</select>
 			</div>
+
+			<div class="col-md-6">
+			<label><?php echo direction("Email","البريد الإلكتروني") ?></label>
+			<input type="email" name="email" class="form-control" <?php if( $settings["email"] ): ?>value="<?php echo $settings["email"] ?>"<?php endif; ?> required>
+			</div>
+
+			<div class="col-md-6">
+			<label><?php echo direction("Phone Number","رقم الهاتف") ?></label>
+			<input type="text" name="phone" maxlength="8" step="1" pattern="[0-9]+" class="form-control" <?php if( $settings["phone"] ): ?>value="<?php echo $settings["phone"] ?>"<?php endif; ?> required>
+			</div>
+
+			<div class="col-md-6">
+			<label><?php echo direction("Address","العنوان") ?></label>
+			<input type="text" name="address" class="form-control" <?php if( $settings["address"] ): ?>value="<?php echo $settings["address"] ?>"<?php endif; ?> required>
+			</div>
+
+			<div class="col-md-6">
+			<label><?php echo direction("Address Link","رابط العنوان") ?></label>
+			<input type="text" name="address_link" class="form-control" <?php if( $settings["address_link"] ): ?>value="<?php echo $settings["address_link"] ?>"<?php endif; ?> required>
+			</div>
 			
 			<div class="col-md-12" style="margin-top:10px">
 			<input type="submit" class="btn btn-primary" value="<?php echo direction("Submit","أرسل") ?>">
