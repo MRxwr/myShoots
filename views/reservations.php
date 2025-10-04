@@ -5,9 +5,9 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
     $id = $package['id'];
     $price = $package['price'];
     $currency = $package['currency'];
-    $post_title = $package['title_'.$_SESSION['lang']];
-    $post_description = $package['description_'.$_SESSION['lang']];
-    $image_url =$package['image_url'];
+    $post_title = $package['title_'.direction("en","ar")];
+    $post_description = $package['description_'.direction("en","ar")];
+    $image_url = $package['imageurl'];
     $created_at = $package['created_at'];
     $is_extra = $package['is_extra']; 
     $extra_items = $package['extra_items'];
