@@ -11,7 +11,8 @@ if( isset($_GET["requested_order_id"]) && !empty($_GET["requested_order_id"]) ){
 	if( checkCreateAPI() ){
 		header("LOCATION : ?v=booking-complete&booking_id=".$_GET['requested_order_id']);die();
 	}else{
-		header("LOCATION: ?v=booking-faild&error=noCaptured");die();
+		$error = "Capture Failed";
+		header("LOCATION: ?v=booking-faild&error=".urlencode(base64_encode($error)));die();
 	}
 }
 
