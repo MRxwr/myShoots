@@ -88,7 +88,7 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
             // Show client personal info with field titles from tbl_personal_info
             $personalInfo = json_decode($booking['personal_info'], true);
             if ($personalInfo && is_array($personalInfo)) {
-                $fields = selectDB("tbl_personal_info", "");
+                $fields = selectDB("tbl_personal_info", "`id` != ' 0'");
                 $titles = array();
                 foreach ($fields as $field) {
                     $titles[$field['id']] = direction('en', 'ar') == 'en' ? $field['enTitle'] : $field['arTitle'];
