@@ -14,7 +14,6 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
             window.location.href = '?v=booking-faild&error=".urlencode(base64_encode($error))."';
         </script>";die();
     } 
-    var_dump("amHere3");
     $package = get_packages_details($booking['package_id']);
     $id = $package['id'];
     $price = $package['price'];
