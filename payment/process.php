@@ -47,7 +47,7 @@ if(isset($_POST['submit'])){
 		'booking_price' => $booking_price,
 		'customer_name' => "{$package_title}",
 		'customer_email' => "{$settingsEmail}",
-		'mobile_number' => substr($settingsMobile, 3),
+		'mobile_number' => $settingsMobile,
 		'personal_info' => json_encode($_POST['personalInfo'],JSON_UNESCAPED_UNICODE),
 		'status' => '',
 		'created_at' => $created_at,
@@ -62,7 +62,6 @@ if(isset($_POST['submit'])){
 
 	if( $checkBookingTime = checkBookingTime($booking_date, $booking_time, $package_id) ){
 		if ( $response = createAPI($BookingDetails) ) {
-			var_dump($response);die();
 			if ( !empty($response) ) {
 				header('LOCATION:'.$response);die();
 			} else {
