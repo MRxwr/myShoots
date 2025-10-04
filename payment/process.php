@@ -57,10 +57,11 @@ if(isset($_POST['submit'])){
 		'extra_items' => $extra_items,
 		'booking_price' => $booking_price,
 		'customer_name' => "{$package_title}",
-		'customer_email' => "hello@myshootskw.net",
+		'customer_email' => "{$settingsEmail}",
+		'mobile_number' => "{$settingsMobile}",
+		'personal_info' => json_encode($_POST['personalInfo'],JSON_UNESCAPED_UNICODE),
 		'status' => '',
 		'created_at' => $created_at,
-		'personal_info' => json_encode($_POST['personalInfo'],JSON_UNESCAPED_UNICODE),
 		"InvoiceItems" => array(
 			array(
 				"ItemName" => $package_title.' ['.$booking_date.'] ['.$booking_time.']',
@@ -75,10 +76,14 @@ if(isset($_POST['submit'])){
 			if ( !empty($response) ) {
 				header('LOCATION:'.$response);die();
 			} else {
-				header("LOCATION: {$settingsWebsite}/?v=booking-faild&error=gatewayConnection");die();
+				$error = direction("Payment gateway connection error, Please try again later.","خطأ في الاتصال ببوابة الدفع، يرجى المحاولة مرة أخرى لاحقًا.");
+				$error = urlencode(base64_encode($error));
+				header("LOCATION: {$settingsWebsite}/?v=booking-faild&error={$error}");die();
 			}
 		}else{
-			header("LOCATION: {$settingsWebsite}/?v=booking-faild&error=createAPI");die();
+			$error = direction("Payment gateway connection error, Please try again later.","خطاء في الاتصال ببوابة الدفع، يرجى المحاولة مرة أخرى لاحقًا.");
+			$error = urlencode(base64_encode($error));
+			header("LOCATION: {$settingsWebsite}/?v=booking-faild&error={$error}");die();
 		}
 	}else{
 		$checkBookingTime = "Time already booked, Please select another time.";

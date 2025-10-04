@@ -5,6 +5,7 @@ $row = $result->fetch_assoc();
 $emailOpt = $row["emailOpt"];
 $giftCard = $row["giftCard"];
 $theme = $row["theme"];
+$settingsMobile = $row["whatsapp"];
 
 $sql = "SELECT * FROM `settings` WHERE `id` LIKE '1'";
 $result = $dbconnect->query($sql);
