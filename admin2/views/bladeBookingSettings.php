@@ -47,6 +47,7 @@ if( isset($_POST["open_date"]) ){
 			<input type="submit" class="btn btn-primary" value="<?php echo direction("Submit","أرسل") ?>">
 			<input type="hidden" name="update" value="1">
 			</div>
+            
 		</div>
 	</form>
 </div>
