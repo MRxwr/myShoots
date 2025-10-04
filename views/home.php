@@ -59,7 +59,7 @@
         <div class="owl-carousel gallery-carousel">
           <?php foreach ($images as $img) { ?>
             <div class="item">
-              <img src="<?php echo $img['imageurl']; ?>" class="img-fluid w-100" style="max-height:300px;object-fit:cover;" alt="Gallery Image">
+              <img src="logos/<?php echo $img['imageurl']; ?>" class="img-fluid w-100" style="max-height:300px;object-fit:cover;" alt="Gallery Image">
             </div>
           <?php } ?>
         </div>
