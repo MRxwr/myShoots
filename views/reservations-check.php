@@ -20,7 +20,7 @@
             <div class="row mt-5">
               <div class="col-12">
                 <ul class="list-unstyled h5">
-                  <li class="theme-color"><?php echo direction("Reservation Number","رقم الحجز") ?></li>
+                  <li class="theme-color"><?php echo direction("Reservation Info","معلومات الحجز") ?></li>
                 </ul>
               </div>
             </div>
