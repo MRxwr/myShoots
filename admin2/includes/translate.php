@@ -1,31 +1,27 @@
 <?php
-$sql = "SELECT * FROM `s_media` WHERE `id` LIKE '3'";
-$result = $dbconnect->query($sql);
-$row = $result->fetch_assoc();
-$emailOpt = $row["emailOpt"];
-$giftCard = $row["giftCard"];
-$theme = $row["theme"];
-$settingsMobile = $row["whatsapp"];
+$socialMediaMain = selectDB("s_media", "`id` = '3'");
+$emailOpt = $socialMediaMain[0]["emailOpt"];
+$giftCard = $socialMediaMain[0]["giftCard"];
+$theme = $socialMediaMain[0]["theme"];
+$settingsMobile = $socialMediaMain[0]["whatsapp"];
 
-$sql = "SELECT * FROM `settings` WHERE `id` LIKE '1'";
-$result = $dbconnect->query($sql);
-$row = $result->fetch_assoc();
-$settingsEmail = $row["email"];
-$settingsTitle = $row["title"];
-$settingsImage = $row["bgImage"];
-$settingsDTime = $row["dTime"];
-$settingsDTimeAr = $row["dTimeArabic"];
-$settingslogo = $row["logo"];
-$cookieSession = $row["cookie"];
-$settingsWebsite = $row["website"];
-$PaymentAPIKey = $row["PaymentAPIKey"];
-$settingsOgDescription = $row["OgDescription"];
-$SettingsServiceCharge = $row["serviceCharge"];
-$settingsShippingMethod = $row["shippingMethod"];
-$headerButton = $row["headerButton"];
-$websiteColor = $row["websiteColor"];
-$defaultCountry = $row["country"];
-$settingsLang = (isset($row["language"]) && $row["language"] == "0") ? "ENG" : "AR";
+$settings = selectDB("settings", "`id` = '1'");
+$settingsEmail = $settings[0]["email"];
+$settingsTitle = $settings[0]["title"];
+$settingsImage = $settings[0]["bgImage"];
+$settingsDTime = $settings[0]["dTime"];
+$settingsDTimeAr = $settings[0]["dTimeArabic"];
+$settingslogo = $settings[0]["logo"];
+$cookieSession = $settings[0]["cookie"];
+$settingsWebsite = $settings[0]["website"];
+$PaymentAPIKey = $settings[0]["PaymentAPIKey"];
+$settingsOgDescription = $settings[0]["OgDescription"];
+$SettingsServiceCharge = $settings[0]["serviceCharge"];
+$settingsShippingMethod = $settings[0]["shippingMethod"];
+$headerButton = $settings[0]["headerButton"];
+$websiteColor = $settings[0]["websiteColor"];
+$defaultCountry = $settings[0]["country"];
+$settingsLang = (isset($settings[0]["language"]) && $settings[0]["language"] == "0") ? "ENG" : "AR";
 
 if ( isset($_GET["lang"]) ){
 	$arrayLangs = ["ENG","AR"];
