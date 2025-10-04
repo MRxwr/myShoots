@@ -5,8 +5,8 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
     $id = $package['id'];
     $price = $package['price'];
     $currency = $package['currency'];
-    $post_title = $package['title_'.direction("en","ar")];
-    $post_description = $package['description_'.direction("en","ar")];
+    $post_title = $package[direction("en","ar").'title'];
+    $post_description = $package[direction("en","ar").'description'];
     $image_url = $package['imageurl'];
     $created_at = $package['created_at'];
     $is_extra = $package['is_extra']; 
