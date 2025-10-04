@@ -347,7 +347,7 @@ function createAPI($BookingDetails){
 		"CustomerName"         => $BookingDetails['customer_name'],
 		"DisplayCurrencyIso"   => "KWD", 
 		"MobileCountryCode"    => "+965", 
-		"CustomerMobile"       => substr($BookingDetails['mobile_number'], 0, 11),
+		"CustomerMobile"       => substr($BookingDetails['mobile_number'], 0, 8),
 		"CustomerEmail"        => $BookingDetails['customer_email'],
 		"invoiceValue"         => 30.5,
 		"SourceInfo"           => '',
