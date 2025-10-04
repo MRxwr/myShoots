@@ -2,6 +2,12 @@
 require_once('../admin2/includes/config.php');
 require_once('../admin2/includes/functions.php');
 require_once('../admin2/includes/translate.php');
+if( $bookingSettings = selectDB('tbl_settings', "`id` = '1'") ){
+	$bookingSettings = $bookingSettings[0];
+}else{
+	$bookingSettings = array();
+}
+
 if(isset($_POST['submit'])){
 	$select_extra_item = $_POST['select_extra_item'];
 	$comm = "";
@@ -46,8 +52,8 @@ if(isset($_POST['submit'])){
 		'extra_items' => $extra_items,
 		'booking_price' => $booking_price,
 		'customer_name' => "{$package_title}",
-		'customer_email' => "{$settingsEmail}",
-		'mobile_number' => $settingsMobile,
+		'customer_email' => "{$bookingSettings['email']}",
+		'mobile_number' => "{$bookingSettings['mobile']}",
 		'personal_info' => json_encode($_POST['personalInfo'],JSON_UNESCAPED_UNICODE),
 		'status' => '',
 		'created_at' => $created_at,
