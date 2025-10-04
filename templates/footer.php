@@ -330,7 +330,7 @@ window.addEventListener("pageshow", function (event) {
 });
 
 function checkDateAndRedirect(date, redirectUrl) {
-  fetch('requests/index.php?endpoint=CheckDate', {
+  fetch('requests/index.php?f=views&endpoint=CheckDate', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
