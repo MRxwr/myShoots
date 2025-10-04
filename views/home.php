@@ -1,4 +1,3 @@
-
 <section>
   <div class="container" style="max-width: 1340px;">
     <div class="row">
@@ -49,6 +48,39 @@
     <div class="row">
       <div class="col-12">
         <h2 class="shoots-Head"><?php echo direction("Gallery","الصور") ?></h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <?php
+        $images = selectDB("tbl_galleries", "`status` = '0' ORDER BY RAND() LIMIT 10");
+        if ($images && count($images) > 0) {
+        ?>
+        <div class="owl-carousel gallery-carousel">
+          <?php foreach ($images as $img) { ?>
+            <div class="item">
+              <img src="<?php echo $img['imageurl']; ?>" class="img-fluid w-100" style="max-height:300px;object-fit:cover;" alt="Gallery Image">
+            </div>
+          <?php } ?>
+        </div>
+        <script>
+        $(document).ready(function(){
+          $('.gallery-carousel').owlCarousel({
+            loop:true,
+            margin:10,
+            nav:true,
+            dots:true,
+            responsive:{
+              0:{ items:1 },
+              768:{ items:2 },
+              992:{ items:4 }
+            }
+          });
+        });
+        </script>
+        <?php } else { ?>
+          <p class="text-center text-muted">No images found.</p>
+        <?php } ?>
       </div>
     </div>
   </div>
