@@ -29,6 +29,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
     ";
     die();
 }
+  var_dump("am here");
   // Date formate			
   if( isset($_GET['date']) && !empty($_GET['date']) ) {
     $settings = selectDB("tbl_settings","`id`='1'");
