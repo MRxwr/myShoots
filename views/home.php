@@ -55,7 +55,7 @@
 </section>
 
 <?php 
-if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = '1") ){
+if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = '1'") ){
   $about = $about[0];
 }else{
   $about[direction("en","ar")."Details"] = "";
@@ -79,7 +79,7 @@ if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = 
       <div class="col-md-5 p-3 p-md-5">
         <h2 class="mb-5"><?php echo direction("Photography","تصوير") ?></h2>
         <h5 class="mb-4"><?php echo direction("Creative Photography Theme","ثيمة تصوير إبداعية") ?></h5>
-        <p class="about-para"><?php echo $about[direction("en","ar")."Details"]; ?></p>
+        <p class="about-para"><?php echo urldecode($about[direction("en","ar")."Details"]); ?></p>
         <a href="?v=galleries" class="btn btn-lg btn-outline-secondary px-5 mt-5"><?php echo direction("Gallery","الصور") ?></a>
       </div>
     </div>
