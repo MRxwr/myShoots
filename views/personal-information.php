@@ -122,7 +122,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
                <?php 
                         $extra_items_rows = json_decode($extra_items); 
 						//print_r($extra_items_rows);
-						$item = "item_".$_SESSION['lang'];
+						$item = "item_".direction("en","ar");
               foreach($extra_items_rows as $extra_items_row ){
 				        ?>
                 <div class="form-check">
