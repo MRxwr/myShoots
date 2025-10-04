@@ -379,6 +379,7 @@ function createAPI($BookingDetails){
 			$BookingDetails["payloadResponse"] = json_encode($resultMY, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
 			$BookingDetails["gatewayLink"]     = $resultMY["data"]["PaymentURL"];
 			// Insert into DB
+			var_dump($BookingDetails);die();
 			if ( insertDB("tbl_booking", $BookingDetails) ){
 				return $resultMY["data"]["PaymentURL"];die();
 			}else{
