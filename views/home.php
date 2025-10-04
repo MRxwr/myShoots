@@ -77,8 +77,6 @@ if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = 
         <img src="assets/img/shoots-about.png" class="img-fluid d-block mx-auto">
       </div>
       <div class="col-md-5 p-3 p-md-5">
-        <h2 class="mb-5"><?php echo direction("Photography","تصوير") ?></h2>
-        <h5 class="mb-4"><?php echo direction("Creative Photography Theme","ثيمة تصوير إبداعية") ?></h5>
         <p class="about-para"><?php echo urldecode($about[direction("en","ar")."Details"]); ?></p>
         <a href="?v=galleries" class="btn btn-lg btn-outline-secondary px-5 mt-5"><?php echo direction("Gallery","الصور") ?></a>
       </div>
