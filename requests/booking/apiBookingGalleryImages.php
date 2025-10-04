@@ -1,8 +1,4 @@
 <?php
-require_once('../includes/config.php');
-require_once('../includes/functions.php');
-require_once('../includes/translate.php');
-
 // Load images for a category
 if (isset($_POST['action']) && $_POST['action'] == 'load' && isset($_POST['category_id'])) {
     $categoryId = intval($_POST['category_id']);
