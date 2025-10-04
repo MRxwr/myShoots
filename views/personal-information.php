@@ -163,7 +163,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
                     echo '<input type="time" class="form-control form-control-lg" name="'.$name.'" required >';
                     break;
                   case 7: // phone number (11 digits, English only)
-                    echo '<input type="tel" class="form-control form-control-lg" name="'.$name.'" pattern="[0-9]{11}" inputmode="numeric" maxlength="11" minlength="11" required placeholder="XXXXXXXXXXX">';
+                    echo '<input type="tel" class="form-control form-control-lg" name="'.$name.'" pattern="[0-9]{11}" inputmode="numeric" maxlength="11" minlength="11" required placeholder="XXXXXXXXXXX" oninput="this.value=this.value.replace(/[^0-9]/g,\'\');">';
                     break;
                   default:
                     echo '<input type="text" class="form-control form-control-lg" name="'.$name.'" required >';
