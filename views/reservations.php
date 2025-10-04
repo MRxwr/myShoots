@@ -27,6 +27,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
   ";
   die();
 }
+var_dump($_REQUEST);
 ?>
   <section>
     <div class="container">
