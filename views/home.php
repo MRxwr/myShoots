@@ -54,11 +54,20 @@
   </div>
 </section>
 
+<?php 
+if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = '1") ){
+  $about = $about[0];
+}else{
+  $about[direction("en","ar")."Details"] = "";
+  $about[direction("en","ar")."Title"] = "";
+}
+?>
+
 <section class="pb-0">
   <div class="container" style="max-width: 1340px;">
     <div class="row">
       <div class="col-12">
-        <h2 class="shoots-Head"><?php echo direction("About Us","من نحن") ?></h2>
+        <h2 class="shoots-Head"><?php echo $about[direction("en","ar")."Title"] ?></h2>
       </div>
     </div>
   </div>
@@ -70,13 +79,6 @@
       <div class="col-md-5 p-3 p-md-5">
         <h2 class="mb-5"><?php echo direction("Photography","تصوير") ?></h2>
         <h5 class="mb-4"><?php echo direction("Creative Photography Theme","ثيمة تصوير إبداعية") ?></h5>
-              <?php 
-              if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = '1") ){
-                $about = $about[0];
-              }else{
-                $about[direction("en","ar")."Details"] = "";
-              }
-              ?>
         <p class="about-para"><?php echo $about[direction("en","ar")."Details"]; ?></p>
         <a href="?v=galleries" class="btn btn-lg btn-outline-secondary px-5 mt-5"><?php echo direction("Gallery","الصور") ?></a>
       </div>
