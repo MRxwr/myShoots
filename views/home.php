@@ -56,6 +56,15 @@
 }
 </style>
 
+<?php 
+if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = '1'") ){
+  $about = $about[0];
+}else{
+  $about[direction("en","ar")."Details"] = "";
+  $about[direction("en","ar")."Title"] = "";
+}
+?>
+
 <section class="pb-0">
   <div class="container" style="max-width: 1340px;">
     <div class="row">
@@ -110,12 +119,3 @@
     </div>
   </div>
 </section>
-
-<?php 
-if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = '1'") ){
-  $about = $about[0];
-}else{
-  $about[direction("en","ar")."Details"] = "";
-  $about[direction("en","ar")."Title"] = "";
-}
-?>
