@@ -103,15 +103,12 @@ if( isset($_POST["enTitle"]) ){
 <div class="panel panel-default card-view">
 <div class="panel-heading">
 <div class="pull-left">
-<h6 class="panel-title txt-dark"><?php echo direction("Personal Info List","قائمة المعلومات الشخصية") ?></h6>
+<h6 class="panel-title txt-dark"><?php echo direction("Pages List","قائمة الصفحات") ?></h6>
 </div>
 <div class="clearfix"></div>
 </div>
 <div class="panel-wrapper collapse in">
-<div class="panel-body">
-<button class="btn btn-primary">
-<?php echo direction("Submit rank","أرسل الترتيب") ?>
-</button>  
+<div class="panel-body"> 
 <div class="table-wrap mt-40">
 <div class="table-responsive">
 	<table class="table display responsive product-overview mb-30" id="myTable">
@@ -125,34 +122,34 @@ if( isset($_POST["enTitle"]) ){
 		
 		<tbody>
 		<?php 
-		if( $personalInfo = selectDB("tbl_pages","`status` = '0' ORDER BY `rank` ASC") ){
-			for( $i = 0; $i < sizeof($personalInfo); $i++ ){
+		if( $pages = selectDB("tbl_pages","`status` = '0' ORDER BY `id` ASC") ){
+			for( $i = 0; $i < sizeof($pages); $i++ ){
 				$counter = $i + 1;
-			if ( $personalInfo[$i]["hidden"] == 2 ){
+			if ( $pages[$i]["hidden"] == 2 ){
 				$icon = "fa fa-eye";
-				$link = "?v={$_GET["v"]}&show={$personalInfo[$i]["id"]}";
+				$link = "?v={$_GET["v"]}&show={$pages[$i]["id"]}";
 				$hide = direction("Show","إظهار");
 			}else{
 				$icon = "fa fa-eye-slash";
-				$link = "?v={$_GET["v"]}&hide={$personalInfo[$i]["id"]}";
+				$link = "?v={$_GET["v"]}&hide={$pages[$i]["id"]}";
 				$hide = direction("Hide","إخفاء");
 			}
 			?>
 			<tr>
-			<td id="enTitle<?php echo $personalInfo[$i]["id"]?>" ><?php echo $personalInfo[$i]["enTitle"] ?></td>
-			<td id="arTitle<?php echo $personalInfo[$i]["id"]?>" ><?php echo $personalInfo[$i]["arTitle"] ?></td>
+			<td id="enTitle<?php echo $pages[$i]["id"]?>" ><?php echo $pages[$i]["enTitle"] ?></td>
+			<td id="arTitle<?php echo $pages[$i]["id"]?>" ><?php echo $pages[$i]["arTitle"] ?></td>
 			<td class="text-nowrap">
-                <a id="<?php echo $personalInfo[$i]["id"] ?>" class="mr-25 edit" data-toggle="tooltip" data-original-title="<?php echo direction("Edit","تعديل") ?>"> <i class="btn btn-warning btn-circle fa fa-pencil text-inverse m-r-10" style="align-content: center;"></i>
+                <a id="<?php echo $pages[$i]["id"] ?>" class="mr-25 edit" data-toggle="tooltip" data-original-title="<?php echo direction("Edit","تعديل") ?>"> <i class="btn btn-warning btn-circle fa fa-pencil text-inverse m-r-10" style="align-content: center;"></i>
                 </a>
                 <a href="<?php echo $link ?>" class="mr-25" data-toggle="tooltip" data-original-title="<?php echo $hide ?>"> <i class="btn btn-default btn-circle <?php echo $icon ?> text-inverse m-r-10" style="align-content: center;"></i>
                 </a>
-                <a href="<?php echo "?v={$_GET["v"]}&delId={$personalInfo[$i]["id"]}" ?>" data-toggle="tooltip" data-original-title="<?php echo direction("Delete","حذف") ?>"><i class="btn btn-danger btn-circle fa fa-close" style="align-content: center;"></i>
+                <a href="<?php echo "?v={$_GET["v"]}&delId={$pages[$i]["id"]}" ?>" data-toggle="tooltip" data-original-title="<?php echo direction("Delete","حذف") ?>"><i class="btn btn-danger btn-circle fa fa-close" style="align-content: center;"></i>
                 </a>
 			</td>
             <div style="display: none">
-                <label id="hidden<?php echo $personalInfo[$i]["id"]?>"><?php echo $personalInfo[$i]["hidden"] ?></label>
-                <label id="enDetails<?php echo $personalInfo[$i]["id"]?>"><?php echo $personalInfo[$i]["enDetails"] ?></label>
-                <label id="arDetails<?php echo $personalInfo[$i]["id"]?>"><?php echo $personalInfo[$i]["arDetails"] ?></label>
+                <label id="hidden<?php echo $pages[$i]["id"]?>"><?php echo $pages[$i]["hidden"] ?></label>
+                <label id="enDetails<?php echo $pages[$i]["id"]?>"><?php echo $pages[$i]["enDetails"] ?></label>
+                <label id="arDetails<?php echo $pages[$i]["id"]?>"><?php echo $pages[$i]["arDetails"] ?></label>
             </div>
 			</tr>
 			<?php
