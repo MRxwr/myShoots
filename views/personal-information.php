@@ -1,6 +1,7 @@
 <?php 
 
 if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
+  var_dump($_GET);  
   if( $package = selectDBNew("tbl_packages",[$_GET['id']],"`id` = ? AND `status` = '0' AND `hidden` = '1'","") ){
     $id = $package['id'];
     $price = $package['price'];
