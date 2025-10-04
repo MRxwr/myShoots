@@ -19,7 +19,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'load' && isset($_POST['categ
             
             echo '<div class="gallery-image-item col-md-3">';
             echo '<button type="button" class="delete-image-btn" data-id="'.$image['id'].'">×</button>';
-            echo '<img src="'.$image['imageurl'].'" alt="Gallery Image">';
+            echo '<img src="../logos/'.$image['imageurl'].'" alt="Gallery Image">';
             echo '<div class="gallery-image-info">';
             if (!empty($title)) {
                 echo '<strong>'.$title.'</strong>';
