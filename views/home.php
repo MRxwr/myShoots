@@ -161,7 +161,7 @@ if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = 
       </div>
     </div>
   </div>
-  <div class="container-fluid p-0" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 0;">
+  <div class="container-fluid p-0" style="background: linear-gradient(135deg, #f082d2f0 0%, #9f4ba289 100%); border-radius: 0;">
     <div class="row no-gutters align-items-center">
       <div class="col-lg-7 col-md-6 p-0">
         <div style="position: relative; overflow: hidden;">
@@ -169,7 +169,7 @@ if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = 
         </div>
       </div>
       <div class="col-lg-5 col-md-6 p-5" style="background: white;">
-        <div class="about-para" style="color: #555; line-height: 2; font-size: 1.05rem; margin-bottom: 30px;">
+        <div class="about-para" style="color: #e677a53e; line-height: 2; font-size: 1.05rem; margin-bottom: 30px;">
           <?php echo urldecode($about[direction("en","ar")."Details"]); ?>
         </div>
         <a href="?v=galleries" class="btn btn-lg px-5 mt-3" style="background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%); color: white; border: none; border-radius: 50px; font-weight: 500; box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3); transition: all 0.3s ease;">
