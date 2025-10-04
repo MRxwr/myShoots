@@ -57,7 +57,6 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
   <?php
   $id = ( isset($_GET['id']) && !empty($_GET['id']) ) ? intval($_GET['id']) : 0;
   $disabledDates = get_disabledDate();
-  var_dump($disabledDates);
   foreach( $disabledDates as $key => $disabledDate ){
     $disabledDateArr[] = date("d-m-Y", strtotime($disabledDate['disabled_date']));
   }
@@ -78,7 +77,6 @@ var elements = document.getElementsByClassName("column");
 var i;
 
 $(document).ready(function(){
-  alert(<?=get_setting('close_date')?>);
     var activeMonth = new Date().getMonth() + 1;
     var date_input=$('#bookingdate'); //our date input has the name "date"
     var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
