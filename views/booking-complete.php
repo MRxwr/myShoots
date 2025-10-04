@@ -8,7 +8,11 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
   if( $bookingDetails = selectDBNew("tbl_booking",[$_GET["booking_id"]],"`transaction_id` = ?","") ){
     $gatewayResponse = json_decode($bookingDetails[0]['gatewayResponse'],true);
     if( isset($gatewayResponse['result']) && $gatewayResponse['result'] != 'CAPTURED' ){
-        header("LOCATION: ?page=booking-faild&error=notCaptured");die();
+        $error = "Payment not captured, Please try again later.";
+        echo "<script>
+            alert('Payment not captured, Please try again later.');
+            window.location.href = '?v=booking-faild&error=".urlencode(base64_encode($error))."';
+        </script>";die();
     } 
     var_dump("amHere3");
     $package = get_packages_details($booking['package_id']);
