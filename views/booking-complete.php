@@ -10,6 +10,7 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
     if( isset($gatewayResponse['result']) && $gatewayResponse['result'] != 'CAPTURED' ){
         header("LOCATION: ?page=booking-faild&error=notCaptured");die();
     } 
+    var_dump("amHere");
     $package = get_packages_details($booking['package_id']);
     $id = $package['id'];
     $price = $package['price'];
