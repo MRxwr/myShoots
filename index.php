@@ -3,7 +3,6 @@ require_once('admin2/includes/config.php');
 require_once('admin2/includes/functions.php');
 require_once('admin2/includes/translate.php');
 
-
 if( get_setting('is_maintenance') == 1 ){
 	header('LOCATION: error');die();
 } 
