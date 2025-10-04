@@ -157,19 +157,11 @@ if($res == true)
 }
 // get cms page details by page id
 function get_page_details($id){
-GLOBAL $obj,$conn;
-$tbl_name = 'tbl_pages';
-$where = "is_active='Yes' && id=".$id;
-$query = $obj->select_data($tbl_name,$where);
-$res = $obj->execute_query($conn,$query);
-if($res == true)
-{
-	$count_rows = $obj->num_rows($res);
-	if($count_rows>0){
-	//return $res -> fetch_row();
-	return mysqli_fetch_array($res);	  
-	}   
-}
+	if($res = selectDBNew("tbl_pages",[$id],"`is_active` = 'Yes' AND `id` = ?","") ){
+		if( count($res) > 0 ){
+			return $res[0];
+		}
+	}
 }
 
 // get all active packages	
