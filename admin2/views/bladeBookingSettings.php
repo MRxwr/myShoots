@@ -1,6 +1,7 @@
 <?php 
 if( isset($_POST["open_date"]) ){
-    if( updateDB("tbl_settings", $_POST, "`id` = '{$id}'") ){
+    unset($_POST["update"]);
+    if( updateDB("tbl_settings", $_POST, "`id` = '1'") ){
         header("LOCATION: ?v=BookingSettings");
     }else{
     ?>
