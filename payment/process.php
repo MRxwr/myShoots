@@ -56,14 +56,11 @@ if(isset($_POST['submit'])){
 		'is_filming' => $is_filming,
 		'extra_items' => $extra_items,
 		'booking_price' => $booking_price,
-		'customer_name' => $customer_name,
+		'customer_name' => "{$package_title}",
 		'customer_email' => "hello@myshootskw.net",
-		'mobile_number' => $mobile_number,
-		'baby_name' => $baby_name,
-		'baby_age' => $baby_age,
-		'instructions' => $instructions,
 		'status' => '',
 		'created_at' => $created_at,
+		'personal_info' => json_encode($_POST['personalInfo'],JSON_UNESCAPED_UNICODE),
 		"InvoiceItems" => array(
 			array(
 				"ItemName" => $package_title.' ['.$booking_date.'] ['.$booking_time.']',
