@@ -1,7 +1,7 @@
 <?php
 require ("config.php");
-require ("translate.php");
 require ("functions.php");
+require ("translate.php");
 if ( isset($_COOKIE[$cookieSession."A"]) && !empty($_COOKIE[$cookieSession."A"]) ){
 	session_start ();
 	$svdva = $_COOKIE[$cookieSession."A"];
