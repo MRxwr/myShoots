@@ -91,7 +91,11 @@ function selectDBNew($table, $placeHolders, $where, $order){
             $array[] = $row;
         }
         if(isset($array) && is_array($array)) {
-            return $array;
+            if( empty($array) ){
+                return 0;
+            }else{
+                return $array;
+            }
         }else{
             return 0;
         }
