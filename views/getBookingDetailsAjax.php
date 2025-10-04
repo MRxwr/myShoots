@@ -1,7 +1,6 @@
 <?php 
 require_once("../admin2/includes/config.php");
 require_once("../admin2/includes/functions.php");
-require_once("../admin2/includes/translate.php");
 
 if( isset($_POST['searchquery']) && !empty($_POST['searchquery']) && $booking = selectDBNew("tbl_booking", [$_POST['searchquery']], "`transaction_id` = ?","")[0] ){
 }else{
