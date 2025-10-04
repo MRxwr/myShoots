@@ -94,12 +94,10 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
               <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo direction("Preferred Time","الوقت المفضل") ?>:</label>
               <div class="col-sm-7 col-md-8">
                 <select class="form-control form-control-lg" id="booking_time" name="booking_time" style="max-width: 300px;" required>
-                <option value=""  ><?php echo direction("Select Time","اختر الوقت") ?></option>
+                <option value = ""  selected disabled><?php echo direction("Select Time","اختر الوقت") ?></option>
                 <?php 
                     $rows = json_decode($times); 
-                    
                      // start slots as per packages
-                     
                         foreach($rows as $row ){
 							            $time = $row->startDate." - ".$row->endDate;
                             if (!in_array($time, $booktimeArr))
@@ -115,13 +113,8 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
             <div class="form-group row">
               <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo direction("Extra","اضافي") ?>:</label>
               <div class="col-sm-7 col-md-8">
-               <!-- <label class="form-check-label" for="defaultCheck1">
-                	<span class="form-control-plaintext"><?php //echo $lang['filming'] ?></span>
-                </label> -->
-                
                <?php 
-                        $extra_items_rows = json_decode($extra_items); 
-						//print_r($extra_items_rows);
+            $extra_items_rows = json_decode($extra_items); 
 						$item = "item_".direction("en","ar");
               foreach($extra_items_rows as $extra_items_row ){
 				        ?>
