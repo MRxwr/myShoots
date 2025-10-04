@@ -63,21 +63,6 @@
             </div>
           <?php } ?>
         </div>
-        <script>
-        $(document).ready(function(){
-          $('.gallery-carousel').owlCarousel({
-            loop:true,
-            margin:10,
-            nav:true,
-            dots:true,
-            responsive:{
-              0:{ items:1 },
-              768:{ items:2 },
-              992:{ items:4 }
-            }
-          });
-        });
-        </script>
         <?php } else { ?>
           <p class="text-center text-muted">No images found.</p>
         <?php } ?>
