@@ -1,5 +1,6 @@
 <?php
-if ( $terms = get_page_details(9) ){
+if ( $terms = selectDB("tbl_pages", "`id` = '9'") ){
+    $terms = $terms[0];
 }else{
     $terms = array(
         direction("en","ar")."Details" => '',
