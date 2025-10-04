@@ -31,11 +31,11 @@ if(isset($_POST['submit'])){
 	}else{
 		$booking_price = $_POST['booking_price'];
 	}
-var_dump($booking_price);die();
+
 	if( check_bookingTimeAnddate($booking_date,$booking_time,$package_id) ){
 		header("LOCATION: {$settingsWebsite}/?v=reservations&id={$package_id}");die();
 	}	 
-
+var_dump($_POST);die();
 	$package = get_packages_details($package_id);
 	$package_title = $package[direction('en','ar').'Title'];
 	$BookingDetails = array(
