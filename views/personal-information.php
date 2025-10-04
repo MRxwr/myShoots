@@ -6,8 +6,8 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
     $id = $package['id'];
     $price = $package['price'];
     $currency = $package['currency'];
-    $post_title = $package['title_'.direction("en","ar")];
-    $post_description = $package['description_'.direction("en","ar")];
+    $post_title = $package[direction("en","ar").'title'];
+    $post_description = $package[direction("en","ar").'description'];
     $image_url =$package['imageurl'];
     $created_at = $package['created_at'];
     $is_extra = $package['is_extra']; 
@@ -57,9 +57,9 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
   }
   // Get booked time slots for the selected date and package
   $booktimes = get_bookingTimeBydate($_GET['id'],$booking_date);
-  $booktimeArr=array(); 
-  if(@count($booktimes) != 0){
-    foreach($booktimes as $key=>$booktime){		
+  $booktimeArr = array(); 
+  if( @count($booktimes) != 0 ){
+    foreach( $booktimes as $key=>$booktime ){		
       $booktimeArr[] = $booktime['booking_time'];
     }
   }
