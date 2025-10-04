@@ -15,7 +15,7 @@ if ( $terms = selectDB("tbl_pages", "`id` = '9'") ){
         <h2 class="shoots-Head"><?php echo $terms[direction("ar","en")]."Title" ?></h2>
       </div>
       <div class="col-lg-12">
-        <?php echo "<p>{$terms[direction("en","ar")."Details"]}</p>";?>
+        <?php echo "<p>".urldecode($terms[direction("en","ar")."Details"])."</p>";?>
       </div>
     </div>
   </div>
