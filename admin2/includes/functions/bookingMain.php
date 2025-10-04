@@ -320,19 +320,12 @@ function FullBookedDates(){
 
 // get disabled date
 function get_disabledDate(){
-		GLOBAL $obj,$conn;
-		$tbl_name = 'tbl_disabled_date';
-			$query = $obj->select_data($tbl_name);
-		$res = $obj->execute_query($conn,$query);
-		if($res == true)
-		{
-			$count_rows = $obj->num_rows($res);
-			if($count_rows>0){
-					return $res;
-			}
-			
+	if( $res = selectDB("tbl_disabled_date","`id` != ''") ){
+		if( count($res) > 0 ){
+			return $res;
 		}
 	}
+}
 
 
 	// get  package details by package id
