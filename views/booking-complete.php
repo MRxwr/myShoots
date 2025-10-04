@@ -3,6 +3,7 @@ date_default_timezone_set('Asia/Riyadh');
 $check = ["'",'"',")","(",";","?",">","<","~","!","#","$","%","^","&","*","-","_","=","+","/","|",":"];
 if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
   $orderId = $_GET["booking_id"];
+  var_dump("amHere");
   $booking = get_booking_details($orderId);
   $id = $booking['id'];
   if( $bookingDetails = selectDBNew("tbl_booking",[$_GET["booking_id"]],"`transaction_id` = ?","") ){
@@ -10,7 +11,6 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
     if( isset($gatewayResponse['result']) && $gatewayResponse['result'] != 'CAPTURED' ){
         header("LOCATION: ?page=booking-faild&error=notCaptured");die();
     } 
-    var_dump("amHere");
     $package = get_packages_details($booking['package_id']);
     $id = $package['id'];
     $price = $package['price'];
