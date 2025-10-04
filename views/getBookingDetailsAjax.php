@@ -2,7 +2,8 @@
 require_once("../admin2/includes/config.php");
 require_once("../admin2/includes/functions.php");
 
-if( isset($_POST['searchquery']) && !empty($_POST['searchquery']) && $booking = selectDBNew("tbl_booking", [$_POST['searchquery']], "`transaction_id` = ?","")[0] ){
+if( isset($_POST['searchquery']) && !empty($_POST['searchquery']) && $booking = selectDBNew("tbl_booking", [$_POST['searchquery']], "`transaction_id` = ?","") ){
+	$booking = $booking[0];
 }else{
 	echo "<tr><td colspan='11' class='error'>No Search Data Found.</td></tr>";die();
 }	
