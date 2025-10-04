@@ -26,7 +26,7 @@ foreach ($fields as $field) {
 <div class="panel panel-default card-view">
 	<div class="panel-heading">
 		<div class="pull-left">
-			<h2 class="shoots-Head"><?php echo direction("Search Result","نتيجة البحث") ?></h2>
+			<li class="theme-color"><?php echo direction("Reservation Info","معلومات الحجز") ?></li>
 		</div>
 		<div class="clearfix"></div>
 	</div>
