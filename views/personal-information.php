@@ -29,7 +29,6 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
     ";
     die();
 }
-  var_dump("am here");
   // Date formate			
   if( isset($_GET['date']) && !empty($_GET['date']) ) {
     $settings = selectDB("tbl_settings","`id`='1'");
@@ -37,6 +36,11 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
     $closeDate = $settings[0]["close_date"];
     $userDate = $_REQUEST["date"];
     $selectedDate = date('Y-m-d', strtotime(str_replace('/', '-', $userDate)));
+    var_dump($selectedDate);
+    var_dump($openDate);
+    var_dump($closeDate);
+    var_dump( ($selectedDate >= $openDate) );
+    var_dump( ($selectedDate <= $closeDate) );
     if( ($selectedDate >= $openDate) && ($selectedDate <= $closeDate) ){
       $date = explode('-',$_GET['date']);
       $booking_date = $date[2].'-'.$date[1].'-'.$date[0];	
