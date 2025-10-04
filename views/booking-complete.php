@@ -3,9 +3,9 @@ date_default_timezone_set('Asia/Riyadh');
 $check = ["'",'"',")","(",";","?",">","<","~","!","#","$","%","^","&","*","-","_","=","+","/","|",":"];
 if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
   $orderId = $_GET["booking_id"];
-  var_dump("amHere");
   $booking = get_booking_details($orderId);
   $id = $booking['id'];
+  var_dump("amHere2");
   if( $bookingDetails = selectDBNew("tbl_booking",[$_GET["booking_id"]],"`transaction_id` = ?","") ){
     $gatewayResponse = json_decode($bookingDetails[0]['gatewayResponse'],true);
     if( isset($gatewayResponse['result']) && $gatewayResponse['result'] != 'CAPTURED' ){
