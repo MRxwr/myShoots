@@ -356,6 +356,7 @@ function createAPI($BookingDetails){
 		"invoiceItems"         => $BookingDetails['InvoiceItems'],
 	);
 	$headers = ['Content-Type: application/json'];
+	var_dump($postMethodLines);die();
 	for ($i = 0; $i < 3; $i++) {
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
