@@ -343,7 +343,7 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
   </nav>
   
   <?php
-  if ( $banners = selectDB("tbl_banners","`status` = '0' AND `hidden` = '1' ORDER BY `rank` ASC") ) {
+  if ( $banners = selectDB("tbl_banners","`status` = '0' AND `hidden` = '1' AND `type` = '1' ORDER BY `rank` ASC") ) {
     $bannersCount = count($banners);
   }else{
     $bannersCount = 0;
