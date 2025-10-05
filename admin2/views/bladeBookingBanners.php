@@ -86,6 +86,14 @@ if( isset($_POST["title"]) ){
 			</div>
 			
 			<div class="col-md-6">
+			<label><?php echo direction("Type","النوع") ?></label>
+			<select name="type" class="form-control">
+				<option value="1"><?php echo direction("Header Banner","بنر الهيدر") ?></option>
+				<option value="2"><?php echo direction("Popup Banner","بنر منبثق") ?></option>
+			</select>
+			</div>
+
+			<div class="col-md-6">
 			<label><?php echo direction("Hide Banner","أخفي البنر") ?></label>
 			<select name="hidden" class="form-control">
 				<option value="1">No</option>
@@ -141,7 +149,7 @@ if( isset($_POST["title"]) ){
 		<tr>
 		<th>#</th>
 		<th><?php echo direction("Title","العنوان") ?></th>
-		<th><?php echo direction("Link","الرابط") ?></th>
+		<th><?php echo direction("Type","النوع") ?></th>
 		<th><?php echo direction('Banner',"الصورة") ?></th>
 		<th class="text-nowrap"><?php echo direction("Actions","الخيارات") ?></th>
 		</tr>
@@ -161,6 +169,7 @@ if( isset($_POST["title"]) ){
 			$link = "?v={$_GET["v"]}&hide={$banners[$i]["id"]}";
 			$hide = direction("Hide","إخفاء");
 		}
+        $type = ($banners[$i]["type"] == 1) ? direction("Header Banner","بنر الهيدر") : direction("Popup Banner","بنر منبثق");
 		?>
 		<tr>
 		<td>
@@ -168,7 +177,7 @@ if( isset($_POST["title"]) ){
 		<input name="id[]" class="form-control" type="hidden" value="<?php echo $banners[$i]["id"] ?>">
 		</td>
 		<td id="title<?php echo $banners[$i]["id"]?>" ><?php echo $banners[$i]["title"] ?></td>
-		<td id="link<?php echo $banners[$i]["id"]?>" ><?php echo $banners[$i]["link"] ?></td>
+		<td ><?php echo $type ?></td>
 		<td><img src="../logos/<?php echo $banners[$i]["image"] ?>" style="width:150px;height:150px"></td>
 		<td class="text-nowrap">
 		
@@ -179,6 +188,8 @@ if( isset($_POST["title"]) ){
 		<a href="<?php echo "?v={$_GET["v"]}&delId={$banners[$i]["id"]}" ?>" data-toggle="tooltip" data-original-title="<?php echo direction("Delete","حذف") ?>"><i class="fa fa-close text-danger"></i>
 		</a>
 		<div style="display:none"><label id="hidden<?php echo $banners[$i]["id"]?>"><?php echo $banners[$i]["hidden"] ?></label></div>
+		<div style="display:none"><label id="type<?php echo $banners[$i]["id"]?>"><?php echo $banners[$i]["type"] ?></label></div>
+		<div style="display:none"><label id="link<?php echo $banners[$i]["id"]?>"><?php echo $banners[$i]["link"] ?></label></div>
 		<div style="display:none"><label id="logo<?php echo $banners[$i]["id"]?>"><?php echo $banners[$i]["image"] ?></label></div>
 		<div style="display:none"><label id="header<?php echo $banners[$i]["id"]?>"><?php echo $banners[$i]["header"] ?></label></div>
 		
@@ -202,16 +213,14 @@ if( isset($_POST["title"]) ){
 <script>
 	$(document).on("click",".edit", function(){
 		var id = $(this).attr("id");
-		var link = $("#link"+id).html();
-		var title = $("#title"+id).html();
-		var hidden = $("#hidden"+id).html();
-		var logo = $("#logo"+id).html();
+        $("input[name=update]").val(id);
+
 		$("input[type=file]").prop("required",false);
-		$("input[name=link]").val(link);
-		$("input[name=update]").val(id);
-		$("input[name=title]").val(title);
-		$("select[name=hidden]").val(hidden);
-		$("#logoImg").attr("src","../logos/"+logo);
+		$("input[name=link]").val($("#link"+id).html());
+		$("input[name=title]").val($("#title"+id).html()).focus();
+		$("select[name=hidden]").val($("#hidden"+id).html());
+		$("select[name=type]").val($("#type"+id).html());
+		$("#logoImg").attr("src","../logos/"+$("#logo"+id).html());
 		$("#images").attr("style","margin-top:10px;display:block");
 	})
 </script>
