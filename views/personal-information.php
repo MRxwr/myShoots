@@ -172,9 +172,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
                   }
                 }
                 ?>
-
-            
-
+                <!-- end personal info dynamic fields -->
                 <div class="form-group row mb-3">
                   <label for="" class="col-sm-5 col-md-4 col-form-label"></label>
                   <div class="col-sm-12 col-md-8">
