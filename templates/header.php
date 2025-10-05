@@ -78,7 +78,7 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
     
     .navbar-nav .nav-link {
       color: #333 !important;
-      font-size: 1rem;
+      font-size: 20px;
       font-weight: 500;
       padding: 0.8rem 1.2rem !important;
       position: relative;
