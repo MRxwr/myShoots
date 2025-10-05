@@ -73,11 +73,8 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
       <div class="col-lg-10">
         <div class="card shadow-lg border-0 rounded-4 mb-4">
           <div class="row no-gutters align-items-center">
-            <div class="col-md-5 p-4 text-center">
+            <div class="col-md-12 p-4 text-center">
               <img src="logos/<?= $image_url ?>" class="img-fluid rounded-4 shadow-sm mb-3" style="max-height:340px; object-fit:cover;">
-              <div class="mt-2" style="font-size:1.1rem; color:#888;">
-                <?php echo direction("Created at: ","تاريخ الإنشاء: ").date('d/m/Y', strtotime($created_at)); ?>
-              </div>
             </div>
             <div class="col-md-7 p-4">
               <h2 class="shoots-Head2 mb-3" style="font-weight:700; color:#333; letter-spacing:1px;">
