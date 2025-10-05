@@ -52,79 +52,75 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
         insertDB("tbl_disabled_date", array("disabled_date" => $booking_date_format) );
       }
 ?>
-   <section>
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <h2 class="shoots-Head2"><?php echo direction("Your reservation has been confirmed","تم تأكيد حجزك") ?>
-            <span class="theme-bg ml-2" style="border-radius: 30px; color:#FFF; padding: 4px 7px; font-size: 24px;">
-              <i class="fa fa-check"></i>
-            </span>
-          </h2>
-        </div>
-        <div class="col-md-10 col-sm-10">
-          <div class="personal-information">
-            <div class="form-group row">
-              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo direction("Reservation ID","رقم الحجز") ?></label>
-              <div class="col-sm-7 col-md-8">
-                <input type="text" readonly class="form-control-plaintext" id="" value="<?= $orderId ?>">
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card shadow-lg border-0 rounded-4 mb-4">
+          <div class="card-body p-5">
+            <h2 class="shoots-Head2 mb-4 text-center" style="font-weight:700; color:#28a745; letter-spacing:1px;">
+              <?php echo direction("Your reservation has been confirmed","تم تأكيد حجزك") ?>
+              <span class="theme-bg ml-2" style="border-radius: 30px; color:#FFF; padding: 4px 7px; font-size: 24px;">
+                <i class="fa fa-check"></i>
+              </span>
+            </h2>
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <div class="personal-information">
+                  <div class="form-group mb-3">
+                    <label class="font-weight-bold text-secondary"><?php echo direction("Reservation ID","رقم الحجز") ?></label>
+                    <input type="text" readonly class="form-control-plaintext" value="<?= $orderId ?>">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label class="font-weight-bold text-secondary"><?php echo direction("Package Choosen","الباقة المختارة") ?>:</label>
+                    <input type="text" readonly class="form-control-plaintext" value="<?= $post_title ?>">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label class="font-weight-bold text-secondary"><?php echo direction("Date","التاريخ") ?>:</label>
+                    <input type="text" readonly class="form-control-plaintext" value="<?= $booking_date; ?>">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label class="font-weight-bold text-secondary"><?php echo direction("Time","الوقت") ?>:</label>
+                    <input type="text" readonly class="form-control-plaintext" value="<?= $booking_time; ?>">
+                  </div>
+                  <?php
+                  $personalInfo = json_decode($booking['personal_info'], true);
+                  if ($personalInfo && is_array($personalInfo)) {
+                      $fields = selectDB("tbl_personal_info", "`id` != ' 0'");
+                      $titles = array();
+                      foreach ($fields as $field) {
+                          $titles[$field['id']] = direction('en', 'ar') == 'en' ? $field['enTitle'] : $field['arTitle'];
+                      }
+                      echo '<div class="form-group mb-3"><label class="font-weight-bold text-secondary">'.direction("Personal Info","معلومات العميل").':</label>';
+                      foreach ($personalInfo as $key => $value) {
+                          $title = isset($titles[$key]) ? $titles[$key] : $key;
+                          echo '<div><strong>'.htmlspecialchars($title).':</strong> '.htmlspecialchars($value).'</div>';
+                      }
+                      echo '</div>';
+                  }
+                  ?>
+                </div>
               </div>
-            </div>
-            <div class="form-group row">
-              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo direction("Package Choosen","الباقة المختارة") ?>:</label>
-              <div class="col-sm-7 col-md-8">
-                <input type="text" readonly class="form-control-plaintext" id="" value="<?= $post_title ?>">
+              <div class="col-md-6 mb-4">
+                <div class="form-group mb-3">
+                  <label class="font-weight-bold text-secondary"><?php echo direction("Notes","ملاحظات") ?>:</label>
+                  <ul class="list-unstyled h5">
+                    <li>- <?php echo direction("You'll receive an SMS with you reservation details.","سوف تتلقى رسالة SMS مع تفاصيل حجزك") ?></li>
+                    <li>- <?php echo direction("10 days before the session you'll get a remainder SMS with the studio location.","قبل 10 أيام من الجلسة، ستتلقى رسالة تذكير بموقع الاستوديو.") ?></li>
+                    <li>- <?php echo direction("10 days before the session to reschedule your reservation.","قبل 10 أيام من الجلسة، يمكنك إعادة جدولة حجزك.") ?></li>
+                  </ul>
+                </div>
+                <a href="<?php echo $settingsWebsite; ?>" class="btn btn-lg btn-primary rounded-pill px-5 shadow-sm mt-4" style="font-weight:600; letter-spacing:1px; background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%); border:none; color:#fff;">
+                  <?php echo direction("Back to Home","الرجوع للرئيسية") ?>
+                </a>
               </div>
-            </div>
-            <div class="form-group row">
-              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo direction("Date","التاريخ") ?>:</label>
-              <div class="col-sm-7 col-md-8">
-                <input type="text" readonly class="form-control-plaintext" id="" value="<?= $booking_date; ?>">
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="" class="col-sm-5 col-md-4 col-form-label"><?php echo direction("Time","الوقت") ?>:</label>
-              <div class="col-sm-7 col-md-8">
-                <input type="text" readonly class="form-control-plaintext" id="" value="<?= $booking_time; ?>">
-              </div>
-            </div>
-            <?php
-            // Show client personal info with field titles from tbl_personal_info
-            $personalInfo = json_decode($booking['personal_info'], true);
-            if ($personalInfo && is_array($personalInfo)) {
-                $fields = selectDB("tbl_personal_info", "`id` != ' 0'");
-                $titles = array();
-                foreach ($fields as $field) {
-                    $titles[$field['id']] = direction('en', 'ar') == 'en' ? $field['enTitle'] : $field['arTitle'];
-                }
-                echo '<div class="form-group row"><label class="col-sm-5 col-md-4 col-form-label">'.direction("Personal Info","معلومات العميل").':</label><div class="col-sm-7 col-md-8">';
-                foreach ($personalInfo as $key => $value) {
-                    $title = isset($titles[$key]) ? $titles[$key] : $key;
-                    echo '<div><strong>'.htmlspecialchars($title).':</strong> '.htmlspecialchars($value).'</div>';
-                }
-                echo '</div></div>';
-            }
-            ?>
-          </div>
-          <div class="form-group row">
-            <label for="" class="col-12 col-form-label"><?php echo direction("Notes","ملاحظات") ?>:</label>
-            <div class="col-12">
-              <ul class="list-unstyled h5">
-                <li>- <?php echo direction("You'll receive an SMS with you reservation details.","سوف تتلقى رسالة SMS مع تفاصيل حجزك") ?></li>
-                <li>- <?php echo direction("10 days before the session you'll get a remainder SMS with the studio location.","قبل 10 أيام من الجلسة، ستتلقى رسالة تذكير بموقع الاستوديو.") ?></li>
-                <li>- <?php echo direction("10 days before the session to reschedule your reservation.","قبل 10 أيام من الجلسة، يمكنك إعادة جدولة حجزك.") ?></li>
-              </ul>
-            </div>
-          </div>
-          <div class="row pt-4">
-            <div class="col-sm-7 col-md-6">
-              <a href="<?php echo $settingsWebsite; ?>" class="btn btn-lg btn-outline-primary btn-block btn-rounded"><?php echo direction("Back to Home","الرجوع للرئيسية") ?></a>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </section>   
+  </div>
+</section>
 <?php	
   }
 }else{
