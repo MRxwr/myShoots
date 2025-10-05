@@ -152,59 +152,6 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
       box-shadow: 0 0 0 0.2rem rgba(255, 107, 157, 0.25);
     }
     
-    /* Modern Header/Masthead Styles */
-    .masthead {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 2rem 0;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .masthead::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.05)" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,106.7C1248,96,1344,96,1392,96L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
-      background-size: cover;
-      opacity: 0.3;
-    }
-    
-    .masthead .container-fluid {
-      position: relative;
-      z-index: 1;
-    }
-    
-    .masthead .logo-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 200px;
-      position: relative;
-    }
-    
-    .masthead .logo-container::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      right: 0;
-      width: 1px;
-      height: 60%;
-      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.3), transparent);
-      transform: translateY(-50%);
-    }
-    
-    .masthead .logo-container img {
-      filter: drop-shadow(0 4px 15px rgba(0,0,0,0.15));
-      transition: all 0.3s ease;
-    }
-    
-    .masthead .logo-container a:hover img {
-      transform: scale(1.05);
-    }
-    
     .carousel-inner {
       border-radius: 20px;
       overflow: hidden;
@@ -294,14 +241,6 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
       
       .carousel-control-next {
         right: 10px;
-      }
-      
-      .masthead {
-        padding: 1rem 0;
-      }
-      
-      .masthead .logo-container {
-        min-height: 150px;
       }
     }
  </style>
