@@ -36,6 +36,7 @@ if ( $banners = selectDB("tbl_banners","`status` = '0' AND `hidden` = '1' ORDER 
 	<meta title="keywords" content="<?php echo "" ?>">
 	<meta title="Author" content="<?php echo "" ?>">
   <title><?php echo $settingsTitle ?></title>
+  <link rel="icon" type="image/png" href="logos/<?php echo $settingslogo ?>">
   <!-- Bootstrap core CSS -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom fonts for this template -->
@@ -56,6 +57,7 @@ if ( $banners = selectDB("tbl_banners","`status` = '0' AND `hidden` = '1' ORDER 
   <!-- Data table CSS -->
 	<link href="admin/assets/vendors/bower_components/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>	
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/> 
+  <link rel="stylesheet" href="assets/css/popup-banner.css">
   <style>
     .datepicker-inline{
       width: 100%;
@@ -84,7 +86,7 @@ if ( $banners = selectDB("tbl_banners","`status` = '0' AND `hidden` = '1' ORDER 
   <nav class="navbar fixed-top navbar-expand-md navbar-light bg-white"> 
     <div class="container">
 
-    <a class="navbar-brand d-lg-none" href="<?php echo $settingsWebsite; ?>"><img src="assets/img/logo.png" width="168"></a>
+    <a class="navbar-brand d-lg-none" href="<?php echo $settingsWebsite; ?>"><img src="logos/<?php echo $settingslogo ?>" width="168"></a>
     <button class="ml-auto mr-3 navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
     </button>

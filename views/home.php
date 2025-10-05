@@ -8,7 +8,6 @@ if (isset($aboutUsBanners) && is_array($aboutUsBanners) && count($aboutUsBanners
   $aboutUsBannersImg = 'logos/' . $aboutUsBanners[0]['image'];
 }
 ?>
-<link rel="stylesheet" href="assets/css/popup-banner.css">
 <div id="popupBannerOverlay" class="popup-banner-overlay" style="display:none;">
   <div class="popup-banner">
     <button class="close-btn" onclick="closePopupBanner()">&times;</button>
