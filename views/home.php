@@ -90,7 +90,7 @@ if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = 
 </section>
 
 <!-- Gallery Section -->
-<section class="py-5" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+<section class="py-5" style="background: #ffffff;">
   <div class="container" style="max-width: 1340px;">
     <div class="row mb-4">
       <div class="col-12 text-center">
