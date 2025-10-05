@@ -29,7 +29,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
 }
 
 ?>
-<section class="py-5 bg-light">
+<section class="py-5 bg-white">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-10">
