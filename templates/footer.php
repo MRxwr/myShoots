@@ -13,7 +13,7 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
   $socialMedia["whatsapp"] = "#";
 }
 ?>
-?>
+
 <!-- Footer -->
   <footer class="footer" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 60px 0 30px; color: white;">
     <div class="container">
@@ -27,9 +27,6 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
             <li><a href="<?php echo $settingsWebsite; ?>/?v=reservations-check" style="color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease;"><i class="fas fa-calendar-check mr-2"></i><?php echo direction("Reservation","الحجز") ?></a></li>
             <li><a href="<?php echo $settingsWebsite; ?>/?v=contact-us" style="color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease;"><i class="fas fa-envelope mr-2"></i><?php echo direction("Contact Us","تواصل معنا") ?></a></li>
           </ul>
-          <div class="mt-4">
-            <p style="color: rgba(255,255,255,0.9); margin-bottom: 5px;"><i class="far fa-envelope mr-2"></i><?php echo strtoupper($bookingSettings['email']) ?></p>
-          </div>
         </div>
 
         <!-- Social Media Section -->
