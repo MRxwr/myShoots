@@ -143,7 +143,7 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
             for( $i = 0; $i < sizeof($banners); $i++ ){ 
             ?>
               <div class="carousel-item <?php echo $active = ( $i == 0 ) ? "active" : ""; ?>">
-                <img src="<?php echo "logos/".$banners[$i]['image']; ?>" class="img-fluid d-block mx-auto" alt="" style="height:250px">
+                <img src="<?php echo "logos/".$banners[$i]['image']; ?>" class="img-fluid d-block mx-auto" alt="" style="height:250px;width:100%">
               </div>
             <?php 
 			      }
