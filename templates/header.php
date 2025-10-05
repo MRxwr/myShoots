@@ -152,74 +152,6 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
       box-shadow: 0 0 0 0.2rem rgba(255, 107, 157, 0.25);
     }
     
-    .carousel-inner {
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-    }
-    
-    .carousel-item img {
-      border-radius: 20px;
-      object-fit: cover;
-    }
-    
-    .carousel-control-prev,
-    .carousel-control-next {
-      width: 50px;
-      height: 50px;
-      background: rgba(255, 255, 255, 0.9) !important;
-      border-radius: 50%;
-      top: 50%;
-      transform: translateY(-50%);
-      opacity: 0.8;
-      transition: all 0.3s ease;
-    }
-    
-    .carousel-control-prev {
-      left: 20px;
-    }
-    
-    .carousel-control-next {
-      right: 20px;
-    }
-    
-    .carousel-control-prev:hover,
-    .carousel-control-next:hover {
-      opacity: 1;
-      background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%) !important;
-    }
-    
-    .carousel-control-prev-icon,
-    .carousel-control-next-icon {
-      width: 24px;
-      height: 24px;
-    }
-    
-    .carousel-control-prev:hover .carousel-control-prev-icon,
-    .carousel-control-next:hover .carousel-control-next-icon {
-      filter: brightness(0) invert(1);
-    }
-    
-    .carousel-indicators {
-      bottom: -40px;
-    }
-    
-    .carousel-indicators li {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0.5);
-      border: none;
-      margin: 0 5px;
-      transition: all 0.3s ease;
-    }
-    
-    .carousel-indicators li.active {
-      width: 30px;
-      border-radius: 6px;
-      background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%);
-    }
-    
     @media (max-width: 767px) {
       .navbar-nav .nav-item {
         margin: 0;
@@ -227,20 +159,6 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
       
       .navbar-nav .nav-link:after {
         display: none;
-      }
-      
-      .carousel-control-prev,
-      .carousel-control-next {
-        width: 40px;
-        height: 40px;
-      }
-      
-      .carousel-control-prev {
-        left: 10px;
-      }
-      
-      .carousel-control-next {
-        right: 10px;
       }
     }
  </style>
