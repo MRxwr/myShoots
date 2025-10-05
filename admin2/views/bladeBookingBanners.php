@@ -85,7 +85,7 @@ if( isset($_POST["title"]) ){
 			<input type="text" name="link" class="form-control" required>
 			</div>
 			
-			<div class="col-md-6">
+			<div class="col-md-4">
 			<label><?php echo direction("Type","النوع") ?></label>
 			<select name="type" class="form-control">
 				<option value="1"><?php echo direction("Header Banner","بنر الهيدر") ?></option>
@@ -93,7 +93,7 @@ if( isset($_POST["title"]) ){
 			</select>
 			</div>
 
-			<div class="col-md-6">
+			<div class="col-md-4">
 			<label><?php echo direction("Hide Banner","أخفي البنر") ?></label>
 			<select name="hidden" class="form-control">
 				<option value="1">No</option>
@@ -101,17 +101,15 @@ if( isset($_POST["title"]) ){
 			</select>
 			</div>
 			
-			<div class="col-md-6">
+			<div class="col-md-4">
 			<label><?php echo direction('tbl_banners',"البنر") ?></label>
 			<input type="file" name="image" class="form-control" required>
 			</div>
 			
 			<div id="images" style="margin-top: 10px; display:none">
-				<div class="col-md-6">
-				</div>
-				<div class="col-md-6">
-				<img id="logoImg" src="" style="width:250px;height:250px">
-				</div>
+				<div class="col-md-4"></div>
+                <div class="col-md-4"></div>
+				<div class="col-md-4"><img id="logoImg" src="" style="width:150px;height:150px"></div>
 			</div>
 			
 			
