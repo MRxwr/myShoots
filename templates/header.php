@@ -6,6 +6,16 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
         $bookingSettings = array();
     }
 }
+if ( $banners = selectDB("tbl_banners","`status` = '0' AND `hidden` = '1' AND `type` = '1' ORDER BY `rank` ASC") ) {
+  $bannersCount = count($banners);
+}else{
+  $bannersCount = 0;
+}
+if ( $popupBanners = selectDB("tbl_banners","`status` = '0' AND `hidden` = '1' AND `type` = '2' ORDER BY `rank` ASC") ) {
+  $popupBannersCount = count($popupBanners);
+}else{
+  $popupBannersCount = 0;
+}
 ?>
 <!DOCTYPE html>
 <html <?php echo direction("lang='en'","dir='rtl' lang='ar'") ?> >
@@ -58,6 +68,8 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
 </head>
 
 <body>
+
+
   <!-- Navigation -->
   <nav class="navbar fixed-top navbar-expand-md navbar-light bg-white"> 
     <div class="container">
@@ -106,14 +118,6 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
     </div>
   </nav>
   
-  <?php
-  if ( $banners = selectDB("tbl_banners","`status` = '0' AND `hidden` = '1' AND `type` = '1' ORDER BY `rank` ASC") ) {
-    $bannersCount = count($banners);
-  }else{
-    $bannersCount = 0;
-  }
-  ?>
-
   <!-- Masthead -->
   <header class="masthead text-white text-center">
     <div class="container-fluid p-0">

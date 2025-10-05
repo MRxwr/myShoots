@@ -1,3 +1,31 @@
+<!-- Popup Banner Section -->
+<?php 
+$popupBannerImg = '';
+if (isset($popupBanners) && is_array($popupBanners) && count($popupBanners) > 0) {
+  $popupBannerImg = 'logos/' . $popupBanners[0]['image'];
+}
+?>
+<link rel="stylesheet" href="assets/css/popup-banner.css">
+<div id="popupBannerOverlay" class="popup-banner-overlay" style="display:none;">
+  <div class="popup-banner">
+    <button class="close-btn" onclick="closePopupBanner()">&times;</button>
+    <?php if($popupBannerImg) { ?>
+      <img src="<?php echo $popupBannerImg; ?>" alt="Popup Banner">
+    <?php } ?>
+  </div>
+</div>
+<script>
+function showPopupBanner() {
+  if (!sessionStorage.getItem('popupBannerShown')) {
+    document.getElementById('popupBannerOverlay').style.display = 'flex';
+    sessionStorage.setItem('popupBannerShown', 'true');
+  }
+}
+function closePopupBanner() {
+  document.getElementById('popupBannerOverlay').style.display = 'none';
+}
+document.addEventListener('DOMContentLoaded', showPopupBanner);
+</script>
 <!-- Packages Section -->
 <section class="py-5">
   <div class="container" style="max-width: 1340px;">
