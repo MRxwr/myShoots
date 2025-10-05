@@ -29,63 +29,61 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
 }
 
 ?>
-  <section>
-    <div class="container">
-      <div class="row">
-
-        <div class="col-12">
-          <h2 class="shoots-Head"><?= $post_title ?></h2>
-        </div>
-
-        <div class="col-md-6 reservation">
-        <?= $post_description ?>
-            <?php 
-              if( $is_extra == 1 ){ 
-              ?>
-                <h5><?php echo direction("Extra Items","إضافات") ?></h5>
-                <ul class="list-unstyled">
-              <?php 
-                $item = "item_".direction("en","ar");
-                $rows = json_decode($extra_items); 
-                foreach($rows as $row ){
-                echo "<li>- ".$row->$item." ".$row->price." KD.</li>";
-                }
-              ?>
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card shadow-lg border-0 rounded-4 mb-4">
+          <div class="row no-gutters align-items-center">
+            <div class="col-md-6 p-4">
+              <h2 class="shoots-Head mb-3" style="font-weight:700; color:#333; letter-spacing:1px;"><?= $post_title ?></h2>
+              <div class="mb-3" style="color:#555; line-height:1.7; font-size:1.1rem;">
+                <?= $post_description ?>
+              </div>
+              <?php if( $is_extra == 1 ){ ?>
+                <h5 class="mt-4" style="font-weight:600; color:#ff6b9d;"><?php echo direction("Extra Items","إضافات") ?></h5>
+                <ul class="list-unstyled mb-3">
+                  <?php 
+                  $item = "item_".direction("en","ar");
+                  $rows = json_decode($extra_items); 
+                  foreach($rows as $row ){
+                    echo "<li class='mb-2' style='color:#6c757d;'>• ".$row->$item." <span style='color:#ff6b9d;font-weight:600;'>".$row->price." KD</span></li>";
+                  }
+                  ?>
                 </ul>
-            <?php
-              } 
-            ?>
+              <?php } ?>
+            </div>
+            <div class="col-md-6 p-4 text-center">
+              <img src="logos/<?= $image_url ?>" class="img-fluid rounded-4 shadow-sm mb-3" style="max-height:340px; object-fit:cover;">
+              <div class="mt-2" style="font-size:1.1rem; color:#888;">
+                <?php echo direction("Created at: ","تاريخ الإنشاء: ").date('d/m/Y', strtotime($created_at)); ?>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div class="col-md-6">
-          <img src="logos/<?= $image_url ?>" class="img-rounded img-fluid d-block mx-auto mb-md-0 mb-3">
-        </div>
-
-        <div class="col-12 mt-4 reservation-calender-btn">
-          <h5 class="shoots-Head"><?php echo direction("Session Reservation","حجز الجلسة") ?></h5>
-          <div class="row d-md-flex align-items-end">
-
-            <div class="col-md-8">
-              <div class="form-group"> <!-- Date input -->
-                <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text" disabled />
+        <div class="card shadow-sm border-0 rounded-4 p-4">
+          <h5 class="shoots-Head mb-3" style="font-weight:600; color:#333; letter-spacing:1px;"><?php echo direction("Session Reservation","حجز الجلسة") ?></h5>
+          <div class="row align-items-end">
+            <div class="col-md-8 mb-3 mb-md-0">
+              <div class="form-group">
+                <input class="form-control form-control-lg rounded-3" id="date" name="date" placeholder="MM/DD/YYYY" type="text" disabled />
                 <div id="bookingdate"></div>
               </div>
             </div>
-            
-            <div class="col-md-4">
-              <ul>
-                <li style="color: #7d807d;"><?php echo direction("Available","متاح") ?></li>
-                <li style="color: #ea9990;"><?php echo direction("Reserved","محجوز") ?></li>
+            <div class="col-md-4 mb-3 mb-md-0">
+              <ul class="list-inline mb-0">
+                <li class="list-inline-item px-2" style="color: #7d807d; font-weight:500;"><i class="fas fa-check-circle"></i> <?php echo direction("Available","متاح") ?></li>
+                <li class="list-inline-item px-2" style="color: #ea9990; font-weight:500;"><i class="fas fa-times-circle"></i> <?php echo direction("Reserved","محجوز") ?></li>
               </ul>
             </div>
-
-            <div class="col-md-4">
-              <a href="#" class="btn btn-lg btn-outline-primary btn-rounded px-4" id="booknow"><?php echo direction("Book Now","احجز الآن") ?></a>
+            <div class="col-md-4 text-md-right">
+              <a href="#" class="btn btn-lg btn-primary rounded-pill px-5 shadow-sm" id="booknow" style="font-weight:600; letter-spacing:1px; background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%); border:none; color:#fff;">
+                <?php echo direction("Book Now","احجز الآن") ?>
+              </a>
             </div>
           </div>
-
         </div>
-
       </div>
     </div>
-  </section>
+  </div>
+</section>
