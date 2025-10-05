@@ -24,7 +24,7 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <?php if( $directionHTML == 'rtl' ){ ?>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.0/css/bootstrap-rtl.css" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style-nrtl.css?as=2">
+  <link rel="stylesheet" href="assets/css/style-nrtl.css?az=2">
   <?php } ?>
   <!--Owl Carousel CSS-->
   <link rel="stylesheet" href="assets/vendor/owlcarousel/owl.carousel.css">
@@ -32,7 +32,7 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
   <!--Lightbox gallery-->
   <link rel="stylesheet" href="assets/css/lightbox.min.css">
   <!-- Custom styles for this template -->
-  <link href="assets/css/landing-page.css?yr=2" rel="stylesheet">
+  <link href="assets/css/landing-page.css?y=2" rel="stylesheet">
   <!-- Data table CSS -->
 	<link href="admin/assets/vendors/bower_components/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>	
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/> 
@@ -54,153 +54,6 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
       max-width: 100%;
       overflow-x: hidden;
     }
-    
-    /* Modern Navigation Styles */
-    .navbar {
-      background: rgba(255, 255, 255, 0.98) !important;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s ease;
-      padding: 0.8rem 0;
-    }
-    
-    .navbar-brand img {
-      transition: transform 0.3s ease;
-    }
-    
-    .navbar-brand:hover img {
-      transform: scale(1.05);
-    }
-    
-    .navbar-nav .nav-item {
-      margin: 0 8px;
-    }
-    
-    .navbar-nav .nav-link {
-      color: #333 !important;
-      font-size: 20px;
-      font-weight: 500;
-      padding: 0.8rem 1.2rem !important;
-      position: relative;
-      transition: all 0.3s ease;
-      border-radius: 8px;
-    }
-    
-    .navbar-nav .nav-link:after {
-      content: '';
-      position: absolute;
-      bottom: 8px;
-      left: 50%;
-      transform: translateX(-50%) scaleX(0);
-      width: 70%;
-      height: 2px;
-      background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%);
-      transition: transform 0.3s ease;
-    }
-    
-    .navbar-nav .nav-link:hover:after,
-    .navbar-nav .nav-item.active .nav-link:after {
-      transform: translateX(-50%) scaleX(1);
-    }
-    
-    .navbar-nav .nav-link:hover {
-      background: rgba(255, 107, 157, 0.05);
-      color: #ff6b9d !important;
-    }
-    
-    .navbar-nav .dropdown-toggle::after {
-      vertical-align: 0.15em;
-    }
-    
-    .dropdown-menu {
-      border: none;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-      border-radius: 12px;
-      padding: 0.5rem;
-      margin-top: 0.5rem;
-    }
-    
-    .dropdown-item {
-      border-radius: 8px;
-      padding: 0.6rem 1.2rem;
-      transition: all 0.3s ease;
-      color: #333;
-    }
-    
-    .dropdown-item:hover {
-      background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%);
-      color: white !important;
-      transform: translateX(5px);
-    }
-    
-    .navbar-toggler {
-      border: 2px solid #ff6b9d;
-      border-radius: 8px;
-      padding: 0.5rem 0.8rem;
-      transition: all 0.3s ease;
-    }
-    
-    .navbar-toggler:hover {
-      background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%);
-      border-color: transparent;
-    }
-    
-    .navbar-toggler:hover .navbar-toggler-icon {
-      filter: brightness(0) invert(1);
-    }
-    
-    .navbar-toggler:focus {
-      box-shadow: 0 0 0 0.2rem rgba(255, 107, 157, 0.25);
-    }
-    
-    @media (max-width: 767px) {
-      .navbar-nav .nav-item {
-        margin: 0;
-      }
-      
-      .navbar-nav .nav-link:after {
-        display: none;
-      }
-      
-      /* Mobile header fixes for both LTR and RTL */
-      .navbar > .container {
-        display: flex;
-        flex-wrap: nowrap;
-        align-items: center;
-        justify-content: space-between;
-      }
-      
-      /* English (LTR) - Logo left, Menu right */
-      html[lang="en"] .navbar-brand {
-        order: 1;
-        margin-right: auto !important;
-        margin-left: 0 !important;
-      }
-      
-      html[lang="en"] .navbar-toggler {
-        order: 2;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-      }
-      
-      /* Arabic (RTL) - Logo right, Menu left */
-      html[lang="ar"] .navbar-brand {
-        order: 2;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-      }
-      
-      html[lang="ar"] .navbar-toggler {
-        order: 1;
-        margin-right: auto !important;
-        margin-left: 0 !important;
-      }
-      
-      .navbar-collapse {
-        order: 3;
-        width: 100%;
-      }
-    }
  </style>
 </head>
 
@@ -210,7 +63,7 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
     <div class="container">
 
     <a class="navbar-brand d-lg-none" href="<?php echo $settingsWebsite; ?>"><img src="assets/img/logo.png" width="168"></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="<?php echo direction('mr-auto','ml-auto') ?> mr-3 navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
     </button>
     
@@ -219,13 +72,13 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
         <li class="nav-item <?php echo ( isset($_GET['v']) && ($_GET['v'] == '' || $_GET["v"] == "home") ) ? 'active' : '' ?>">
           <a class="nav-link" href="<?php echo $settingsWebsite; ?>"><?php echo direction("Home","الرئيسية") ?></a>
         </li>
-        <li class="nav-item <?php echo ( isset($_GET['v']) && $_GET['v'] == "galleries" ) ? 'active' : '' ?>">
+        <li class="nav-item <?php echo ( isset($_GET['v']) && $_GET["v"] == "galleries" ) ? 'active' : '' ?>">
           <a class="nav-link" href="<?php echo $settingsWebsite; ?>/?v=galleries"><?php echo direction("Gallery","المعرض") ?></a>
         </li>
-        <li class="nav-item <?php echo ( isset($_GET['v']) && $_GET['v'] == "reservations-check" ) ? 'active' : '' ?>">
+        <li class="nav-item <?php echo ( isset($_GET['v']) && $_GET["v"] == "reservations-check" ) ? 'active' : '' ?>">
           <a class="nav-link" href="<?php echo $settingsWebsite; ?>/?v=reservations-check"><?php echo direction("Reservation","الحجز") ?></a>
         </li>
-        <li class="nav-item <?php echo ( isset($_GET['v']) && $_GET['v'] == "contact-us" ) ? 'active' : '' ?>">
+        <li class="nav-item <?php echo ( isset($_GET['v']) && $_GET["v"] == "contact-us" ) ? 'active' : '' ?>">
           <a class="nav-link" href="<?php echo $settingsWebsite; ?>/?v=contact-us"><?php echo direction("Contact Us","تواصل معنا") ?></a>
         </li>
         <li class="nav-item dropdown d-block d-lg-none">
@@ -290,7 +143,7 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
             for( $i = 0; $i < sizeof($banners); $i++ ){ 
             ?>
               <div class="carousel-item <?php echo $active = ( $i == 0 ) ? "active" : ""; ?>">
-                <img src="<?php echo "logos/".$banners[$i]['image']; ?>" class="img-fluid d-block mx-auto" alt="" style="height:250px;width:100%">
+                <img src="<?php echo "logos/".$banners[$i]['image']; ?>" class="img-fluid d-block mx-auto" alt="">
               </div>
             <?php 
 			      }
@@ -311,5 +164,3 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
       </div>
     </div>
   </header>
-
-  
