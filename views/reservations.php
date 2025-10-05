@@ -55,9 +55,6 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
             </div>
             <div class="col-md-6 p-4 text-center">
               <img src="logos/<?= $image_url ?>" class="img-fluid rounded-4 shadow-sm mb-3" style="max-height:340px; object-fit:cover;">
-              <div class="mt-2" style="font-size:1.1rem; color:#888;">
-                <?php echo direction("Created at: ","تاريخ الإنشاء: ").date('d/m/Y', strtotime($created_at)); ?>
-              </div>
             </div>
           </div>
         </div>
