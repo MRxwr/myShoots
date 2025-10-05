@@ -65,7 +65,7 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
               </span>
             </h2>
             <div class="row">
-              <div class="col-md-6 mb-4">
+              <div class="col-12 mb-4">
                 <div class="personal-information">
                   <div class="form-group mb-3">
                     <label class="font-weight-bold text-secondary"><?php echo direction("Reservation ID","رقم الحجز") ?></label>
@@ -101,7 +101,7 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
                   ?>
                 </div>
               </div>
-              <div class="col-md-6 mb-4">
+              <div class="col-12 mb-4">
                 <div class="form-group mb-3">
                   <label class="font-weight-bold text-secondary"><?php echo direction("Notes","ملاحظات") ?>:</label>
                   <ul class="list-unstyled h5">
@@ -110,7 +110,9 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
                     <li>- <?php echo direction("10 days before the session to reschedule your reservation.","قبل 10 أيام من الجلسة، يمكنك إعادة جدولة حجزك.") ?></li>
                   </ul>
                 </div>
-                <a href="<?php echo $settingsWebsite; ?>" class="btn btn-lg btn-primary rounded-pill px-5 shadow-sm mt-4" style="font-weight:600; letter-spacing:1px; background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%); border:none; color:#fff;">
+              </div>
+              <div class="col-12 text-center">
+                <a href="<?php echo $settingsWebsite; ?>" class="btn btn-lg btn-primary rounded-pill px-5 shadow-sm mt-4 w-100" style="font-weight:600; letter-spacing:1px; background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%); border:none; color:#fff;">
                   <?php echo direction("Back to Home","الرجوع للرئيسية") ?>
                 </a>
               </div>
