@@ -171,7 +171,7 @@ if( isset($_POST["title"]) ){
 		?>
 		<tr>
 		<td>
-		<input name="rank[]" class="form-control" type="number" value="<?php echo $counter ?>">
+		<input name="rank[]" class="form-control" type="number" value="<?php echo $counter ?>" style="width: 100px;">
 		<input name="id[]" class="form-control" type="hidden" value="<?php echo $banners[$i]["id"] ?>">
 		</td>
 		<td id="title<?php echo $banners[$i]["id"]?>" ><?php echo $banners[$i]["title"] ?></td>
