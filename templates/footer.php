@@ -19,23 +19,23 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
     <div class="container">
       <div class="row">
         <!-- Sitemap Section -->
-        <div class="col-md-6 mb-4 mb-md-0">
+        <div class="col-md-6 mb-4 mb-md-0 <?php echo direction('','text-right') ?>">
           <h4 class="mb-4" style="font-weight: 600; color: white;"><?php echo direction("Sitemap","خريطة الموقع") ?></h4>
           <ul class="list-unstyled" style="line-height: 2.2;">
-            <li><a href="<?php echo $settingsWebsite; ?>" style="color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease;"><i class="fas fa-home mr-2"></i><?php echo direction("Home","الرئيسية") ?></a></li>
-            <li><a href="<?php echo $settingsWebsite; ?>/?v=galleries" style="color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease;"><i class="fas fa-images mr-2"></i><?php echo direction("Gallery","المعرض") ?></a></li>
-            <li><a href="<?php echo $settingsWebsite; ?>/?v=reservations-check" style="color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease;"><i class="fas fa-calendar-check mr-2"></i><?php echo direction("Reservation","الحجز") ?></a></li>
-            <li><a href="<?php echo $settingsWebsite; ?>/?v=contact-us" style="color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease;"><i class="fas fa-envelope mr-2"></i><?php echo direction("Contact Us","تواصل معنا") ?></a></li>
+            <li><a href="<?php echo $settingsWebsite; ?>" style="color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease;"><i class="fas fa-home <?php echo direction('mr-2','ml-2') ?>"></i><?php echo direction("Home","الرئيسية") ?></a></li>
+            <li><a href="<?php echo $settingsWebsite; ?>/?v=galleries" style="color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease;"><i class="fas fa-images <?php echo direction('mr-2','ml-2') ?>"></i><?php echo direction("Gallery","المعرض") ?></a></li>
+            <li><a href="<?php echo $settingsWebsite; ?>/?v=reservations-check" style="color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease;"><i class="fas fa-calendar-check <?php echo direction('mr-2','ml-2') ?>"></i><?php echo direction("Reservation","الحجز") ?></a></li>
+            <li><a href="<?php echo $settingsWebsite; ?>/?v=contact-us" style="color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease;"><i class="fas fa-envelope <?php echo direction('mr-2','ml-2') ?>"></i><?php echo direction("Contact Us","تواصل معنا") ?></a></li>
           </ul>
         </div>
 
         <!-- Social Media Section -->
-        <div class="col-md-6 text-md-right text-left">
+        <div class="col-md-6 <?php echo direction('text-md-right','text-md-left') ?> text-left">
           <h4 class="mb-4" style="font-weight: 600; color: white;"><?php echo direction("Follow Us","تابعنا") ?></h4>
           <ul class="list-inline mb-4">
             <?php foreach ($platforms as $platform): ?>
               <?php if( empty($socialMedia[$platform]) || $socialMedia[$platform] == "#" ) continue; ?>
-              <li class="list-inline-item mr-2 mb-2">
+              <li class="list-inline-item <?php echo direction('mr-2','ml-2') ?> mb-2">
                 <a href="<?php echo $platformURL[$platform].$socialMedia[$platform]; ?>" target="_blank" style="display: inline-block; width: 45px; height: 45px; line-height: 45px; text-align: center; background: rgba(255,255,255,0.2); border-radius: 50%; color: white; transition: all 0.3s ease; text-decoration: none;">
                   <i class="<?php echo $platformsIcons[$platform]; ?> fa-lg"></i>
                 </a>
@@ -60,8 +60,16 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
   <style>
   .footer a:hover {
     color: white !important;
+  }
+  <?php if(direction('en','ar') == 'en'){ ?>
+  .footer a:hover {
     transform: translateX(5px);
   }
+  <?php }else{ ?>
+  .footer a:hover {
+    transform: translateX(-5px);
+  }
+  <?php } ?>
   .footer .list-inline-item a:hover {
     background: rgba(255,255,255,0.3) !important;
     transform: scale(1.1) !important;
