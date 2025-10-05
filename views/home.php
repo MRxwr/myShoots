@@ -110,7 +110,7 @@ if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = 
           <?php foreach ($images as $img) { ?>
             <div class="item" style="padding: 10px;">
               <div style="position: relative; border-radius: 15px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.15); transition: all 0.3s ease;">
-                <img src="<?php echo $img['imageurl']; ?>" class="img-fluid w-100" style="max-height:350px; object-fit:cover; border-radius: 15px;" alt="Gallery Image">
+                <img src="logos/<?php echo $img['imageurl']; ?>" class="img-fluid w-100" style="max-height:350px; object-fit:cover; border-radius: 15px;" alt="Gallery Image">
                 <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 100%); opacity: 0; transition: opacity 0.3s ease;"></div>
               </div>
             </div>
