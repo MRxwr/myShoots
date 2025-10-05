@@ -30,12 +30,12 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
         </div>
 
         <!-- Social Media Section -->
-        <div class="col-md-6 <?php echo direction('text-md-right','text-md-left') ?> text-left">
+        <div class="col-md-6 <?php echo direction('text-md-right','text-md-right') ?>">
           <h4 class="mb-4" style="font-weight: 600; color: white;"><?php echo direction("Follow Us","تابعنا") ?></h4>
-          <ul class="list-inline mb-4">
+          <ul class="list-inline mb-4" style="display: flex; flex-wrap: wrap; justify-content: <?php echo direction('flex-end','flex-start') ?>;">
             <?php foreach ($platforms as $platform): ?>
               <?php if( empty($socialMedia[$platform]) || $socialMedia[$platform] == "#" ) continue; ?>
-              <li class="list-inline-item <?php echo direction('mr-2','ml-2') ?> mb-2">
+              <li class="list-inline-item mb-2" style="margin: 0 8px;">
                 <a href="<?php echo $platformURL[$platform].$socialMedia[$platform]; ?>" target="_blank" style="display: inline-block; width: 45px; height: 45px; line-height: 45px; text-align: center; background: rgba(255,255,255,0.2); border-radius: 50%; color: white; transition: all 0.3s ease; text-decoration: none;">
                   <i class="<?php echo $platformsIcons[$platform]; ?> fa-lg"></i>
                 </a>
@@ -50,8 +50,8 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
       <!-- Copyright Section -->
       <div class="row">
         <div class="col-12 text-center">
-          <p class="mb-2" style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">COPYRIGHT 2020 - <?php echo date('Y'); ?> © <?php echo $settingsTitle ?></p>
-          <p class="mb-0" style="color: rgba(255,255,255,0.7); font-size: 0.85rem;">Powered by <a href="http://www.createkuwait.com/" target="_blank" style="color: white; text-decoration: none; font-weight: 500;">Createkuwait.com</a></p>
+          <p class="mb-2" style="color: rgba(255,255,255,0.8); font-size: 0.9rem; direction: ltr;">COPYRIGHT 2020 - <?php echo date('Y'); ?> © <?php echo $settingsTitle ?></p>
+          <p class="mb-0" style="color: rgba(255,255,255,0.7); font-size: 0.85rem; direction: ltr;">Powered by <a href="http://www.createkuwait.com/" target="_blank" style="color: white; text-decoration: none; font-weight: 500;">Createkuwait.com</a></p>
         </div>
       </div>
     </div>
