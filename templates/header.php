@@ -136,7 +136,7 @@ if ( $banners = selectDB("tbl_banners","`status` = '0' AND `hidden` = '1' ORDER 
       <div class="row no-gutters align-items-center">
 
         <div class="<?php echo ( $bannersCount > 0 ) ? "col-md-5" : "col-md-12" ?> d-none d-md-block">
-          <a href="<?php echo $settingsWebsite; ?>"><img src="logos/<?php echo $settingslogo ?>" class="w-75 img-fluid .d-sm-none .d-md-block mx-auto py-4"></a>
+          <a href="<?php echo $settingsWebsite; ?>"><img src="logos/<?php echo $settingsImage ?>" class="w-75 img-fluid .d-sm-none .d-md-block mx-auto py-4"></a>
         </div>
 
         <div class="col-md-7" <?php echo ( $bannersCount > 0 ) ? "" : "style='display:none'" ?>>
