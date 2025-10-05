@@ -6,15 +6,25 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
         $bookingSettings = array();
     }
 }
-if ( $banners = selectDB("tbl_banners","`status` = '0' AND `hidden` = '1' AND `type` = '1' ORDER BY `rank` ASC") ) {
+if ( $banners = selectDB("tbl_banners","`status` = '0' AND `hidden` = '1' ORDER BY `rank` ASC") ) {
+  // look for type 1 banners only
+  $filteredBanners = array();
+  foreach ($banners as $banner) {
+      if ($banner['type'] == 1) {
+          $filteredBanners[] = $banner;
+      }elseif( $banner['type'] == 2 ){
+        $popupBanners[] = $banner;
+      }else{
+        $aboutUsBanners[] = $banner;
+      }
+  }
+  $banners = $filteredBanners;
   $bannersCount = count($banners);
 }else{
   $bannersCount = 0;
-}
-if ( $popupBanners = selectDB("tbl_banners","`status` = '0' AND `hidden` = '1' AND `type` = '2' ORDER BY `rank` ASC") ) {
-  $popupBannersCount = count($popupBanners);
-}else{
-  $popupBannersCount = 0;
+  $banners = array();
+  $aboutUsBanners = array();
+  $popupBanners = array();
 }
 ?>
 <!DOCTYPE html>

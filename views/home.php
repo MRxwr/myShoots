@@ -4,6 +4,9 @@ $popupBannerImg = '';
 if (isset($popupBanners) && is_array($popupBanners) && count($popupBanners) > 0) {
   $popupBannerImg = 'logos/' . $popupBanners[0]['image'];
 }
+if (isset($aboutUsBanners) && is_array($aboutUsBanners) && count($aboutUsBanners) > 0) {
+  $aboutUsBannersImg = 'logos/' . $aboutUsBanners[0]['image'];
+}
 ?>
 <link rel="stylesheet" href="assets/css/popup-banner.css">
 <div id="popupBannerOverlay" class="popup-banner-overlay" style="display:none;">
@@ -107,7 +110,7 @@ if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = 
   <div class="container-fluid p-0 bg-light">
     <div class="row no-gutters align-items-center">
       <div class="col-md-7">
-        <img src="assets/img/shoots-about.png" class="img-fluid d-block mx-auto">
+        <img src="<?php echo $aboutUsBannersImg ?>" class="img-fluid d-block mx-auto">
       </div>
       <div class="col-md-5 p-3 p-md-5">
         <p class="about-para"><?php echo urldecode($about[direction("en","ar")."Details"]); ?></p>
