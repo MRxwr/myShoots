@@ -24,7 +24,7 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <?php if( $directionHTML == 'rtl' ){ ?>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.0/css/bootstrap-rtl.css" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style-nrtl.css?az=2">
+  <link rel="stylesheet" href="assets/css/style-nrtl.css?as=2">
   <?php } ?>
   <!--Owl Carousel CSS-->
   <link rel="stylesheet" href="assets/vendor/owlcarousel/owl.carousel.css">
@@ -32,7 +32,7 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
   <!--Lightbox gallery-->
   <link rel="stylesheet" href="assets/css/lightbox.min.css">
   <!-- Custom styles for this template -->
-  <link href="assets/css/landing-page.css?y=2" rel="stylesheet">
+  <link href="assets/css/landing-page.css?yr=2" rel="stylesheet">
   <!-- Data table CSS -->
 	<link href="admin/assets/vendors/bower_components/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>	
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/> 
