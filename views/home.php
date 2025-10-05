@@ -89,11 +89,12 @@ if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = 
   </div>
 </section>
 
-<section class="pb-0">
+<!-- Gallery Section -->
+<section class="py-5" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
   <div class="container" style="max-width: 1340px;">
-    <div class="row">
+    <div class="row mb-4">
       <div class="col-12 text-center">
-        <h2 class="shoots-Head" style="position: relative; display: inline-block; padding-bottom: 15px;">
+        <h2 class="shoots-Head" style="position: relative; display: inline-block; padding-bottom: 15px; color: #333;">
           <?php echo direction("Gallery","الصور") ?>
           <span style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%);"></span>
         </h2>
@@ -105,17 +106,69 @@ if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = 
         $images = selectDB("tbl_galleries", "`status` = '0' ORDER BY RAND() LIMIT 10");
         if ($images && count($images) > 0) {
         ?>
-        <div class="owl-carousel gallery-carousel">
+        <div class="owl-carousel gallery-carousel" style="position: relative;">
           <?php foreach ($images as $img) { ?>
-            <div class="item">
-              <img src="logos/<?php echo $img['imageurl']; ?>" class="img-fluid w-100" style="max-height:300px;object-fit:cover;" alt="Gallery Image">
+            <div class="item" style="padding: 10px;">
+              <div style="position: relative; border-radius: 15px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.15); transition: all 0.3s ease;">
+                <img src="<?php echo $img['imageurl']; ?>" class="img-fluid w-100" style="max-height:350px; object-fit:cover; border-radius: 15px;" alt="Gallery Image">
+                <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 100%); opacity: 0; transition: opacity 0.3s ease;"></div>
+              </div>
             </div>
           <?php } ?>
         </div>
         <?php } else { ?>
-          <p class="text-center text-muted">No images found.</p>
+          <p class="text-center text-muted" style="font-size: 1.1rem; padding: 40px 0;">No images found.</p>
         <?php } ?>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+.gallery-carousel .item > div:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.2) !important;
+}
+.gallery-carousel .item > div:hover > div {
+  opacity: 1;
+}
+.owl-carousel .owl-nav button.owl-prev,
+.owl-carousel .owl-nav button.owl-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white !important;
+  color: #333 !important;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+}
+.owl-carousel .owl-nav button.owl-prev:hover,
+.owl-carousel .owl-nav button.owl-next:hover {
+  background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%) !important;
+  color: white !important;
+}
+.owl-carousel .owl-nav button.owl-prev {
+  left: -25px;
+}
+.owl-carousel .owl-nav button.owl-next {
+  right: -25px;
+}
+.owl-carousel .owl-dots {
+  margin-top: 30px;
+}
+.owl-carousel .owl-dot span {
+  background: #ddd;
+  width: 12px;
+  height: 12px;
+  margin: 5px 7px;
+  transition: all 0.3s ease;
+}
+.owl-carousel .owl-dot.active span {
+  background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%);
+  width: 30px;
+  border-radius: 6px;
+}
+</style>
