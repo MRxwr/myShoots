@@ -37,10 +37,6 @@ body{
     text-align: left;
     left: 10px;
 }
-.container .ml-auto.mr-3.navbar-toggler {
-    margin-left: 10px !important;
-
-}
 footer.footer {
     padding-top: 4rem !important;
     padding-bottom: 1.5rem !important;
@@ -60,7 +56,16 @@ footer.footer {
 	.navbar-nav {padding-right: 0;float: right;}
 }
 
-@media(max-width: 768px){
+@media(max-width: 767px){
 	.navbar-nav{padding-right:0; float: right;}
 	ul.navbar-nav li.nav-item {margin-right: 0px!important;}
+	
+	/* RTL Mobile Menu Alignment */
+	.navbar-collapse {
+		text-align: right !important;
+	}
+	
+	.navbar-nav {
+		align-items: flex-end !important;
+	}
 }

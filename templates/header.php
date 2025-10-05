@@ -161,6 +161,45 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
       .navbar-nav .nav-link:after {
         display: none;
       }
+      
+      /* Mobile header fixes for both LTR and RTL */
+      .navbar > .container {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: space-between;
+      }
+      
+      /* English (LTR) - Logo left, Menu right */
+      html[lang="en"] .navbar-brand {
+        order: 1;
+        margin-right: auto !important;
+        margin-left: 0 !important;
+      }
+      
+      html[lang="en"] .navbar-toggler {
+        order: 2;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+      }
+      
+      /* Arabic (RTL) - Logo right, Menu left */
+      html[lang="ar"] .navbar-brand {
+        order: 2;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+      }
+      
+      html[lang="ar"] .navbar-toggler {
+        order: 1;
+        margin-right: auto !important;
+        margin-left: 0 !important;
+      }
+      
+      .navbar-collapse {
+        order: 3;
+        width: 100%;
+      }
     }
  </style>
 </head>
@@ -171,7 +210,7 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
     <div class="container">
 
     <a class="navbar-brand d-lg-none" href="<?php echo $settingsWebsite; ?>"><img src="assets/img/logo.png" width="168"></a>
-    <button class="<?php echo direction('mr-auto mr-3','ml-auto ml-3') ?>  navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
     </button>
     
