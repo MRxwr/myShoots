@@ -13,33 +13,63 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
   $socialMedia["whatsapp"] = "#";
 }
 ?>
+?>
 <!-- Footer -->
-  <footer class="footer text-center " >
+  <footer class="footer" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 60px 0 30px; color: white;">
     <div class="container">
       <div class="row">
-        <div class="col-12 h-100 text-center my-auto">
-          <ul class="list-inline mb-5">
+        <!-- Sitemap Section -->
+        <div class="col-md-6 mb-4 mb-md-0">
+          <h4 class="mb-4" style="font-weight: 600; color: white;"><?php echo direction("Sitemap","خريطة الموقع") ?></h4>
+          <ul class="list-unstyled" style="line-height: 2.2;">
+            <li><a href="<?php echo $settingsWebsite; ?>" style="color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease;"><i class="fas fa-home mr-2"></i><?php echo direction("Home","الرئيسية") ?></a></li>
+            <li><a href="<?php echo $settingsWebsite; ?>/?v=galleries" style="color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease;"><i class="fas fa-images mr-2"></i><?php echo direction("Gallery","المعرض") ?></a></li>
+            <li><a href="<?php echo $settingsWebsite; ?>/?v=reservations-check" style="color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease;"><i class="fas fa-calendar-check mr-2"></i><?php echo direction("Reservation","الحجز") ?></a></li>
+            <li><a href="<?php echo $settingsWebsite; ?>/?v=contact-us" style="color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease;"><i class="fas fa-envelope mr-2"></i><?php echo direction("Contact Us","تواصل معنا") ?></a></li>
+          </ul>
+          <div class="mt-4">
+            <p style="color: rgba(255,255,255,0.9); margin-bottom: 5px;"><i class="far fa-envelope mr-2"></i><?php echo strtoupper($bookingSettings['email']) ?></p>
+          </div>
+        </div>
+
+        <!-- Social Media Section -->
+        <div class="col-md-6 text-md-right text-left">
+          <h4 class="mb-4" style="font-weight: 600; color: white;"><?php echo direction("Follow Us","تابعنا") ?></h4>
+          <ul class="list-inline mb-4">
             <?php foreach ($platforms as $platform): ?>
               <?php if( empty($socialMedia[$platform]) || $socialMedia[$platform] == "#" ) continue; ?>
-              <li class="list-inline-item mr-3">
-                <a href="<?php echo $platformURL[$platform].$socialMedia[$platform]; ?>" target="_blank">
-                  <i class="<?php echo $platformsIcons[$platform]; ?> fa-fw fa-2x"></i>
+              <li class="list-inline-item mr-2 mb-2">
+                <a href="<?php echo $platformURL[$platform].$socialMedia[$platform]; ?>" target="_blank" style="display: inline-block; width: 45px; height: 45px; line-height: 45px; text-align: center; background: rgba(255,255,255,0.2); border-radius: 50%; color: white; transition: all 0.3s ease; text-decoration: none;">
+                  <i class="<?php echo $platformsIcons[$platform]; ?> fa-lg"></i>
                 </a>
               </li>
             <?php endforeach; ?>
           </ul>
-
-          <p class="mb-3 text-center" style="text-align: center !important;"><a href="#"><i class="far fa-envelope mr-1"></i> <?php echo strtoupper($bookingSettings['email']) ?></a></p>
-          <p class="text-muted mb-5 text-uppercase text-center" style="text-align: center !important;">COPYRIGHT 2020 - <?php echo $settingsTitle ?></p>
-          <p class="theme-color text-center" style="text-align: center !important;">Powered by <a href="http://www.createkuwait.com/" target="_blank" class="text-muted">Createkuwait.com</a></p>
-
         </div>
-        
+      </div>
 
-        
+      <hr style="border-color: rgba(255,255,255,0.2); margin: 40px 0 20px;">
+
+      <!-- Copyright Section -->
+      <div class="row">
+        <div class="col-12 text-center">
+          <p class="mb-2" style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">COPYRIGHT 2020 - <?php echo date('Y'); ?> © <?php echo $settingsTitle ?></p>
+          <p class="mb-0" style="color: rgba(255,255,255,0.7); font-size: 0.85rem;">Powered by <a href="http://www.createkuwait.com/" target="_blank" style="color: white; text-decoration: none; font-weight: 500;">Createkuwait.com</a></p>
+        </div>
       </div>
     </div>
   </footer>
+
+  <style>
+  .footer a:hover {
+    color: white !important;
+    transform: translateX(5px);
+  }
+  .footer .list-inline-item a:hover {
+    background: rgba(255,255,255,0.3) !important;
+    transform: scale(1.1) !important;
+  }
+  </style>
   
   <!-- Bootstrap core JavaScript -->
   <script src="assets/vendor/jquery/jquery.min.js"></script>
