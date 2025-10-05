@@ -370,14 +370,10 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
       <div class="row no-gutters align-items-center">
 
         <div class="<?php echo ( $bannersCount > 0 ) ? "col-md-5" : "col-md-12" ?> d-none d-md-block">
-          <div class="logo-container">
-            <a href="<?php echo $settingsWebsite; ?>">
-              <img src="assets/img/logo.png" class="w-75 img-fluid mx-auto">
-            </a>
-          </div>
+          <a href="<?php echo $settingsWebsite; ?>"><img src="assets/img/logo.png" class="w-75 img-fluid .d-sm-none .d-md-block mx-auto py-4"></a>
         </div>
 
-        <div class="col-md-7 <?php echo ( $bannersCount > 0 ) ? "px-4" : "" ?>" <?php echo ( $bannersCount > 0 ) ? "" : "style='display:none'" ?>>
+        <div class="col-md-7" <?php echo ( $bannersCount > 0 ) ? "" : "style='display:none'" ?>>
           <div id="demo" class="carousel slide" data-ride="carousel">
 
             <!-- Indicators -->
@@ -419,3 +415,4 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
     </div>
   </header>
 
+  
