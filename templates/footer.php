@@ -50,8 +50,8 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
       <!-- Copyright Section -->
       <div class="row">
         <div class="col-12 text-center">
-          <p class="mb-2" style="color: rgba(255,255,255,0.8); font-size: 0.9rem; direction: ltr;">COPYRIGHT 2020 - <?php echo date('Y'); ?> © <?php echo $settingsTitle ?></p>
-          <p class="mb-0" style="color: rgba(255,255,255,0.7); font-size: 0.85rem; direction: ltr;">Powered by <a href="http://www.createkuwait.com/" target="_blank" style="color: white; text-decoration: none; font-weight: 500;">Createkuwait.com</a></p>
+          <p class="mb-2" style="color: rgba(255,255,255,0.8); font-size: 0.9rem; justify-self: center;">COPYRIGHT 2020 - <?php echo date('Y'); ?> © <?php echo $settingsTitle ?></p>
+          <p class="mb-0" style="color: rgba(255,255,255,0.7); font-size: 0.85rem; justify-self: center;">Powered by <a href="http://www.createkuwait.com/" target="_blank" style="color: white; text-decoration: none; font-weight: 500;">Createkuwait.com</a></p>
         </div>
       </div>
     </div>
