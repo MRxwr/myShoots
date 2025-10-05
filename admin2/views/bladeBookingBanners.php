@@ -90,6 +90,7 @@ if( isset($_POST["title"]) ){
 			<select name="type" class="form-control">
 				<option value="1"><?php echo direction("Header Banner","بنر الهيدر") ?></option>
 				<option value="2"><?php echo direction("Popup Banner","بنر منبثق") ?></option>
+				<option value="3"><?php echo direction("About Us Banner","بنر من نحن") ?></option>
 			</select>
 			</div>
 
@@ -167,7 +168,8 @@ if( isset($_POST["title"]) ){
 			$link = "?v={$_GET["v"]}&hide={$banners[$i]["id"]}";
 			$hide = direction("Hide","إخفاء");
 		}
-        $type = ($banners[$i]["type"] == 1) ? direction("Header Banner","بنر الهيدر") : direction("Popup Banner","بنر منبثق");
+        $type = ($banners[$i]["type"] == 1) ? direction("Header Banner","بنر الهيدر") :
+				( ($banners[$i]["type"] == 2) ? direction("Popup Banner","بنر منبثق") : direction("About Us Banner","بنر من نحن") );
 		?>
 		<tr>
 		<td>
