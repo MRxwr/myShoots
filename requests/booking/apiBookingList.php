@@ -40,6 +40,27 @@ if (!empty($search_value)) {
 }
 
 // Count total records
+// Get total records (without filtering)
+$count_query = "SELECT COUNT(*) as cnt FROM tbl_bookings WHERE transaction_id != ''";
+$count_result = mysqli_query($dbconnect, $count_query);
+$total_records = 0;
+if ($count_result) {
+    $row_count = mysqli_fetch_assoc($count_result);
+    $total_records = $row_count['cnt'];
+}
+
+// Get total records with filtering
+$filtered_query = "SELECT COUNT(*) as cnt FROM tbl_bookings b $search_query";
+$filtered_result = mysqli_query($dbconnect, $filtered_query);
+$filtered_records = 0;
+if ($filtered_result) {
+    $row_filtered = mysqli_fetch_assoc($filtered_result);
+    $filtered_records = $row_filtered['cnt'];
+}
+
+// Main data query
+$main_query = "SELECT * FROM tbl_bookings b $search_query ORDER BY b.created_at DESC LIMIT $start, $length";
+$data_result = mysqli_query($dbconnect, $main_query);
         // Get all personal info fields summary
         $personalInfoSummary = '';
         if (!empty($row['personal_info'])) {
@@ -91,8 +112,7 @@ if ($data_result && mysqli_num_rows($data_result) > 0) {
         } else {
             $status_text = $row['status'];
         }
-        
-        // Get first personal info field summary
+        // Get all personal info fields summary
         $personalInfoSummary = '';
         if (!empty($row['personal_info'])) {
             $personalInfo = json_decode($row['personal_info'], true);
