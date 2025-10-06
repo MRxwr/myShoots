@@ -102,7 +102,7 @@ if ($data_result && mysqli_num_rows($data_result) > 0) {
                 $fieldsResult = mysqli_query($dbconnect, "SELECT * FROM tbl_personal_info WHERE id != '0'");
                 if ($fieldsResult) {
                     while ($f = mysqli_fetch_assoc($fieldsResult)) {
-                        $fields[$f['id']] = ($_SESSION['lang'] == 'en' ? $f['enTitle'] : $f['arTitle']);
+                        $fields[$f['id']] = direction($f['enTitle'],$f['arTitle']);
                     }
                 }
                 foreach ($personalInfo as $key => $value) {
