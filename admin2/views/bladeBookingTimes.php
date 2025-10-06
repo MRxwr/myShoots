@@ -107,7 +107,7 @@ if( isset($_POST["startTime"]) ){
 			</div>
 
 			<div class="col-md-4">
-			<label><?php echo direction("Hide Category","أخفي القسم") ?></label>
+			<label><?php echo direction("Hide Time","أخفي الوقت") ?></label>
 			<select name="hidden" class="form-control">
 				<option value="1">No</option>
 				<option value="2">Yes</option>
@@ -183,7 +183,7 @@ if( isset($_POST["startTime"]) ){
                 <a href="<?php echo "?v={$_GET["v"]}&delId={$times[$i]["id"]}" ?>" data-toggle="tooltip" data-original-title="<?php echo direction("Delete","حذف") ?>"><i class="btn btn-danger btn-circle fa fa-close" style="align-content: center;"></i>
                 </a>
 			</td>
-            <div style="display: none"><label id="hidden<?php echo $times[$i]["id"]?>"><?php echo $times[$i]["hidden"] ?></label></div>;
+            <div style="display: none"><label id="hidden<?php echo $times[$i]["id"]?>"><?php echo $times[$i]["hidden"] ?></label></div>
 			</tr>
 			<?php
 			}

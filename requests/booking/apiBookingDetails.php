@@ -46,6 +46,24 @@ if ($result && $row = mysqli_fetch_assoc($result)) {
         'Booking Price' => htmlspecialchars($row['booking_price']) . ' KD',
         'Status' => $status_text,
     );
+    // Add dynamic customer info fields (personal_info)
+    if (!empty($row['personal_info'])) {
+        $personalInfo = json_decode($row['personal_info'], true);
+        if ($personalInfo && is_array($personalInfo)) {
+            // Fetch field titles from tbl_personal_info
+            $fields = array();
+            $fieldsResult = mysqli_query($dbconnect, "SELECT * FROM tbl_personal_info WHERE id != '0'");
+            if ($fieldsResult) {
+                while ($f = mysqli_fetch_assoc($fieldsResult)) {
+                    $fields[$f['id']] = ($_SESSION['lang'] == 'en' ? $f['enTitle'] : $f['arTitle']);
+                }
+            }
+            foreach ($personalInfo as $key => $value) {
+                $title = isset($fields[$key]) ? $fields[$key] : $key;
+                $data['Personal: '.htmlspecialchars($title)] = htmlspecialchars($value);
+            }
+        }
+    }
     echo json_encode(['success' => true, 'data' => $data]);
 } else {
     echo json_encode(['success' => false, 'error' => 'Booking not found']);
