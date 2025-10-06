@@ -92,12 +92,32 @@ if ($data_result && mysqli_num_rows($data_result) > 0) {
             $status_text = $row['status'];
         }
         
+        // Get first personal info field summary
+        $personalInfoSummary = '';
+        if (!empty($row['personal_info'])) {
+            $personalInfo = json_decode($row['personal_info'], true);
+            if ($personalInfo && is_array($personalInfo)) {
+                // Fetch field titles from tbl_personal_info
+                $fields = array();
+                $fieldsResult = mysqli_query($dbconnect, "SELECT * FROM tbl_personal_info WHERE id != '0'");
+                if ($fieldsResult) {
+                    while ($f = mysqli_fetch_assoc($fieldsResult)) {
+                        $fields[$f['id']] = ($_SESSION['lang'] == 'en' ? $f['enTitle'] : $f['arTitle']);
+                    }
+                }
+                foreach ($personalInfo as $key => $value) {
+                    $title = isset($fields[$key]) ? $fields[$key] : $key;
+                    $personalInfoSummary = htmlspecialchars($title) . ': ' . htmlspecialchars($value);
+                    break; // Only the first field
+                }
+            }
+        }
         $data[] = array(
             $sn++,
             htmlspecialchars($row['created_at']),
             htmlspecialchars($row['transaction_id']),
             htmlspecialchars($row['customer_name']),
-            htmlspecialchars($row['mobile_number']),
+            $personalInfoSummary ? $personalInfoSummary : htmlspecialchars($row['mobile_number']),
             $status_text,
             htmlspecialchars($row['id']),
         );

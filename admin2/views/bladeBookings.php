@@ -54,7 +54,7 @@
                                             <th><?php echo direction("Invoice Date", "تاريخ الفاتورة") ?></th>
                                             <th><?php echo direction("Transaction ID", "رقم المعاملة") ?></th>
                                             <th><?php echo direction("Customer Name", "اسم العميل") ?></th>
-                                            <th><?php echo direction("Mobile Number", "رقم الهاتف المحمول") ?></th>
+                                            <th><?php echo direction("Personal Info", "معلومات العميل") ?></th>
                                             <th><?php echo direction("Is Active", "مفعل") ?></th>
                                             <th><?php echo direction("Actions", "الإجراءات") ?></th>
                                         </tr>
@@ -140,7 +140,23 @@ $(document).ready(function() {
             { "data": 1, "orderable": true, "searchable": true },
             { "data": 2, "orderable": false, "searchable": true },
             { "data": 3, "orderable": false, "searchable": true },
-            { "data": 4, "orderable": false, "searchable": true },
+            { 
+                "data": null, 
+                "orderable": false, 
+                "searchable": true, 
+                "render": function(data, type, row) {
+                    // row[7] is expected to be the booking id, but we need to fetch personal_info
+                    // The server-side BookingList endpoint must be updated to include a summary of personal_info as a column (e.g., first field)
+                    // For now, fallback to mobile number if not available
+                    if (row.length > 7 && row[7]) {
+                        return row[7]; // This should be the personal info summary
+                    } else if (row[4]) {
+                        return row[4]; // fallback to mobile number
+                    } else {
+                        return '';
+                    }
+                }
+            },
             { "data": 5, "orderable": true, "searchable": false },
             {
             "data": null,
