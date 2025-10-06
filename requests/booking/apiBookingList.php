@@ -23,8 +23,7 @@ if ($status_filter != 'all') {
 $search_query = '';
 if (!empty($search_value)) {
     $search_value = mysqli_real_escape_string($dbconnect, $search_value);
-    $search_query = " WHERE (customer_name LIKE '%$search_value%' 
-                      OR mobile_number LIKE '%$search_value%' 
+    $search_query = " WHERE ( b.personal_info LIKE '%$search_value%' 
                       OR transaction_id LIKE '%$search_value%'
                       OR b.created_at LIKE '%$search_value%')
                       AND transaction_id != ''" . $status_query;
