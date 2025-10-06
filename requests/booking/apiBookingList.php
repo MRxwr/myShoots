@@ -40,26 +40,26 @@ if (!empty($search_value)) {
 }
 
 // Count total records
-// Count total records (only with transaction_id)
-$total_query = "SELECT COUNT(*) as total FROM tbl_booking b WHERE transaction_id != ''";
-$total_result = mysqli_query($dbconnect, $total_query);
-$total_records = mysqli_fetch_assoc($total_result)['total'];
-
-// Count filtered records (with search)
-$filtered_query = "SELECT COUNT(*) as total FROM tbl_booking b" . $search_query;
-$filtered_result = mysqli_query($dbconnect, $filtered_query);
-$filtered_records = mysqli_fetch_assoc($filtered_result)['total'];
-
-// Get data with pagination
-$data_query = "SELECT b.*, p." . direction("en","ar") . "Title as package_name 
-               FROM tbl_booking b 
-               LEFT JOIN tbl_packages p ON b.package_id = p.id" . 
-               $search_query . 
-               " ORDER BY b.id DESC 
-               LIMIT $start, $length";
-
-$data_result = mysqli_query($dbconnect, $data_query);
-
+        // Get all personal info fields summary
+        $personalInfoSummary = '';
+        if (!empty($row['personal_info'])) {
+            $personalInfo = json_decode($row['personal_info'], true);
+            if ($personalInfo && is_array($personalInfo)) {
+                // Fetch field titles from tbl_personal_info
+                $fields = array();
+                $fieldsResult = mysqli_query($dbconnect, "SELECT * FROM tbl_personal_info WHERE id != '0'");
+                if ($fieldsResult) {
+                    while ($f = mysqli_fetch_assoc($fieldsResult)) {
+                        $fields[$f['id']] = htmlspecialchars(direction($f['enTitle'],$f['arTitle']));
+                    }
+                }
+                $personalInfoArr = array();
+                foreach ($personalInfo as $key => $value) {
+                    $title = isset($fields[$key]) ? $fields[$key] : $key;
+                    $personalInfoArr[] = htmlspecialchars($title) . ': ' . htmlspecialchars($value);
+                }
+                $personalInfoSummary = implode('<br>', $personalInfoArr);
+            }
 $data = array();
 $sn = $start + 1;
 
@@ -105,11 +105,12 @@ if ($data_result && mysqli_num_rows($data_result) > 0) {
                         $fields[$f['id']] = direction($f['enTitle'],$f['arTitle']);
                     }
                 }
+                $personalInfoArr = array();
                 foreach ($personalInfo as $key => $value) {
                     $title = isset($fields[$key]) ? $fields[$key] : $key;
-                    $personalInfoSummary = htmlspecialchars($title) . ': ' . htmlspecialchars($value);
-                    break; // Only the first field
+                    $personalInfoArr[] = htmlspecialchars($title) . ': ' . htmlspecialchars($value);
                 }
+                $personalInfoSummary = implode('<br>', $personalInfoArr);
             }
         }
         $data[] = array(
