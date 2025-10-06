@@ -115,7 +115,7 @@ if ($data_result && mysqli_num_rows($data_result) > 0) {
             $sn++,
             htmlspecialchars($row['created_at']),
             htmlspecialchars($row['transaction_id']),
-            htmlspecialchars($row['customer_name']),
+            htmlspecialchars($row['package_name']),
             $personalInfoSummary ? $personalInfoSummary : htmlspecialchars($row['mobile_number']),
             $status_text,
             htmlspecialchars($row['id']),

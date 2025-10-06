@@ -53,7 +53,7 @@
                                             <th><?php echo direction("#","#") ?></th>
                                             <th><?php echo direction("Invoice Date", "تاريخ الفاتورة") ?></th>
                                             <th><?php echo direction("Transaction ID", "رقم المعاملة") ?></th>
-                                            <th><?php echo direction("Customer Name", "اسم العميل") ?></th>
+                                            <th><?php echo direction("Package", "الباقة") ?></th>
                                             <th><?php echo direction("Personal Info", "معلومات العميل") ?></th>
                                             <th><?php echo direction("Is Active", "مفعل") ?></th>
                                             <th><?php echo direction("Actions", "الإجراءات") ?></th>
