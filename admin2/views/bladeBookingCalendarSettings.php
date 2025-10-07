@@ -1,11 +1,9 @@
 <?php 
 if( isset($_POST["openDate"]) ){
-	$id = $_POST["update"];
-	unset($_POST["update"]);
     $_POST["weekend"] = isset($_POST["weekend"]) ? json_encode($_POST["weekend"]) : json_encode([]);
     $_POST["whatsappNoti"] = isset($_POST["whatsappNoti"]) ? json_encode($_POST["whatsappNoti"]) : json_encode([]);
     $_POST["smsNoti"] = isset($_POST["smsNoti"]) ? json_encode($_POST["smsNoti"]) : json_encode([]);
-	if( updateDB("tbl_calendar_settings", $_POST, "`id` = '{$id}'") ){
+	if( updateDB("tbl_calendar_settings", $_POST, "`id` = '1'") ){
         header("LOCATION: ?v=BookingCalendarSettings");
     }else{
     ?>
