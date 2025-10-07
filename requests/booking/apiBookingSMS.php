@@ -7,17 +7,21 @@ if (!$id) {
 
 // Select all needed columns
 if ($booking = selectDBNew("tbl_booking", [$id] , "id = ?","")) {
+    GLOBAL $settingsTitle;
+    $settings = selectDB("tbl_calendar_settings", "`id` = '1'")[0];
+    $smsSettings = json_decode($settings['smsNoti'], true);
     // Here you would integrate with your SMS API
     $booking_date = $booking[0]['booking_date'];
     $booking_time = $booking[0]['booking_time'];
     $orderId = $booking[0]['transaction_id'];
+    $bookingPersonalInfo = json_decode($booking[0]['personal_info'], true);
     $arabic = ['١','٢','٣','٤','٥','٦','٧','٨','٩','٠'];
     $english = [ 1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 , 0];
-    $phone = str_replace($arabic, $english, $booking[0]['mobile_number']);
+    $phone = str_replace($arabic, $english, $bookingPersonalInfo[1]);
     $mobile = $phone;
-    $message="Your booking has been confirmed with myshoots studio, Date: ".$booking_date.", Time:".$booking_time.",Id: ".$orderId;
+    $message = "Your booking has been confirmed with {$settingsTitle}, Date: ".$booking_date.", Time:".$booking_time.", Booking#: ".$orderId;
     $message = str_replace(' ','+',$message);
-    $url = 'http://www.kwtsms.com/API/send/?username=ghaliah&password=Gh@li@h91&sender=MyShoots&mobile=965'.$mobile.'&lang=1&message='.$message;
+    $url = "http://www.kwtsms.com/API/send/?username={$smsSettings["username"]}&password={$smsSettings["password"]}&sender={$smsSettings["sender"]}&mobile=965{$mobile}&lang=1&message={$message}";
     $curl = curl_init();
     curl_setopt_array($curl, array(
         CURLOPT_URL => $url,
