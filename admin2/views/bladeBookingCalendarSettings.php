@@ -3,6 +3,7 @@ if( isset($_POST["openDate"]) ){
     $_POST["weekend"] = isset($_POST["weekend"]) ? json_encode($_POST["weekend"]) : json_encode([]);
     $_POST["whatsappNoti"] = isset($_POST["whatsappNoti"]) ? json_encode($_POST["whatsappNoti"]) : json_encode([]);
     $_POST["smsNoti"] = isset($_POST["smsNoti"]) ? json_encode($_POST["smsNoti"]) : json_encode([]);
+    var_dump($_POST);
 	if( updateDB("tbl_calendar_settings", $_POST, "`id` = '1'") ){
         header("LOCATION: ?v=BookingCalendarSettings");
     }else{
@@ -155,12 +156,6 @@ if( isset($_POST["openDate"]) ){
                                 <input class="form-control" name="smsNoti[sender]" value="<?php echo $smsSender = isset($smsSender) ? "{$smsSender}" : "" ?>" placeholder="<?php echo direction("sender","المرسل") ?>">
                                 </div>
                                 </div>
-
-                                <div class="col-md-3" style="padding-bottom: 5px;">
-                                <div class="text">
-                                <input class="form-control" name="smsNoti[mobile]" value="<?php echo $smsMobile = isset($smsMobile) ? "{$smsMobile}" : "" ?>" placeholder="<?php echo direction("mobile","رقم الجوال") ?>">
-                                </div>
-                                </div>
                             </div>
                             </div>
                         </div>
@@ -172,7 +167,6 @@ if( isset($_POST["openDate"]) ){
 
 			<div class="col-md-12" style="margin-top:10px">
 			<input type="submit" class="btn btn-primary" value="<?php echo direction("Submit","أرسل") ?>">
-			<input type="hidden" name="update" value="0">
 			</div>
 		</div>
 	</form>
