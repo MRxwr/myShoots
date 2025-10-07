@@ -5,12 +5,6 @@ if ( isset($_GET["update"]) AND $_GET["update"] = 1 && updateDB("s_media",$_POST
 }else{
 	$sMedia = selectDB("s_media","`id` = '1'");
 }
-$whatsapp = $sMedia[0]["whatsapp"];
-$snapchat = $sMedia[0]["snapchat"];
-$instagram = $sMedia[0]["instagram"];
-$location = $sMedia[0]["location"];
-$tiktok = $sMedia[0]["tiktok"];
-$email = $sMedia[0]["email"];
 ?>
 <div class="row">
 <div class="col-md-12">
@@ -32,56 +26,66 @@ $email = $sMedia[0]["email"];
 <i class="zmdi zmdi-account mr-10"></i><?php echo $sMediaText ?>
 </h6>
 <hr class="light-grey-hr"/>
-<div class="row">
-<div class="col-md-6">
-<div class="form-group">
-<label class="control-label mb-10">Whatsapp</label>
-<input type="text" name="whatsapp" class="form-control" value="<?php echo $whatsapp ?>"  >
-</div>
-</div>
-<!--/span-->
-<div class="col-md-6">
-<div class="form-group">
-<label class="control-label mb-10">Snapchat</label>
-<input type="text" name="snapchat" class="form-control" value="<?php echo $snapchat ?>"  >
-</div>
-</div>
-<!--/span-->
-</div>
-<!-- -->
-<div class="row">
-<div class="col-md-6">
-<div class="form-group">
-<label class="control-label mb-10">Instagram</label><br>
-<input type="text" name="instagram" class="form-control" value="<?php echo $instagram ?>"  >
-</div>
-</div>
+	<div class="row">
 
-<div class="col-md-6">
-<div class="form-group">
-<label class="control-label mb-10">TikTok</label><br>
-<input type="text" name="tiktok" class="form-control" value="<?php echo $tiktok ?>"  >
-</div>
-</div>
+	<div class="col-md-6">
+	<div class="form-group">
+	<label class="control-label mb-10">Whatsapp</label>
+	<input type="text" name="whatsapp" class="form-control" value="<?php echo $sMedia[0]["whatsapp"] ?>"  >
+	</div>
+	</div>
 
-<div class="col-md-6">
-<div class="form-group">
-<label class="control-label mb-10">Email</label><br>
-<input type="text" name="email" class="form-control" value="<?php echo $email ?>"  >
-</div>
-</div>
+	<div class="col-md-6">
+	<div class="form-group">
+	<label class="control-label mb-10">twitter</label>
+	<input type="text" name="twitter" class="form-control" value="<?php echo $sMedia[0]["twitter"] ?>"  >
+	</div>
+	</div>
 
-<div class="col-md-6">
-<div class="form-group">
-<label class="control-label mb-10">Location</label><br>
-<input type="text" name="location" class="form-control" value="<?php echo $location ?>"  >
-</div>
-</div>
+	<div class="col-md-6">
+	<div class="form-group">
+	<label class="control-label mb-10">facebook</label>
+	<input type="text" name="facebook" class="form-control" value="<?php echo $sMedia[0]["facebook"] ?>"  >
+	</div>
+	</div>
 
-<!--/span-->
-</div>
-<!-- -->
-<!-- /Row -->
+	<div class="col-md-6">
+	<div class="form-group">
+	<label class="control-label mb-10">Snapchat</label>
+	<input type="text" name="snapchat" class="form-control" value="<?php echo $sMedia[0]["snapchat"] ?>"  >
+	</div>
+	</div>
+
+	<div class="col-md-6">
+	<div class="form-group">
+	<label class="control-label mb-10">Instagram</label><br>
+	<input type="text" name="instagram" class="form-control" value="<?php echo $sMedia[0]["instagram"] ?>"  >
+	</div>
+	</div>
+
+	<div class="col-md-6">
+	<div class="form-group">
+	<label class="control-label mb-10">TikTok</label><br>
+	<input type="text" name="tiktok" class="form-control" value="<?php echo $sMedia[0]["tiktok"] ?>"  >
+	</div>
+	</div>
+
+	<div class="col-md-6">
+	<div class="form-group">
+	<label class="control-label mb-10">Email</label><br>
+	<input type="text" name="email" class="form-control" value="<?php echo $sMedia ?>"  >
+	</div>
+	</div>
+
+	<div class="col-md-6">
+	<div class="form-group">
+	<label class="control-label mb-10">Location</label><br>
+	<input type="text" name="location" class="form-control" value="<?php echo $sMedia[0]["location"] ?>"  >
+	</div>
+	</div>
+
+	</div>
+
 </div>
 <div class="form-actions mt-10">
 <button type="submit" class="btn btn-success  mr-10"><?php echo $save ?></button>
