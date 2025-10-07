@@ -36,8 +36,8 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
             <?php foreach ($platforms as $platform): ?>
               <?php if( empty($socialMedia[$platform]) || $socialMedia[$platform] == "#" ) continue; ?>
               <li class="list-inline-item mb-2" style="margin: 0 8px;">
-                <a href="<?php echo $platformURL[$platform].$socialMedia[$platform]; ?>" target="_blank" style="display: inline-block; width: 45px; height: 45px; line-height: 45px; text-align: center; background: rgba(255,255,255,0.2); border-radius: 50%; color: white; transition: all 0.3s ease; text-decoration: none;">
-                  <i class="<?php echo $platformsIcons[$platform]; ?> fa-lg"></i>
+                <a href="<?php echo $platformURL[$platform].$socialMedia[$platform]; ?>" target="_blank" style="display: inline-block; width: 32px; height: 32px; line-height: 32px; text-align: center; background: rgba(255,255,255,0.2); border-radius: 50%; color: white; transition: all 0.3s ease; text-decoration: none;">
+                  <i class="<?php echo $platformsIcons[$platform]; ?>" style="font-size: 1.1rem;"></i>
                 </a>
               </li>
             <?php endforeach; ?>
