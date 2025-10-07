@@ -2,6 +2,9 @@
 if( isset($_POST["openDate"]) ){
 	$id = $_POST["update"];
 	unset($_POST["update"]);
+    $_POST["weekend"] = isset($_POST["weekend"]) ? json_encode($_POST["weekend"]) : json_encode([]);
+    $_POST["whatsappNoti"] = isset($_POST["whatsappNoti"]) ? json_encode($_POST["whatsappNoti"]) : json_encode([]);
+    $_POST["smsNoti"] = isset($_POST["smsNoti"]) ? json_encode($_POST["smsNoti"]) : json_encode([]);
 	if( updateDB("tbl_calendar_settings", $_POST, "`id` = '{$id}'") ){
         header("LOCATION: ?v=BookingCalendarSettings");
     }else{
@@ -11,6 +14,10 @@ if( isset($_POST["openDate"]) ){
     </script>
     <?php
     }
+}else{
+    $settings = selectDB("tbl_calendar_settings","*","`id` = '1'")[0];
+    $whatsappNoti = json_decode($settings["whatsappNoti"],true);
+    $smsNoti = json_decode($settings["smsNoti"],true);
 }
 ?>
 <div class="row">
@@ -29,24 +36,25 @@ if( isset($_POST["openDate"]) ){
 
 			<div class="col-md-4">
 			<label><?php echo direction("Open Calendar","تاريخ الافتتاح") ?></label>
-			<input type="text" name="openDate" class="form-control" required>
+			<input type="date" name="openDate" class="form-control" required>
 			</div>
 
 			<div class="col-md-4">
 			<label><?php echo direction("Close Calendar","تاريخ الإغلاق") ?></label>
-			<input type="text" name="closeDate" class="form-control" required>
+			<input type="date" name="closeDate" class="form-control" required>
 			</div>
 
 			<div class="col-md-4">
 			<label><?php echo direction("Weekend","عطلة نهاية الاسبوع") ?></label>
 			<select name="weekend[]" class="form-control" multiple>
-                <option value="0"><?php echo direction("Sunday","الاحد") ?></option>
-                <option value="1"><?php echo direction("Monday","الاثنين") ?></option>
-                <option value="2"><?php echo direction("Tuesday","الثلاثاء") ?></option>
-                <option value="3"><?php echo direction("Wednesday","الأربعاء") ?></option>
-                <option value="4"><?php echo direction("Thursday","الخميس") ?></option>
-                <option value="5"><?php echo direction("Friday","الجمعة") ?></option>
-                <option value="6"><?php echo direction("Saturday","السبت") ?></option>
+                <?php 
+                $weekends = json_decode($settings["weekend"], true);
+                if( !is_array($weekends) ) $weekends = array();
+                    for( $i = 0; $i < 7; $i++ ){
+                        $selected = in_array($i, $weekends) ? "selected" : "";
+                        echo "<option value='{$i}' {$selected}>".direction(date("l", strtotime("Sunday +{$i} days")),date("l", strtotime("الاحد +{$i} days")))."</option>";
+                    }
+                ?>
 			</select>
 			</div>
 
@@ -69,7 +77,7 @@ if( isset($_POST["openDate"]) ){
                             </div>
                             <div class="panel-wrapper collapse in">
                             <div class="panel-body">
-                                <div class="col-md-3">
+                                <div class="col-md-6" style="margin-bottom:5px;">
                                 <div class="text">
                                 <select class="form-control" name="whatsappNoti[status]" >
                                     <?php 
@@ -84,7 +92,7 @@ if( isset($_POST["openDate"]) ){
                                 </div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-6" style="padding-bottom: 5px;">
                                 <div class="text">
                                 <input class="form-control" name="whatsappNoti[ultraToken]" value="<?php echo $whatsappToken = isset($whatsappToken) ? "{$whatsappToken}" : "" ?>" placeholder="<?php echo direction("Ultra Msg Token","رمز Ultra Msg") ?>">
                                 </div>
@@ -117,7 +125,7 @@ if( isset($_POST["openDate"]) ){
                             </div>
                             <div class="panel-wrapper collapse in">
                             <div class="panel-body">
-                                <div class="col-md-3">
+                                <div class="col-md-12" style="margin-bottom:5px;">
                                 <div class="text">
                                 <select class="form-control" name="smsNoti[status]" >
                                     <?php 
@@ -132,25 +140,25 @@ if( isset($_POST["openDate"]) ){
                                 </div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-3" style="padding-bottom: 5px;">
                                 <div class="text">
                                 <input class="form-control" name="smsNoti[username]" value="<?php echo $smsUsername = isset($smsUsername) ? "{$smsUsername}" : "" ?>" placeholder="<?php echo direction("username","اسم المستخدم") ?>">
                                 </div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-3" style="padding-bottom: 5px;">
                                 <div class="text">
                                 <input class="form-control" name="smsNoti[password]" value="<?php echo $smsPassword = isset($smsPassword) ? "{$smsPassword}" : "" ?>" placeholder="<?php echo direction("password","كلمة المرور") ?>">
                                 </div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-3" style="padding-bottom: 5px;">
                                 <div class="text">
                                 <input class="form-control" name="smsNoti[sender]" value="<?php echo $smsSender = isset($smsSender) ? "{$smsSender}" : "" ?>" placeholder="<?php echo direction("sender","المرسل") ?>">
                                 </div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-3" style="padding-bottom: 5px;">
                                 <div class="text">
                                 <input class="form-control" name="smsNoti[mobile]" value="<?php echo $smsMobile = isset($smsMobile) ? "{$smsMobile}" : "" ?>" placeholder="<?php echo direction("mobile","رقم الجوال") ?>">
                                 </div>
