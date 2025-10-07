@@ -73,7 +73,7 @@ if ( isset($_GET["update"]) AND $_GET["update"] = 1 && updateDB("s_media",$_POST
 	<div class="col-md-6">
 	<div class="form-group">
 	<label class="control-label mb-10">Email</label><br>
-	<input type="text" name="email" class="form-control" value="<?php echo $sMedia ?>"  >
+	<input type="text" name="email" class="form-control" value="<?php echo $sMedia[0]["email"] ?>"  >
 	</div>
 	</div>
 
