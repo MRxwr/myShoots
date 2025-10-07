@@ -1,6 +1,6 @@
 <?php 
 $platforms = ['instagram','twitter','facebook','snapchat','tiktok','whatsapp'];
-$platformsIcons = ['instagram'=>'fab fa-instagram','twitter'=>'fab fa-x-square','facebook'=>'fab fa-facebook','snapchat'=>'fab fa-snapchat-ghost','tiktok'=>'fab fa-tiktok','whatsapp'=>'fab fa-whatsapp'];
+$platformsIcons = ['instagram'=>'fab fa-instagram','twitter'=>'fab fa-twitter','facebook'=>'fab fa-facebook','snapchat'=>'fab fa-snapchat-ghost','tiktok'=>'fab fa-tiktok','whatsapp'=>'fab fa-whatsapp'];
 $platformURL = ['instagram'=>'https://www.instagram.com/','twitter'=>'https://twitter.com/','facebook'=>'https://www.facebook.com/','snapchat'=>'https://www.snapchat.com/add/','tiktok'=>'https://www.tiktok.com/@','whatsapp'=>'https://wa.me/'];
 if( $socialMedia = selectDB("s_media","`id` = '1'")){
   $socialMedia = $socialMedia[0];
