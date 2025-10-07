@@ -14,7 +14,7 @@ if( isset($_POST["openDate"]) ){
     <?php
     }
 }else{
-    $settings = selectDB("tbl_calendar_settings","*","`id` = '1'")[0];
+    $settings = selectDB("tbl_calendar_settings","`id` = '1'")[0];
     $whatsappNoti = json_decode($settings["whatsappNoti"],true);
     $smsNoti = json_decode($settings["smsNoti"],true);
     $weekends = json_decode($settings["weekend"],true);
