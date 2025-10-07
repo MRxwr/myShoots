@@ -35,12 +35,12 @@ if( isset($_POST["openDate"]) ){
 
 			<div class="col-md-4">
 			<label><?php echo direction("Open Calendar","تاريخ الافتتاح") ?></label>
-			<input type="date" name="openDate" class="form-control" required>
+			<input type="date" name="openDate" class="form-control" required value="<?php echo isset($settings["openDate"]) ? $settings["openDate"] : "" ?>">
 			</div>
 
 			<div class="col-md-4">
 			<label><?php echo direction("Close Calendar","تاريخ الإغلاق") ?></label>
-			<input type="date" name="closeDate" class="form-control" required>
+			<input type="date" name="closeDate" class="form-control" required value="<?php echo isset($settings["closeDate"]) ? $settings["closeDate"] : "" ?>">
 			</div>
 
 			<div class="col-md-4">
