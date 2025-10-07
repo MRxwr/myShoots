@@ -94,7 +94,7 @@ if( isset($_POST["openDate"]) ){
 
                                 <div class="col-md-6" style="padding-bottom: 5px;">
                                 <div class="text">
-                                <input class="form-control" name="whatsappNoti[ultraToken]" value="<?php echo $whatsappToken = isset($whatsappToken) ? "{$whatsappToken}" : "" ?>" placeholder="<?php echo direction("Ultra Msg Token","رمز Ultra Msg") ?>">
+                                <input class="form-control" name="whatsappNoti[ultraToken]" value="<?php echo $whatsappToken = isset($whatsappNoti["ultraToken"]) ? "{$whatsappNoti["ultraToken"]}" : "" ?>" placeholder="<?php echo direction("Ultra Msg Token","رمز Ultra Msg") ?>">
                                 </div>
                                 </div>
                             </div>
@@ -142,19 +142,19 @@ if( isset($_POST["openDate"]) ){
 
                                 <div class="col-md-3" style="padding-bottom: 5px;">
                                 <div class="text">
-                                <input class="form-control" name="smsNoti[username]" value="<?php echo $smsUsername = isset($smsUsername) ? "{$smsUsername}" : "" ?>" placeholder="<?php echo direction("username","اسم المستخدم") ?>">
+                                <input class="form-control" name="smsNoti[username]" value="<?php echo (isset($smsNoti["username"]) ? "{$smsNoti["username"]}" : "") ?>" placeholder="<?php echo direction("username","اسم المستخدم") ?>">
                                 </div>
                                 </div>
 
                                 <div class="col-md-3" style="padding-bottom: 5px;">
                                 <div class="text">
-                                <input class="form-control" name="smsNoti[password]" value="<?php echo $smsPassword = isset($smsPassword) ? "{$smsPassword}" : "" ?>" placeholder="<?php echo direction("password","كلمة المرور") ?>">
+                                <input class="form-control" name="smsNoti[password]" value="<?php echo (isset($smsNoti["password"]) ? "{$smsNoti["password"]}" : "") ?>" placeholder="<?php echo direction("password","كلمة المرور") ?>">
                                 </div>
                                 </div>
 
                                 <div class="col-md-3" style="padding-bottom: 5px;">
                                 <div class="text">
-                                <input class="form-control" name="smsNoti[sender]" value="<?php echo $smsSender = isset($smsSender) ? "{$smsSender}" : "" ?>" placeholder="<?php echo direction("sender","المرسل") ?>">
+                                <input class="form-control" name="smsNoti[sender]" value="<?php echo (isset($smsNoti["sender"]) ? "{$smsNoti["sender"]}" : "") ?>" placeholder="<?php echo direction("sender","المرسل") ?>">
                                 </div>
                                 </div>
                             </div>
