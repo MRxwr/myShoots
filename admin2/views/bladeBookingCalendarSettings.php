@@ -34,17 +34,17 @@ if( isset($_POST["openDate"]) ){
 	<form class="" method="POST" action="" enctype="multipart/form-data">
 		<div class="row m-0">
 
-			<div class="col-md-4">
+			<div class="col-md-6">
 			<label><?php echo direction("Open Calendar","تاريخ الافتتاح") ?></label>
 			<input type="date" name="openDate" class="form-control" required value="<?php echo isset($settings["openDate"]) ? substr($settings["openDate"], 0, 10) : "" ?>">
 			</div>
 
-			<div class="col-md-4">
+			<div class="col-md-6">
 			<label><?php echo direction("Close Calendar","تاريخ الإغلاق") ?></label>
 			<input type="date" name="closeDate" class="form-control" required value="<?php echo isset($settings["closeDate"]) ? substr($settings["closeDate"], 0, 10) : "" ?>">
 			</div>
 
-			<div class="col-md-4">
+			<div class="col-md-12">
 			<label><?php echo direction("Weekend","عطلة نهاية الاسبوع") ?></label>
 			<select name="weekend[]" class="form-control" multiple>
                 <?php 
@@ -58,7 +58,7 @@ if( isset($_POST["openDate"]) ){
 			</select>
 			</div>
 
-            <div class="col-md-12">
+            <div class="col-md-12" style="padding-top: 5px;" >
                 <div class="panel panel-default card-view">
                 <div class="panel-heading">
                     <div class="pull-left">
