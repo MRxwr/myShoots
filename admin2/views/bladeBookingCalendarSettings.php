@@ -77,7 +77,7 @@ if( isset($_POST["openDate"]) ){
                             </div>
                             <div class="panel-wrapper collapse in">
                             <div class="panel-body">
-                                <div class="col-md-6" style="margin-bottom:5px;">
+                                <div class="col-md-4" style="margin-bottom:5px;">
                                 <div class="text">
                                 <select class="form-control" name="whatsappNoti[status]" >
                                     <?php 
@@ -92,9 +92,15 @@ if( isset($_POST["openDate"]) ){
                                 </div>
                                 </div>
 
-                                <div class="col-md-6" style="padding-bottom: 5px;">
+                                <div class="col-md-4" style="padding-bottom: 5px;">
                                 <div class="text">
                                 <input class="form-control" name="whatsappNoti[ultraToken]" value="<?php echo $whatsappToken = isset($whatsappNoti["ultraToken"]) ? "{$whatsappNoti["ultraToken"]}" : "" ?>" placeholder="<?php echo direction("Ultra Msg Token","رمز Ultra Msg") ?>">
+                                </div>
+                                </div>
+
+                                <div class="col-md-4" style="padding-bottom: 5px;">
+                                <div class="text">
+                                <input class="form-control" name="whatsappNoti[instance]" value="<?php echo $whatsappToken = isset($whatsappNoti["instance"]) ? "{$whatsappNoti["instance"]}" : "" ?>" placeholder="<?php echo direction("Ultra Msg Instance","موقع Ultra Msg") ?>">
                                 </div>
                                 </div>
                             </div>
