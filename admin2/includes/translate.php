@@ -3,6 +3,7 @@ $socialMediaMain = selectDB("s_media", "`id` = '3'");
 $emailOpt = $socialMediaMain[0]["emailOpt"];
 $giftCard = $socialMediaMain[0]["giftCard"];
 $theme = $socialMediaMain[0]["theme"];
+$socialMediaMain = selectDB("s_media", "`id` = '1'");
 $settingsMobile = $socialMediaMain[0]["whatsapp"];
 
 $settings = selectDB("settings", "`id` = '1'");
