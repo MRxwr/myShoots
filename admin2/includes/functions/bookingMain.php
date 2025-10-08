@@ -281,6 +281,14 @@ function get_disabledDate(){
 	}
 	$openDate = get_setting('openDate');
 	$closeDate = get_setting('closeDate');
+	if( $times = selectDBNew("tbl_packages",[$id],"`hidden` = '1' AND `status` = '0' AND `id` = ?","") ){
+		$times = count(json_decode($times[0]["time"],true));
+		if( $times == 0 ){
+			return array();
+		}
+	}else{
+		return array();
+	}
 	// Fetch all disabled date periods that overlap with the open/close window
 	$res = selectDB(
 		"tbl_disabled_date",
