@@ -4,8 +4,9 @@ if ($id <= 0) {
     echo json_encode(['success' => false, 'error' => 'Invalid booking ID']);
     exit();
 }
+$language = direction("en","ar");
 $joinData = array(
-    "select" => ["t.*", ["t1." . direction("en","ar") . "Title as package_name"]],
+    "select" => ["t.*", ["t1.{$language}Title as package_name"]],
     "join" => ["tbl_packages"],
     "on" => ["t.package_id = t1.id"],
 );
