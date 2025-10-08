@@ -118,7 +118,7 @@
                     
                     <div class="form-group">
                         <label for="reschedule-date"><?php echo direction("New Date", "التاريخ الجديد") ?></label>
-                        <input type="text" class="form-control" id="reschedule-date" name="new_date" placeholder="Select a date" required>
+                        <input type="date" class="form-control" id="reschedule-date" name="new_date" placeholder="Select a date" required>
                     </div>
                     
                     <div class="form-group">
