@@ -3,7 +3,7 @@ function get_setting($set){
 	if( $data = selectDB("tbl_calendar_settings","`id` = '1'")[0] ){
 		if( isset($data[$set]) ){
 			if( $set == 'openDate' || $set == 'closeDate' ){
-				$time = strtotime($data[$set]);
+				$time = strtotime(substr($data[$set], 0, 10));
 				if( $set == 'closeDate' ){
 					return $final = date("Y-m-d", strtotime("-1 month", $time));
 				}else{
