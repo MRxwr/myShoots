@@ -19,7 +19,7 @@ function bookingWhatsappUltraMsg($order){
             } elseif (substr($phone, 0, 3) !== '965') {
                 $phone = '965' . $phone;
             }
-            $message = urlencode("Your booking has been confirmed with {$settingsTitle}, Date: {$booking["booking_date"]}, Time: {$booking["booking_time"]}, Booking#: {$booking["transaction_id"]}.  \n\nThis is an automated message, Courtesy of createkuwait.com.");
+            $message = "Your booking has been confirmed with {$settingsTitle}, Date: {$booking["booking_date"]}, Time: {$booking["booking_time"]}, Booking#: {$booking["transaction_id"]}.  \n\nThis is an automated message, Courtesy of createkuwait.com.";
             $params = array(
                 "token" => $whatsappNoti1["ultraToken"],
                 "to" => $phone,
