@@ -69,8 +69,8 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
             </div>
             <div class="col-md-4 mb-3 mb-md-0">
               <ul class="list-inline mb-0">
-                <li class="list-inline-item px-2" style="color: #7d807d; font-weight:500;"><i class="fas fa-check-circle"></i> <?php echo direction("Available","متاح") ?></li>
-                <li class="list-inline-item px-2" style="color: #ea9990; font-weight:500;"><i class="fas fa-times-circle"></i> <?php echo direction("Reserved","محجوز") ?></li>
+                <li class="list-inline-item px-2 legend-available"><i class="fas fa-check-circle"></i> <?php echo direction("Available","متاح") ?></li>
+                <li class="list-inline-item px-2 legend-reserved"><i class="fas fa-times-circle"></i> <?php echo direction("Reserved","محجوز") ?></li>
               </ul>
             </div>
             <div class="col-md-4 text-md-right">
@@ -84,3 +84,13 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
     </div>
   </div>
 </section>
+<style>
+.legend-available {
+  color: #28a745 !important; /* green */
+  font-weight: 600;
+}
+.legend-reserved {
+  color: #dc3545 !important; /* red */
+  font-weight: 600;
+}
+</style>
