@@ -116,10 +116,14 @@
     $('#calendar').fullCalendar({
        
             header: {
-                left: 'prev,next today',
+                left: 'today',
                 center: 'title',
-                right: 'month,agendaWeek,agendaDay'
+                right: 'agendaWeek,agendaDay'
             },
+            defaultView: 'month',
+            defaultDate: startOfMonth,
+            height: 'auto',
+            fixedWeekCount: false,
             editable: true,
             droppable: true, // this allows things to be dropped onto the calendar
             eventLimit: false, // allow "more" link when too many events
