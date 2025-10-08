@@ -116,9 +116,9 @@
     $('#calendar').fullCalendar({
        
             header: {
-                left: 'prev,next today',
+                left: 'today',
                 center: 'title',
-                right: 'month,agendaWeek,agendaDay'
+                right: 'month'
             },
             defaultView: 'month',
             defaultDate: startOfMonth,
