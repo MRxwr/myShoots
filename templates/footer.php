@@ -103,10 +103,9 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
   ?>
 <script>
 $(document).ready(function(){
-  // var activeMonth = new Date().getMonth() + 1; // Not used
-    var date_input=$('#bookingdate'); //our date input has the name "date"
-    var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-    var options={
+    var date_input= $('#bookingdate');
+    var container= $('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+    var options= {
       format: "dd-mm-yyyy",
       inline: true,
       sideBySide: true,
@@ -132,8 +131,6 @@ $(document).ready(function(){
       $("#date").val(value);
     }
     
-
-
     // Prevent the right-click menu from appearing
     $("body").on("contextmenu", function (e) {
         e.preventDefault(); 
@@ -160,15 +157,9 @@ $(document).ready(function(){
       dots: false,
       responsiveClass: true,
       responsive: {
-        0: {
-          items: 2
-        },
-        600: {
-          items: 4
-        },
-        1000: {
-          items: 6
-        }
+        0: { items: 2 },
+        600: { items: 4 },
+        1000: { items: 6 }
       }
     });
 
@@ -180,9 +171,9 @@ $(document).ready(function(){
         nav:true,
         dots:true,
         responsive:{
-          0:{ items:1 },
-          768:{ items:2 },
-          992:{ items:4 }
+          0: { items: 1 },
+          768: { items: 2 },
+          992: { items: 4 }
         }
       });
     }
