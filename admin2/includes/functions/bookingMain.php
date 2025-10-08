@@ -273,8 +273,8 @@ function FullBookedDates(){
 
 // get disabled date
 function get_disabledDate(){
-	echo $openDate = get_setting('openDate');
-	echo $closeDate = get_setting('closeDate');
+	$openDate = get_setting('openDate');
+	$closeDate = get_setting('closeDate');
 	// Fetch all disabled date periods that overlap with the open/close window
 	$res = selectDBNew(
 		"tbl_disabled_date",
@@ -283,7 +283,6 @@ function get_disabledDate(){
 		" STR_TO_DATE(startBlock, '%Y-%m-%d') ASC"
 	);
 	$blockedDates = array();
-	return $res;
 	if ($res && count($res) > 0) {
 		foreach ($res as $row) {
 			$start = isset($row['startBlock']) ? substr($row['startBlock'], 0, 10) : null;
