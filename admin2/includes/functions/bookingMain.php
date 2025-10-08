@@ -336,28 +336,29 @@ function getFullyBookedDates(){
 	$closeDate = get_setting('closeDate');
 	$blockedDates = get_disabledDate();
 	if( $packageDetails = selectDBNew("tbl_packages",[$id],"`hidden` = '1' AND `status` = '0' AND `id` = ?","") ){
-		$times = json_decode($packageDetails[0]["time"],true);
-		foreach($times as $t){
-				$times[] = " `booking_time` LIKE '%{$t["startDate"]} - {$t["endDate"]}%' ";
-		}
-		$whereTime = implode(" AND ",$times);
-		if( empty($whereTime) ){
-			return array();
-		}
+	       $times = json_decode($packageDetails[0]["time"],true);
+	       $timeConditions = array();
+	       foreach($times as $t){
+		       $timeConditions[] = " `booking_time` LIKE '%{$t["startDate"]} - {$t["endDate"]}%' ";
+	       }
+	       $whereTime = implode(" AND ", $timeConditions);
+	       if( empty($whereTime) ){
+		       return array();
+	       }
 	}else{
 		return array();
 	}
 
-	if( $res = selectDBNew("tbl_booking",[$openDate,$closeDate],"`booking_date` BETWEEN ? AND ? AND {$whereTime} AND `package_id` = '{$id}' AND `status` = 'Yes'","") ){
-		$numberOfTimeSlots = count($times);
-		$bookedDates = array();
-		if( count($res) > 0 ){
-			foreach($res as $r){
-				if( isset($bookedDates[$r['booking_date']]) ){
-					$bookedDates[$r['booking_date']] += 1;
-				}else{
-					$bookedDates[$r['booking_date']] = 1;
-				}
+       if( $res = selectDBNew("tbl_booking",[$openDate,$closeDate],"`booking_date` BETWEEN ? AND ? AND {$whereTime} AND `package_id` = '{$id}' AND `status` = 'Yes'","") ){
+	       $numberOfTimeSlots = count($times);
+	       $bookedDates = array();
+	       if( count($res) > 0 ){
+		       foreach($res as $r){
+			       if( isset($bookedDates[$r['booking_date']]) ){
+				       $bookedDates[$r['booking_date']] += 1;
+			       }else{
+				       $bookedDates[$r['booking_date']] = 1;
+			       }
 			}
 			$booked2 = array();
 			foreach($bookedDates as $date => $count){
