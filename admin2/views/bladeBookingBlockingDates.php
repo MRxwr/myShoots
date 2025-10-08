@@ -42,6 +42,7 @@ if( isset($_POST["startBlock"]) ){
 			$_POST["timeSlots"] = json_encode($timeIds);
 		}
 	}
+	var_dump($_POST);
 	if ( $id == 0 ){
 		if( insertDB("tbl_disabled_date", $_POST) ){
 			header("LOCATION: ?v=BookingBlockingDates");
