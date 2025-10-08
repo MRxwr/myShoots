@@ -124,8 +124,8 @@ $(document).ready(function(){
       daysOfWeekDisabled: [5,6],
       datesDisabled: <?= $blocked_date ?>,
       autoclose: true,
-      startDate: new Date( <?= (get_setting('open_date')!='')?str_replace('-',',',get_setting('open_date')):'' ?> ),
-      endDate: new Date( <?= (get_setting('close_date')!='')?str_replace('-',',',get_setting('close_date')):'' ?> ),
+      startDate: new Date( <?= (get_setting('openDate')!='')?str_replace('-',',',get_setting('openDate')):'' ?> ),
+      endDate: new Date( <?= (get_setting('closeDate')!='')?str_replace('-',',',get_setting('closeDate')):'' ?> ),
       icons: {
           time: "fa fa-clock-o",
           date: "fa fa-calendar",
