@@ -322,6 +322,7 @@ function get_disabledDate(){
 		sort($blockedDates);
 	}
 	if( $res = selectDB("tbl_booking","`booking_date` BETWEEN '{$openDate}' AND '{$closeDate}' AND ({$whereTime}) AND `package_id` = '{$id}' AND `status` = 'Yes'") ){
+		var_dump($res);
 		$numberOfTimeSlots = count($times);
 		$bookedDates = array();
 		if( count($res) > 0 ){
