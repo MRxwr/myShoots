@@ -22,15 +22,15 @@ if( $res = selectDB("tbl_booking","`status` = 'Yes'") ){
             $transaction_id = $row['transaction_id'];
             $customer_name = $row['customer_name'];
             $mobile_number = $row['mobile_number'];
-            $booking_date = $row['booking_date'];
+            $booking_date = substr($row['booking_date'],0,10);
             $booking_time = $row['booking_time'];
             $extra_items = $row['extra_items'];
             $booking_price = $row['booking_price'];
             $is_active = $row['status'];
-            $tm = explode('-',$booking_time);
+            $tm = explode(' - ',$booking_time);
             $std = $row['booking_date'].' '.$tm[0];
             $startdate = date("Y-m-d H:i:s", strtotime($std));
-            $etd = $row['booking_date'].' '.$tm[0];
+            $etd = $row['booking_date'].' '.$tm[1];
             $enddate = date("Y-m-d H:i:s", strtotime($etd));
             $e = array();
             $e['id'] = $id;
@@ -42,7 +42,6 @@ if( $res = selectDB("tbl_booking","`status` = 'Yes'") ){
             // Merge the event array into the return array
             array_push($events, $e);
         }
-        var_dump($events);
     }
 }
 ?>
