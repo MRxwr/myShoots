@@ -92,9 +92,9 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
   <?php
   $id = ( isset($_GET['id']) && !empty($_GET['id']) ) ? intval($_GET['id']) : 0;
   $disabledDates = get_disabledDate();
-  $openDate = get_setting('openDate');
+  $openDate = date('Y-m-d'); // Use today's date as lower bound
   $closeDate = get_setting('closeDate');
-  // Only include dates between openDate and closeDate (inclusive)
+  // Only include dates between today and closeDate (inclusive)
   $filteredDates = array_filter($disabledDates, function($d) use ($openDate, $closeDate) {
     return ($d >= $openDate && $d <= $closeDate);
   });
@@ -108,7 +108,7 @@ $(document).ready(function(){
     var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
     var options={
       format: "dd-mm-yyyy",
-      inline:true,
+      inline: true,
       sideBySide: true,
       container: container,
       todayHighlight: true,
