@@ -29,6 +29,33 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
 }
 
 ?>
+
+<style> 
+.legend-available {
+  color: #28a745 !important; /* green */
+  font-weight: 600;
+}
+.legend-reserved {
+  color: #dc3545 !important; /* red */
+  font-weight: 600;
+}
+/* Reserved (disabled) dates */
+.datepicker table tr td.disabled, 
+.datepicker table tr td.disabled:hover {
+    background: #f8d7da !important;   /* light red background */
+    color: #dc3545 !important;        /* red text */
+    border-radius: 50% !important;
+    opacity: 1 !important;
+}
+
+/* Available dates (not disabled, not today, not selected) */
+.datepicker table tr td.day:not(.disabled):not(.active):not(.today):not(.range) {
+    background: #e6f9ed !important;   /* light green background */
+    color: #28a745 !important;        /* green text */
+    border-radius: 50% !important;
+}
+</style>
+
 <section class="py-5 bg-white">
   <div class="container">
     <div class="row justify-content-center">
@@ -84,13 +111,3 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
     </div>
   </div>
 </section>
-<style> 
-.legend-available {
-  color: #28a745 !important; /* green */
-  font-weight: 600;
-}
-.legend-reserved {
-  color: #dc3545 !important; /* red */
-  font-weight: 600;
-}
-</style>
