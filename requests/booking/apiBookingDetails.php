@@ -51,7 +51,7 @@ if ( $result = selectJoinDB("tbl_booking", $joinData, "t.id = '{$id}'") ) {
         if ($personalInfo && is_array($personalInfo)) {
             // Fetch field titles from tbl_personal_info
             $fields = array();
-            if ($fieldsResult = selectDB("tbl_personal_info", "WHERE id != '0'")) {
+            if ($fieldsResult = selectDB("tbl_personal_info", "`id` != '0'")) {
                 foreach ($fieldsResult as $f) {
                     echo $fields[$f['id']] = (direction($f['enTitle'], $f['arTitle']));
                 }
