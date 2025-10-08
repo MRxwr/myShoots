@@ -500,53 +500,47 @@ if($res == true)
 }
 
 function checkRamadanDate($date){
-GLOBAL $obj,$conn;
-$tbl_name = 'tbl_settings';
-$where = " id=1 ";
-$query = $obj->select_data($tbl_name,$where);
-$res = $obj->execute_query($conn,$query);
-if($res == true)
-{
-	$count_rows = $obj->num_rows($res);
-	if($count_rows>0){
-		$data = mysqli_fetch_array($res);
-		$date=date('Y-m-d', strtotime($date));
-		$open_date = $data['ramadan_open_date'];
-		$open_date=date('Y-m-d', strtotime($open_date));
-		$close_date = $data['ramadan_close_date'];
-		$close_date=date('Y-m-d', strtotime($close_date));
-		if(($date>=$open_date) && ($date <=$close_date)){
-			return true;
+	GLOBAL $obj,$conn;
+	$tbl_name = 'tbl_settings';
+	$where = " id=1 ";
+	$query = $obj->select_data($tbl_name,$where);
+	$res = $obj->execute_query($conn,$query);
+	if($res == true){
+		$count_rows = $obj->num_rows($res);
+		if($count_rows>0){
+			$data = mysqli_fetch_array($res);
+			$date=date('Y-m-d', strtotime($date));
+			$open_date = $data['ramadan_open_date'];
+			$open_date=date('Y-m-d', strtotime($open_date));
+			$close_date = $data['ramadan_close_date'];
+			$close_date=date('Y-m-d', strtotime($close_date));
+			if(($date>=$open_date) && ($date <=$close_date)){
+				return true;
+			}else{
+				return false;
+			}
+			
 		}else{
 			return false;
 		}
-		
 	}else{
 		return false;
 	}
-			
-}else{
-	return false;
-}
 }
 
 // Function to get all the dates in given range 
 function getDatesFromRange($start, $end, $format = 'd-m-Y') { 
-	// Declare an empty array 
 	$array = array(); 
-	// Variable that store the date interval 
-	// of period 1 day 
 	$interval = new DateInterval('P1D'); 
 	$realEnd = new DateTime($end); 
 	$realEnd->add($interval); 
 	$period = new DatePeriod(new DateTime($start), $interval, $realEnd); 
-	// Use loop to store date into array 
 	foreach($period as $date) {                  
 		$array[] = $date->format($format);  
 	} 
-	// Return the array elements 
 	return $array; 
 } 
+
 // get  all themes image by package id
 function get_ads(){
 GLOBAL $obj,$conn;
