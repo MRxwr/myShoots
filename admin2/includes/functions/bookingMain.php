@@ -281,7 +281,7 @@ function get_disabledDate(){
 		[$openDate, $closeDate],
 		"(STR_TO_DATE(startBlock, '%Y-%m-%d') <= ? AND STR_TO_DATE(endBlock, '%Y-%m-%d') >= ?) OR (STR_TO_DATE(startBlock, '%Y-%m-%d') BETWEEN ? AND ?) OR (STR_TO_DATE(endBlock, '%Y-%m-%d') BETWEEN ? AND ?)",
 		" ORDER BY STR_TO_DATE(startBlock, '%Y-%m-%d') ASC"
-	);
+	)[0];
 	$blockedDates = array();
 	if ($res && count($res) > 0) {
 		foreach ($res as $row) {
@@ -519,7 +519,6 @@ function checkRamadanDate($date){
 			}else{
 				return false;
 			}
-			
 		}else{
 			return false;
 		}
