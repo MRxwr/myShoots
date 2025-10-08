@@ -62,7 +62,7 @@
 		
 	<!-- Init JavaScript -->
 	<script src="dist/js/init.js?x=1"></script>
-	<script src="assets/vendors/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+	<script src="../admin/assets/vendors/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
 <script>
     $(document).ready(function() {
 	'use strict';
