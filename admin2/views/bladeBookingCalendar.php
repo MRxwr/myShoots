@@ -1,12 +1,8 @@
 <div class="row">
     <div class="panel panel-default card-view">
-            <div class="panel-wrapper collapse in">
-                <div class="panel-body">
-                    <a href="<?php echo SITEURL; ?>payment/booking-export.php?page=booking-calendar&export=excel" id="btnExportToExcel" class="btn btn-primary btn-sm">Export to excell</a>
-                    <div class="calendar-wrap mt-40">
-                        
-                        <div id="calendar"></div>
-                    </div>
+        <div class="panel-wrapper collapse in">
+            <div class="panel-body">
+                <div id="calendar"></div>
             </div>
         </div>
     </div>				
