@@ -21,6 +21,7 @@ if( isset($_POST["startBlock"]) ){
 	$id = $_POST["update"];
 	unset($_POST["update"]);
 	$_POST["timeSlots"] = isset($_POST["timeSlots"]) ? json_encode($_POST["timeSlots"]) : json_encode([]);
+	$_POST["packages"] = isset($_POST["packages"]) ? json_encode($_POST["packages"]) : json_encode([]);
 	if ( $id == 0 ){
 		if( insertDB("tbl_disabled_date", $_POST) ){
 			header("LOCATION: ?v=BookingBlockingDates");
@@ -77,10 +78,25 @@ if( isset($_POST["startBlock"]) ){
 			</div>
 
 			<div class="col-md-12" style="margin-top:10px">
+			<label><?php echo direction("Packages","الباقات") ?></label>
+			<select name="packages[]" class="form-control" multiple>
+			<?php
+			if( $packages = selectDB("tbl_packages","`hidden` = '1' AND `status` = '0' ORDER BY `id` ASC") ){
+				foreach($packages as $i=>$package){
+					?>
+					<option value="<?php echo $package["id"] ?>"><?php echo direction($package["enTitle"],$package["arTitle"]) ?></option>
+					<?php
+				}
+			}
+			?>
+			</select>
+			</div>
+
+			<div class="col-md-12" style="margin-top:10px">
 			<label><?php echo direction("Time Slots","وقت المواعيد") ?></label>
 			<select name="timeSlots[]" class="form-control" multiple>
 			<?php
-			if( $times = selectDB("tbl_times","`hidden` = '1' ORDER BY `id` ASC") ){
+			if( $times = selectDB("tbl_times","`hidden` = '1' AND `status` = '0' ORDER BY `id` ASC") ){
 				foreach($times as $i=>$time){
 					?>
 					<option value="<?php echo $time["id"] ?>"><?php echo $time["startTime"]." - ".$time["closeTime"] ?></option>
@@ -154,6 +170,7 @@ if( isset($_POST["startBlock"]) ){
 				<div style="display: none">
                 	<label id="hidden<?php echo $blocking[$i]["id"]?>"><?php echo $blocking[$i]["hidden"] ?></label>
                 	<label id="timeSlots<?php echo $blocking[$i]["id"]?>"><?php echo $blocking[$i]["timeSlots"] ?></label>
+                	<label id="packages<?php echo $blocking[$i]["id"]?>"><?php echo $blocking[$i]["packages"] ?></label>
             	</div>
 			</td>
 			</tr>
@@ -186,6 +203,17 @@ $(document).on("click", ".edit", function(){
 			var slots = JSON.parse(slotsLabel.textContent || slotsLabel.innerText);
 			for (var i = 0; i < select.options.length; i++) {
 				select.options[i].selected = slots.includes(select.options[i].value);
+			}
+		} catch(e) {}
+	}
+	// Pre-select packages in the multi-select
+	var packagesLabel = document.getElementById("packages"+id);
+	var select = document.querySelector("select[name='packages[]']");
+	if (packagesLabel && select) {
+		try {
+			var packages = JSON.parse(packagesLabel.textContent || packagesLabel.innerText);
+			for (var i = 0; i < select.options.length; i++) {
+				select.options[i].selected = packages.includes(select.options[i].value);
 			}
 		} catch(e) {}
 	}
