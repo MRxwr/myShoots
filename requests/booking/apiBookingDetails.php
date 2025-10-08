@@ -53,7 +53,7 @@ if ( $result = selectJoinDB("tbl_booking", $joinData, "t.id = '{$id}'") ) {
             $fields = array();
             if ($fieldsResult = selectDB("tbl_personal_info", "WHERE id != '0'")) {
                 foreach ($fieldsResult as $f) {
-                    $fields[$f['id']] = (direction($f['enTitle'], $f['arTitle']));
+                    echo $fields[$f['id']] = (direction($f['enTitle'], $f['arTitle']));
                 }
             }
             foreach ($personalInfo as $key => $value) {
