@@ -348,34 +348,33 @@ function getFullyBookedDates(){
 	}else{
 		return array();
 	}
-
-       if( $res = selectDBNew("tbl_booking",[$openDate,$closeDate],"`booking_date` BETWEEN ? AND ? AND {$whereTime} AND `package_id` = '{$id}' AND `status` = 'Yes'","") ){
-	       $numberOfTimeSlots = count($times);
-	       $bookedDates = array();
-	       if( count($res) > 0 ){
-		       foreach($res as $r){
-			       if( isset($bookedDates[$r['booking_date']]) ){
-				       $bookedDates[$r['booking_date']] += 1;
-			       }else{
-				       $bookedDates[$r['booking_date']] = 1;
-			       }
-			}
-			$booked2 = array();
-			foreach($bookedDates as $date => $count){
-				if( $count >= $numberOfTimeSlots ){
-					$booked2[] = date("d-m-Y", strtotime($date));
+	if( $res = selectDBNew("tbl_booking",[$openDate,$closeDate],"`booking_date` BETWEEN CONCATR('%',?,'%') AND CONCAT('%',?,'%') AND {$whereTime} AND `package_id` = '{$id}' AND `status` = 'Yes'","") ){
+		$numberOfTimeSlots = count($times);
+		$bookedDates = array();
+		if( count($res) > 0 ){
+			foreach($res as $r){
+				if( isset($bookedDates[$r['booking_date']]) ){
+					$bookedDates[$r['booking_date']] += 1;
+				}else{
+					$bookedDates[$r['booking_date']] = 1;
 				}
+		}
+		$booked2 = array();
+		foreach($bookedDates as $date => $count){
+			if( $count >= $numberOfTimeSlots ){
+				$booked2[] = date("d-m-Y", strtotime($date));
 			}
-			// Merge blocked dates and fully booked dates
-			$finalDates = array_merge($blockedDates,$booked2);
-			// Remove duplicates
-			$finalDates = array_unique($finalDates);
-			// Sort the dates
-			sort($finalDates);
-			return $finalDates;
-		} 
-	}
-	return $blockedDates;
+		}
+		// Merge blocked dates and fully booked dates
+		$finalDates = array_merge($blockedDates,$booked2);
+		// Remove duplicates
+		$finalDates = array_unique($finalDates);
+		// Sort the dates
+		sort($finalDates);
+		return $finalDates;
+	} 
+}
+return $blockedDates;
 }
 
 
