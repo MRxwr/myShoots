@@ -125,14 +125,14 @@
         eventMouseover: function (data, event, view) {
 			var tooltip = '<div class="tooltiptopicevent tooltip tooltip-inner" style="width:auto;height:auto;position:absolute;z-index:10001;">' + data.title + '</div>';
 			$("body").append(tooltip);
-			$(this).on('mousemove.tooltip', function (e) {
+            $(this).mouseover(function (e) {
+                $(this).css('z-index', 10000);
+                $('.tooltiptopicevent').fadeIn('500');
+                $('.tooltiptopicevent').fadeTo('10', 1.9);
+            }).mousemove(function (e) {
                 $('.tooltiptopicevent').css('top', e.pageY + 10);
                 $('.tooltiptopicevent').css('left', e.pageX + 20);
             });
-        },
-        eventMouseout: function (data, event, view) {
-            $('.tooltiptopicevent').remove();
-            $(this).off('mousemove.tooltip');
         },
         eventRender: function( event, element, view ) {
         var title = element.find('.fc-title, .fc-list-item-title');          
