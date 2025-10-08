@@ -22,7 +22,7 @@ if( isset($_POST["startBlock"]) ){
 	unset($_POST["update"]);
 	$_POST["timeSlots"] = isset($_POST["timeSlots"]) ? json_encode($_POST["timeSlots"]) : '';
 	$_POST["packages"] = isset($_POST["packages"]) ? json_encode($_POST["packages"]) : '';
-	var_dump($_REQUEST);
+	var_dump($_POST);
 	// if packages empty then add all packages ids to the json array
 	if( empty($_POST["packages"]) ){
 		if( $allPackages = selectDB("tbl_packages","`hidden` = '1' AND `status` = '0'") ){
