@@ -81,13 +81,13 @@ function selectDBNew($table, $placeHolders, $where, $order){
         );
         LogsHistory($array);
     }
-    var_dump($dbconnect->prepare($sql));
     if($stmt = $dbconnect->prepare($sql)) {
         $types = str_repeat('s', count($placeHolders));
         $stmt->bind_param($types, ...$placeHolders);
         $stmt->execute();
         $result = $stmt->get_result();
         $array = array();
+        var_dump($result->fetch_assoc());
         while ($row = $result->fetch_assoc()) {
             $array[] = $row;
         }
