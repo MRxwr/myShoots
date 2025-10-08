@@ -121,7 +121,7 @@ $(document).ready(function(){
       sideBySide: true,
       container: container,
       todayHighlight: true,
-      daysOfWeekDisabled: [5,6],
+      daysOfWeekDisabled: <?= get_setting('weekend') ?>,
       datesDisabled: <?= $blocked_date ?>,
       autoclose: true,
       startDate: new Date( <?= (get_setting('openDate')!='')?str_replace('-',',',get_setting('openDate')):'' ?> ),
