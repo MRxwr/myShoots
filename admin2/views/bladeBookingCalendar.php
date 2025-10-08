@@ -27,8 +27,6 @@ if( $res = selectDB("tbl_booking","`status` = 'Yes' AND MONTH(booking_date) = '{
             $payload = json_decode($row['payload'],true);    
             $package_name = $payload['CustomerName'];
             $keys = array_keys($personalInfo);
-            print_r($personalInfo);
-
             foreach( $personalInfo as $key => $p ){
                 if( $personalInfoDB = selectDB("tbl_personal_info","`id` = '{$key}'")[0] ){
                     $title = direction("enTitle","arTitle");
