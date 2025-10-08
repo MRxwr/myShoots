@@ -287,6 +287,7 @@ function get_disabledDate(){
 		foreach($times as $t){
 			if( $time = selectDB("tbl_times","`startTime` = '{$t["startDate"]}' AND `closeTime` = '{$t["endDate"]}'") ){
 				$timeIds[] = " `timeSlots` LIKE '%{$time[0]["id"]}%' ";
+				$timeConditions[] = " `booking_time` LIKE '%{$t["startDate"]} - {$t["endDate"]}%' ";
 			}
 		}
 		$whereTime = implode(" AND ",$timeIds);
@@ -319,8 +320,34 @@ function get_disabledDate(){
 		// Remove duplicates
 		$blockedDates = array_unique($blockedDates);
 		sort($blockedDates);
-		return $blockedDates;
 	}
+	if( $res = selectDB("tbl_booking","`booking_date` BETWEEN '{$openDate}' AND '{$closeDate}' AND ({$whereTime}) AND `package_id` = '{$id}' AND `status` = 'Yes'") ){
+		$numberOfTimeSlots = count($times);
+		$bookedDates = array();
+		if( count($res) > 0 ){
+			foreach($res as $r){
+				if( isset($bookedDates[$r['booking_date']]) ){
+					$bookedDates[$r['booking_date']] += 1;
+				}else{
+					$bookedDates[$r['booking_date']] = 1;
+				}
+			}
+			$booked2 = array();
+			foreach($bookedDates as $date => $count){
+				if( $count >= $numberOfTimeSlots ){
+					$booked2[] = date("Y-m-d", strtotime($date));
+				}
+			}
+			// Merge blocked dates and fully booked dates
+			$finalDates = array_merge($blockedDates,$booked2);
+			// Remove duplicates
+			$finalDates = array_unique($finalDates);
+			// Sort the dates
+			sort($finalDates);
+			return $finalDates;
+		} 
+	}
+	return $blockedDates;
 	return array();
 }
 
