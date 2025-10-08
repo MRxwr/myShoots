@@ -105,14 +105,10 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
   $blocked_date = stripslashes(json_encode($blocked_dates_array2));
   ?>
 <script>
-var dates = ["25/03/2023","1/04/2023","8/04/2023","15/04/2023"];
-// Get the elements with class="column"
-var elements = document.getElementsByClassName("column");
-// Declare a loop variable
-var i;
+
 
 $(document).ready(function(){
-    var activeMonth = new Date().getMonth() + 1;
+  // var activeMonth = new Date().getMonth() + 1; // Not used
     var date_input=$('#bookingdate'); //our date input has the name "date"
     var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
     var options={
@@ -141,14 +137,7 @@ $(document).ready(function(){
       $("#date").val(value);
     }
     
-    // Disable Saturday and Sunday selection
-    function disableDates(date) {
-      let shouldDisable = false;
-      if ( date.getDay() == 5 || date.getDay() == 6 ) {
-        shouldDisable = true;
-      }
-      return [ !shouldDisable || dates.indexOf(date) != -1];
-    }
+
 
     // Prevent the right-click menu from appearing
     $("body").on("contextmenu", function (e) {
@@ -298,49 +287,9 @@ function truncateDate(date) {
 }
 
 
-function daysOfWeekDisabled(date){
-  var year = date.getFullYear();
-  var month = date.getMonth();
-  var day = date.getDate();
-  var dateCheck = day+'/'+month+'/'+year;
-  var dateFrom = "23/03/2023";
-  var dateTo = "15/04/2023";
-  var d1 = dateFrom.split("/");
-  var d2 = dateTo.split("/");
-  var c = dateCheck.split("/");
-  var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
-  var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
-  var check = new Date(c[2], parseInt(c[1])-1, c[0]);
-  if (check > from && check < to) {
-    return '[6]';
-  }else{
-    return '[5,6]';
-  }
-}
+
   
-// Full-width images
-function one() {
-    for (i = 0; i < elements.length; i++) {
-    elements[i].style.msFlex = "100%";  // IE10
-    elements[i].style.flex = "100%";
-  }
-}
 
-// Two images side by side
-function two() {
-  for (i = 0; i < elements.length; i++) {
-    elements[i].style.msFlex = "50%";  // IE10
-    elements[i].style.flex = "50%";
-  }
-}
-
-// Four images side by side
-function four() {
-  for (i = 0; i < elements.length; i++) {
-    elements[i].style.msFlex = "25%";  // IE10
-    elements[i].style.flex = "25%";
-  }
-}
 
 // contact form
 function submitForm(){
