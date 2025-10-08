@@ -110,6 +110,9 @@
     var month = date.getMonth();
     var year = date.getFullYear();
     
+    var now = moment();
+    var startOfMonth = now.clone().startOf('month');
+    var endOfMonth = now.clone().endOf('month');
     $('#calendar').fullCalendar({
        
             header: {
@@ -150,6 +153,11 @@
         viewDisplay: function () {
             tooltip.hide()
         },
+			defaultDate: now.format('YYYY-MM-DD'),
+			validRange: {
+				start: startOfMonth.format('YYYY-MM-DD'),
+				end: endOfMonth.format('YYYY-MM-DD')
+			},
 			events: <?php echo json_encode($events)?>
 		});
  
