@@ -115,7 +115,7 @@ $(document).ready(function(){
       daysOfWeekDisabled: <?= get_setting('weekend') ?>,
       datesDisabled: <?= $blocked_date ?>,
       autoclose: true,
-      startDate: new Date( <?= (get_setting('openDate')!='')?str_replace('-',',',get_setting('openDate')):'' ?> ),
+  startDate: new Date(<?= date('Y, n, j') ?>),
       endDate: new Date( <?= (get_setting('closeDate')!='')?str_replace('-',',',get_setting('closeDate')):'' ?> ),
       icons: {
           time: "fa fa-clock-o",
