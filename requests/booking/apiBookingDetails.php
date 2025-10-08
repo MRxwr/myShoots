@@ -50,9 +50,9 @@ if ($result = selectJoinDB("tbl_booking", $joinData, "WHERE t.id = {$id} LIMIT 1
             // Fetch field titles from tbl_personal_info
             $fields = array();
             $fieldsResult = mysqli_query($dbconnect, "SELECT * FROM tbl_personal_info WHERE id != '0'");
-            if ($fieldsResult) {
-                while ($f = mysqli_fetch_assoc($fieldsResult)) {
-                    $fields[$f['id']] = ($_SESSION['lang'] == 'en' ? $f['enTitle'] : $f['arTitle']);
+            if ($fieldsResult = selectDB("tbl_personal_info", "WHERE id != '0'")) {
+                foreach ($fieldsResult as $f) {
+                    $fields[$f['id']] = (direction($f['enTitle'], $f['arTitle']));
                 }
             }
             foreach ($personalInfo as $key => $value) {
@@ -65,5 +65,4 @@ if ($result = selectJoinDB("tbl_booking", $joinData, "WHERE t.id = {$id} LIMIT 1
 } else {
     echo json_encode(['success' => false, 'error' => 'Booking not found']);
 }
-mysqli_close($dbconnect);
 ?>
