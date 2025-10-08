@@ -50,6 +50,8 @@ require ("payment.php");
 
 	<!-- Data table CSS -->
 	<link href="../vendors/bower_components/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
+	<!-- Calendar CSS -->
+		<link href="assets/vendors/bower_components/fullcalendar/dist/fullcalendar.css" rel="stylesheet" type="text/css"/>
 	<!-- bootstrap-touchspin CSS -->
 	<link href="../vendors/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" rel="stylesheet" type="text/css"/>
 
