@@ -127,34 +127,34 @@ if( isset($_POST["startBlock"]) ){
 		
 		<tbody>
 		<?php 
-		if( $pages = selectDB("tbl_disabled_date","`status` = '0' ORDER BY `id` ASC") ){
-			for( $i = 0; $i < sizeof($pages); $i++ ){
+		if( $blocking = selectDB("tbl_disabled_date","`status` = '0' ORDER BY `id` ASC") ){
+			for( $i = 0; $i < sizeof($blocking); $i++ ){
 				$counter = $i + 1;
-			if ( $pages[$i]["hidden"] == 2 ){
+			if ( $blocking[$i]["hidden"] == 2 ){
 				$icon = "fa fa-eye";
-				$link = "?v={$_GET["v"]}&show={$pages[$i]["id"]}";
+				$link = "?v={$_GET["v"]}&show={$blocking[$i]["id"]}";
 				$hide = direction("Show","إظهار");
 			}else{
 				$icon = "fa fa-eye-slash";
-				$link = "?v={$_GET["v"]}&hide={$pages[$i]["id"]}";
+				$link = "?v={$_GET["v"]}&hide={$blocking[$i]["id"]}";
 				$hide = direction("Hide","إخفاء");
 			}
 			?>
 			<tr>
 			<td><?php echo str_pad($counter, 2, '0', STR_PAD_LEFT) ?></td>
-			<td id="startBlock<?php echo $pages[$i]["id"]?>" ><?php echo $pages[$i]["startBlock"] ?></td>
-			<td id="endBlock<?php echo $pages[$i]["id"]?>" ><?php echo $pages[$i]["endBlock"] ?></td>
+			<td id="startBlock<?php echo $blocking[$i]["id"]?>" ><?php echo substr($blocking[$i]["startBlock"],0,10) ?></td>
+			<td id="endBlock<?php echo $blocking[$i]["id"]?>" ><?php echo substr($blocking[$i]["endBlock"],0,10) ?></td>
 			<td class="text-nowrap">
-                <a id="<?php echo $pages[$i]["id"] ?>" class="mr-25 edit" data-toggle="tooltip" data-original-title="<?php echo direction("Edit","تعديل") ?>"> <i class="btn btn-warning btn-circle fa fa-pencil text-inverse m-r-10" style="align-content: center;"></i>
+                <a id="<?php echo $blocking[$i]["id"] ?>" class="mr-25 edit" data-toggle="tooltip" data-original-title="<?php echo direction("Edit","تعديل") ?>"> <i class="btn btn-warning btn-circle fa fa-pencil text-inverse m-r-10" style="align-content: center;"></i>
                 </a>
                 <a href="<?php echo $link ?>" class="mr-25" data-toggle="tooltip" data-original-title="<?php echo $hide ?>"> <i class="btn btn-default btn-circle <?php echo $icon ?> text-inverse m-r-10" style="align-content: center;"></i>
                 </a>
-                <a href="<?php echo "?v={$_GET["v"]}&delId={$pages[$i]["id"]}" ?>" data-toggle="tooltip" data-original-title="<?php echo direction("Delete","حذف") ?>"><i class="btn btn-danger btn-circle fa fa-close" style="align-content: center;"></i>
+                <a href="<?php echo "?v={$_GET["v"]}&delId={$blocking[$i]["id"]}" ?>" data-toggle="tooltip" data-original-title="<?php echo direction("Delete","حذف") ?>"><i class="btn btn-danger btn-circle fa fa-close" style="align-content: center;"></i>
                 </a>
 			</td>
             <div style="display: none">
-                <label id="hidden<?php echo $pages[$i]["id"]?>"><?php echo $pages[$i]["hidden"] ?></label>
-                <label id="timeSlots<?php echo $pages[$i]["id"]?>"><?php echo $pages[$i]["timeSlots"] ?></label>
+                <label id="hidden<?php echo $blocking[$i]["id"]?>"><?php echo $blocking[$i]["hidden"] ?></label>
+                <label id="timeSlots<?php echo $blocking[$i]["id"]?>"><?php echo $blocking[$i]["timeSlots"] ?></label>
             </div>
 			</tr>
 			<?php
