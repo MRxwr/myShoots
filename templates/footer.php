@@ -92,8 +92,14 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
   <?php
   $id = ( isset($_GET['id']) && !empty($_GET['id']) ) ? intval($_GET['id']) : 0;
   $disabledDates = get_disabledDate();
+  $openDate = get_setting('openDate');
+  $closeDate = get_setting('closeDate');
+  // Only include dates between openDate and closeDate (inclusive)
+  $filteredDates = array_filter($disabledDates, function($d) use ($openDate, $closeDate) {
+    return ($d >= $openDate && $d <= $closeDate);
+  });
   // Convert to d-m-Y for the datepicker
-  $blocked_date = json_encode(array_map(function($d){ return date('d-m-Y', strtotime($d)); }, $disabledDates));
+  $blocked_date = json_encode(array_map(function($d){ return date('d-m-Y', strtotime($d)); }, $filteredDates));
   ?>
 <script>
 $(document).ready(function(){
