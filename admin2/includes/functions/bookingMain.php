@@ -341,14 +341,14 @@ function getFullyBookedDates(){
 	       foreach($times as $t){
 		       $timeConditions[] = " `booking_time` LIKE '%{$t["startDate"]} - {$t["endDate"]}%' ";
 	       }
-	       $whereTime = implode(" AND ", $timeConditions);
+	       $whereTime = implode(" OR ", $timeConditions);
 	       if( empty($whereTime) ){
 		       return array();
 	       }
 	}else{
 		return array();
 	}
-	if( $res = selectDBNew("tbl_booking",[$openDate,$closeDate],"`booking_date` BETWEEN CONCATR('%',?,'%') AND CONCAT('%',?,'%') AND {$whereTime} AND `package_id` = '{$id}' AND `status` = 'Yes'","") ){
+	if( $res = selectDBNew("tbl_booking",[$openDate,$closeDate],"`booking_date` BETWEEN CONCAT('%',?,'%') AND CONCAT('%',?,'%') AND ({$whereTime}) AND `package_id` = '{$id}' AND `status` = 'Yes'","") ){
 		$numberOfTimeSlots = count($times);
 		$bookedDates = array();
 		if( count($res) > 0 ){
