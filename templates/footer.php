@@ -115,9 +115,8 @@ $(document).ready(function(){
       daysOfWeekDisabled: <?= get_setting('weekend') ?>,
       datesDisabled: <?= $blocked_date ?>,
       autoclose: true,
-      startDate: new Date(<?= date('Y, n, j') ?>),
+      startDate: new Date( <?= (get_setting('openDate')!='')?str_replace('-',',',get_setting('openDate')):'' ?> ),
       endDate: new Date( <?= (get_setting('closeDate')!='')?str_replace('-',',',get_setting('closeDate')):'' ?> ),
-      defaultViewDate: { year: <?= date('Y') ?>, month: <?= date('n')-1 ?>, day: <?= date('j') ?> },
       icons: {
           time: "fa fa-clock-o",
           date: "fa fa-calendar",
@@ -125,9 +124,7 @@ $(document).ready(function(){
           down: "fa fa-arrow-down"
       },
     };
-  date_input.datepicker(options).on('changeDate', showTestDate);
-  // Force calendar to open on today's date
-  date_input.datepicker('setDate', new Date());
+    date_input.datepicker(options).on('changeDate', showTestDate);
 
     // When the date is changed, update the hidden input field
     function showTestDate(){

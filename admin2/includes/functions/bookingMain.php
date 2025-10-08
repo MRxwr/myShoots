@@ -7,7 +7,7 @@ function get_setting($set){
 				if( $set == 'closeDate' ){
 					return date("Y-m-d", strtotime("-1 month", $time));
 				}else{
-					return date("Y-m-d", strtotime("-1 month", $time));
+					return date("Y-m-d", strtotime("-1 month", strtotime(date("Y-m-d"))));
 				}
 			}elseif( $set == 'weekend' ){
 				return $data[$set];
