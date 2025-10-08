@@ -32,28 +32,23 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
 
 <style> 
 .legend-available {
-  color: #28a745 !important; /* green */
+  color: #add7eaff !important; /* green */
   font-weight: 600;
 }
 .legend-reserved {
-  color: #dc3545 !important; /* red */
+  color: #c4c4c4ff !important; /* red */
   font-weight: 600;
 }
 /* Reserved (disabled) dates */
 .datepicker table tr td.disabled, 
 .datepicker table tr td.disabled:hover {
-    color: #dc3545 !important;        /* red text */
-    opacity: 1 !important;
+    color: #c4c4c4ff !important;        /* red text */
+    opacity: 0.5 !important;
 }
 
 /* Available dates (not disabled, not today, not selected, not weekend) */
 .datepicker table tr td.day:not(.disabled):not(.active):not(.today):not(.range):not(.weekend) {
-    color: #28a745 !important;        /* green text */
-}
-
-/* Weekend dates (not disabled) */
-.datepicker table tr td.weekend:not(.disabled):not(.active):not(.today):not(.range) {
-    color: #ff9800 !important;        /* orange text */
+    color: #add7eaff !important;        /* green text */
 }
 </style>
 
