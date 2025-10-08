@@ -9,7 +9,7 @@ $joinData = array(
     "join" => ["tbl_packages"],
     "on" => ["t.package_id = t1.id"],
 );
-if ($result = selectJoinDB("tbl_booking", $joinData, "t.id = {$id} LIMIT 1")) {
+if ($result = selectJoinDB("tbl_booking", $joinData, "t.id = '{$id}' LIMIT 1")) {
     $row = $result[0];
     $extra_items = '';
     if (!empty($row['extra_items'])) {
