@@ -5,10 +5,12 @@ function get_setting($set){
 			if( $set == 'openDate' || $set == 'closeDate' ){
 				$time = strtotime(substr($data[$set], 0, 10));
 				if( $set == 'closeDate' ){
-					return $final = date("Y-m-d", strtotime("-1 month", $time));
+					return date("Y-m-d", strtotime("-1 month", $time));
 				}else{
-					return $final = date("Y-m-d", strtotime("-1 month", $time));
+					return date("Y-m-d", strtotime("-1 month", $time));
 				}
+			}elseif( $set == 'weekend' ){
+				return json_decode($data[$set],true);
 			}else{
 				return $data[$set];
 			}
