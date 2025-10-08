@@ -118,6 +118,7 @@ if( isset($_POST["startBlock"]) ){
 	<table class="table display responsive product-overview mb-30" id="myTable">
 		<thead>
 		<tr>
+		<th>#</th>
 		<th><?php echo direction("Start Date","تاريخ البدء") ?></th>
 		<th><?php echo direction("End Date","تاريخ الانتهاء") ?></th>
 		<th class="text-nowrap"><?php echo direction("Action","الإجراء") ?></th>
@@ -140,6 +141,7 @@ if( isset($_POST["startBlock"]) ){
 			}
 			?>
 			<tr>
+			<td><?php echo str_pad($counter, 2, '0', STR_PAD_LEFT) ?></td>
 			<td id="startBlock<?php echo $pages[$i]["id"]?>" ><?php echo $pages[$i]["startBlock"] ?></td>
 			<td id="endBlock<?php echo $pages[$i]["id"]?>" ><?php echo $pages[$i]["endBlock"] ?></td>
 			<td class="text-nowrap">
