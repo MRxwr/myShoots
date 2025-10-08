@@ -114,27 +114,16 @@ if( isset($_POST["startBlock"]) ){
 
 			<div class="col-md-12" style="margin-top:10px">
 			<label><?php echo direction("Time Slots","وقت المواعيد") ?></label>
-			<select name="timeSlots[]" class="form-control" multiple>
-			<?php
-			if( $times = selectDB("tbl_times","`hidden` = '1' AND `status` = '0' ORDER BY `id` ASC") ){
-				foreach($times as $i=>$time){
-					?>
-					<option value="<?php echo $time["id"] ?>"><?php echo $time["startTime"]." - ".$time["closeTime"] ?></option>
-					<?php
-				}
-			}
-			?>
+			<select name="timeSlots[]" class="form-control select2" multiple>
 			</select>
 			</div>
 
 			<div class="col-md-12" style="margin-top:10px">
-			<input type="submit" class="btn btn-primary" value="<?php echo direction("Submit","أرسل") ?>">
-			<input type="hidden" name="update" value="0">
+			<button type="submit" class="btn btn-primary"><?php echo direction("Submit","إرسال") ?></button>
 			</div>
+
 		</div>
 	</form>
-</div>
-</div>
 </div>
 </div>
 				
@@ -208,35 +197,40 @@ if( isset($_POST["startBlock"]) ){
 </div>
 </div>
 </div>
+<!-- Select2 JS/CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-$(document).on("click", ".edit", function(){
-	var id = $(this).attr("id");
-	$("input[name=update]").val(id);
+$(document).ready(function() {
+    if ($.fn.select2) {
+        $(".select2").select2({ width: '100%' });
+    }
+});
 
-	$("input[name=startBlock]").val($("#startBlock"+id).html()).focus();
-	$("input[name=endBlock]").val($("#endBlock"+id).html());
-	// Pre-select time slots in the multi-select
-	var slotsLabel = document.getElementById("timeSlots"+id);
-	var select = document.querySelector("select[name='timeSlots[]']");
-	if (slotsLabel && select) {
-		try {
-			var slots = JSON.parse(slotsLabel.textContent || slotsLabel.innerText);
-			for (var i = 0; i < select.options.length; i++) {
-				select.options[i].selected = slots.includes(select.options[i].value);
-			}
-		} catch(e) {}
-	}
-	// Pre-select packages in the multi-select
-	var packagesLabel = document.getElementById("packages"+id);
-	var select = document.querySelector("select[name='packages[]']");
-	if (packagesLabel && select) {
-		try {
-			var packages = JSON.parse(packagesLabel.textContent || packagesLabel.innerText);
-			for (var i = 0; i < select.options.length; i++) {
-				select.options[i].selected = packages.includes(select.options[i].value);
-			}
-		} catch(e) {}
-	}
-	$("select[name=hidden]").val($("#hidden"+id).html());
+$(document).on("click", ".edit", function(){
+    var id = $(this).attr("id");
+    $("input[name=update]").val(id);
+
+    $("input[name=startBlock]").val($("#startBlock"+id).html()).focus();
+    $("input[name=endBlock]").val($("#endBlock"+id).html());
+    // Pre-select time slots in the select2 multi-select
+    var slotsLabel = document.getElementById("timeSlots"+id);
+    var select = $("select[name='timeSlots[]']");
+    if (slotsLabel && select.length) {
+        try {
+            var slots = JSON.parse(slotsLabel.textContent || slotsLabel.innerText);
+            select.val(slots).trigger('change');
+        } catch(e) {}
+    }
+    // Pre-select packages in the select2 multi-select (if exists)
+    var packagesLabel = document.getElementById("packages"+id);
+    var selectPackages = $("select[name='packages[]']");
+    if (packagesLabel && selectPackages.length) {
+        try {
+            var packages = JSON.parse(packagesLabel.textContent || packagesLabel.innerText);
+            selectPackages.val(packages).trigger('change');
+        } catch(e) {}
+    }
+    $("select[name=hidden]").val($("#hidden"+id).html());
 });
 </script>
