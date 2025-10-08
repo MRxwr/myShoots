@@ -285,8 +285,8 @@ function get_disabledDate(){
 	$blockedDates = array();
 	if ($res && count($res) > 0) {
 		foreach ($res as $row) {
-			$start = isset($row['startBlock']) ? $row['startBlock'] : null;
-			$end = isset($row['endBlock']) ? $row['endBlock'] : null;
+			$start = isset($row['startBlock']) ? substr($row['startBlock'], 0, 10) : null;
+			$end = isset($row['endBlock']) ? substr($row['endBlock'], 0, 10) : null;
 			if ($start && $end) {
 				// Normalize to Y-m-d
 				$startDate = date('Y-m-d', strtotime($start));
