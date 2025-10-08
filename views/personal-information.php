@@ -32,9 +32,9 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
 }
   // Date formate			
   if( isset($_GET['date']) && !empty($_GET['date']) ) {
-    $settings = selectDB("tbl_settings","`id`='1'");
-    $openDate = $settings[0]["open_date"];
-    $closeDate = $settings[0]["close_date"];
+    $settings = selectDB("tbl_calendar_settings","`id`='1'");
+    $openDate = substr($settings[0]["openDate"], 0, 10);
+    $closeDate = substr($settings[0]["closeDate"], 0, 10);
     $userDate = $_REQUEST["date"];
     $selectedDate = date('Y-m-d', strtotime(str_replace('/', '-', $userDate)));
     if( ($selectedDate >= $openDate) && ($selectedDate <= $closeDate) ){
