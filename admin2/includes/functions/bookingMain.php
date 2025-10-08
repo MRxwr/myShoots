@@ -348,7 +348,6 @@ function get_disabledDate(){
 		} 
 	}
 	return $blockedDates;
-	return array();
 }
 
 
