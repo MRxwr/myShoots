@@ -11,8 +11,7 @@ $joinData = array(
     "on" => ["t.package_id = t1.id"],
 );
 
-var_dump(selectJoinDB("tbl_booking", $joinData, "t.id = '{$id}'"));
-if ($result = selectJoinDB("tbl_booking", $joinData, "t.id = '{$id}'")) {
+if ( $result = selectJoinDB("tbl_booking", $joinData, "t.id = '{$id}'") ) {
     $row = $result[0];
     $extra_items = '';
     if (!empty($row['extra_items'])) {
