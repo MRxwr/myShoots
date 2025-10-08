@@ -99,7 +99,7 @@ if( isset($_POST["startBlock"]) ){
 
 			<div class="col-md-12" style="margin-top:10px">
 			<label><?php echo direction("Packages","الباقات") ?></label>
-			<select name="packages[]" class="form-control" multiple>
+			<select name="packages[]" class="form-control select2Packages" multiple>
 			<?php
 			if( $packages = selectDB("tbl_packages","`hidden` = '1' AND `status` = '0' ORDER BY `id` ASC") ){
 				foreach($packages as $i=>$package){
@@ -114,16 +114,28 @@ if( isset($_POST["startBlock"]) ){
 
 			<div class="col-md-12" style="margin-top:10px">
 			<label><?php echo direction("Time Slots","وقت المواعيد") ?></label>
-			<select name="timeSlots[]" class="form-control select2" multiple>
+			<select name="timeSlots[]" class="form-control select2TimeSlots" multiple>
+			<?php
+			if( $times = selectDB("tbl_times","`hidden` = '1' AND `status` = '0' ORDER BY `id` ASC") ){
+				foreach($times as $i=>$time){
+					?>
+					<option value="<?php echo $time["id"] ?>"><?php echo $time["startTime"]." - ".$time["closeTime"] ?></option>
+					<?php
+				}
+			}
+			?>
 			</select>
 			</div>
 
 			<div class="col-md-12" style="margin-top:10px">
-			<button type="submit" class="btn btn-primary"><?php echo direction("Submit","إرسال") ?></button>
+			<input type="submit" class="btn btn-primary" value="<?php echo direction("Submit","أرسل") ?>">
+			<input type="hidden" name="update" value="0">
 			</div>
 
 		</div>
 	</form>
+</div>
+</div>
 </div>
 </div>
 				
@@ -203,7 +215,8 @@ if( isset($_POST["startBlock"]) ){
 <script>
 $(document).ready(function() {
     if ($.fn.select2) {
-        $(".select2").select2({ width: '100%' });
+        $(".select2TimeSlots").select2({ width: '100%' });
+        $(".select2Packages").select2({ width: '100%' });
     }
 });
 
