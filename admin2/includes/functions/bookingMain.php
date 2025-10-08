@@ -273,11 +273,36 @@ function FullBookedDates(){
 
 // get disabled date
 function get_disabledDate(){
-	if( $res = selectDB("tbl_disabled_date","`id` != ''") ){
-		if( count($res) > 0 ){
-			return $res;
+	$openDate = get_setting('openDate');
+	$closeDate = get_setting('closeDate');
+	// Fetch all disabled date periods that overlap with the open/close window
+	$res = selectDBNew(
+		"tbl_disabled_date",
+		[$openDate, $closeDate],
+		"(STR_TO_DATE(startBlock, '%Y-%m-%d') <= ? AND STR_TO_DATE(endBlock, '%Y-%m-%d') >= ?) OR (STR_TO_DATE(startBlock, '%Y-%m-%d') BETWEEN ? AND ?) OR (STR_TO_DATE(endBlock, '%Y-%m-%d') BETWEEN ? AND ?)",
+		" ORDER BY STR_TO_DATE(startBlock, '%Y-%m-%d') ASC"
+	);
+	$blockedDates = array();
+	if ($res && count($res) > 0) {
+		foreach ($res as $row) {
+			$start = isset($row['startBlock']) ? $row['startBlock'] : null;
+			$end = isset($row['endBlock']) ? $row['endBlock'] : null;
+			if ($start && $end) {
+				// Normalize to Y-m-d
+				$startDate = date('Y-m-d', strtotime($start));
+				$endDate = date('Y-m-d', strtotime($end));
+				$dates = getDatesFromRange($startDate, $endDate, 'Y-m-d');
+				$blockedDates = array_merge($blockedDates, $dates);
+			} elseif ($start) {
+				$blockedDates[] = date('Y-m-d', strtotime($start));
+			}
 		}
+		// Remove duplicates
+		$blockedDates = array_unique($blockedDates);
+		sort($blockedDates);
+		return $blockedDates;
 	}
+	return array();
 }
 
 
@@ -296,7 +321,6 @@ if($res == true)
 	if($count_rows>0){
 	//return $res -> fetch_row();
 	return mysqli_fetch_array($res);
-			
 	}
 	
 }
@@ -508,26 +532,20 @@ if($res == true)
 
 // Function to get all the dates in given range 
 function getDatesFromRange($start, $end, $format = 'd-m-Y') { 
-	
-// Declare an empty array 
-$array = array(); 
-
-// Variable that store the date interval 
-// of period 1 day 
-$interval = new DateInterval('P1D'); 
-
-$realEnd = new DateTime($end); 
-$realEnd->add($interval); 
-
-$period = new DatePeriod(new DateTime($start), $interval, $realEnd); 
-
-// Use loop to store date into array 
-foreach($period as $date) {                  
-	$array[] = $date->format($format);  
-} 
-
-// Return the array elements 
-return $array; 
+	// Declare an empty array 
+	$array = array(); 
+	// Variable that store the date interval 
+	// of period 1 day 
+	$interval = new DateInterval('P1D'); 
+	$realEnd = new DateTime($end); 
+	$realEnd->add($interval); 
+	$period = new DatePeriod(new DateTime($start), $interval, $realEnd); 
+	// Use loop to store date into array 
+	foreach($period as $date) {                  
+		$array[] = $date->format($format);  
+	} 
+	// Return the array elements 
+	return $array; 
 } 
 // get  all themes image by package id
 function get_ads(){

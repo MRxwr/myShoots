@@ -92,17 +92,8 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
   <?php
   $id = ( isset($_GET['id']) && !empty($_GET['id']) ) ? intval($_GET['id']) : 0;
   $disabledDates = get_disabledDate();
-  foreach( $disabledDates as $key => $disabledDate ){
-    $disabledDateArr[] = date("d-m-Y", strtotime($disabledDate['disabled_date']));
-  }
-  // Function call with passing the start date and end date 
-  $daterange = getDatesFromRange('2021-06-01', '2021-12-31');
-  $allthursdays = getDatesFromRange('2021-01-01', '2021-04-1');
-  $blocked_dates_array = array_merge($disabledDateArr,$daterange);
-  $blocked_dates_array1 = array_merge($disabledDateArr,$allthursdays);
-  $apidatep = array('7-4-2022','13-4-2022','17-4-2022','18-4-2022','19-4-2022','20-4-2022','21-4-2022','24-4-2022','25-4-2022','26-4-2022','27-4-2022','28-4-2022');
-  $blocked_dates_array2 = array_merge($blocked_dates_array1,$apidatep);
-  $blocked_date = stripslashes(json_encode($blocked_dates_array2));
+  // Convert to d-m-Y for the datepicker
+  $blocked_date = json_encode(array_map(function($d){ return date('d-m-Y', strtotime($d)); }, $disabledDates));
   ?>
 <script>
 $(document).ready(function(){
@@ -283,11 +274,6 @@ $(document).ready(function(){
 function truncateDate(date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 }
-
-
-
-  
-
 
 // contact form
 function submitForm(){
