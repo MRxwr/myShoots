@@ -20,17 +20,28 @@ function bookingWhatsappUltraMsg($order){
                 $phone = '965' . $phone;
             }
             $message = urlencode("Your booking has been confirmed with {$settingsTitle}, Date: {$booking["booking_date"]}, Time: {$booking["booking_time"]}, Booking#: {$booking["transaction_id"]}.  \n\nThis is an automated message, Courtesy of createkuwait.com.");
+            $params = array(
+                "token" => $whatsappNoti1["ultraToken"],
+                "to" => $phone,
+                "caption" => $message,
+                "image" => "{$settingsWebsite}/logos/{$settingsLogo}",
+            );
 			$curl = curl_init();
-			curl_setopt_array($curl, array(
-				CURLOPT_URL => "https://api.ultramsg.com/{$whatsappNoti1["instance"]}/messages/image?token={$whatsappNoti1["ultraToken"]}&to=+{$phone}&caption={$message}&image={$settingsWebsite}/logos/{$settingsLogo}",
-				CURLOPT_RETURNTRANSFER => true,
-				CURLOPT_ENCODING => '',
-				CURLOPT_MAXREDIRS => 10,
-				CURLOPT_TIMEOUT => 0,
-				CURLOPT_FOLLOWLOCATION => true,
-				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-				CURLOPT_CUSTOMREQUEST => 'POST',
-			));
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://api.ultramsg.com/{$whatsappNoti1["instance"]}/messages/image",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_SSL_VERIFYHOST => 0,
+                CURLOPT_SSL_VERIFYPEER => 0,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => http_build_query($params),
+                CURLOPT_HTTPHEADER => array(
+                    "content-type: application/x-www-form-urlencoded"
+            ),
+            ));
             $response = json_decode(curl_exec($curl), true);
 			curl_close($curl);
             if( $response["sent"] == "true" ){
