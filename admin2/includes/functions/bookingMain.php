@@ -228,6 +228,31 @@ function get_bookingTimeBydate($id,$date){
 	}
 }
 
+// get all blocked time slots
+function getBlockedTimeSlots($date){
+	GLOBAL $_GET;
+	if ( $res = selectDB("tbl_disabled_date"," STR_TO_DATE(startBlock, '%Y-%m-%d') <= '{$date}' AND STR_TO_DATE(endBlock, '%Y-%m-%d') >= '{$date}' AND `packages` LIKE '%{$_GET['id']}%' AND status = '0' AND hidden = '1' ") ){
+		if( count($res) > 0 ){
+			$blockedSlots = array();
+			foreach($res as $row) {
+				$timeSlots = json_decode($row['timeSlots'],true);
+				if( is_array($timeSlots) && count($timeSlots) > 0 ){
+					foreach( $timeSlots as $t ){
+						if( !in_array($t, $blockedSlots) ){
+							if( $time = selectDB("tbl_times","`id` = '{$t}' AND `hidden` = '1' AND `status` = '0'") ){
+								$blockedSlots[] = "{$time[0]['startTime']} - {$time[0]['closeTime']}";
+							}
+						}
+					}
+				}
+			}
+			return $blockedSlots;
+		}
+	}else{
+		return array();
+	}
+}
+
 function FullBookedDates(){
 	GLOBAL $obj,$conn;
 	$tbl_name = 'tbl_booking';
