@@ -283,6 +283,7 @@ function get_disabledDate(){
 		" ORDER BY STR_TO_DATE(startBlock, '%Y-%m-%d') ASC"
 	);
 	$blockedDates = array();
+	return $res;
 	if ($res && count($res) > 0) {
 		foreach ($res as $row) {
 			$start = isset($row['startBlock']) ? substr($row['startBlock'], 0, 10) : null;
