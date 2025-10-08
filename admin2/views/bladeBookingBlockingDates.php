@@ -151,11 +151,11 @@ if( isset($_POST["startBlock"]) ){
                 </a>
                 <a href="<?php echo "?v={$_GET["v"]}&delId={$blocking[$i]["id"]}" ?>" data-toggle="tooltip" data-original-title="<?php echo direction("Delete","حذف") ?>"><i class="btn btn-danger btn-circle fa fa-close" style="align-content: center;"></i>
                 </a>
+				<div style="display: none">
+                	<label id="hidden<?php echo $blocking[$i]["id"]?>"><?php echo $blocking[$i]["hidden"] ?></label>
+                	<label id="timeSlots<?php echo $blocking[$i]["id"]?>"><?php echo $blocking[$i]["timeSlots"] ?></label>
+            	</div>
 			</td>
-            <div style="display: none">
-                <label id="hidden<?php echo $blocking[$i]["id"]?>"><?php echo $blocking[$i]["hidden"] ?></label>
-                <label id="timeSlots<?php echo $blocking[$i]["id"]?>"><?php echo $blocking[$i]["timeSlots"] ?></label>
-            </div>
 			</tr>
 			<?php
 			}
