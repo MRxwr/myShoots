@@ -1,42 +1,15 @@
 <?php
-// Add detailed logging for debugging
 $id = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
-
-// Log the request
-$logData = array(
-    "type" => "API Request",
-    "endpoint" => "BookingDetails",
-    "requestData" => json_encode($_REQUEST),
-    "timestamp" => date("Y-m-d H:i:s")
-);
-insertLogDB("api_logs", $logData);
-
 if ($id <= 0) {
-    echo json_encode(['success' => false, 'error' => 'Invalid booking ID', 'request' => $id]);
+    echo json_encode(['success' => false, 'error' => 'Invalid booking ID']);
     exit();
 }
-
 $joinData = array(
     "select" => ["t.*", ["t1." . direction("en","ar") . "Title as package_name"]],
     "join" => ["tbl_packages"],
     "on" => ["t.package_id = t1.id"],
 );
-
-// Add extra debugging query to check if the booking exists
-$checkBooking = selectDB("tbl_booking", "WHERE id = {$id} LIMIT 1");
-if (!$checkBooking) {
-    // Log that the booking wasn't found
-    $logData = array(
-        "type" => "API Error",
-        "endpoint" => "BookingDetails",
-        "error" => "Booking not found in database",
-        "bookingId" => $id,
-        "timestamp" => date("Y-m-d H:i:s")
-    );
-    insertLogDB("api_logs", $logData);
-}
-
-if ($result = selectJoinDB("tbl_booking", $joinData, "WHERE t.id = {$id} LIMIT 1")) {
+if ($result = selectJoinDB("tbl_booking", $joinData, "t.id = {$id} LIMIT 1")) {
     $row = $result[0];
     $extra_items = '';
     if (!empty($row['extra_items'])) {
@@ -90,26 +63,6 @@ if ($result = selectJoinDB("tbl_booking", $joinData, "WHERE t.id = {$id} LIMIT 1
     }
     echo json_encode(['success' => true, 'data' => $data]);
 } else {
-    // Return a more detailed error message
-    echo json_encode([
-        'success' => false, 
-        'error' => 'Booking not found',
-        'booking_id' => $id,
-        'debug_info' => [
-            'table' => 'tbl_booking',
-            'check_result' => $checkBooking ? 'Found in direct query' : 'Not found in direct query',
-            'join_query_failed' => true
-        ]
-    ]);
-    
-    // Log the error
-    $logData = array(
-        "type" => "API Error",
-        "endpoint" => "BookingDetails",
-        "error" => "Join query returned no results",
-        "bookingId" => $id,
-        "timestamp" => date("Y-m-d H:i:s")
-    );
-    insertLogDB("api_logs", $logData);
+    echo json_encode(['success' => false, 'error' => 'Booking not found']);
 }
 ?>
