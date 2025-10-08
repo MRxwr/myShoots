@@ -28,13 +28,13 @@ if( $res = selectDB("tbl_booking","`status` = 'Yes'") ){
             $booking_price = $row['booking_price'];
             $is_active = $row['status'];
             $tm = explode(' - ',$booking_time);
-            $std = $row['booking_date'].' '.$tm[0];
+            $std = $booking_date.' '.$tm[0];
             $startdate = date("Y-m-d H:i:s", strtotime($std));
-            $etd = $row['booking_date'].' '.$tm[1];
+            $etd = $booking_date.' '.$tm[1];
             $enddate = date("Y-m-d H:i:s", strtotime($etd));
             $e = array();
             $e['id'] = $id;
-            $e['title'] = $booking_time .' <br> ('.$row['mobile_number'].')'.$row['customer_name'];
+            $e['title'] = $booking_time .' <br> ('.$mobile_number.')'.$customer_name;
             $e['start'] = $startdate;
             $e['end']   = $enddate;
             $e['color'] = '#e7888c';
