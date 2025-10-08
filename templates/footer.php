@@ -91,7 +91,6 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
 
   <?php
   $id = ( isset($_GET['id']) && !empty($_GET['id']) ) ? intval($_GET['id']) : 0;
-  var_dump(get_disabledDate());
   $disabledDates = get_disabledDate();
   $openDate = date('Y-m-d'); // Use today's date as lower bound
   $closeDate = get_setting('closeDate');
