@@ -273,8 +273,8 @@ function FullBookedDates(){
 
 // get disabled date
 function get_disabledDate(){
-	$openDate = get_setting('openDate');
-	$closeDate = get_setting('closeDate');
+	echo $openDate = get_setting('openDate');
+	echo $closeDate = get_setting('closeDate');
 	// Fetch all disabled date periods that overlap with the open/close window
 	$res = selectDBNew(
 		"tbl_disabled_date",
