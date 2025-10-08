@@ -10,7 +10,7 @@ function get_setting($set){
 					return date("Y-m-d", strtotime("-1 month", $time));
 				}
 			}elseif( $set == 'weekend' ){
-				return json_decode($data[$set],true);
+				return $data[$set];
 			}else{
 				return $data[$set];
 			}
