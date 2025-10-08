@@ -125,7 +125,9 @@ $(document).ready(function(){
           down: "fa fa-arrow-down"
       },
     };
-    date_input.datepicker(options).on('changeDate', showTestDate);
+  date_input.datepicker(options).on('changeDate', showTestDate);
+  // Force calendar to open on today's date
+  date_input.datepicker('setDate', new Date());
 
     // When the date is changed, update the hidden input field
     function showTestDate(){
