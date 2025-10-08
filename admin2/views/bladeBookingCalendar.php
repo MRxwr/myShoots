@@ -14,14 +14,24 @@
 
 
  <?php 
-if( $res = selectDB("tbl_booking","`status` = 'Yes'") ){
+ // get curent month 
+ $month = date('m');
+if( $res = selectDB("tbl_booking","`status` = 'Yes' AND MONTH(booking_date) = '{$month}'") ){
     $events = array();
     if( count($res) > 0){
         foreach( $res as $row ) {
+            $personalInfoArray = array();
             $id = $row['id'];
             $transaction_id = $row['transaction_id'];
-            $customer_name = $row['customer_name'];
-            $mobile_number = $row['mobile_number'];
+            $personalInfo = json_decode($row['personalInfo'],true);
+            $keys = array_keys($personalInfo);
+            foreach( $personalInfo as $key => $p ){
+                if( $personalInfoDB = selectDB("tbl_personal_info","`id` = '{$key}'")[0] ){
+                    $title = direction("enTitle","arTitle");
+                    $personalInfoArray[] = "{$personalInfoDB[$title]}: {$p}";
+                }
+            }
+            $personalInfoArray = implode("<br>",$personalInfoArray);
             $booking_date = substr($row['booking_date'],0,10);
             $booking_time = $row['booking_time'];
             $extra_items = $row['extra_items'];
@@ -34,7 +44,7 @@ if( $res = selectDB("tbl_booking","`status` = 'Yes'") ){
             $enddate = date("Y-m-d H:i:s", strtotime($etd));
             $e = array();
             $e['id'] = $id;
-            $e['title'] = $booking_time .' <br> ('.$mobile_number.')'.$customer_name;
+            $e['title'] = "{$booking_time} {$personalInfoArray}";
             $e['start'] = $startdate;
             $e['end']   = $enddate;
             $e['color'] = '#e7888c';
@@ -43,6 +53,5 @@ if( $res = selectDB("tbl_booking","`status` = 'Yes'") ){
             array_push($events, $e);
         }
     }
-    var_dump($events);
 }
 ?>
