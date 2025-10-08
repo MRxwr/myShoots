@@ -348,7 +348,7 @@ function getFullyBookedDates(){
 	}else{
 		return array();
 	}
-	if( $res = selectDBNew("tbl_booking",[$openDate,$closeDate],"`booking_date` BETWEEN CONCAT('%',?,'%') AND CONCAT('%',?,'%') AND ({$whereTime}) AND `package_id` = '{$id}' AND `status` = 'Yes'","") ){
+	if( $res = selectDB("tbl_booking","`booking_date` BETWEEN '{$openDate}' AND '{$closeDate}' AND ({$whereTime}) AND `package_id` = '{$id}' AND `status` = 'Yes'") ){
 		$numberOfTimeSlots = count($times);
 		$bookedDates = array();
 		if( count($res) > 0 ){
