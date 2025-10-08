@@ -1,9 +1,9 @@
 <?php
 
 if( isset($_REQUEST["date"]) && !empty($_REQUEST["date"]) && isset($_REQUEST["package_id"]) && !empty($_REQUEST["package_id"]) ){
-    $settings = selectDB("tbl_settings","`id`='1'");
-    $openDate = $settings[0]["open_date"];
-    $closeDate = $settings[0]["close_date"];
+    $settings = selectDB("tbl_calendar_settings","`id`='1'");
+    $openDate = substr($settings[0]["openDate"], 0, 10);
+    $closeDate = substr($settings[0]["closeDate"], 0, 10);
     $userDate = $_REQUEST["date"];
     $packageId = intval($_REQUEST["package_id"]);
     $selectedDate = date('Y-m-d', strtotime(str_replace('/', '-', $userDate)));
