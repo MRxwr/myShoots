@@ -141,7 +141,7 @@ if( isset($_POST["startBlock"]) ){
 			}
 			?>
 			<tr>
-			<td><?php echo str_pad($counter, 2, '0', STR_PAD_LEFT) ?></td>
+			<td><?php echo str_pad($counter, 4, '0', STR_PAD_LEFT) ?></td>
 			<td id="startBlock<?php echo $blocking[$i]["id"]?>" ><?php echo substr($blocking[$i]["startBlock"],0,10) ?></td>
 			<td id="endBlock<?php echo $blocking[$i]["id"]?>" ><?php echo substr($blocking[$i]["endBlock"],0,10) ?></td>
 			<td class="text-nowrap">
