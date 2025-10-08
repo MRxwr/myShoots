@@ -172,15 +172,23 @@ if( isset($_POST["startBlock"]) ){
 </div>
 </div>
 <script>
-$(document).on("click",".edit", function(){
-		var id = $(this).attr("id");
-		$("input[name=update]").val(id);
+$(document).on("click", ".edit", function(){
+	var id = $(this).attr("id");
+	$("input[name=update]").val(id);
 
-		$("input[name=startBlock]").val($("#startBlock"+id).html()).focus();
-		$("input[name=endBlock]").val($("#endBlock"+id).html());
-		//time slots is a json array
-		var timeSlots = JSON.parse($("#timeSlots"+id).html());
-		$("input[name=timeSlots]").val(JSON.stringify(timeSlots));
-        $("select[name=hidden]").val($("#hidden"+id).html());
-})
+	$("input[name=startBlock]").val($("#startBlock"+id).html()).focus();
+	$("input[name=endBlock]").val($("#endBlock"+id).html());
+	// Pre-select time slots in the multi-select
+	var slotsLabel = document.getElementById("timeSlots"+id);
+	var select = document.querySelector("select[name='timeSlots[]']");
+	if (slotsLabel && select) {
+		try {
+			var slots = JSON.parse(slotsLabel.textContent || slotsLabel.innerText);
+			for (var i = 0; i < select.options.length; i++) {
+				select.options[i].selected = slots.includes(select.options[i].value);
+			}
+		} catch(e) {}
+	}
+	$("select[name=hidden]").val($("#hidden"+id).html());
+});
 </script>
