@@ -80,6 +80,8 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
   <script src="assets/vendor/jquery/jquery.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/js/lightbox-plus-jquery.min.js"></script>
+  <!-- Bootstrap Date-Picker Plugin -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
   <!-- Data table JavaScript -->
   <script src="assets/vendor/js/jquery.payform.min.js"></script>
   <script src="assets/vendor/js/script.js"></script>
@@ -87,8 +89,47 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
 	<script src="admin/assets/vendors/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
 	<script src="admin/assets/style/dist/js/dataTables-data.js"></script>
 
-  <script>
+  <?php
+  $id = ( isset($_GET['id']) && !empty($_GET['id']) ) ? intval($_GET['id']) : 0;
+  $disabledDates = get_disabledDate();
+  $openDate = date('Y-m-d'); // Use today's date as lower bound
+  $closeDate = get_setting('closeDate');
+  // Only include dates between today and closeDate (inclusive)
+  $filteredDates = array_filter($disabledDates, function($d) use ($openDate, $closeDate) {
+    return ($d >= $openDate && $d <= $closeDate);
+  });
+  // Convert to d-m-Y for the datepicker
+  $blocked_date = json_encode(array_map(function($d){ return date('d-m-Y', strtotime($d)); }, $filteredDates));
+  ?>
+<script>
 $(document).ready(function(){
+    var date_input= $('#bookingdate');
+    var container= $('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+    var options= {
+      format: "dd-mm-yyyy",
+      inline: true,
+      sideBySide: true,
+      container: container,
+      todayHighlight: true,
+      daysOfWeekDisabled: <?= get_setting('weekend') ?>,
+      datesDisabled: <?= $blocked_date ?>,
+      autoclose: true,
+      startDate: new Date( <?= (get_setting('openDate')!='')?str_replace('-',',',get_setting('openDate')):'' ?> ),
+      endDate: new Date( <?= (get_setting('closeDate')!='')?str_replace('-',',',get_setting('closeDate')):'' ?> ),
+      icons: {
+          time: "fa fa-clock-o",
+          date: "fa fa-calendar",
+          up: "fa fa-arrow-up",
+          down: "fa fa-arrow-down"
+      },
+    };
+    date_input.datepicker(options).on('changeDate', showTestDate);
+
+    // When the date is changed, update the hidden input field
+    function showTestDate(){
+      var value = $('#bookingdate').datepicker('getFormattedDate');
+      $("#date").val(value);
+    }
     
     // Prevent the right-click menu from appearing
     $("body").on("contextmenu", function (e) {
