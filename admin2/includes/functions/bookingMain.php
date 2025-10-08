@@ -322,12 +322,12 @@ function get_disabledDate(){
 		sort($blockedDates);
 	}
 	var_dump($blockedDates);
-	if( $res = selectDB("tbl_booking","`booking_date` BETWEEN '{$openDate}' AND '{$closeDate}' AND ({$whereTime}) AND `package_id` = '{$id}' AND `status` = 'Yes'") ){
-		var_dump($res);
+	if( $result = selectDB("tbl_booking","`booking_date` BETWEEN '{$openDate}' AND '{$closeDate}' AND ({$whereTime}) AND `package_id` = '{$id}' AND `status` = 'Yes'") ){
+		var_dump($result);
 		$numberOfTimeSlots = count($times);
 		$bookedDates = array();
-		if( count($res) > 0 ){
-			foreach($res as $r){
+		if( count($result) > 0 ){
+			foreach($result as $r){
 				if( isset($bookedDates[$r['booking_date']]) ){
 					$bookedDates[$r['booking_date']] += 1;
 				}else{
