@@ -84,3 +84,46 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
     </div>
   </div>
 </section>
+
+ <?php
+  $disabledDates = get_disabledDate($_GET["id"]);
+  $openDate = date('Y-m-d'); // Use today's date as lower bound
+  $closeDate = get_setting('closeDate');
+  // Only include dates between today and closeDate (inclusive)
+  $filteredDates = array_filter($disabledDates, function($d) use ($openDate, $closeDate) {
+    return ($d >= $openDate && $d <= $closeDate);
+  });
+  // Convert to d-m-Y for the datepicker
+  $blocked_date = json_encode(array_map(function($d){ return date('d-m-Y', strtotime($d)); }, $filteredDates));
+  ?>
+<script>
+$(document).ready(function(){
+    var date_input= $('#bookingdate');
+    var container= $('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+    var options= {
+      format: "dd-mm-yyyy",
+      inline: true,
+      sideBySide: true,
+      container: container,
+      todayHighlight: true,
+      daysOfWeekDisabled: <?= get_setting('weekend') ?>,
+      datesDisabled: <?= $blocked_date ?>,
+      autoclose: true,
+      startDate: new Date( <?= (get_setting('openDate')!='')?str_replace('-',',',get_setting('openDate')):'' ?> ),
+      endDate: new Date( <?= (get_setting('closeDate')!='')?str_replace('-',',',get_setting('closeDate')):'' ?> ),
+      icons: {
+          time: "fa fa-clock-o",
+          date: "fa fa-calendar",
+          up: "fa fa-arrow-up",
+          down: "fa fa-arrow-down"
+      },
+    };
+    date_input.datepicker(options).on('changeDate', showTestDate);
+
+    // When the date is changed, update the hidden input field
+    function showTestDate(){
+      var value = $('#bookingdate').datepicker('getFormattedDate');
+      $("#date").val(value);
+    }
+  });
+</script>
