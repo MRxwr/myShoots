@@ -247,6 +247,8 @@ function getBlockedTimeSlots($date){
 				}
 			}
 			return $blockedSlots;
+		}else{
+			return array();
 		}
 	}else{
 		return array();
