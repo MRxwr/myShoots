@@ -15,7 +15,7 @@
 
  <?php 
 $sn = 1;
-if($res = selectDB("tbl_booking","`status` = 'Yes'") ){
+if( $res = selectDB("tbl_booking","`status` = 'Yes'") ){
     if( count($res) > 0){
         foreach($res as $row) {
             $id = $row['id'];
@@ -43,5 +43,6 @@ if($res = selectDB("tbl_booking","`status` = 'Yes'") ){
             array_push($events, $e);
         }
     }
+    var_dump($events);
 }
 ?>
