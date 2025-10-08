@@ -44,11 +44,6 @@ if( isset($_POST["open_date"]) ){
 			</div>
 			
 			<div class="col-md-6">
-			<label><?php echo direction("Number of days after today to block","أغلق عدد أيام بعد اليوم") ?></label>
-			<input type="number" step="1" min="0" max="6" name="closeAfter" class="form-control" <?php if( $settings["closeAfter"] ): ?>value="<?php echo $settings["closeAfter"] ?>"<?php endif; ?>>
-			</div>
-
-			<div class="col-md-6">
 			<label><?php echo direction("Maintenance Mode","وضع الصيانة") ?></label>
 			<select name="is_maintenance" class="form-control">
 				<option value="0" <?php if( $settings["is_maintenance"] == 0 ): ?>selected<?php endif; ?>><?php echo direction("No","لا") ?></option>
