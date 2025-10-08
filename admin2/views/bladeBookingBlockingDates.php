@@ -131,7 +131,6 @@ if( isset($_POST["startBlock"]) ){
 			<input type="submit" class="btn btn-primary" value="<?php echo direction("Submit","أرسل") ?>">
 			<input type="hidden" name="update" value="0">
 			</div>
-
 		</div>
 	</form>
 </div>
@@ -226,6 +225,7 @@ $(document).on("click", ".edit", function(){
 
     $("input[name=startBlock]").val($("#startBlock"+id).html()).focus();
     $("input[name=endBlock]").val($("#endBlock"+id).html());
+	$("select[name=hidden]").val($("#hidden"+id).html());
     // Pre-select time slots in the select2 multi-select
     var slotsLabel = document.getElementById("timeSlots"+id);
     var select = $("select[name='timeSlots[]']");
@@ -244,6 +244,6 @@ $(document).on("click", ".edit", function(){
             selectPackages.val(packages).trigger('change');
         } catch(e) {}
     }
-    $("select[name=hidden]").val($("#hidden"+id).html());
+    
 });
 </script>
