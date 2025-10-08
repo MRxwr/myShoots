@@ -91,6 +91,52 @@
     </div>
 </div>
 
+<!-- Reschedule Modal -->
+<div class="modal fade" id="rescheduleModal" tabindex="-1" role="dialog" aria-labelledby="rescheduleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="rescheduleModalLabel"><?php echo direction("Reschedule Booking", "إعادة جدولة الحجز") ?></h4>
+            </div>
+            <div class="modal-body">
+                <form id="reschedule-form">
+                    <input type="hidden" id="reschedule-booking-id" name="booking_id">
+                    <input type="hidden" id="package-id" name="package_id">
+                    
+                    <div class="form-group">
+                        <label for="current-booking-date"><?php echo direction("Current Date", "التاريخ الحالي") ?></label>
+                        <input type="text" class="form-control" id="current-booking-date" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="current-booking-time"><?php echo direction("Current Time", "الوقت الحالي") ?></label>
+                        <input type="text" class="form-control" id="current-booking-time" readonly>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="form-group">
+                        <label for="reschedule-date"><?php echo direction("New Date", "التاريخ الجديد") ?></label>
+                        <input type="text" class="form-control" id="reschedule-date" name="new_date" placeholder="Select a date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reschedule-time"><?php echo direction("New Time", "الوقت الجديد") ?></label>
+                        <select class="form-control" id="reschedule-time" name="new_time" required>
+                            <option value="" selected disabled><?php echo direction("Select date first", "اختر التاريخ أولا") ?></option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo direction("Cancel", "إلغاء") ?></button>
+                <button type="button" class="btn btn-primary" id="reschedule-submit"><?php echo direction("Reschedule", "إعادة جدولة") ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 $(document).ready(function() {
     // Show loading spinner and dim the table
@@ -168,6 +214,7 @@ $(document).ready(function() {
                     <button class='btn btn-primary btn-xs dropdown-toggle' type='button' data-toggle='dropdown'>Actions <span class='caret'></span></button>
                     <ul class='dropdown-menu' style='min-width:120px; padding:0;'>
                         <li><a href='#' class='show-status-options' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>Change Status</a></li>
+                        <li><a href='#' class='reschedule-booking' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>Reschedule</a></li>
                         <li><a href='#' class='send-sms' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>Send SMS</a></li>
                         <li><a href='#' class='send-whatsapp' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>Send WhatsApp</a></li>
                         <li><a href='#' class='show-details' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>More details</a></li>
@@ -340,6 +387,147 @@ $(document).ready(function() {
                 hideLoading();
                 $('#detailsModal').modal('show');
                 $('#detailsModal .modal-body').html('<div class="text-danger" style="text-align:center;padding:40px 0;">Error loading booking details.</div>');
+            }
+        });
+    });
+    
+    // Reschedule booking handler
+    $('#datable_1 tbody').on('click', '.reschedule-booking', function(e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        showLoading();
+        
+        // First, get booking details to populate the form
+        $.ajax({
+            url: '../requests/index.php?f=booking&endpoint=BookingDetails',
+            type: 'POST',
+            data: {id: id},
+            dataType: 'json',
+            success: function(res) {
+                hideLoading();
+                if (res.success && res.data) {
+                    var bookingData = res.data;
+                    $('#rescheduleModal').modal('show');
+                    $('#reschedule-booking-id').val(id);
+                    
+                    // Format the date as needed for the datepicker
+                    var bookingDate = bookingData['Booking Date'];
+                    $('#current-booking-date').val(bookingDate);
+                    $('#current-booking-time').val(bookingData['Booking Time']);
+                    
+                    // Extract package ID from the data
+                    var packageId;
+                    if (bookingData['Package ID']) {
+                        packageId = bookingData['Package ID'];
+                    } else {
+                        // If Package ID is not directly available, try to extract from S.N. or use a fallback
+                        packageId = bookingData['S.N.'];
+                    }
+                    $('#package-id').val(packageId);
+                    
+                    // Initialize the datepicker after modal is shown
+                    initRescheduleDatepicker(packageId);
+                } else {
+                    alert('Could not load booking details.');
+                }
+            },
+            error: function() {
+                hideLoading();
+                alert('Error loading booking details.');
+            }
+        });
+    });
+    
+    // Initialize datepicker for reschedule modal
+    function initRescheduleDatepicker(packageId) {
+        // Clear any previous datepicker
+        if ($('#reschedule-date').data('datepicker')) {
+            $('#reschedule-date').datepicker('destroy');
+        }
+        
+        // Initialize the datepicker
+        $('#reschedule-date').datepicker({
+            format: 'dd-mm-yyyy',
+            autoclose: true,
+            startDate: '+1d',
+            todayHighlight: true
+        }).on('changeDate', function(e) {
+            // When date is selected, load available time slots
+            var selectedDate = $(this).val();
+            loadAvailableTimeSlots(packageId, selectedDate);
+        });
+        
+        // Get disabled dates from the server
+        $.ajax({
+            url: '../requests/index.php?f=booking&endpoint=GetDisabledDates',
+            type: 'POST',
+            data: {package_id: packageId},
+            dataType: 'json',
+            success: function(res) {
+                if (res.success && res.data) {
+                    var disabledDates = res.data;
+                    
+                    // Update the datepicker to disable these dates
+                    $('#reschedule-date').datepicker('setDatesDisabled', disabledDates);
+                }
+            }
+        });
+    }
+    
+    // Load available time slots for selected date
+    function loadAvailableTimeSlots(packageId, selectedDate) {
+        $('#reschedule-time').html('<option value="" selected disabled>Loading...</option>');
+        
+        $.ajax({
+            url: '../requests/index.php?f=booking&endpoint=GetAvailableTimeSlots',
+            type: 'POST',
+            data: {package_id: packageId, date: selectedDate},
+            dataType: 'json',
+            success: function(res) {
+                var options = '<option value="" selected disabled>' + '<?php echo direction("Select Time", "اختر الوقت") ?>' + '</option>';
+                
+                if (res.success && res.data) {
+                    var timeSlots = res.data;
+                    for (var i = 0; i < timeSlots.length; i++) {
+                        options += '<option value="' + timeSlots[i] + '">' + timeSlots[i] + '</option>';
+                    }
+                }
+                
+                $('#reschedule-time').html(options);
+            },
+            error: function() {
+                $('#reschedule-time').html('<option value="" selected disabled>' + '<?php echo direction("Error loading time slots", "خطأ في تحميل المواعيد المتاحة") ?>' + '</option>');
+            }
+        });
+    }
+    
+    // Handle reschedule form submission
+    $('#reschedule-submit').on('click', function() {
+        if (!$('#reschedule-date').val() || !$('#reschedule-time').val()) {
+            alert('<?php echo direction("Please select both date and time", "الرجاء اختيار التاريخ والوقت") ?>');
+            return;
+        }
+        
+        showLoading();
+        
+        $.ajax({
+            url: '../requests/index.php?f=booking&endpoint=RescheduleBooking',
+            type: 'POST',
+            data: $('#reschedule-form').serialize(),
+            dataType: 'json',
+            success: function(res) {
+                hideLoading();
+                if (res.success) {
+                    alert('<?php echo direction("Booking successfully rescheduled", "تمت إعادة جدولة الحجز بنجاح") ?>');
+                    $('#rescheduleModal').modal('hide');
+                    dataTable.ajax.reload();
+                } else {
+                    alert(res.message || '<?php echo direction("Failed to reschedule booking", "فشل في إعادة جدولة الحجز") ?>');
+                }
+            },
+            error: function() {
+                hideLoading();
+                alert('<?php echo direction("Error rescheduling booking", "خطأ في إعادة جدولة الحجز") ?>');
             }
         });
     });

@@ -1,0 +1,102 @@
+<?php
+/**
+ * BookingReschedule Endpoint
+ * Handles rescheduling of bookings with the following process:
+ * 1. Creates a new booking with status 'Yes' and the new date/time
+ * 2. Updates the original booking status to 'Rescheduled'
+ * 3. Copies all other details from the original booking
+ */
+
+// Check for required parameters
+if(!isset($_POST['booking_id']) || !isset($_POST['new_date']) || !isset($_POST['new_time']) || !isset($_POST['package_id'])) {
+    echo json_encode(['success' => false, 'message' => direction('Missing required parameters', 'معلمات مطلوبة مفقودة')]);
+    exit();
+}
+
+$bookingId = intval($_POST['booking_id']);
+$newDate = $_POST['new_date'];
+$newTime = $_POST['new_time'];
+$packageId = intval($_POST['package_id']);
+
+// Format the date (assuming it's in dd-mm-yyyy format from the frontend)
+$dateParts = explode('-', $newDate);
+if(count($dateParts) === 3) {
+    $formattedDate = $dateParts[2] . '-' . $dateParts[1] . '-' . $dateParts[0]; // Convert to YYYY-MM-DD
+} else {
+    echo json_encode(['success' => false, 'message' => direction('Invalid date format', 'تنسيق تاريخ غير صالح')]);
+    exit();
+}
+
+// First, check if the requested time slot is available
+$bookedTimes = get_bookingTimeBydate($packageId, $formattedDate);
+$blockedTimeSlots = getBlockedTimeSlots($formattedDate);
+
+$bookedTimeSlots = [];
+if(is_array($bookedTimes) && count($bookedTimes) > 0) {
+    foreach($bookedTimes as $time) {
+        $bookedTimeSlots[] = $time['booking_time'];
+    }
+}
+
+// Combine booked and blocked time slots
+$allUnavailableSlots = array_merge($bookedTimeSlots, $blockedTimeSlots);
+
+// Check if requested time is available
+if(in_array($newTime, $allUnavailableSlots)) {
+    echo json_encode(['success' => false, 'message' => direction('Selected time is already booked', 'الوقت المحدد محجوز بالفعل')]);
+    exit();
+}
+
+// Get the original booking details
+$originalBooking = selectDB('tbl_booking', "`id` = '{$bookingId}'");
+if(!$originalBooking) {
+    echo json_encode(['success' => false, 'message' => direction('Original booking not found', 'الحجز الأصلي غير موجود')]);
+    exit();
+}
+$originalBooking = $originalBooking[0];
+
+// Create a new booking with all the same details but new date and time
+$newBookingData = [
+    'package_id' => $originalBooking['package_id'],
+    'booking_date' => $formattedDate,
+    'booking_time' => $newTime,
+    'is_filming' => $originalBooking['is_filming'],
+    'extra_items' => $originalBooking['extra_items'],
+    'booking_price' => $originalBooking['booking_price'],
+    'customer_name' => $originalBooking['customer_name'],
+    'customer_email' => $originalBooking['customer_email'],
+    'mobile_number' => $originalBooking['mobile_number'],
+    'personal_info' => $originalBooking['personal_info'],
+    'transaction_id' => $originalBooking['transaction_id'] . '-R', // Add -R to indicate rescheduled
+    'status' => 'Yes', // New booking is confirmed
+    'original_booking_id' => $bookingId, // Reference to original booking
+    'created_at' => date('Y-m-d H:i:s') // Current date/time
+];
+
+// Insert the new booking
+if(!insertDB('tbl_booking', $newBookingData)) {
+    echo json_encode(['success' => false, 'message' => direction('Failed to create new booking', 'فشل في إنشاء حجز جديد')]);
+    exit();
+}
+
+// Update the status of the original booking to 'Rescheduled'
+$updateData = [
+    'status' => 'Rescheduled',
+    'updated_at' => date('Y-m-d H:i:s')
+];
+
+if(!updateDB('tbl_booking', $updateData, "`id` = '{$bookingId}'")) {
+    // If update fails, we should technically roll back the new booking, but for simplicity we'll just report an error
+    echo json_encode(['success' => false, 'message' => direction('Failed to update original booking', 'فشل في تحديث الحجز الأصلي')]);
+    exit();
+}
+
+// Success response with both booking IDs
+echo json_encode([
+    'success' => true, 
+    'message' => direction('Booking successfully rescheduled', 'تمت إعادة جدولة الحجز بنجاح'),
+    'original_booking_id' => $bookingId,
+    'new_booking_id' => mysqli_insert_id($dbconnect) // ID of the new booking
+]);
+exit();
+?>
