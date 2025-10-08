@@ -22,6 +22,26 @@ if( isset($_POST["startBlock"]) ){
 	unset($_POST["update"]);
 	$_POST["timeSlots"] = isset($_POST["timeSlots"]) ? json_encode($_POST["timeSlots"]) : json_encode([]);
 	$_POST["packages"] = isset($_POST["packages"]) ? json_encode($_POST["packages"]) : json_encode([]);
+	// if packages empty then add all packages ids to the json array
+	if( empty($_POST["packages"]) ){
+		if( $allPackages = selectDB("tbl_packages","`hidden` = '1' AND `status` = '0'") ){
+			$packageIds = array();
+			foreach($allPackages as $pkg){
+				$packageIds[] = $pkg["id"];
+			}
+			$_POST["packages"] = json_encode($packageIds);
+		}
+	}
+	// same thing for time slots
+	if( empty($_POST["timeSlots"]) ){
+		if( $allTimes = selectDB("tbl_times","`hidden` = '1' AND `status` = '0'") ){
+			$timeIds = array();
+			foreach($allTimes as $time){
+				$timeIds[] = $time["id"];
+			}
+			$_POST["timeSlots"] = json_encode($timeIds);
+		}
+	}
 	if ( $id == 0 ){
 		if( insertDB("tbl_disabled_date", $_POST) ){
 			header("LOCATION: ?v=BookingBlockingDates");
