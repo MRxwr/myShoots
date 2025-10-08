@@ -1,5 +1,4 @@
 <?php 
-$id = ( isset($_GET['id']) && !empty($_GET['id']) ) ? intval($_GET['id']) : 0;
 if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
     if( is_array($bookingSettings) && sizeof($bookingSettings) > 0 ){
         $bookingSettings = $bookingSettings[0];

@@ -273,12 +273,18 @@ function FullBookedDates(){
 
 // get disabled date
 function get_disabledDate(){
+	GLOBAL $_GET;
+	if(isset($_GET['id']) && !empty($_GET['id'])){
+		$id = intval($_GET['id']);
+	}else{
+		return array();
+	}
 	$openDate = get_setting('openDate');
 	$closeDate = get_setting('closeDate');
 	// Fetch all disabled date periods that overlap with the open/close window
 	$res = selectDB(
 		"tbl_disabled_date",
-		"(STR_TO_DATE(startBlock, '%Y-%m-%d') <= '{$openDate}' AND STR_TO_DATE(endBlock, '%Y-%m-%d') >= '{$closeDate}') OR (STR_TO_DATE(startBlock, '%Y-%m-%d') BETWEEN '{$openDate}' AND '{$closeDate}') OR (STR_TO_DATE(endBlock, '%Y-%m-%d') BETWEEN '{$openDate}' AND '{$closeDate}') ORDER BY STR_TO_DATE(startBlock, '%Y-%m-%d') ASC",
+		"`packages` LIKE '%{$id}%' AND (STR_TO_DATE(startBlock, '%Y-%m-%d') <= '{$openDate}' AND STR_TO_DATE(endBlock, '%Y-%m-%d') >= '{$closeDate}') OR (STR_TO_DATE(startBlock, '%Y-%m-%d') BETWEEN '{$openDate}' AND '{$closeDate}') OR (STR_TO_DATE(endBlock, '%Y-%m-%d') BETWEEN '{$openDate}' AND '{$closeDate}') ORDER BY STR_TO_DATE(startBlock, '%Y-%m-%d') ASC",
 	);
 	$blockedDates = array();
 	if ($res && count($res) > 0) {
