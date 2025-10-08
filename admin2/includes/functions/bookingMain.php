@@ -358,23 +358,25 @@ function getFullyBookedDates(){
 				}else{
 					$bookedDates[$r['booking_date']] = 1;
 				}
-		}
-		$booked2 = array();
-		foreach($bookedDates as $date => $count){
-			if( $count >= $numberOfTimeSlots ){
-				$booked2[] = date("d-m-Y", strtotime($date));
 			}
-		}
-		// Merge blocked dates and fully booked dates
-		$finalDates = array_merge($blockedDates,$booked2);
-		// Remove duplicates
-		$finalDates = array_unique($finalDates);
-		// Sort the dates
-		sort($finalDates);
-		return $finalDates;
-	} 
-}
-return $blockedDates;
+			var_dump($bookedDates);
+			$booked2 = array();
+			foreach($bookedDates as $date => $count){
+				if( $count >= $numberOfTimeSlots ){
+					$booked2[] = date("d-m-Y", strtotime($date));
+				}
+			}
+			var_dump($booked2);
+			// Merge blocked dates and fully booked dates
+			$finalDates = array_merge($blockedDates,$booked2);
+			// Remove duplicates
+			$finalDates = array_unique($finalDates);
+			// Sort the dates
+			sort($finalDates);
+			return $finalDates;
+		} 
+	}
+	return $blockedDates;
 }
 
 
