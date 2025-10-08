@@ -336,10 +336,43 @@ $(document).ready(function() {
                     $('#detailsModal .modal-body').html('<div class="text-danger" style="text-align:center;padding:40px 0;">Could not load booking details.</div>');
                 }
             },
-            error: function() {
+            error: function(xhr, status, error) {
                 hideLoading();
                 $('#detailsModal').modal('show');
-                $('#detailsModal .modal-body').html('<div class="text-danger" style="text-align:center;padding:40px 0;">Error loading booking details.</div>');
+                
+                // Get the error response text
+                var errorMsg = 'Error loading booking details.';
+                var responseText = '';
+                
+                try {
+                    // Try to parse response as JSON
+                    if (xhr.responseText) {
+                        responseText = xhr.responseText;
+                        var jsonResponse = JSON.parse(xhr.responseText);
+                        if (jsonResponse.message) {
+                            errorMsg = jsonResponse.message;
+                        }
+                    }
+                } catch (e) {
+                    // If not valid JSON, use the raw response text
+                    responseText = xhr.responseText || '';
+                }
+                
+                // Create error display with details
+                var errorHtml = '<div class="text-danger" style="text-align:center;padding:20px 0;">' + errorMsg + '</div>';
+                
+                // Add technical details if available
+                if (responseText) {
+                    errorHtml += '<div class="alert alert-warning" style="margin-top:15px;">' +
+                        '<h5>Response Details:</h5>' +
+                        '<pre style="max-height:200px;overflow-y:auto;word-break:break-word;white-space:pre-wrap;">' + 
+                        responseText + '</pre></div>';
+                }
+                
+                // Add HTTP status information
+                errorHtml += '<div class="small text-muted" style="margin-top:10px;">Status: ' + status + ' (' + xhr.status + ')</div>';
+                
+                $('#detailsModal .modal-body').html(errorHtml);
             }
         });
     });
