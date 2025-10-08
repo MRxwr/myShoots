@@ -4,11 +4,13 @@ if ($id <= 0) {
     echo json_encode(['success' => false, 'error' => 'Invalid booking ID']);
     exit();
 }
-$_SESSION['lang'] = direction("en","ar");
-$query = "SELECT b.*, p.{$_SESSION['lang']}Title as package_name FROM tbl_booking b LEFT JOIN tbl_packages p ON b.package_id = p.id WHERE b.id = $id LIMIT 1";
-$result = mysqli_query($dbconnect, $query);
-if ($result && $row = mysqli_fetch_assoc($result)) {
-    // Format extra items
+$joinData = array(
+    "select" => ["t.*", ["t1." . direction("en","ar") . "Title as package_name"]],
+    "join" => ["tbl_packages"],
+    "on" => ["t.package_id = t1.id"],
+);
+if ($result = selectJoinDB("tbl_booking", $joinData, "WHERE t.id = {$id} LIMIT 1")) {
+    $row = $result[0];
     $extra_items = '';
     if (!empty($row['extra_items'])) {
         $extra_items = array();
