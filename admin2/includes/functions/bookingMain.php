@@ -294,6 +294,10 @@ function get_disabledDate(){
 		if( empty($whereTime) ){
 			return array();
 		}
+		$whereTime2 = implode(" OR ",$timeConditions);
+		if( empty($whereTime2) ){
+			return array();
+		}
 	}else{
 		return array();
 	}
@@ -321,9 +325,7 @@ function get_disabledDate(){
 		$blockedDates = array_unique($blockedDates);
 		sort($blockedDates);
 	}
-	var_dump($blockedDates);
-	if( $result = selectDB("tbl_booking","`booking_date` BETWEEN '{$openDate}' AND '{$closeDate}' AND ({$whereTime}) AND `package_id` = '{$id}' AND `status` = 'Yes'") ){
-		var_dump($result);
+	if( $result = selectDB("tbl_booking","`booking_date` BETWEEN '{$openDate}' AND '{$closeDate}' AND ({$whereTime2}) AND `package_id` = '{$id}' AND `status` = 'Yes'") ){
 		$numberOfTimeSlots = count($times);
 		$bookedDates = array();
 		if( count($result) > 0 ){
