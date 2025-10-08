@@ -32,7 +32,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
 
 <style> 
 .legend-available {
-  color: #add7eaff !important; /* green */
+  color: #7e97a3ff !important; /* green */
   font-weight: 600;
 }
 .legend-reserved {
@@ -48,7 +48,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
 
 /* Available dates (not disabled, not today, not selected, not weekend) */
 .datepicker table tr td.day:not(.disabled):not(.active):not(.today):not(.range):not(.weekend) {
-    color: #add7eaff !important;        /* green text */
+    color: #7e97a3ff !important;        /* green text */
 }
 </style>
 
