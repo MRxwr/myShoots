@@ -122,7 +122,7 @@ $(document).ready(function(){
       container: container,
       todayHighlight: true,
       daysOfWeekDisabled: [5,6],
-      datesDisabled: <?=$blocked_date?>,
+      datesDisabled: <?= $blocked_date ?>,
       autoclose: true,
       startDate: new Date( <?= (get_setting('open_date')!='')?str_replace('-',',',get_setting('open_date')):'' ?> ),
       endDate: new Date( <?= (get_setting('close_date')!='')?str_replace('-',',',get_setting('close_date')):'' ?> ),
