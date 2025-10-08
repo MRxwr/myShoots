@@ -279,11 +279,18 @@ function get_disabledDate(){
 	}else{
 		return array();
 	}
+	$timeIds = array();
 	$openDate = get_setting('openDate');
 	$closeDate = get_setting('closeDate');
-	if( $times = selectDBNew("tbl_packages",[$id],"`hidden` = '1' AND `status` = '0' AND `id` = ?","") ){
-		$times = count(json_decode($times[0]["time"],true));
-		if( $times == 0 ){
+	if( $packageDetails = selectDBNew("tbl_packages",[$id],"`hidden` = '1' AND `status` = '0' AND `id` = ?","") ){
+		$times = json_decode($packageDetails[0]["time"],true);
+		foreach($times as $t){
+			if( $time = selectDB("tbl_times","`startTime` = '{$t["startDate"]}' AND `closeTime` = '{$t["endDate"]}'") ){
+				$timeIds[] = " `timeSlots` LIKE '%{$time[0]["id"]}%' ";
+			}
+		}
+		$whereTime = implode(" AND ",$timeIds);
+		if( empty($whereTime) ){
 			return array();
 		}
 	}else{
@@ -292,7 +299,7 @@ function get_disabledDate(){
 	// Fetch all disabled date periods that overlap with the open/close window
 	$res = selectDB(
 		"tbl_disabled_date",
-		"`packages` LIKE '%{$id}%' AND JSON_LENGTH(`timeSlots`) < '{$times}' AND ((STR_TO_DATE(startBlock, '%Y-%m-%d') <= '{$openDate}' AND STR_TO_DATE(endBlock, '%Y-%m-%d') >= '{$closeDate}') OR (STR_TO_DATE(startBlock, '%Y-%m-%d') BETWEEN '{$openDate}' AND '{$closeDate}') OR (STR_TO_DATE(endBlock, '%Y-%m-%d') BETWEEN '{$openDate}' AND '{$closeDate}')) ORDER BY STR_TO_DATE(startBlock, '%Y-%m-%d') ASC",
+		"`packages` LIKE '%{$id}%' AND {$whereTime} AND ((STR_TO_DATE(startBlock, '%Y-%m-%d') <= '{$openDate}' AND STR_TO_DATE(endBlock, '%Y-%m-%d') >= '{$closeDate}') OR (STR_TO_DATE(startBlock, '%Y-%m-%d') BETWEEN '{$openDate}' AND '{$closeDate}') OR (STR_TO_DATE(endBlock, '%Y-%m-%d') BETWEEN '{$openDate}' AND '{$closeDate}')) ORDER BY STR_TO_DATE(startBlock, '%Y-%m-%d') ASC",
 	);
 	$blockedDates = array();
 	if ($res && count($res) > 0) {
