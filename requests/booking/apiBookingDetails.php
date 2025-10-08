@@ -6,11 +6,13 @@ if ($id <= 0) {
 }
 $language = direction("en","ar");
 $joinData = array(
-    "select" => ["t.*", ["t1.{$language}Title as package_name"]],
+    "select" => ["t.*", "t1.{$language}Title as package_name"],
     "join" => ["tbl_packages"],
     "on" => ["t.package_id = t1.id"],
 );
-if ($result = selectJoinDB("tbl_booking", $joinData, "t.id = '{$id}' LIMIT 1")) {
+
+var_dump(selectJoinDB("tbl_booking", $joinData, "t.id = '{$id}'"));
+if ($result = selectJoinDB("tbl_booking", $joinData, "t.id = '{$id}'")) {
     $row = $result[0];
     $extra_items = '';
     if (!empty($row['extra_items'])) {
