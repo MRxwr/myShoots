@@ -309,6 +309,7 @@ function get_disabledDate(){
 	$timeIds = array();
 	$openDate = get_setting('openDate');
 	$closeDate = get_setting('closeDate');
+	$closeAfter = get_setting('closeAfter');
 	if( $packageDetails = selectDBNew("tbl_packages",[$id],"`hidden` = '1' AND `status` = '0' AND `id` = ?","") ){
 		$times = json_decode($packageDetails[0]["time"],true);
 		foreach($times as $t){
@@ -375,8 +376,21 @@ function get_disabledDate(){
 			$finalDates = array_unique($finalDates);
 			// Sort the dates
 			sort($finalDates);
-			return $finalDates;
-		} 
+			$blockedDates = $finalDates;
+		}
+	}
+	if( $closeAfter > 0 ){
+		$futureDatesBlocked = array();
+		for( $i=0; $i<=$closeAfter; $i++ ){
+			$futureDate = date('Y-m-d', strtotime("+{$i} days"));
+			$futureDatesBlocked[] = $futureDate;
+		}
+		// merge blocked dates and fully booked dates
+		$blockedDates = array_merge($blockedDates,$futureDatesBlocked);
+		// remove duplicates
+		$blockedDates = array_unique($blockedDates);
+		// sort the dates
+		sort($blockedDates);
 	}
 	return $blockedDates;
 }
