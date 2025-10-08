@@ -24,9 +24,12 @@ if( $res = selectDB("tbl_booking","`status` = 'Yes' AND MONTH(booking_date) = '{
             $id = $row['id'];
             $transaction_id = $row['transaction_id'];
             $personalInfo = json_decode($row['personalInfo'],true);
+            $payload = json_decode($row['payload'],true);    
+            $package_name = $payload['package_name'];
             $keys = array_keys($personalInfo);
             foreach( $personalInfo as $key => $p ){
                 if( $personalInfoDB = selectDB("tbl_personal_info","`id` = '{$key}'")[0] ){
+                    var_dump($personalInfoDB);
                     $title = direction("enTitle","arTitle");
                     $personalInfoArray[] = "{$personalInfoDB[$title]}: {$p}";
                 }
@@ -44,10 +47,10 @@ if( $res = selectDB("tbl_booking","`status` = 'Yes' AND MONTH(booking_date) = '{
             $enddate = date("Y-m-d H:i:s", strtotime($etd));
             $e = array();
             $e['id'] = $id;
-            $e['title'] = "{$booking_time} {$personalInfoArray}";
+            $e['title'] = "{$booking_time} - {$package_name} {$personalInfoArray}";
             $e['start'] = $startdate;
             $e['end']   = $enddate;
-            $e['color'] = '#e7888c';
+            $e['color'] = '#f9d8d9ff';
             $e['allDay'] = false;
             // Merge the event array into the return array
             array_push($events, $e);
