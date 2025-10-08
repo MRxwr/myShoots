@@ -43,5 +43,6 @@ if( $res = selectDB("tbl_booking","`status` = 'Yes'") ){
             array_push($events, $e);
         }
     }
+    var_dump($events);
 }
 ?>
