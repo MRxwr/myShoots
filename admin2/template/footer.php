@@ -134,6 +134,9 @@
                 $('.tooltiptopicevent').css('left', e.pageX + 20);
             });
         },
+        eventMouseout: function (data, event, view) {
+            $('.tooltiptopicevent').remove();
+        },
         eventRender: function( event, element, view ) {
         var title = element.find('.fc-title, .fc-list-item-title');          
         title.html(title.text());
