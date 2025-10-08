@@ -20,8 +20,9 @@ if( isset($_GET["delId"]) && !empty($_GET["delId"]) ){
 if( isset($_POST["startBlock"]) ){
 	$id = $_POST["update"];
 	unset($_POST["update"]);
-	$_POST["timeSlots"] = isset($_POST["timeSlots"]) ? json_encode($_POST["timeSlots"]) : json_encode([]);
-	$_POST["packages"] = isset($_POST["packages"]) ? json_encode($_POST["packages"]) : json_encode([]);
+	$_POST["timeSlots"] = isset($_POST["timeSlots"]) ? json_encode($_POST["timeSlots"]) : $_POST["timeSlots"];
+	$_POST["packages"] = isset($_POST["packages"]) ? json_encode($_POST["packages"]) : $_POST["packages"];
+	var_dump($_REQUEST);
 	// if packages empty then add all packages ids to the json array
 	if( empty($_POST["packages"]) ){
 		if( $allPackages = selectDB("tbl_packages","`hidden` = '1' AND `status` = '0'") ){
@@ -42,7 +43,6 @@ if( isset($_POST["startBlock"]) ){
 			$_POST["timeSlots"] = json_encode($timeIds);
 		}
 	}
-	var_dump($_POST);
 	if ( $id == 0 ){
 		if( insertDB("tbl_disabled_date", $_POST) ){
 			header("LOCATION: ?v=BookingBlockingDates");
