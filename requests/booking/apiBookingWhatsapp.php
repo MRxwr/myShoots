@@ -1,6 +1,6 @@
 <?php
 function bookingWhatsappUltraMsg($order){
-	GLOBAL $settingsTitle, $settingsLogo, $settingsWebsite;
+	GLOBAL $settingsTitle, $settingslogo, $settingsWebsite;
 	if( $settings = selectDB("tbl_calendar_settings","`id` = '1'") ){
 		$whatsappNoti1 = json_decode($settings[0]["whatsappNoti"],true);
 		if( $whatsappNoti1["status"] != 1 ){
