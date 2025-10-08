@@ -12,6 +12,7 @@
 		</div>				
 	</div>
 
+<script src="assets/vendors/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
  <?php 
 $sn = 1;
 if($res = selectDB("tbl_booking","`status` = 'Yes'") ){
