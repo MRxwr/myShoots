@@ -280,7 +280,7 @@ function get_disabledDate(){
 		"tbl_disabled_date",
 		[$openDate, $closeDate],
 		"(STR_TO_DATE(startBlock, '%Y-%m-%d') <= ? AND STR_TO_DATE(endBlock, '%Y-%m-%d') >= ?) OR (STR_TO_DATE(startBlock, '%Y-%m-%d') BETWEEN ? AND ?) OR (STR_TO_DATE(endBlock, '%Y-%m-%d') BETWEEN ? AND ?)",
-		" ORDER BY STR_TO_DATE(startBlock, '%Y-%m-%d') ASC"
+		" STR_TO_DATE(startBlock, '%Y-%m-%d') ASC"
 	);
 	$blockedDates = array();
 	return $res;
