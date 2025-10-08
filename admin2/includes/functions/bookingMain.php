@@ -284,7 +284,7 @@ function get_disabledDate(){
 	// Fetch all disabled date periods that overlap with the open/close window
 	$res = selectDB(
 		"tbl_disabled_date",
-		"`packages` LIKE '%{$id}%' AND (STR_TO_DATE(startBlock, '%Y-%m-%d') <= '{$openDate}' AND STR_TO_DATE(endBlock, '%Y-%m-%d') >= '{$closeDate}') OR (STR_TO_DATE(startBlock, '%Y-%m-%d') BETWEEN '{$openDate}' AND '{$closeDate}') OR (STR_TO_DATE(endBlock, '%Y-%m-%d') BETWEEN '{$openDate}' AND '{$closeDate}') ORDER BY STR_TO_DATE(startBlock, '%Y-%m-%d') ASC",
+		"`packages` LIKE '%{$id}%' AND ((STR_TO_DATE(startBlock, '%Y-%m-%d') <= '{$openDate}' AND STR_TO_DATE(endBlock, '%Y-%m-%d') >= '{$closeDate}') OR (STR_TO_DATE(startBlock, '%Y-%m-%d') BETWEEN '{$openDate}' AND '{$closeDate}') OR (STR_TO_DATE(endBlock, '%Y-%m-%d') BETWEEN '{$openDate}' AND '{$closeDate}')) ORDER BY STR_TO_DATE(startBlock, '%Y-%m-%d') ASC",
 	);
 	$blockedDates = array();
 	if ($res && count($res) > 0) {
