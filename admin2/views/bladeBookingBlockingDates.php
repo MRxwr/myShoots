@@ -100,6 +100,7 @@ if( isset($_POST["startBlock"]) ){
 
 			<div class="col-md-12" style="margin-top:10px">
 			<label><?php echo direction("Packages","الباقات") ?></label>
+			<input type="hidden" name="packages[]" value="">
 			<select name="packages[]" class="form-control select2Packages" multiple>
 			<?php
 			if( $packages = selectDB("tbl_packages","`hidden` = '1' AND `status` = '0' ORDER BY `id` ASC") ){
@@ -115,6 +116,7 @@ if( isset($_POST["startBlock"]) ){
 
 			<div class="col-md-12" style="margin-top:10px">
 			<label><?php echo direction("Time Slots","وقت المواعيد") ?></label>
+			<input type="hidden" name="timeSlots[]" value="">
 			<select name="timeSlots[]" class="form-control select2TimeSlots" multiple>
 			<?php
 			if( $times = selectDB("tbl_times","`hidden` = '1' AND `status` = '0' ORDER BY `id` ASC") ){
