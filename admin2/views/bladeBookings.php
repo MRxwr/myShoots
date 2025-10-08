@@ -169,6 +169,7 @@ $(document).ready(function() {
                     <ul class='dropdown-menu' style='min-width:120px; padding:0;'>
                         <li><a href='#' class='show-status-options' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>Change Status</a></li>
                         <li><a href='#' class='send-sms' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>Send SMS</a></li>
+                        <li><a href='#' class='send-whatsapp' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>Send WhatsApp</a></li>
                         <li><a href='#' class='show-details' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>More details</a></li>
                     </ul>
                     <div class='status-options' style='display:none; position:absolute; right:100%; top:0; background:#fff; border:1px solid #ddd; z-index:99999; min-width:120px; box-shadow:0 2px 8px rgba(0,0,0,0.15);'>
@@ -274,6 +275,32 @@ $(document).ready(function() {
             },
             error: function(xhr) {
                 var msg = 'Error sending SMS.';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    msg = xhr.responseJSON.message;
+                } else if (xhr.responseText) {
+                    msg = xhr.responseText;
+                }
+                alert(msg);
+            }
+            });
+        }
+    });
+
+    $('#datable_1 tbody').on('click', '.send-whatsapp', function(e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        if (confirm('Are you sure you want to send WhatsApp message?')) {
+            $.ajax({
+            url: '../requests/index.php?f=booking&endpoint=BookingWhatsapp',
+            type: 'POST',
+            data: {id: id},
+            dataType: 'json',
+            success: function(res) {
+                alert(res.message || 'WhatsApp message sent!');
+                //dataTable.ajax.reload();
+            },
+            error: function(xhr) {
+                var msg = 'Error sending WhatsApp message.';
                 if (xhr.responseJSON && xhr.responseJSON.message) {
                     msg = xhr.responseJSON.message;
                 } else if (xhr.responseText) {
