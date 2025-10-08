@@ -39,6 +39,9 @@ require ("payment.php");
 	<!-- Bootstrap Datetimepicker CSS -->
 	<link href="../vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
 
+	<!-- FullCalendar CSS -->
+	<link rel="stylesheet" href="../vendors/bower_components/fullcalendar/dist/fullcalendar.min.css">
+
 	<!-- Custom CSS -->
 	<link href="dist/css/style.css" rel="stylesheet" type="text/css">
 	<!-- Favicon -->
@@ -47,8 +50,6 @@ require ("payment.php");
 
 	<!-- Data table CSS -->
 	<link href="../vendors/bower_components/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
-	<!-- Calendar CSS -->
-		<link href="assets/vendors/bower_components/fullcalendar/dist/fullcalendar.css" rel="stylesheet" type="text/css"/>
 	<!-- bootstrap-touchspin CSS -->
 	<link href="../vendors/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" rel="stylesheet" type="text/css"/>
 
