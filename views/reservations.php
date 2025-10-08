@@ -84,7 +84,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
     </div>
   </div>
 </section>
-<style>
+<style> 
 .legend-available {
   color: #28a745 !important; /* green */
   font-weight: 600;
