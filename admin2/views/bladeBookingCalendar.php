@@ -14,8 +14,8 @@
 
 
  <?php 
-$sn = 1;
 if( $res = selectDB("tbl_booking","`status` = 'Yes'") ){
+    $events = array();
     if( count($res) > 0){
         foreach( $res as $row ) {
             $id = $row['id'];
@@ -40,9 +40,9 @@ if( $res = selectDB("tbl_booking","`status` = 'Yes'") ){
             $e['color'] = '#e7888c';
             $e['allDay'] = false;
             // Merge the event array into the return array
-            var_dump($e);
             array_push($events, $e);
         }
+        var_dump($events);
     }
 }
 ?>
