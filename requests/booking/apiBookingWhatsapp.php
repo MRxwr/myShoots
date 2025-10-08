@@ -1,10 +1,10 @@
 <?php
 function bookingWhatsappUltraMsg($order){
 	GLOBAL $settingsTitle;
-	if( $settings = selectDB("settings","`id` = '1'") ){
+	if( $settings = selectDB("tbl_calendar_settings","`id` = '1'") ){
 		$whatsappNoti1 = json_decode($settings[0]["whatsappNoti"],true);
-        if( $whatsappNoti1["status"] != "1" ){
-            echo json_encode(['success' => false, 'message' => 'WhatsApp notifications are disabled.' . $whatsappNoti1["status"]]);
+		if( $whatsappNoti1["status"] != 1 ){
+            echo json_encode(['success' => false, 'message' => 'WhatsApp notifications are disabled.']);
             exit();
 		}elseif( $booking = selectDB("tbl_booking","`id` = '{$order}'") ){
             $booking = $booking[0];
