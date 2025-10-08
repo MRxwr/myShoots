@@ -24,9 +24,8 @@ function bookingWhatsappUltraMsg($order){
                 "token" => $whatsappNoti1["ultraToken"],
                 "to" => $phone,
                 "caption" => $message,
-                "image" => "{$settingsWebsite}/logos/{$settingsLogo}",
+                "image" => "{$settingsWebsite}/logos/{$settingslogo}",
             );
-            var_dump($params);
 			$curl = curl_init();
             curl_setopt_array($curl, array(
                 CURLOPT_URL => "https://api.ultramsg.com/{$whatsappNoti1["instance"]}/messages/image",
