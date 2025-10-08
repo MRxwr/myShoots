@@ -105,8 +105,6 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
   $blocked_date = stripslashes(json_encode($blocked_dates_array2));
   ?>
 <script>
-
-
 $(document).ready(function(){
   // var activeMonth = new Date().getMonth() + 1; // Not used
     var date_input=$('#bookingdate'); //our date input has the name "date"
