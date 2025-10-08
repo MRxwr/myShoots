@@ -363,7 +363,7 @@ function getFullyBookedDates(){
 			$booked2 = array();
 			foreach($bookedDates as $date => $count){
 				if( $count >= $numberOfTimeSlots ){
-					$booked2[] = date("d-m-Y", strtotime($date));
+					$booked2[] = date("Y-m-d", strtotime($date));
 				}
 			}
 			var_dump($booked2);
