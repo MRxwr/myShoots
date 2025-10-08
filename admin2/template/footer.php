@@ -51,6 +51,9 @@
 	<script src="../vendors/bower_components/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="dist/js/sweetalert-data.js"></script>
 	
+	<!-- Moment.js (required for bootstrap-datetimepicker and fullCalendar) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
 	<!-- Bootstrap Datetimepicker JavaScript -->
 	<script type="text/javascript" src="../vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 
@@ -63,8 +66,6 @@
 	<!-- Init JavaScript -->
 	<script src="dist/js/init.js?x=1"></script>
 	<script src="../vendors/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
-<!-- Moment.js (required for bootstrap-datetimepicker and fullCalendar) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 <script>
     $(document).ready(function() {
 	'use strict';
