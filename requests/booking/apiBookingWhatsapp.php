@@ -1,6 +1,6 @@
 <?php
 function bookingWhatsappUltraMsg($order){
-	GLOBAL $settingsTitle;
+	GLOBAL $settingsTitle, $settingsLogo, $settingsWebsite;
 	if( $settings = selectDB("tbl_calendar_settings","`id` = '1'") ){
 		$whatsappNoti1 = json_decode($settings[0]["whatsappNoti"],true);
 		if( $whatsappNoti1["status"] != 1 ){
@@ -22,7 +22,7 @@ function bookingWhatsappUltraMsg($order){
             $message = urlencode("Your booking has been confirmed with {$settingsTitle}, Date: {$booking["booking_date"]}, Time: {$booking["booking_time"]}, Booking#: {$booking["transaction_id"]}.  \n\nThis is an automated message, Courtesy of createkuwait.com.");
 			$curl = curl_init();
 			curl_setopt_array($curl, array(
-				CURLOPT_URL => "https://api.ultramsg.com/{$whatsappNoti1["instance"]}/messages/chat?token={$whatsappNoti1["ultraToken"]}&to=+{$phone}&body={$message}",
+				CURLOPT_URL => "https://api.ultramsg.com/{$whatsappNoti1["instance"]}/messages/image?token={$whatsappNoti1["ultraToken"]}&to=+{$phone}&caption={$message}&image={$settingsWebsite}/logos/{$settingsLogo}",
 				CURLOPT_RETURNTRANSFER => true,
 				CURLOPT_ENCODING => '',
 				CURLOPT_MAXREDIRS => 10,
