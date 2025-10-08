@@ -23,7 +23,7 @@ if( $res = selectDB("tbl_booking","`status` = 'Yes' AND MONTH(booking_date) = '{
             $personalInfoArray = array();
             $id = $row['id'];
             $transaction_id = $row['transaction_id'];
-            $personalInfo = json_decode($row['personalInfo'],true);
+            $personalInfo = json_decode($row['personal_info'],true);
             $payload = json_decode($row['payload'],true);    
             $package_name = $payload['CustomerName'];
             $keys = array_keys($personalInfo);
