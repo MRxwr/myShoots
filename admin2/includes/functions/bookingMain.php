@@ -359,14 +359,12 @@ function getFullyBookedDates(){
 					$bookedDates[$r['booking_date']] = 1;
 				}
 			}
-			var_dump($bookedDates);
 			$booked2 = array();
 			foreach($bookedDates as $date => $count){
 				if( $count >= $numberOfTimeSlots ){
 					$booked2[] = date("Y-m-d", strtotime($date));
 				}
 			}
-			var_dump($booked2);
 			// Merge blocked dates and fully booked dates
 			$finalDates = array_merge($blockedDates,$booked2);
 			// Remove duplicates
