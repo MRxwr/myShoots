@@ -354,61 +354,7 @@ function get_disabledDate(){
 	return $blockedDates;
 }
 
-
-function getFullyBookedDates(){
-	GLOBAL $_GET;
-	if(isset($_GET['id']) && !empty($_GET['id'])){
-		$id = intval($_GET['id']);
-	}else{
-		return array();
-	}
-	$openDate = get_setting('openDate');
-	$closeDate = get_setting('closeDate');
-	$blockedDates = get_disabledDate();
-	if( $packageDetails = selectDBNew("tbl_packages",[$id],"`hidden` = '1' AND `status` = '0' AND `id` = ?","") ){
-	       $times = json_decode($packageDetails[0]["time"],true);
-	       $timeConditions = array();
-	       foreach($times as $t){
-		       $timeConditions[] = " `booking_time` LIKE '%{$t["startDate"]} - {$t["endDate"]}%' ";
-	       }
-	       $whereTime = implode(" OR ", $timeConditions);
-	       if( empty($whereTime) ){
-		       return array();
-	       }
-	}else{
-		return array();
-	}
-	if( $res = selectDB("tbl_booking","`booking_date` BETWEEN '{$openDate}' AND '{$closeDate}' AND ({$whereTime}) AND `package_id` = '{$id}' AND `status` = 'Yes'") ){
-		$numberOfTimeSlots = count($times);
-		$bookedDates = array();
-		if( count($res) > 0 ){
-			foreach($res as $r){
-				if( isset($bookedDates[$r['booking_date']]) ){
-					$bookedDates[$r['booking_date']] += 1;
-				}else{
-					$bookedDates[$r['booking_date']] = 1;
-				}
-			}
-			$booked2 = array();
-			foreach($bookedDates as $date => $count){
-				if( $count >= $numberOfTimeSlots ){
-					$booked2[] = date("Y-m-d", strtotime($date));
-				}
-			}
-			// Merge blocked dates and fully booked dates
-			$finalDates = array_merge($blockedDates,$booked2);
-			// Remove duplicates
-			$finalDates = array_unique($finalDates);
-			// Sort the dates
-			sort($finalDates);
-			return $finalDates;
-		} 
-	}
-	return $blockedDates;
-}
-
-
-	// get  package details by package id
+// get  package details by package id
 function get_coupon_details($code){
 GLOBAL $obj,$conn;
 $tbl_name = 'tbl_coupons';
