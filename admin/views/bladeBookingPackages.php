@@ -116,7 +116,7 @@ if( isset($_POST["arTitle"]) ){
 <div class="panel panel-default card-view">
 <div class="panel-heading">
 <div class="pull-left">
-	<h6 class="panel-title txt-dark"><?php echo direction("Category Details","تفاصيل القسم") ?></h6>
+	<h6 class="panel-title txt-dark"><?php echo direction("Package Details","تفاصيل الباقة") ?></h6>
 </div>
 	<div class="clearfix"></div>
 </div>
@@ -253,7 +253,7 @@ if( isset($_POST["arTitle"]) ){
 <div class="panel panel-default card-view">
 <div class="panel-heading">
 <div class="pull-left">
-<h6 class="panel-title txt-dark"><?php echo $List_of_Categories ?></h6>
+<h6 class="panel-title txt-dark"><?php echo direction("List Of Packages","قائمة الباقات") ?></h6>
 </div>
 <div class="clearfix"></div>
 </div>
@@ -279,45 +279,45 @@ if( isset($_POST["arTitle"]) ){
 		
 		<tbody>
 		<?php 
-		if( $categories = selectDB("tbl_packages","`status` = '0' ORDER BY `rank` ASC") ){
-			for( $i = 0; $i < sizeof($categories); $i++ ){
+		if( $packages = selectDB("tbl_packages","`status` = '0' ORDER BY `rank` ASC") ){
+			for( $i = 0; $i < sizeof($packages); $i++ ){
 				$counter = $i + 1;
-			if ( $categories[$i]["hidden"] == 2 ){
+			if ( $packages[$i]["hidden"] == 2 ){
 				$icon = "fa fa-eye";
-				$link = "?v={$_GET["v"]}&show={$categories[$i]["id"]}";
+				$link = "?v={$_GET["v"]}&show={$packages[$i]["id"]}";
 				$hide = direction("Show","إظهار");
 			}else{
 				$icon = "fa fa-eye-slash";
-				$link = "?v={$_GET["v"]}&hide={$categories[$i]["id"]}";
+				$link = "?v={$_GET["v"]}&hide={$packages[$i]["id"]}";
 				$hide = direction("Hide","إخفاء");
 			}
 			?>
 			<tr>
 			<td>
 			<input name="rank[]" class="form-control" type="number" value="<?php echo str_pad($counter, 2, '0', STR_PAD_LEFT) ?>" style="width: 100px;">
-			<input name="id[]" class="form-control" type="hidden" value="<?php echo $categories[$i]["id"] ?>">
+			<input name="id[]" class="form-control" type="hidden" value="<?php echo $packages[$i]["id"] ?>">
 			</td>
-			<td><img src="../logos/<?php echo $categories[$i]["imageurl"] ?>" style="width:100px;height:100px"></td>
-			<td id="enTitle<?php echo $categories[$i]["id"]?>" ><?php echo $categories[$i]["enTitle"] ?></td>
-			<td id="arTitle<?php echo $categories[$i]["id"]?>" ><?php echo $categories[$i]["arTitle"] ?></td>
-			<td id="price<?php echo $categories[$i]["id"]?>" ><?php echo $categories[$i]["price"] ?></td>
+			<td><img src="../logos/<?php echo $packages[$i]["imageurl"] ?>" style="width:100px;height:100px"></td>
+			<td id="enTitle<?php echo $packages[$i]["id"]?>" ><?php echo $packages[$i]["enTitle"] ?></td>
+			<td id="arTitle<?php echo $packages[$i]["id"]?>" ><?php echo $packages[$i]["arTitle"] ?></td>
+			<td id="price<?php echo $packages[$i]["id"]?>" ><?php echo $packages[$i]["price"] ?></td>
 			<?php /*
 			<td>
 				<?php 
-					if(!empty($categories[$i]["time"])) {
+					if(!empty($packages[$i]["time"])) {
 						// First try normal JSON decode
-						$timeArray = json_decode($categories[$i]["time"], true);
+						$timeArray = json_decode($packages[$i]["time"], true);
 						
 						// If that fails, try to clean the string and decode again
 						if(!is_array($timeArray)) {
-							$cleanTime = str_replace('\\', '', $categories[$i]["time"]);
+							$cleanTime = str_replace('\\', '', $packages[$i]["time"]);
 							$timeArray = json_decode($cleanTime, true);
 						}
 						
 						// If still not an array, try one more method - could be a JSON string with escaped quotes
 						if(!is_array($timeArray)) {
 							// Remove surrounding quotes if present
-							$tempTime = trim($categories[$i]["time"]);
+							$tempTime = trim($packages[$i]["time"]);
 							if(substr($tempTime, 0, 1) === '"' && substr($tempTime, -1) === '"') {
 								$tempTime = substr($tempTime, 1, -1);
 							}
@@ -348,20 +348,20 @@ if( isset($_POST["arTitle"]) ){
 			*/ ?>
 			<td class="text-nowrap">
 			
-			<a id="<?php echo $categories[$i]["id"] ?>" class="mr-25 edit" data-toggle="tooltip" data-original-title="<?php echo direction("Edit","تعديل") ?>"> <i class="btn btn-warning btn-circle fa fa-pencil text-inverse m-r-10" style="align-content: center;"></i>
+			<a id="<?php echo $packages[$i]["id"] ?>" class="mr-25 edit" data-toggle="tooltip" data-original-title="<?php echo direction("Edit","تعديل") ?>"> <i class="btn btn-warning btn-circle fa fa-pencil text-inverse m-r-10" style="align-content: center;"></i>
 			</a>
 			<a href="<?php echo $link ?>" class="mr-25" data-toggle="tooltip" data-original-title="<?php echo $hide ?>"> <i class="btn btn-default btn-circle <?php echo $icon ?> text-inverse m-r-10" style="align-content: center;"></i>
 			</a>
-			<a href="<?php echo "?v={$_GET["v"]}&delId={$categories[$i]["id"]}" ?>" data-toggle="tooltip" data-original-title="<?php echo direction("Delete","حذف") ?>"><i class="btn btn-danger btn-circle fa fa-close" style="align-content: center;"></i>
+			<a href="<?php echo "?v={$_GET["v"]}&delId={$packages[$i]["id"]}" ?>" data-toggle="tooltip" data-original-title="<?php echo direction("Delete","حذف") ?>"><i class="btn btn-danger btn-circle fa fa-close" style="align-content: center;"></i>
 			</a>
-			<div style="display:none"><label id="hidden<?php echo $categories[$i]["id"]?>"><?php echo $categories[$i]["hidden"] ?></label></div>
-			<div style="display:none"><label id="enDetails<?php echo $categories[$i]["id"]?>"><?php echo $categories[$i]["enDetails"] ?></label></div>
-			<div style="display:none"><label id="arDetails<?php echo $categories[$i]["id"]?>"><?php echo $categories[$i]["arDetails"] ?></label></div>
-			<div style="display:none"><label id="price<?php echo $categories[$i]["id"]?>"><?php echo $categories[$i]["price"] ?></label></div>
-			<div style="display:none"><label id="logo<?php echo $categories[$i]["id"]?>"><?php echo $categories[$i]["imageurl"] ?></label></div>
-			<div style="display:none"><label id="time<?php echo $categories[$i]["id"]?>"><?php echo htmlspecialchars($categories[$i]["time"]) ?></label></div>
-			<div style="display:none"><label id="extras<?php echo $categories[$i]["id"]?>"><?php echo htmlspecialchars($categories[$i]["extra_items"]) ?></label></div>
-			<div style="display:none"><label id="personalInfo<?php echo $categories[$i]["id"]?>"><?php echo htmlspecialchars($categories[$i]["personalInfo"]) ?></label></div>
+			<div style="display:none"><label id="hidden<?php echo $packages[$i]["id"]?>"><?php echo $packages[$i]["hidden"] ?></label></div>
+			<div style="display:none"><label id="enDetails<?php echo $packages[$i]["id"]?>"><?php echo $packages[$i]["enDetails"] ?></label></div>
+			<div style="display:none"><label id="arDetails<?php echo $packages[$i]["id"]?>"><?php echo $packages[$i]["arDetails"] ?></label></div>
+			<div style="display:none"><label id="price<?php echo $packages[$i]["id"]?>"><?php echo $packages[$i]["price"] ?></label></div>
+			<div style="display:none"><label id="logo<?php echo $packages[$i]["id"]?>"><?php echo $packages[$i]["imageurl"] ?></label></div>
+			<div style="display:none"><label id="time<?php echo $packages[$i]["id"]?>"><?php echo htmlspecialchars($packages[$i]["time"]) ?></label></div>
+			<div style="display:none"><label id="extras<?php echo $packages[$i]["id"]?>"><?php echo htmlspecialchars($packages[$i]["extra_items"]) ?></label></div>
+			<div style="display:none"><label id="personalInfo<?php echo $packages[$i]["id"]?>"><?php echo htmlspecialchars($packages[$i]["personalInfo"]) ?></label></div>
 			</td>
 			</tr>
 			<?php
