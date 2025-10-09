@@ -141,7 +141,7 @@ if( isset($_POST["arTitle"]) ){
 			</div>
 
 			<div class="col-md-3">
-			<label><?php echo direction("Hide Category","أخفي القسم") ?></label>
+			<label><?php echo direction("Hide","أخفي") ?></label>
 			<select name="hidden" class="form-control">
 				<option value="1">No</option>
 				<option value="2">Yes</option>
@@ -301,51 +301,6 @@ if( isset($_POST["arTitle"]) ){
 			<td id="enTitle<?php echo $packages[$i]["id"]?>" ><?php echo $packages[$i]["enTitle"] ?></td>
 			<td id="arTitle<?php echo $packages[$i]["id"]?>" ><?php echo $packages[$i]["arTitle"] ?></td>
 			<td id="price<?php echo $packages[$i]["id"]?>" ><?php echo $packages[$i]["price"] ?></td>
-			<?php /*
-			<td>
-				<?php 
-					if(!empty($packages[$i]["time"])) {
-						// First try normal JSON decode
-						$timeArray = json_decode($packages[$i]["time"], true);
-						
-						// If that fails, try to clean the string and decode again
-						if(!is_array($timeArray)) {
-							$cleanTime = str_replace('\\', '', $packages[$i]["time"]);
-							$timeArray = json_decode($cleanTime, true);
-						}
-						
-						// If still not an array, try one more method - could be a JSON string with escaped quotes
-						if(!is_array($timeArray)) {
-							// Remove surrounding quotes if present
-							$tempTime = trim($packages[$i]["time"]);
-							if(substr($tempTime, 0, 1) === '"' && substr($tempTime, -1) === '"') {
-								$tempTime = substr($tempTime, 1, -1);
-							}
-							// Replace escaped backslashes and quotes
-							$tempTime = str_replace('\\"', '"', $tempTime);
-							$tempTime = str_replace('\\\\', '\\', $tempTime);
-							
-							$timeArray = json_decode($tempTime, true);
-						}
-						
-						if(is_array($timeArray) && count($timeArray) > 0) {
-							echo "<ul style='padding-left: 15px; margin-bottom: 0;'>";
-							foreach($timeArray as $timeItem) {
-								$timeData = is_string($timeItem) ? json_decode($timeItem, true) : $timeItem;
-								if(isset($timeData['startDate']) && isset($timeData['endDate'])) {
-									echo "<li>" . $timeData['startDate'] . " - " . $timeData['endDate'] . "</li>";
-								}
-							}
-							echo "</ul>";
-						} else {
-							echo direction("No time set", "لا يوجد وقت محدد");
-						}
-					} else {
-						echo direction("No time set", "لا يوجد وقت محدد");
-					}
-				?>
-			</td>
-			*/ ?>
 			<td class="text-nowrap">
 			
 			<a id="<?php echo $packages[$i]["id"] ?>" class="mr-25 edit" data-toggle="tooltip" data-original-title="<?php echo direction("Edit","تعديل") ?>"> <i class="btn btn-warning btn-circle fa fa-pencil text-inverse m-r-10" style="align-content: center;"></i>
