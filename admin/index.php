@@ -1,8 +1,12 @@
 <?php 
-	include('../languages/lang_config.php');
-	include('config/apply.php');
-	include('config/login_check.php');
-	include('includes/header.php');
-	include('includes/body.php');
-	include('includes/footer.php');
+require_once("template/header.php");
+
+// get viewed page from pages folder \\
+if( isset($_GET["v"]) && searchFile("views","blade{$_GET["v"]}.php") ){
+	require_once("views/".searchFile("views","blade{$_GET["v"]}.php"));
+}else{
+	require_once("views/bladeHome.php");
+}
+
+require("template/footer.php");
 ?>

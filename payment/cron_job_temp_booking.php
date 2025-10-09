@@ -1,15 +1,10 @@
 <?php
-include('../languages/lang_config.php');
-include('../admin/config/apply.php');
-include('../admin2/includes/functions.php');
+include('../admin/includes/config.php');
+include('../admin/includes/functions.php');
+include('../admin/includes/translate.php');
 
 function delete_1_tempBookingDateTime(){
-	GLOBAL $obj,$conn;
-	$tbl_name = 'tbl_temp_date_time';
-	$where = "id != '0'" ;
-	$query = $obj->delete_data($tbl_name, $where);
-	$res = $obj->execute_query($conn,$query);
+	$res = deleteDB("tbl_temp_date_time", "id != '0'");
 }
-
 delete_1_tempBookingDateTime();
 ?>
