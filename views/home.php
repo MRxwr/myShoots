@@ -8,12 +8,11 @@ if (isset($aboutUsBanners) && is_array($aboutUsBanners) && count($aboutUsBanners
   $aboutUsBannersImg = 'logos/' . $aboutUsBanners[0]['image'];
 }
 ?>
+<?php if ($popupBannerImg) { ?>
 <div id="popupBannerOverlay" class="popup-banner-overlay" style="display:none;">
   <div class="popup-banner">
     <button class="close-btn" onclick="closePopupBanner()">&times;</button>
-    <?php if($popupBannerImg) { ?>
-      <img src="<?php echo $popupBannerImg; ?>" alt="Popup Banner">
-    <?php } ?>
+    <img src="<?php echo $popupBannerImg; ?>" alt="Popup Banner">
   </div>
 </div>
 <script>
@@ -28,6 +27,7 @@ function closePopupBanner() {
 }
 document.addEventListener('DOMContentLoaded', showPopupBanner);
 </script>
+<?php } ?>
 <!-- Packages Section -->
 <section class="py-5">
   <div class="container" style="max-width: 1340px;">
