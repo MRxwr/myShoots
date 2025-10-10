@@ -26,11 +26,7 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
     $price = $package['price'];
     $currency = $package['currency'];
     $post_title = $package[direction("en","ar").'Title'];
-    $post_description = $package[direction("en","ar").'Details'];
-    $image_url = $package['imageurl'];
-    $created_at = $package['created_at'];
-    $is_extra = $package['is_extra']; 
-    $extra_items = $package['extra_items'];
+    $extra_items = json_decode($booking['extra_items'], true);
     $booking_date = $booking['booking_date'];
     $booking_time  = $booking['booking_time'];
 
@@ -98,7 +94,27 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
             </h2>
             <div class="row">
               <div class="col-12 mb-4">
-                <div class="personal-information">
+        <?php
+        // Show extra items if available
+        if (!empty($booking['extra_items'])) {
+          $extraItems = json_decode($booking['extra_items'], true);
+          if (is_array($extraItems) && count($extraItems) > 0) {
+            echo '<div class="form-group mb-3">';
+            echo '<label class="font-weight-bold text-secondary">' . direction("Extra Items","الإضافات") . ':</label>';
+            foreach ($extraItems as $item) {
+              $itemName = isset($item['item']) ? htmlspecialchars($item['item']) : '';
+              $itemPrice = isset($item['price']) ? htmlspecialchars($item['price']) : '';
+              echo '<div><strong>' . $itemName . '</strong>';
+              if ($itemPrice !== '') {
+                echo ' - ' . direction('Price','السعر') . ': ' . $itemPrice;
+              }
+              echo '</div>';
+            }
+            echo '</div>';
+          }
+        }
+        ?>
+        <div class="personal-information">
                   <div class="form-group mb-3">
                     <label class="font-weight-bold text-secondary"><?php echo direction("Reservation ID","رقم الحجز") ?></label>
                     <input type="text" readonly class="form-control-plaintext" value="<?= $orderId ?>">
