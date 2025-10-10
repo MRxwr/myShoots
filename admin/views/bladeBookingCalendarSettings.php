@@ -80,6 +80,69 @@ if( isset($_POST["openDate"]) ){
                 <div class="panel panel-default card-view">
                 <div class="panel-heading">
                     <div class="pull-left">
+                        <h6 class="panel-title txt-dark"><?php echo direction("Website Theme", "ثيم الموقع") ?></h6>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <!-- whatsapp Details -->
+                    <div class="col-md-12">
+                        <div class="panel panel-default card-view">
+                            <div class="panel-heading">
+                                <div class="pull-left"><h6 class="panel-title txt-dark"><?php echo direction("Details","التفاصيل") ?></h6></div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="panel-wrapper collapse in">
+                            <div class="panel-body">
+                                <div class="col-md-6" style="padding-bottom: 5px;">
+                                <div class="text">
+                                <input class="form-control" type="color" name="websiteColors[main1]" value="<?php echo $main1 = isset($websiteColors["main1"]) ? "{$websiteColors["main1"]}" : "" ?>">
+                                </div>
+                                </div>
+
+                                <div class="col-md-6" style="padding-bottom: 5px;">
+                                <div class="text">
+                                <input class="form-control" type="color" name="websiteColors[main2]" value="<?php echo $main2 = isset($websiteColors["main2"]) ? "{$websiteColors["main2"]}" : "" ?>">
+                                </div>
+                                </div>
+
+                                <div class="col-md-6" style="padding-bottom: 5px;">
+                                <div class="text">
+                                <input class="form-control" type="color" name="websiteColors[button1]" value="<?php echo $button1 = isset($websiteColors["button1"]) ? "{$websiteColors["button1"]}" : "" ?>">
+                                </div>
+                                </div>
+
+                                <div class="col-md-6" style="padding-bottom: 5px;">
+                                <div class="text">
+                                <input class="form-control" type="color" name="websiteColors[button2]" value="<?php echo $button2 = isset($websiteColors["button2"]) ? "{$websiteColors["button2"]}" : "" ?>">
+                                </div>
+                                </div>
+
+                                <div class="col-md-6" style="padding-bottom: 5px;">
+                                <div class="text">
+                                <input class="form-control" type="color" name="websiteColors[footer1]" value="<?php echo $footer1 = isset($websiteColors["footer1"]) ? "{$websiteColors["footer1"]}" : "" ?>">
+                                </div>
+                                </div>
+
+                                <div class="col-md-6" style="padding-bottom: 5px;">
+                                <div class="text">
+                                <input class="form-control" type="color" name="websiteColors[footer2]" value="<?php echo $footer2 = isset($websiteColors["footer2"]) ? "{$websiteColors["footer2"]}" : "" ?>">
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                </div>
+            </div>
+
+            <div class="col-md-12" style="padding-top: 5px;" >
+                <div class="panel panel-default card-view">
+                <div class="panel-heading">
+                    <div class="pull-left">
                         <h6 class="panel-title txt-dark"><?php echo direction("Whatsapp Notification", "إشعار الواتساب") ?></h6>
                     </div>
                     <div class="clearfix"></div>

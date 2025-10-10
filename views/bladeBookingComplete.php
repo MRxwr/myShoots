@@ -120,7 +120,7 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
                       foreach ($extraItems as $item) {
                         $itemName = isset($item['item']) ? htmlspecialchars($item['item']) : '';
                         $itemPrice = isset($item['price']) ? htmlspecialchars($item['price']) : '';
-                        echo '<div style="direction: '.direction('ltr', 'rtl').';"><strong>' . $itemName . '</strong>';
+                        echo '<div><strong>' . $itemName . '</strong>';
                         if ($itemPrice !== '') {
                           echo ': ' . $itemPrice . "{$currency}";
                         }
