@@ -26,6 +26,7 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
     $extra_items = $package['extra_items'];
     $booking_date = $booking['booking_date'];
     $booking_time  = $booking['booking_time'];
+    /*
     // Send WhatsApp notification using bookingWhatsapp API
     $whatsappApi = $settingsWebsite . "/requests/index.php?f=booking&endpoint=BookingWhatsapp";
     $ch = curl_init();
@@ -49,7 +50,7 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
     $smsResponse = curl_exec($ch);
     curl_close($ch);
     // Optionally, handle $smsResponse if needed
-
+*/
     ///////////////// Check booking slot //////////////////////////////
     $booktimes = get_bookingTimeBydate('', $booking_date);
     $booktimeArr=array(); 
