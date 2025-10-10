@@ -26,8 +26,8 @@ if(isset($_POST['submit'])){
 		$select_extra_item_val = "";
 		$extra_price = 0;
 	}
-	die("check 2");
-	$personalInfo = json_decode($_POST['personalInfo'], true);
+
+	$personalInfo = $_POST['personalInfo'];
 	$bookingSettings['mobile'] = ( isset($personalInfo['1']) && !empty($personalInfo['1']) )  ? $personalInfo['1'] : $bookingSettings['mobile'];
 	$extra_items = "[{$select_extra_item_val}]"; 
 	$package_id = $_POST['id'];
@@ -38,7 +38,7 @@ if(isset($_POST['submit'])){
 	$is_filming = ( isset($_POST['is_filming']) ) ? $_POST['is_filming'] : 0 ;
 	date_default_timezone_set('Asia/Riyadh');
 	$created_at = date('Y-m-d H:i:s');
-
+die("check 3");
 	if( check_bookingTimeAndDate($booking_date,$booking_time,$package_id) ){
 		header("LOCATION: {$settingsWebsite}/?v=Reservations&id={$package_id}");die();
 	}	 
