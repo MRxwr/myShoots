@@ -61,7 +61,6 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
   $booktimes = get_bookingTimeBydate($_GET['id'],$booking_date);
   $blockedTimeSlots = getBlockedTimeSlots($booking_date);
   $booktimeArr = array(); 
-  var_dump($booktimes);
   if( @count($booktimes) != 0 ){
     foreach( $booktimes as $key=>$booktime ){		
       $booktimeArr[] = $booktime['booking_time'];
