@@ -122,7 +122,7 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
                         $itemPrice = isset($item['price']) ? htmlspecialchars($item['price']) : '';
                         echo '<div><strong>' . $itemName . '</strong>';
                         if ($itemPrice !== '') {
-                          echo ' - : ' . $itemPrice . '{{currency}}';
+                          echo ': ' . $itemPrice . "{$currency}";
                         }
                         echo '</div>';
                       }
