@@ -353,7 +353,7 @@ function sendOrderToAllowMENA($orderId){
 }
 
 // createapi payment
-function createAPI($BookingDetails){
+function createAPI($BookingDetails, $paymentSettings){
 	// Build request body for payment API
 	GLOBAL $settingsWebsite, $PaymentAPIKey;
 	$postMethodLines = array(
@@ -390,10 +390,12 @@ function createAPI($BookingDetails){
 			// Build DB insert data
 			unset($BookingDetails['InvoiceItems']);
 			unset($BookingDetails['customer_email']);
+			$paymentSettings["booking_price"] = $BookingDetails['booking_price'];
 			$BookingDetails["transaction_id"]  = $resultMY["data"]["InvoiceId"];
 			$BookingDetails["payload"]         = json_encode($postMethodLines, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
 			$BookingDetails["payloadResponse"] = json_encode($resultMY, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
 			$BookingDetails["gatewayLink"]     = $resultMY["data"]["PaymentURL"];
+			$BookingDetails["payment"]     = json_encode($paymentSettings, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
 			// Insert into DB
 			if ( insertDB("tbl_booking", $BookingDetails) ){
 				return $resultMY["data"];die();

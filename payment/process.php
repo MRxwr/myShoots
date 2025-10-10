@@ -69,7 +69,7 @@ if(isset($_POST['submit'])){
 	);
 
 	if( $checkBookingTime = checkBookingTime($booking_date, $booking_time, $package_id) ){
-		if ( $response = createAPI($BookingDetails) ) {
+		if ( $response = createAPI($BookingDetails, $paymentSettings) ) {
 			if ( !empty($response) ) {
 				if( $paymentSettings["type"] == "2" ){
 					$response = $settingsWebsite."?result=CAPTURED&requested_order_id=".$response["InvoiceId"];
