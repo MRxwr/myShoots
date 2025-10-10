@@ -30,6 +30,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
     ";
     die();
 }
+die("Invalid request");
   // Date formate			
   if( isset($_GET['date']) && !empty($_GET['date']) ) {
     $settings = selectDB("tbl_calendar_settings","`id`='1'");
