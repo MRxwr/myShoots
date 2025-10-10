@@ -559,13 +559,24 @@ $(document).ready(function() {
         
         showLoading();
         
+        // The date is already in DD-MM-YYYY format from the datepicker, which is what the backend expects
+        var formData = {
+            booking_id: $('#reschedule-booking-id').val(),
+            package_id: $('#package-id').val(),
+            new_date: $('#reschedule-date').val(),
+            new_time: $('#reschedule-time').val()
+        };
+        
+        console.log('Submitting reschedule with data:', formData);
+        
         $.ajax({
             url: '../requests/index.php?f=booking&endpoint=RescheduleBooking',
             type: 'POST',
-            data: $('#reschedule-form').serialize(),
+            data: formData,
             dataType: 'json',
             success: function(res) {
                 hideLoading();
+                console.log('Reschedule response:', res);
                 if (res.success) {
                     alert('<?php echo direction("Booking successfully rescheduled", "تمت إعادة جدولة الحجز بنجاح") ?>');
                     $('#rescheduleModal').modal('hide');
@@ -574,8 +585,9 @@ $(document).ready(function() {
                     alert(res.message || '<?php echo direction("Failed to reschedule booking", "فشل في إعادة جدولة الحجز") ?>');
                 }
             },
-            error: function() {
+            error: function(xhr, status, error) {
                 hideLoading();
+                console.error('Error rescheduling:', status, error, xhr.responseText);
                 alert('<?php echo direction("Error rescheduling booking", "خطأ في إعادة جدولة الحجز") ?>');
             }
         });
