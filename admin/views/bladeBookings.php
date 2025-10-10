@@ -137,9 +137,6 @@
     </div>
 </div>
 
-<!-- Datepicker CSS/JS for Reschedule Modal -->
-<link rel="stylesheet" href="../vendors/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css">
-<script src="../vendors/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 <script>
 $(document).ready(function() {
     // Show loading spinner and dim the table
@@ -443,36 +440,74 @@ $(document).ready(function() {
     
     // Initialize datepicker for reschedule modal
     function initRescheduleDatepicker(packageId) {
-        // Clear any previous datepicker
-        if ($('#reschedule-date').data('datepicker')) {
-            $('#reschedule-date').datepicker('destroy');
+        // Clear any previous datetimepicker
+        if ($('#reschedule-date').data('DateTimePicker')) {
+            $('#reschedule-date').data('DateTimePicker').destroy();
         }
         
-        // Initialize the datepicker
-        $('#reschedule-date').datepicker({
-            format: 'dd-mm-yyyy',
-            autoclose: true,
-            startDate: '+1d',
-            todayHighlight: true
-        }).on('changeDate', function(e) {
-            // When date is selected, load available time slots
-            var selectedDate = $(this).val();
-            loadAvailableTimeSlots(packageId, selectedDate);
-        });
-        
-        // Get disabled dates from the server
+        // Get disabled dates from the server first
         $.ajax({
             url: '../requests/index.php?f=booking&endpoint=GetDisabledDates',
             type: 'POST',
             data: {package_id: packageId},
             dataType: 'json',
             success: function(res) {
+                var disabledDates = [];
                 if (res.success && res.data) {
-                    var disabledDates = res.data;
-                    
-                    // Update the datepicker to disable these dates
-                    $('#reschedule-date').datepicker('setDatesDisabled', disabledDates);
+                    disabledDates = res.data;
                 }
+                
+                // Initialize the datetimepicker using bootstrap-datetimepicker (eonasdan)
+                $('#reschedule-date').datetimepicker({
+                    format: 'DD-MM-YYYY',
+                    minDate: moment().add(1, 'days'),
+                    disabledDates: disabledDates.map(function(d) { return moment(d, 'DD-MM-YYYY'); }),
+                    showClear: true,
+                    showClose: true,
+                    icons: {
+                        time: "fa fa-clock-o",
+                        date: "fa fa-calendar",
+                        up: "fa fa-arrow-up",
+                        down: "fa fa-arrow-down",
+                        previous: "fa fa-chevron-left",
+                        next: "fa fa-chevron-right",
+                        today: "fa fa-calendar-check-o",
+                        clear: "fa fa-trash",
+                        close: "fa fa-times"
+                    }
+                }).on('dp.change', function(e) {
+                    // When date is selected, load available time slots
+                    if (e.date) {
+                        var selectedDate = e.date.format('DD-MM-YYYY');
+                        loadAvailableTimeSlots(packageId, selectedDate);
+                    }
+                });
+            },
+            error: function() {
+                // Initialize without disabled dates if request fails
+                $('#reschedule-date').datetimepicker({
+                    format: 'DD-MM-YYYY',
+                    minDate: moment().add(1, 'days'),
+                    showClear: true,
+                    showClose: true,
+                    icons: {
+                        time: "fa fa-clock-o",
+                        date: "fa fa-calendar",
+                        up: "fa fa-arrow-up",
+                        down: "fa fa-arrow-down",
+                        previous: "fa fa-chevron-left",
+                        next: "fa fa-chevron-right",
+                        today: "fa fa-calendar-check-o",
+                        clear: "fa fa-trash",
+                        close: "fa fa-times"
+                    }
+                }).on('dp.change', function(e) {
+                    // When date is selected, load available time slots
+                    if (e.date) {
+                        var selectedDate = e.date.format('DD-MM-YYYY');
+                        loadAvailableTimeSlots(packageId, selectedDate);
+                    }
+                });
             }
         });
     }
