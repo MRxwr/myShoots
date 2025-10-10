@@ -13,9 +13,9 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
   $socialMedia["whatsapp"] = "#";
 }
 ?>
-
+ 
 <!-- Footer -->
-  <footer class="footer" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 60px 0 30px; color: white;">
+  <footer class="footer" style="background: linear-gradient(135deg, <?php echo $websiteColors["footer2"] ?> 0%, <?php echo $websiteColors["footer1"] ?> 100%); padding: 60px 0 30px; color: white;">
     <div class="container">
       <div class="row">
         <!-- Sitemap Section -->

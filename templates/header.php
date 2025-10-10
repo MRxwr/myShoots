@@ -6,6 +6,14 @@ if( $bookingSettings = selectDB("tbl_settings", "`id` = '1'") ){
         $bookingSettings = array();
     }
 }
+if( $mainSettings = selectDB("tbl_calendar_settings", "`id` = '1'") ){
+    if( is_array($mainSettings) && sizeof($mainSettings) > 0 ){
+        $mainSettings = $mainSettings[0];
+        $websiteColors = json_decode($mainSettings["websiteColors"],true);
+    }else{
+        $mainSettings = array();
+    }
+}
 if ( $banners = selectDB("tbl_banners","`status` = '0' AND `hidden` = '1' ORDER BY `rank` ASC") ) {
   // look for type 1 banners only
   $filteredBanners = array();

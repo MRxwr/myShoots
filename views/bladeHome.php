@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', showPopupBanner);
       <div class="col-12 text-center">
         <h2 class="shoots-Head" style="position: relative; display: inline-block; padding-bottom: 15px;">
           <?php echo direction("Packages","الباقات") ?>
-          <span style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%);"></span>
+          <span style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: linear-gradient(90deg, <?php echo $websiteColors["main1"] ?> 0%, <?php echo $websiteColors["main2"] ?> 100%);"></span>
         </h2>
       </div>
     </div>
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', showPopupBanner);
                     <div style="color: #666; line-height: 1.8; margin-bottom: 20px;"><?= $package[direction('en','ar')."Details"] ?></div>
                     <div class="theme-color package-price-tag d-flex align-items-center" style="font-size: 1.2rem; font-weight: 600;">
                       <span style="color: #999; font-size: 0.9rem; margin-right: 8px;"><?php echo direction("Price","القيمة") ?>:</span>
-                      <span style="background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><?= $package["price"] ?> <?= $package["currency"] ?></span>
+                      <span style="background: linear-gradient(90deg, <?php echo $websiteColors["main1"] ?> 0%, <?php echo $websiteColors["main2"] ?> 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><?= $package["price"] ?> <?= $package["currency"] ?></span>
                     </div>
                   </div>
                   <div class="col-lg-5 col-md-5 col-12 order-md-2 order-1 mb-md-0 mb-3">
@@ -101,7 +101,7 @@ if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = 
       <div class="col-12 text-center">
         <h2 class="shoots-Head" style="position: relative; display: inline-block; padding-bottom: 15px;">
           <?php echo $about[direction("en","ar")."Title"] ?>
-          <span style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%);"></span>
+          <span style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: linear-gradient(90deg, <?php echo $websiteColors["main1"] ?> 0%, <?php echo $websiteColors["main2"] ?> 100%);"></span>
         </h2>
       </div>
     </div>
@@ -126,7 +126,7 @@ if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = 
       <div class="col-12 text-center">
         <h2 class="shoots-Head" style="position: relative; display: inline-block; padding-bottom: 15px; color: #333;">
           <?php echo direction("Gallery","الصور") ?>
-          <span style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%);"></span>
+          <span style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: linear-gradient(90deg, <?php echo $websiteColors["main1"] ?> 0%, <?php echo $websiteColors["main2"] ?> 100%);"></span>
         </h2>
       </div>
     </div>
@@ -171,13 +171,13 @@ if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = 
   color: #333 !important;
   width: 50px;
   height: 50px;
-  border-radius: 50%;
+  border-radius: 50%; 
   box-shadow: 0 4px 15px rgba(0,0,0,0.15);
   transition: all 0.3s ease;
 }
 .owl-carousel .owl-nav button.owl-prev:hover,
 .owl-carousel .owl-nav button.owl-next:hover {
-  background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%) !important;
+  background: linear-gradient(90deg, <?php echo $websiteColors["main1"] ?> 0%, <?php echo $websiteColors["main2"] ?> 100%) !important;
   color: white !important;
 }
 .owl-carousel .owl-nav button.owl-prev {
@@ -197,7 +197,7 @@ if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = 
   transition: all 0.3s ease;
 }
 .owl-carousel .owl-dot.active span {
-  background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%);
+  background: linear-gradient(90deg, <?php echo $websiteColors["main1"] ?> 0%, <?php echo $websiteColors["main2"] ?> 100%);
   width: 30px;
   border-radius: 6px;
 }
