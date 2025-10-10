@@ -113,7 +113,7 @@ if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = 
       </div>
       <div class="col-md-5 p-3 p-md-5">
         <p class="about-para"><?php echo urldecode($about[direction("en","ar")."Details"]); ?></p>
-        <a href="?v=Galleries" class="btn btn-lg btn-outline-secondary px-5 mt-5"><?php echo direction("Gallery","الصور") ?></a>
+        <a href="?v=Galleries" class="btn btn-lg btn-outline-secondary px-5 mt-5" style="background: linear-gradient(90deg, <?php echo $websiteColors["button1"] ?> 0%, <?php echo $websiteColors["button2"] ?> 100%); border:none; color:#fff;"><?php echo direction("Gallery","الصور") ?></a>
       </div>
     </div>
   </div>
