@@ -69,6 +69,7 @@ if(isset($_POST['submit'])){
 	);
 
 	if( $checkBookingTime = checkBookingTime($booking_date, $booking_time, $package_id) ){
+		var_dump(createAPI($BookingDetails));die();
 		if ( $response = createAPI($BookingDetails) ) {
 			if ( !empty($response) ) {
 				if( $paymentSettings["type"] == "2" ){
