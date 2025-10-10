@@ -43,7 +43,7 @@
                                 <button type="button" class="btn btn-success status-filter" data-status="Yes" style="margin-right:10px;"><?php echo direction("Success", "ناجح") ?></button>
                                 <button type="button" class="btn btn-danger status-filter" data-status="No" style="margin-right:10px;"><?php echo direction("Failed", "فاشل") ?></button>
                                 <button type="button" class="btn btn-warning status-filter" data-status="Cancel" style="margin-right:10px;"><?php echo direction("Cancelled", "ملغي") ?></button>
-                                <button type="button" class="btn btn-info status-filter" data-status="Rescheduled"><?php echo direction("Rescheduled", "معاد جدولته") ?></button>
+                                <button type="button" class="btn btn-info status-filter" data-status="Reschedule"><?php echo direction("Rescheduled", "معاد جدولته") ?></button>
                             </div>
                         </div>
                         <div class="table-wrap">
