@@ -2,7 +2,7 @@
 require_once('../admin/includes/config.php');
 require_once('../admin/includes/functions.php');
 require_once('../admin/includes/translate.php');
-if( $bookingSettings = selectDB('tbl_settings', "`id` = '1'") ){
+if( $bookingSettings = selectDB('tbl_calendar_settings', "`id` = '1'") ){
 	$bookingSettings = $bookingSettings[0];
 }else{
 	$bookingSettings = array();
