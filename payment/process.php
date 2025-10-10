@@ -5,7 +5,6 @@ require_once('../admin/includes/translate.php');
 if( $bookingSettings = selectDB('tbl_calendar_settings', "`id` = '1'") ){
 	$bookingSettings = $bookingSettings[0];
 	$paymentSettings = json_decode($bookingSettings['payment'], true);
-	$price = $paymentSettings['price'];
 }else{
 	$bookingSettings = array();
 }
@@ -45,6 +44,7 @@ if(isset($_POST['submit'])){
 
 	$package = get_packages_details($package_id);
 	$booking_price = $package['price'] + $extra_price;
+	$booking_price = ( $paymentSettings["type"] == '0' ) ? $paymentSettings["price"] : ( $booking_price );
 	$package_title = $package[direction('en','ar').'Title'];
 	$BookingDetails = array(
 		'package_id' => $package_id,
