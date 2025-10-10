@@ -26,9 +26,18 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
     $extra_items = $package['extra_items'];
     $booking_date = $booking['booking_date'];
     $booking_time  = $booking['booking_time'];
-    $message="Your booking has been confirmed for myshoots studio, Date: ".$booking_date.", Time:".$booking_time.",Id: ".$orderId;
-    sendkwtsms($mobile,$message);
-    
+  // Send WhatsApp notification using bookingWhatsapp API
+  $whatsappApi = $settingsWebsite . "/requests/index.php?f=booking&endpoint=BookingWhatsapp";
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $whatsappApi);
+  curl_setopt($ch, CURLOPT_POST, 1);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(['id' => $booking['id']]));
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+  $waResponse = curl_exec($ch);
+  curl_close($ch);
+  // Optionally, handle $waResponse if needed
+
     ///////////////// Check booking slot //////////////////////////////
     $booktimes = get_bookingTimeBydate('', $booking_date);
     $booktimeArr=array(); 
@@ -106,8 +115,8 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
                 <div class="form-group mb-3">
                   <label class="font-weight-bold text-secondary"><?php echo direction("Notes","ملاحظات") ?>:</label>
                   <ul class="list-unstyled h5">
-                    <li>- <?php echo direction("You'll receive an SMS with you reservation details.","سوف تتلقى رسالة SMS مع تفاصيل حجزك") ?></li>
-                    <li>- <?php echo direction("10 days before the session you'll get a remainder SMS with the studio location.","قبل 10 أيام من الجلسة، ستتلقى رسالة تذكير بموقع الاستوديو.") ?></li>
+                    <li>- <?php echo direction("You'll receive a WhatsApp message with your reservation details.","سوف تتلقى رسالة واتساب مع تفاصيل حجزك") ?></li>
+                    <li>- <?php echo direction("10 days before the session you'll get a reminder WhatsApp message with the studio location.","قبل 10 أيام من الجلسة، ستتلقى رسالة تذكير بموقع الاستوديو على واتساب.") ?></li>
                     <li>- <?php echo direction("10 days before the session to reschedule your reservation.","قبل 10 أيام من الجلسة، يمكنك إعادة جدولة حجزك.") ?></li>
                   </ul>
                 </div>

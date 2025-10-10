@@ -17,7 +17,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
   }else{
     echo "
     <script>
-      window.location.href='?v=home&error=".urlencode(base64_encode(direction("Package not found","الباقة غير موجودة")))."';
+      window.location.href='?v=Home&error=".urlencode(base64_encode(direction("Package not found","الباقة غير موجودة")))."';
     </script>
     ";
     die();
@@ -25,7 +25,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
 }else{
   echo "
     <script>
-      window.location.href='?v=home&error=".urlencode(base64_encode(direction("package not found","الباقة غير موجودة")))."';
+      window.location.href='?v=Home&error=".urlencode(base64_encode(direction("package not found","الباقة غير موجودة")))."';
     </script>
     ";
     die();
@@ -43,7 +43,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
     } else {
       echo "
       <script>
-        window.location.href='?v=home&error=".urlencode(base64_encode(direction("Selected date is not available","التاريخ المحدد غير متوفر")))."';
+        window.location.href='?v=Home&error=".urlencode(base64_encode(direction("Selected date is not available","التاريخ المحدد غير متوفر")))."';
       </script>
       ";
       die();
@@ -51,7 +51,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
   } else {
     echo "
     <script>
-      window.location.href='?v=home&error=".urlencode(base64_encode(direction("No date selected","لم يتم تحديد تاريخ")))."';
+      window.location.href='?v=Home&error=".urlencode(base64_encode(direction("No date selected","لم يتم تحديد تاريخ")))."';
     </script>
     ";
     die();

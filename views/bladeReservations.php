@@ -14,7 +14,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
   }else{
     echo "
     <script>
-      window.location.href='?v=home&error=".urlencode(base64_encode(direction("Package not found","الباقة غير موجودة")))."';
+      window.location.href='?v=Home&error=".urlencode(base64_encode(direction("Package not found","الباقة غير موجودة")))."';
     </script>
     ";
     die();
@@ -22,7 +22,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
 }else{
   echo "
   <script>
-    window.location.href='?v=home&error=".urlencode(base64_encode(direction("Package not found","الباقة غير موجودة")))."';
+    window.location.href='?v=Home&error=".urlencode(base64_encode(direction("Package not found","الباقة غير موجودة")))."';
   </script>
   ";
   die();

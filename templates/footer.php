@@ -140,7 +140,7 @@ $(document).ready(function(){
     $('#booknow').click(function(){
       var date = $("#date").val();
       if( date != "" ){
-        var redirectUrl = "<?php echo $settingsWebsite; ?>/?v=personal-information&id=<?php echo $id; ?>&date=" + date;
+        var redirectUrl = "<?php echo $settingsWebsite; ?>/?v=PersonalInformation&id=<?php echo $id; ?>&date=" + date;
         checkDateAndRedirect(date, redirectUrl);
       } else {
         alert("Please select date!"); 

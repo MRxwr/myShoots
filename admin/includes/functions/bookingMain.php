@@ -563,12 +563,9 @@ $res = $obj->execute_query($conn,$query);
 }
 // delete temp booking data	
 function delete_tempBookingDateTimeBySession($session_id){
-GLOBAL $obj,$conn;
-$tbl_name = 'tbl_temp_date_time';
-$where = " session_id ='".$session_id."'";
-$query = $obj->delete_data($tbl_name, $where);
-$res = $obj->execute_query($conn,$query);
-
+	if ( deleteDB("tbl_temp_date_time","`session_id` = '{$session_id}'") ){
+		return true;
+	}
 }
 
 function getDisableTime($date){
