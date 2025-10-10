@@ -514,6 +514,7 @@ $(document).ready(function() {
     
     // Load available time slots for selected date
     function loadAvailableTimeSlots(packageId, selectedDate) {
+        console.log('Loading time slots for package:', packageId, 'date:', selectedDate);
         $('#reschedule-time').html('<option value="" selected disabled>Loading...</option>');
         
         $.ajax({
@@ -522,18 +523,28 @@ $(document).ready(function() {
             data: {package_id: packageId, date: selectedDate},
             dataType: 'json',
             success: function(res) {
+                console.log('Time slots response:', res);
                 var options = '<option value="" selected disabled>' + '<?php echo direction("Select Time", "اختر الوقت") ?>' + '</option>';
                 
                 if (res.success && res.data) {
                     var timeSlots = res.data;
-                    for (var i = 0; i < timeSlots.length; i++) {
-                        options += '<option value="' + timeSlots[i] + '">' + timeSlots[i] + '</option>';
+                    console.log('Available time slots:', timeSlots);
+                    if (timeSlots.length === 0) {
+                        options = '<option value="" selected disabled>' + '<?php echo direction("No available times", "لا توجد أوقات متاحة") ?>' + '</option>';
+                    } else {
+                        for (var i = 0; i < timeSlots.length; i++) {
+                            options += '<option value="' + timeSlots[i] + '">' + timeSlots[i] + '</option>';
+                        }
                     }
+                } else {
+                    console.error('Failed to load time slots:', res.message);
+                    options = '<option value="" selected disabled>' + (res.message || '<?php echo direction("No times available", "لا توجد أوقات متاحة") ?>') + '</option>';
                 }
                 
                 $('#reschedule-time').html(options);
             },
-            error: function() {
+            error: function(xhr, status, error) {
+                console.error('Error loading time slots:', status, error, xhr.responseText);
                 $('#reschedule-time').html('<option value="" selected disabled>' + '<?php echo direction("Error loading time slots", "خطأ في تحميل المواعيد المتاحة") ?>' + '</option>');
             }
         });
