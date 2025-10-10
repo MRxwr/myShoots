@@ -365,7 +365,7 @@ function createAPI($BookingDetails){
 		"MobileCountryCode"    => "+965", 
 		"CustomerMobile"       => substr($BookingDetails['mobile_number'], 0, 11),
 		"CustomerEmail"        => $BookingDetails['customer_email'],
-		"invoiceValue"         => 30.5,
+		"invoiceValue"         => $BookingDetails['booking_price'],
 		"SourceInfo"           => '',
 		"CallBackUrl"          => "{$settingsWebsite}/index.php",
 		"ErrorUrl"             => "{$settingsWebsite}/index.php",
@@ -396,7 +396,7 @@ function createAPI($BookingDetails){
 			$BookingDetails["gatewayLink"]     = $resultMY["data"]["PaymentURL"];
 			// Insert into DB
 			if ( insertDB("tbl_booking", $BookingDetails) ){
-				return $resultMY["data"]["PaymentURL"];die();
+				return $resultMY["data"];die();
 			}else{
 				return 0;die();
 			}
