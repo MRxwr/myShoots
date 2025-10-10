@@ -186,17 +186,23 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
                         <span class="form-control-plaintext"> <?php echo direction("I agree","أوافق") ?> <a href="<?php echo "?v=terms-and-condition"; ?>" target="_blank"><?php echo direction("Terms and Conditions","الشروط والأحكام") ?></a> </span>
                       </label>
                     </div>
+                    <?php 
+                    $paymentSettings = json_decode($mainSettings['payment'], true);
+                    if( $paymentSettings['type'] == '0' ){
+                    ?>
                     <div class="reservation">
                       <h5 class="theme-color mt-4">
-                        <span><?php echo direction("Deposit","عربون") ?>:</span> <span>30.500 KD</span>
+                        <span><?php echo direction("Deposit","عربون") ?>:</span> <span><?php echo getPrice($mainSettings) ?>KD</span>
                       </h5>
-                      <p class="theme-color mb-1 pl-2">
-                        <?php echo direction("Deposit are not refundable.","العربون غير قابل للاسترداد.") ?>
-                      </p>
-                      <p class="theme-color pl-2">
-                        <?php echo direction("0.500 is the payment gateway transaction fees.","0.500 هي رسوم معاملات بوابة الدفع.") ?>
-                      </p>
                     </div> 
+                    <?php }else {
+                       ?>
+                    <div class="reservation">
+                      <h5 class="theme-color mt-4">
+                        <span><?php echo direction("Price","السعر") ?>:</span> <span><?php echo $price; ?>KD</span>
+                      </h5>
+                    </div> 
+                    <?php } ?>
                   </div>
                 </div>
                 <div class="row pt-4">

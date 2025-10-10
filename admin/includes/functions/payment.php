@@ -166,6 +166,22 @@ function checkProductDiscountDefault($id){
 	return numTo3Float($sale);
 }
 
+function getPrice($settings){
+	GLOBAL $_GET;
+	$payment = json_decode($settings["payment"],true);
+	if ( $$payment["type"] == 0 ){
+		return numTo3Float($settings["price"]);
+	}elseif( $payment["type"] == 1 ){
+		if( isset($_GET["id"]) && $package = selectDBNew("tbl_packages",[$_GET["id"]],"`id` = ?","") ){
+			return numTo3Float($package[0]["price"]);
+		}else{
+			return 0;
+		}
+	}else{
+		return 0;
+	}
+}
+
 // get payment link \\
 function payment($data){
 	$curl = curl_init();
