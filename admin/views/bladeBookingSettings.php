@@ -32,14 +32,6 @@ if( isset($_POST["open_date"]) ){
 <div class="panel-body">
 	<form class="" method="POST" action="" enctype="multipart/form-data">
 		<div class="row m-0">
-			
-			<div class="col-md-6">
-			<label><?php echo direction("Maintenance Mode","وضع الصيانة") ?></label>
-			<select name="is_maintenance" class="form-control">
-				<option value="0" <?php if( $settings["is_maintenance"] == 0 ): ?>selected<?php endif; ?>><?php echo direction("No","لا") ?></option>
-				<option value="1" <?php if( $settings["is_maintenance"] == 1 ): ?>selected<?php endif; ?>><?php echo direction("Yes","نعم") ?></option>
-			</select>
-			</div>
 
 			<div class="col-md-6">
 			<label><?php echo direction("Email","البريد الإلكتروني") ?></label>
