@@ -2,7 +2,6 @@
 $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
 if (!$id) {
     echo json_encode(['success' => false, 'message' => 'Invalid parameters']);
-    exit();
 }
 
 // Select all needed columns
@@ -11,7 +10,7 @@ if ($booking = selectDBNew("tbl_booking", [$id] , "id = ?","")) {
     $settings = selectDB("tbl_calendar_settings", "`id` = '1'")[0];
     $smsSettings = json_decode($settings['smsNoti'], true);
     if( empty($smsSettings) || $smsSettings["status"] != 1 ){
-        echo json_encode(['success' => false, 'message' => 'SMS notifications are disabled in settings.']); exit();
+        echo json_encode(['success' => false, 'message' => 'SMS notifications are disabled in settings.']); 
     }else{
         // Here you would integrate with your SMS API
         $booking_date = $booking[0]['booking_date'];
@@ -36,22 +35,21 @@ if ($booking = selectDBNew("tbl_booking", [$id] , "id = ?","")) {
         $err = curl_error($curl);
         curl_close($curl);
         if ($err){
-            echo json_encode(['success' => false, 'message' => 'SMS sending failed - ' . $err]); exit();
+            echo json_encode(['success' => false, 'message' => 'SMS sending failed - ' . $err]); 
         }else{
             if (strpos($response, 'ERR') !== false) {
-                echo json_encode(['success' => false, 'message' => 'Could not send SMS - ' . $response]); exit();
-            } else {
+                echo json_encode(['success' => false, 'message' => 'Could not send SMS - ' . $response]); 
+            }else{
                 if( updateDB("tbl_booking", ["sms" => 1], "id = $id") ) {
-                    echo json_encode(['success' => true, 'message' => 'SMS sent successfully']); exit();
+                    echo json_encode(['success' => true, 'message' => 'SMS sent successfully']); 
                 }else{
-                    echo json_encode(['success' => false, 'message' => 'SMS sent but failed to update status']); exit();
+                    echo json_encode(['success' => false, 'message' => 'SMS sent but failed to update status']); 
                 }
-                
             }
         }
     }
 }else{
-    echo json_encode(['success' => false, 'message' => 'Booking not found']);exit();
+    echo json_encode(['success' => false, 'message' => 'Booking not found']);
 }
 
 ?>
