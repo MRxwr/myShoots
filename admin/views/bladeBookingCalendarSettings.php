@@ -55,7 +55,7 @@ if( isset($_POST["openDate"]) ){
 			<input type="email" name="email" class="form-control" <?php if( $settings["email"] ): ?>value="<?php echo $settings["email"] ?>"<?php endif; ?>>
 			</div>
 
-			<div class="col-md-6">
+			<div class="col-md-4">
 			<label><?php echo direction("Weekend","عطلة نهاية الاسبوع") ?></label>
 			<select name="weekend[]" class="form-control" multiple>
                 <?php 
@@ -69,12 +69,17 @@ if( isset($_POST["openDate"]) ){
 			</select>
 			</div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
 			<label><?php echo direction("Maintenance Mode","وضع الصيانة") ?></label>
 			<select name="is_maintenance" class="form-control">
 				<option value="0" <?php if( $settings["is_maintenance"] == 0 ): ?>selected<?php endif; ?>><?php echo direction("No","لا") ?></option>
 				<option value="1" <?php if( $settings["is_maintenance"] == 1 ): ?>selected<?php endif; ?>><?php echo direction("Yes","نعم") ?></option>
 			</select>
+			</div>
+
+            <div class="col-md-4">
+			<label><?php echo direction("Google Map Embed Code","كود تضمين خريطة جوجل") ?></label>
+			<input type="text" name="googleMap" class="form-control" value="<?php echo $settings["googleMap"] ?>">
 			</div>
 
             <div class="col-md-12" style="padding-top: 5px;" >
