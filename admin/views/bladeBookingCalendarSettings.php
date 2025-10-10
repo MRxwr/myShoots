@@ -106,12 +106,11 @@ if( isset($_POST["openDate"]) ){
                                 <input class="form-control" type="color" name="websiteColors[main2]" value="<?php echo $main2 = isset($websiteColors["main2"]) ? "{$websiteColors["main2"]}" : "" ?>">
                                 </div>
                                 </div>
-
+                            </div>
+                            </div>
                             <div class="panel-heading">
                                 <div class="pull-left"><h6 class="panel-title txt-dark"><?php echo direction("Button Colors","الوان الأزرار") ?></h6></div>
                                 <div class="clearfix"></div>
-                            </div>
-                            </div>
                             </div>
                             <div class="panel-wrapper collapse in">
                             <div class="panel-body">
