@@ -67,36 +67,40 @@ $newBookingData = [
     'customer_email' => $originalBooking['customer_email'],
     'mobile_number' => $originalBooking['mobile_number'],
     'personal_info' => $originalBooking['personal_info'],
-    'transaction_id' => $originalBooking['transaction_id'] . '-R', // Add -R to indicate rescheduled
+    'transaction_id' => $originalBooking['transaction_id'] . '-R' . time(), // Add -R with timestamp to make it unique
     'status' => 'Yes', // New booking is confirmed
-    'original_booking_id' => $bookingId, // Reference to original booking
+    'payload' => $originalBooking['payload'] ?? '',
     'created_at' => date('Y-m-d H:i:s') // Current date/time
 ];
 
 // Insert the new booking
-if(!insertDB('tbl_booking', $newBookingData)) {
+$insertResult = insertDB('tbl_booking', $newBookingData);
+if(!$insertResult) {
+    error_log("Failed to insert booking: " . print_r($newBookingData, true));
     echo json_encode(['success' => false, 'message' => direction('Failed to create new booking', 'فشل في إنشاء حجز جديد')]);
     exit();
 }
 
 // Update the status of the original booking to 'Rescheduled'
 $updateData = [
-    'status' => 'Rescheduled',
-    'updated_at' => date('Y-m-d H:i:s')
+    'status' => 'Rescheduled'
 ];
 
 if(!updateDB('tbl_booking', $updateData, "`id` = '{$bookingId}'")) {
-    // If update fails, we should technically roll back the new booking, but for simplicity we'll just report an error
+    error_log("Failed to update original booking: " . $bookingId);
     echo json_encode(['success' => false, 'message' => direction('Failed to update original booking', 'فشل في تحديث الحجز الأصلي')]);
     exit();
 }
+
+// Get the new booking ID
+$newBookingId = mysqli_insert_id($GLOBALS['dbconnect'] ?? $dbconnect);
 
 // Success response with both booking IDs
 echo json_encode([
     'success' => true, 
     'message' => direction('Booking successfully rescheduled', 'تمت إعادة جدولة الحجز بنجاح'),
     'original_booking_id' => $bookingId,
-    'new_booking_id' => mysqli_insert_id($dbconnect) // ID of the new booking
+    'new_booking_id' => $newBookingId
 ]);
 exit();
 ?>
