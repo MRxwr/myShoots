@@ -32,16 +32,6 @@ if( isset($_POST["open_date"]) ){
 <div class="panel-body">
 	<form class="" method="POST" action="" enctype="multipart/form-data">
 		<div class="row m-0">
-
-			<div class="col-md-6">
-			<label><?php echo direction("Open Date","تاريخ الفتح") ?></label>
-			<input type="date" name="open_date" class="form-control" <?php if( $settings["open_date"] ): ?>value="<?php echo $settings["open_date"] ?>"<?php endif; ?> required>
-			</div>
-
-            <div class="col-md-6">
-			<label><?php echo direction("Close Date","تاريخ الإغلاق") ?></label>
-			<input type="date" name="close_date" class="form-control" <?php if( $settings["close_date"] ): ?>value="<?php echo $settings["close_date"] ?>"<?php endif; ?>>
-			</div>
 			
 			<div class="col-md-6">
 			<label><?php echo direction("Maintenance Mode","وضع الصيانة") ?></label>
