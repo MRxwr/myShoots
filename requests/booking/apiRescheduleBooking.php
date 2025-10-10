@@ -55,6 +55,13 @@ if(!$originalBooking) {
 }
 $originalBooking = $originalBooking[0];
 
+// Get the original transaction ID and create new one with -R suffix
+$originalTransactionId = $originalBooking['transaction_id'];
+// Remove any existing -R suffix to get the base transaction ID
+$baseTransactionId = preg_replace('/-R\d*$/', '', $originalTransactionId);
+// Create new transaction ID with -R suffix
+$newTransactionId = $baseTransactionId . '-R' . time();
+
 // Create a new booking with all the same details but new date and time
 $newBookingData = [
     'package_id' => $originalBooking['package_id'],
@@ -62,7 +69,7 @@ $newBookingData = [
     'booking_time' => $newTime,
     'booking_price' => $originalBooking['booking_price'],
     'personal_info' => $originalBooking['personal_info'],
-    'transaction_id' => $originalBooking['transaction_id'] . '-R' . time(), // Add -R with timestamp to make it unique
+    'transaction_id' => $newTransactionId,
     'status' => 'Yes' // New booking is confirmed
 ];
 
