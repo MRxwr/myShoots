@@ -56,7 +56,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
     ";
     die();
   }
-  die("Invalid request 2");
+
   // Get booked time slots for the selected date and package
   $booktimes = get_bookingTimeBydate($_GET['id'],$booking_date);
   $blockedTimeSlots = getBlockedTimeSlots($booking_date);
@@ -68,7 +68,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
   }
   array_push($booktimeArr, ...$blockedTimeSlots);
   // end booked time slots for the selected date and package
-					
+		  die("Invalid request 3");			
 ?>
 
 <section class="py-5 bg-white">
