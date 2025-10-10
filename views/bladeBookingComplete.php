@@ -94,27 +94,7 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
             </h2>
             <div class="row">
               <div class="col-12 mb-4">
-        <?php
-        // Show extra items if available
-        if (!empty($booking['extra_items'])) {
-          $extraItems = json_decode($booking['extra_items'], true);
-          if (is_array($extraItems) && count($extraItems) > 0) {
-            echo '<div class="form-group mb-3">';
-            echo '<label class="font-weight-bold text-secondary">' . direction("Extra Items","الإضافات") . ':</label>';
-            foreach ($extraItems as $item) {
-              $itemName = isset($item['item']) ? htmlspecialchars($item['item']) : '';
-              $itemPrice = isset($item['price']) ? htmlspecialchars($item['price']) : '';
-              echo '<div><strong>' . $itemName . '</strong>';
-              if ($itemPrice !== '') {
-                echo ' - ' . direction('Price','السعر') . ': ' . $itemPrice;
-              }
-              echo '</div>';
-            }
-            echo '</div>';
-          }
-        }
-        ?>
-        <div class="personal-information">
+                <div class="personal-information">
                   <div class="form-group mb-3">
                     <label class="font-weight-bold text-secondary"><?php echo direction("Reservation ID","رقم الحجز") ?></label>
                     <input type="text" readonly class="form-control-plaintext" value="<?= $orderId ?>">
@@ -131,7 +111,26 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
                     <label class="font-weight-bold text-secondary"><?php echo direction("Time","الوقت") ?>:</label>
                     <input type="text" readonly class="form-control-plaintext" value="<?= $booking_time; ?>">
                   </div>
-                  <?php
+                   <?php
+                  // Show extra items if available
+                  if (!empty($booking['extra_items'])) {
+                    $extraItems = json_decode($booking['extra_items'], true);
+                    if (is_array($extraItems) && count($extraItems) > 0) {
+                      echo '<div class="form-group mb-3">';
+                      echo '<label class="font-weight-bold text-secondary">' . direction("Extra Items","الإضافات") . ':</label>';
+                      foreach ($extraItems as $item) {
+                        $itemName = isset($item['item']) ? htmlspecialchars($item['item']) : '';
+                        $itemPrice = isset($item['price']) ? htmlspecialchars($item['price']) : '';
+                        echo '<div><strong>' . $itemName . '</strong>';
+                        if ($itemPrice !== '') {
+                          echo ' - : ' . $itemPrice . '{{currency}}';
+                        }
+                        echo '</div>';
+                      }
+                      echo '</div>';
+                    }
+                  }
+                  
                   $personalInfo = json_decode($booking['personal_info'], true);
                   if ($personalInfo && is_array($personalInfo)) {
                       $fields = selectDB("tbl_personal_info", "`id` != ' 0'");
