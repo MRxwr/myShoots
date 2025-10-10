@@ -90,7 +90,7 @@ if( isset($_POST["openDate"]) ){
                     <div class="col-md-12">
                         <div class="panel panel-default card-view">
                             <div class="panel-heading">
-                                <div class="pull-left"><h6 class="panel-title txt-dark"><?php echo direction("Details","التفاصيل") ?></h6></div>
+                                <div class="pull-left"><h6 class="panel-title txt-dark"><?php echo direction("Main Website Colors","الوان الموقع الرئيسية") ?></h6></div>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="panel-wrapper collapse in">
@@ -107,6 +107,14 @@ if( isset($_POST["openDate"]) ){
                                 </div>
                                 </div>
 
+                            <div class="panel-heading">
+                                <div class="pull-left"><h6 class="panel-title txt-dark"><?php echo direction("Button Colors","الوان الأزرار") ?></h6></div>
+                                <div class="clearfix"></div>
+                            </div>
+                            </div>
+                            </div>
+                            <div class="panel-wrapper collapse in">
+                            <div class="panel-body">
                                 <div class="col-md-6" style="padding-bottom: 5px;">
                                 <div class="text">
                                 <input class="form-control" type="color" name="websiteColors[button1]" value="<?php echo $button1 = isset($websiteColors["button1"]) ? "{$websiteColors["button1"]}" : "" ?>">
@@ -118,7 +126,14 @@ if( isset($_POST["openDate"]) ){
                                 <input class="form-control" type="color" name="websiteColors[button2]" value="<?php echo $button2 = isset($websiteColors["button2"]) ? "{$websiteColors["button2"]}" : "" ?>">
                                 </div>
                                 </div>
-
+                            </div>
+                            </div>
+                            <div class="panel-heading">
+                                <div class="pull-left"><h6 class="panel-title txt-dark"><?php echo direction("Footer Colors","الوان الفوتر") ?></h6></div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="panel-wrapper collapse in">
+                            <div class="panel-body">
                                 <div class="col-md-6" style="padding-bottom: 5px;">
                                 <div class="text">
                                 <input class="form-control" type="color" name="websiteColors[footer1]" value="<?php echo $footer1 = isset($websiteColors["footer1"]) ? "{$websiteColors["footer1"]}" : "" ?>">
