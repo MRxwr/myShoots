@@ -18,6 +18,7 @@ if( isset($_POST["openDate"]) ){
     $whatsappNoti = json_decode($settings["whatsappNoti"],true);
     $smsNoti = json_decode($settings["smsNoti"],true);
     $weekends = json_decode($settings["weekend"],true);
+    $websiteColors = json_decode($settings["websiteColors"],true);
 }
 ?>
 <div class="row">
