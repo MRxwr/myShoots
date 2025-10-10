@@ -118,7 +118,7 @@
                     
                     <div class="form-group">
                         <label for="reschedule-date"><?php echo direction("New Date", "التاريخ الجديد") ?></label>
-                        <input type="date" class="form-control" id="reschedule-date" name="new_date" placeholder="Select a date" required>
+                        <input type="text" class="form-control" id="reschedule-date" name="new_date" placeholder="Select a date" autocomplete="off" required>
                     </div>
                     
                     <div class="form-group">
@@ -137,6 +137,9 @@
     </div>
 </div>
 
+<!-- Datepicker CSS/JS for Reschedule Modal -->
+<link rel="stylesheet" href="../vendors/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css">
+<script src="../vendors/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 <script>
 $(document).ready(function() {
     // Show loading spinner and dim the table
