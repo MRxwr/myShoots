@@ -195,14 +195,17 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
                         <span><?php echo direction("Deposit","عربون") ?>:</span> <span><?php echo $paymentSettings['price'] ?>KD</span>
                       </h5>
                     </div> 
-                    <?php }else {
-                       ?>
+                    <?php 
+                    }else{
+                    ?>
                     <div class="reservation">
                       <h5 class="theme-color mt-4">
                         <span><?php echo direction("Price","السعر") ?>:</span> <span><?php echo $price; ?>KD</span>
                       </h5>
                     </div> 
-                    <?php } ?>
+                    <?php 
+                    } 
+                    ?>
                   </div>
                 </div>
                 <div class="row pt-4">
