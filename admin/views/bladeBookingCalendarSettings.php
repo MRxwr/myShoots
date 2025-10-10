@@ -77,9 +77,9 @@ if( isset($_POST["openDate"]) ){
 			</select>
 			</div>
 
-            <div class="col-md-6" style="height: 90px;">
+            <div class="col-md-6">
 			<label><?php echo direction("Google Map Embed Code","كود تضمين خريطة جوجل") ?></label>
-			<textarea name="googleMap" class="form-control"><?php echo $settings["googleMap"] ?></textarea>
+			<textarea name="googleMap" class="form-control" style="height: 90px;"><?php echo $settings["googleMap"] ?></textarea>
 			</div>
 
             <div class="col-md-12" style="padding-top: 5px;" >
