@@ -11,7 +11,7 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
         $error = "Payment not captured, Please try again later.";
         echo "<script>
             alert('Payment not captured, Please try again later.');
-            window.location.href = '?v=booking-faild&error=".urlencode(base64_encode($error))."';
+            window.location.href = '?v=BookingFailed&error=".urlencode(base64_encode($error))."';
         </script>";die();
     } 
     $package = get_packages_details($booking['package_id']);
@@ -28,6 +28,7 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
     $booking_time  = $booking['booking_time'];
     $message="Your booking has been confirmed for myshoots studio, Date: ".$booking_date.", Time:".$booking_time.",Id: ".$orderId;
     sendkwtsms($mobile,$message);
+    
     ///////////////// Check booking slot //////////////////////////////
     $booktimes = get_bookingTimeBydate('', $booking_date);
     $booktimeArr=array(); 
@@ -127,6 +128,6 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
   }
 }else{
   $error = "Invalid Booking ID.";
-  header("LOCATION: ?v=home&error=".urlencode(base64_encode($error)));die();
+  header("LOCATION: ?v=Home&error=".urlencode(base64_encode($error)));die();
 }
 ?>

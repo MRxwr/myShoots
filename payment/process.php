@@ -39,7 +39,7 @@ if(isset($_POST['submit'])){
 	}
 
 	if( check_bookingTimeAnddate($booking_date,$booking_time,$package_id) ){
-		header("LOCATION: {$settingsWebsite}/?v=reservations&id={$package_id}");die();
+		header("LOCATION: {$settingsWebsite}/?v=Reservations&id={$package_id}");die();
 	}	 
 
 	$package = get_packages_details($package_id);
@@ -73,17 +73,17 @@ if(isset($_POST['submit'])){
 			} else {
 				$error = direction("Payment gateway connection error, Please try again later.","خطأ في الاتصال ببوابة الدفع، يرجى المحاولة مرة أخرى لاحقًا.");
 				$error = urlencode(base64_encode($error));
-				header("LOCATION: {$settingsWebsite}/?v=booking-faild&error={$error}");die();
+				header("LOCATION: {$settingsWebsite}/?v=BookingFailed&error={$error}");die();
 			}
 		}else{
 			$error = direction("Payment gateway connection error, Please try again later.","خطاء في الاتصال ببوابة الدفع، يرجى المحاولة مرة أخرى لاحقًا.");
 			$error = urlencode(base64_encode($error));
-			header("LOCATION: {$settingsWebsite}/?v=booking-faild&error={$error}");die();
+			header("LOCATION: {$settingsWebsite}/?v=BookingFailed&error={$error}");die();
 		}
 	}else{
 		$checkBookingTime = "Time already booked, Please select another time.";
 		$checkBookingTime = urlencode(base64_encode($checkBookingTime));
-	    header("LOCATION: {$settingsWebsite}/?v=reservations&id={$package_id}&error={$checkBookingTime}");die();
+	    header("LOCATION: {$settingsWebsite}/?v=Reservations&id={$package_id}&error={$checkBookingTime}");die();
 	}
 }
 ?>
