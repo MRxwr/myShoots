@@ -2,9 +2,6 @@
 date_default_timezone_set('Asia/Riyadh');
 $check = ["'",'"',")","(",";","?",">","<","~","!","#","$","%","^","&","*","-","_","=","+","/","|",":"];
 if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
-  $orderId = $_GET["booking_id"];
-  $booking = get_booking_details($orderId);
-  $id = $booking['id'];
   if( $bookingDetails = selectDBNew("tbl_booking",[$_GET["booking_id"]],"`transaction_id` = ?","") ){
     $gatewayResponse = json_decode($bookingDetails[0]['gatewayResponse'],true);
     if( isset($gatewayResponse['result']) && $gatewayResponse['result'] != 'CAPTURED' ){
@@ -13,8 +10,17 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
             alert('Payment not captured, Please try again later.');
             window.location.href = '?v=BookingFailed&error=".urlencode(base64_encode($error))."';
         </script>";die();
-    } 
-    $package = get_packages_details($booking['package_id']);
+    }
+    $booking = $bookingDetails[0];
+    if( $packageDetails = selectDB("tbl_packages", "`id` = {$booking['package_id']}") ){
+      $package = $packageDetails[0];
+    } else {
+      $error = "Invalid Package.";
+      echo "<script>
+          alert('Invalid Package.');
+          window.location.href = '?v=Home&error=".urlencode(base64_encode($error))."';
+      </script>";die();
+    }
     $id = $package['id'];
     $price = $package['price'];
     $currency = $package['currency'];
@@ -26,7 +32,7 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
     $extra_items = $package['extra_items'];
     $booking_date = $booking['booking_date'];
     $booking_time  = $booking['booking_time'];
-    /*
+
     // Send WhatsApp notification using bookingWhatsapp API
     $whatsappApi = $settingsWebsite . "/requests/index.php?f=booking&endpoint=BookingWhatsapp";
     $ch = curl_init();
@@ -50,7 +56,7 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
     $smsResponse = curl_exec($ch);
     curl_close($ch);
     // Optionally, handle $smsResponse if needed
-*/
+
     ///////////////// Check booking slot //////////////////////////////
     $booktimes = get_bookingTimeBydate('', $booking_date);
     $booktimeArr = array(); 

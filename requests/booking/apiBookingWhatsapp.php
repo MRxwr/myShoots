@@ -5,6 +5,7 @@ function bookingWhatsappUltraMsg($order){
 		$whatsappNoti1 = json_decode($settings[0]["whatsappNoti"],true);
 		if( $whatsappNoti1["status"] != 1 ){
             echo json_encode(['success' => false, 'message' => 'WhatsApp notifications are disabled.']);
+            exit();
 		}elseif( $booking = selectDB("tbl_booking","`id` = '{$order}'") ){
             $booking = $booking[0];
             $bookingPersonalInfo = json_decode($booking['personal_info'], true);
@@ -45,20 +46,25 @@ function bookingWhatsappUltraMsg($order){
 			curl_close($curl);
             if( $response["sent"] == "true" ){
                 echo json_encode(['success' => true, 'message' => 'Message sent successfully.']);
+                exit();
             }else{
                 echo json_encode(['success' => false, 'message' => 'Could not send message - ' . $response["message"]]);
+                exit();
             }
 		}else{
             echo json_encode(['success' => false, 'message' => 'Booking not found.']);
+            exit();
         }
 	}else{
         echo json_encode(['success' => false, 'message' => 'No functionality found.']);
+        exit();
     }
 }
 
 $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
 if (!$id) {
     echo json_encode(['success' => false, 'message' => 'Invalid parameters']);
+    exit();
 }
 $response = bookingWhatsappUltraMsg($id);
 ?>
