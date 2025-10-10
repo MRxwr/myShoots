@@ -24,7 +24,7 @@ function get_setting($set){
 
 // get  package details by package id
 function get_packages_details($id){
-	if( $res = selectDBNew("tbl_packages",[$id],"`status` = '0' AND `hidden` = '1' AND `id` = ?","") ){
+	if( $res = selectDBNew("tbl_packages",[$id],"`id` = ?","") ){
 		if( count($res) > 0 ){
 			return $res[0];
 		}else{
