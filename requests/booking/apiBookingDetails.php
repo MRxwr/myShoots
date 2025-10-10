@@ -39,6 +39,7 @@ if ( $result = selectJoinDB("tbl_booking", $joinData, "t.id = '{$id}'") ) {
         'Invoice Date' => htmlspecialchars($row['created_at']),
         'Transaction ID' => htmlspecialchars($row['transaction_id']),
         'Package Name' => htmlspecialchars($row['package_name'] ?? ''),
+        'Package ID' => htmlspecialchars($row['package_id']),
         'Booking Date' => htmlspecialchars($row['booking_date']),
         'Booking Time' => htmlspecialchars($row['booking_time']),
         'Extra Items' => !empty($extra_items) ? implode('<br>', $extra_items) : '',
