@@ -53,7 +53,7 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
 */
     ///////////////// Check booking slot //////////////////////////////
     $booktimes = get_bookingTimeBydate('', $booking_date);
-    $booktimeArr=array(); 
+    $booktimeArr = array(); 
       if(@count($booktimes) != 0){
         foreach($booktimes as $key=>$booktime){		
             $booktimeArr[] = $booktime['booking_time'];
@@ -68,12 +68,14 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
           $timeSlotAvailable = 1;
         } 
       }
+      /*
       ///////////////////////// Update tbl_disabled_date table /////////////////////
       if( $timeSlotAvailable == 0 ){
         $date = explode('-',$booking_date);
         $booking_date_format = $date[1].'/'.$date[2].'/'.$date[0];
         insertDB("tbl_disabled_date", array("disabled_date" => $booking_date_format) );
       }
+        */
 ?>
 <section class="py-5 bg-white">
   <div class="container">
