@@ -3,6 +3,7 @@ if( isset($_POST["openDate"]) ){
     $_POST["weekend"] = isset($_POST["weekend"]) ? json_encode($_POST["weekend"]) : json_encode([]);
     $_POST["whatsappNoti"] = isset($_POST["whatsappNoti"]) ? json_encode($_POST["whatsappNoti"]) : json_encode([]);
     $_POST["smsNoti"] = isset($_POST["smsNoti"]) ? json_encode($_POST["smsNoti"]) : json_encode([]);
+    $_POST["websiteColors"] = isset($_POST["websiteColors"]) ? json_encode($_POST["websiteColors"]) : json_encode([]);
     var_dump($_POST);
 	if( updateDB("tbl_calendar_settings", $_POST, "`id` = '1'") ){
         header("LOCATION: ?v=BookingCalendarSettings");
