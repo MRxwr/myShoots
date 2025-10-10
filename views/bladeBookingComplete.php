@@ -12,6 +12,7 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
         </script>";die();
     }
     $booking = $bookingDetails[0];
+    $orderId = str_pad($booking['id'], 6, "0", STR_PAD_LEFT);
     if( $packageDetails = selectDB("tbl_packages", "`id` = {$booking['package_id']}") ){
       $package = $packageDetails[0];
     } else {
