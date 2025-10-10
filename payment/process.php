@@ -38,7 +38,7 @@ if(isset($_POST['submit'])){
 		$booking_price = $_POST['booking_price'];
 	}
 
-	if( check_bookingTimeAnddate($booking_date,$booking_time,$package_id) ){
+	if( check_bookingTimeAndDate($booking_date,$booking_time,$package_id) ){
 		header("LOCATION: {$settingsWebsite}/?v=Reservations&id={$package_id}");die();
 	}	 
 
