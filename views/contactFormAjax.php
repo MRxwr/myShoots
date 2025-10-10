@@ -2,11 +2,13 @@
 require_once("../admin2/includes/config.php");
 require_once("../admin2/includes/functions.php");
 require_once("../admin2/includes/translate.php");
-if( $bookingSettings = selectDB('tbl_settings', "`id` = '1'") ){
+
+if( $bookingSettings = selectDB('tbl_calendar_settings', "`id` = '1'") ){
     $bookingSettings = $bookingSettings[0];
 }else{
     $bookingSettings = array();
 }
+
 $name = $_POST["name"];
 $email = $_POST["email"];
 $phone = $_POST["phone"];
