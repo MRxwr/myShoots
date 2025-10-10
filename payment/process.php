@@ -9,7 +9,6 @@ if( $bookingSettings = selectDB('tbl_calendar_settings', "`id` = '1'") ){
 }else{
 	$bookingSettings = array();
 }
-die("check 1");
 if(isset($_POST['submit'])){
 	$select_extra_item = $_POST['select_extra_item'];
 	$comm = "";
@@ -38,7 +37,7 @@ if(isset($_POST['submit'])){
 	$is_filming = ( isset($_POST['is_filming']) ) ? $_POST['is_filming'] : 0 ;
 	date_default_timezone_set('Asia/Riyadh');
 	$created_at = date('Y-m-d H:i:s');
-
+die("check 2");
 	if( check_bookingTimeAndDate($booking_date,$booking_time,$package_id) ){
 		header("LOCATION: {$settingsWebsite}/?v=Reservations&id={$package_id}");die();
 	}	 
