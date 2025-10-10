@@ -4,6 +4,7 @@ if( isset($_POST["openDate"]) ){
     $_POST["whatsappNoti"] = isset($_POST["whatsappNoti"]) ? json_encode($_POST["whatsappNoti"]) : json_encode([]);
     $_POST["smsNoti"] = isset($_POST["smsNoti"]) ? json_encode($_POST["smsNoti"]) : json_encode([]);
     $_POST["websiteColors"] = isset($_POST["websiteColors"]) ? json_encode($_POST["websiteColors"]) : json_encode([]);
+    $_POST["payment"] = isset($_POST["payment"]) ? json_encode($_POST["payment"]) : json_encode([]);
 	if( updateDB("tbl_calendar_settings", $_POST, "`id` = '1'") ){
         header("LOCATION: ?v=BookingCalendarSettings");
     }else{
@@ -19,6 +20,7 @@ if( isset($_POST["openDate"]) ){
     $smsNoti = json_decode($settings["smsNoti"],true);
     $weekends = json_decode($settings["weekend"],true);
     $websiteColors = json_decode($settings["websiteColors"],true);
+    $payment = json_decode($settings["payment"],true);
 }
 ?>
 <div class="row">
@@ -91,6 +93,55 @@ if( isset($_POST["openDate"]) ){
 			<label><?php echo direction("Google Map Embed Code","كود تضمين خريطة جوجل") ?></label>
 			<textarea name="googleMap" class="form-control" style="height: 90px;"><?php echo $settings["googleMap"] ?></textarea>
 			</div>
+
+            <div class="col-md-12">
+                <div class="panel panel-default card-view">
+                <div class="panel-heading">
+                    <div class="pull-left">
+                        <h6 class="panel-title txt-dark"><?php echo direction("Payment Details", "تفاصيل الدفع") ?></h6>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <!-- whatsapp Details -->
+                    <div class="col-md-12">
+                        <div class="panel panel-default card-view">
+                            <div class="panel-heading">
+                                <div class="pull-left"><h6 class="panel-title txt-dark"><?php echo direction("Type / Price","نوع / سعر") ?></h6></div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="panel-wrapper collapse in">
+                            <div class="panel-body">
+                                <div class="col-md-12" style="margin-bottom:5px;">
+                                <div class="text">
+                                <select class="form-control" name="payment[type]" >
+                                    <?php 
+                                    $wStatus = [0,1,2];
+                                    $wTitle = [direction("Partial Payment","دفع جزئي"),direction("Full Payment","دفع كلي"),direction("Cash","نقدي")];
+                                    for( $i = 0; $i < sizeof($wStatus); $i++){
+                                        $wSelected = (isset($payment["type"]) && $payment["type"] == $wStatus[$i]) ? "selected" : "";
+                                        echo "<option value='{$wStatus[$i]}' {$wSelected}>{$wTitle[$i]}</option>";
+                                    }
+                                    ?>
+                                </select>
+                                </div>
+                                </div>
+
+                                <div class="col-md-4" style="padding-bottom: 5px;">
+                                <div class="text">
+                                <input class="form-control" name="payment[price]" value="<?php echo (isset($payment["price"]) ? "{$payment["price"]}" : "") ?>" placeholder="<?php echo direction("Price","السعر") ?>">
+                                </div>
+                                </div>
+
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                </div>
+            </div>
 
             <div class="col-md-12" style="padding-top: 5px;" >
                 <div class="panel panel-default card-view">
