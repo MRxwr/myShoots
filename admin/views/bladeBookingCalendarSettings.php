@@ -34,14 +34,6 @@ if( isset($_POST["openDate"]) ){
 	<form class="" method="POST" action="" enctype="multipart/form-data">
 		<div class="row m-0">
 
-            <div class="col-md-12">
-			<label><?php echo direction("Maintenance Mode","وضع الصيانة") ?></label>
-			<select name="is_maintenance" class="form-control">
-				<option value="0" <?php if( $settings["is_maintenance"] == 0 ): ?>selected<?php endif; ?>><?php echo direction("No","لا") ?></option>
-				<option value="1" <?php if( $settings["is_maintenance"] == 1 ): ?>selected<?php endif; ?>><?php echo direction("Yes","نعم") ?></option>
-			</select>
-			</div>
-
 			<div class="col-md-4">
 			<label><?php echo direction("Open Calendar","تاريخ الافتتاح") ?></label>
 			<input type="date" name="openDate" class="form-control" required value="<?php echo isset($settings["openDate"]) ? substr($settings["openDate"], 0, 10) : "" ?>">
@@ -57,7 +49,12 @@ if( isset($_POST["openDate"]) ){
 			<input type="number" step="1" min="0" max="6" name="closeAfter" class="form-control" <?php if( $settings["closeAfter"] ): ?>value="<?php echo $settings["closeAfter"] ?>"<?php endif; ?>>
 			</div>
 
-			<div class="col-md-12">
+            <div class="col-md-4">
+			<label><?php echo direction("Email","البريد الإلكتروني") ?></label>
+			<input type="email" name="email" class="form-control" <?php if( $settings["email"] ): ?>value="<?php echo $settings["email"] ?>"<?php endif; ?>>
+			</div>
+
+			<div class="col-md-6">
 			<label><?php echo direction("Weekend","عطلة نهاية الاسبوع") ?></label>
 			<select name="weekend[]" class="form-control" multiple>
                 <?php 
@@ -68,6 +65,14 @@ if( isset($_POST["openDate"]) ){
                         echo "<option value='{$i}' {$selected}>".direction(date("l", strtotime("Sunday +{$i} days")),date("l", strtotime("الاحد +{$i} days")))."</option>";
                     }
                 ?>
+			</select>
+			</div>
+
+            <div class="col-md-6">
+			<label><?php echo direction("Maintenance Mode","وضع الصيانة") ?></label>
+			<select name="is_maintenance" class="form-control">
+				<option value="0" <?php if( $settings["is_maintenance"] == 0 ): ?>selected<?php endif; ?>><?php echo direction("No","لا") ?></option>
+				<option value="1" <?php if( $settings["is_maintenance"] == 1 ): ?>selected<?php endif; ?>><?php echo direction("Yes","نعم") ?></option>
 			</select>
 			</div>
 
