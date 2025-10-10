@@ -192,7 +192,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
                     ?>
                     <div class="reservation">
                       <h5 class="theme-color mt-4">
-                        <span><?php echo direction("Deposit","عربون") ?>:</span> <span><?php echo getPrice($mainSettings) ?>KD</span>
+                        <span><?php echo direction("Deposit","عربون") ?>:</span> <span><?php echo $paymentSettings['price'] ?>KD</span>
                       </h5>
                     </div> 
                     <?php }else {
