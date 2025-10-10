@@ -6,8 +6,7 @@
           <div class="card-body">
             <div class="row mb-4">
               <div class="col-12 text-center">
-                <button class="btn btn-sm theme-bg text-uppercase text-white mx-1" onclick="two()" style="border-radius:20px; font-weight:600; letter-spacing:1px;"><?php echo direction("2 Grids","2 صفوف") ?></button>
-                <button class="btn btn-sm theme-bg text-uppercase text-white active mx-1" onclick="four()" style="border-radius:20px; font-weight:600; letter-spacing:1px;"><?php echo direction("4 Grids","4 صفوف") ?></button>
+                
               </div>
             </div>
             <div class="row gallery-grid justify-content-center">
