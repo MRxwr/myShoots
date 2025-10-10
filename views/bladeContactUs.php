@@ -9,19 +9,19 @@
                 <?php echo direction("Contact Us","اتصل بنا") ?>
               </h2>
               <ul class="list-unstyled contact-details mb-4">
-                <li class="mb-3"><a href="<?php echo $bookingSettings['address_link'] ?>" class="theme-color h5"><i class="fas fa-map-marker-alt mr-2"></i> <?php echo $bookingSettings['address'] ?></a></li>
-                <li class="mb-3"><a href="mailto:<?php echo $bookingSettings['email'] ?>" class="theme-color h5"><i class="far fa-envelope mr-1"></i> <?php echo $bookingSettings['email'] ?></a></li>
+                <li class="mb-3"><a href="<?php echo $mainSettings['address_link'] ?>" class="theme-color h5"><i class="fas fa-map-marker-alt mr-2"></i> <?php echo $mainSettings['address'] ?></a></li>
+                <li class="mb-3"><a href="mailto:<?php echo $mainSettings['email'] ?>" class="theme-color h5"><i class="far fa-envelope mr-1"></i> <?php echo $mainSettings['email'] ?></a></li>
               </ul>
               <div style="margin-top: 10px;color: red;">*
                 <?php echo direction("Note: Please fill in all fields.","ملاحظة: يرجى ملء جميع الحقول.") ?>
               </div>
             </div>
             <?php
-            if( !empty($bookingSettings['googleMap']) ){
+            if( !empty($mainSettings['googleMap']) ){
             ?>
             <div class="col-lg-6 p-4">
               <div class="map-responsive rounded-3 overflow-hidden">
-                <?php echo $bookingSettings['googleMap'] ?>
+                <?php echo $mainSettings['googleMap'] ?>
               </div>
             </div>
             <?php
