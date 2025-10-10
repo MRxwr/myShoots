@@ -12,7 +12,7 @@
                 <input type="text" class="form-control form-control-lg rounded-3" id="bookingid" value="">
               </div>
               <div class="col-md-5 mb-3">
-                <button class="btn btn-lg btn-primary btn-block rounded-pill shadow-sm" style="font-weight:600; letter-spacing:1px; background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%); border:none; color:#fff;" id="book-btn">
+                <button class="btn btn-lg btn-primary btn-block rounded-pill shadow-sm" style="font-weight:600; letter-spacing:1px; background: linear-gradient(90deg, <?php echo $websiteColors["button1"] ?> 0%, <?php echo $websiteColors["button2"] ?> 100%); border:none; color:#fff;" id="book-btn">
                   <?php echo direction("Search","بحث") ?>
                 </button>
               </div>

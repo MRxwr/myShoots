@@ -157,7 +157,7 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
                 </div>
               </div>
               <div class="col-12 text-center">
-                <a href="<?php echo $settingsWebsite; ?>" class="btn btn-lg btn-primary rounded-pill px-5 shadow-sm mt-4 w-100" style="font-weight:600; letter-spacing:1px; background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%); border:none; color:#fff;">
+                <a href="<?php echo $settingsWebsite; ?>" class="btn btn-lg btn-primary rounded-pill px-5 shadow-sm mt-4 w-100" style="font-weight:600; letter-spacing:1px; background: linear-gradient(90deg, <?php echo $websiteColors["button1"] ?> 0%, <?php echo $websiteColors["button2"] ?> 100%); border:none; color:#fff;">
                   <?php echo direction("Back to Home","الرجوع للرئيسية") ?>
                 </a>
               </div>

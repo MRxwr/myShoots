@@ -126,7 +126,7 @@ if( $about = selectDB("tbl_pages","`id` = '7' AND `status` = '0' AND `hidden` = 
       <div class="col-12 text-center">
         <h2 class="shoots-Head" style="position: relative; display: inline-block; padding-bottom: 15px; color: #333;">
           <?php echo direction("Gallery","الصور") ?>
-          <span style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: linear-gradient(90deg, <?php echo $websiteColors["main1"] ?> 0%, <?php echo $websiteColors["main2"] ?> 100%);"></span>
+          <span style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: linear-gradient(90deg, <?php echo $websiteColors["button1"] ?> 0%, <?php echo $websiteColors["button2"] ?> 100%);"></span>
         </h2>
       </div>
     </div>

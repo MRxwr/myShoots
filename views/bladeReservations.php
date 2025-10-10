@@ -64,13 +64,13 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
                 <?= $post_description ?>
               </div>
               <?php if( $is_extra == 1 ){ ?>
-                <h5 class="mt-4" style="font-weight:600; color:#ff6b9d;"><?php echo direction("Extra Items","إضافات") ?></h5>
+                <h5 class="mt-4" style="font-weight:600; color:<?php echo $websiteColors["button1"] ?>;"><?php echo direction("Extra Items","إضافات") ?></h5>
                 <ul class="list-unstyled mb-3">
                   <?php 
                   $item = "item_".direction("en","ar");
                   $rows = json_decode($extra_items); 
                   foreach($rows as $row ){
-                    echo "<li class='mb-2' style='color:#6c757d;'>• ".$row->$item." <span style='color:#ff6b9d;font-weight:600;'>".$row->price." KD</span></li>";
+                    echo "<li class='mb-2' style='color:#6c757d;'>• ".$row->$item." <span style='color:{$websiteColors["button1"]};font-weight:600;'>".$row->price." KD</span></li>";
                   }
                   ?>
                 </ul>
@@ -97,7 +97,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
               </ul>
             </div>
             <div class="col-md-4 text-md-right">
-              <a href="#" class="btn btn-lg btn-primary rounded-pill px-5 shadow-sm" id="booknow" style="font-weight:600; letter-spacing:1px; background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%); border:none; color:#fff;">
+              <a href="#" class="btn btn-lg btn-primary rounded-pill px-5 shadow-sm" id="booknow" style="font-weight:600; letter-spacing:1px; background: linear-gradient(90deg, <?php echo $websiteColors["button1"] ?> 0%, <?php echo $websiteColors["button2"] ?> 100%); border:none; color:#fff;">
                 <?php echo direction("Book Now","احجز الآن") ?>
               </a>
             </div>

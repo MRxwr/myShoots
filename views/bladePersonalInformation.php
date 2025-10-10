@@ -128,7 +128,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
                       <div class="form-check mb-2">
                         <input class="form-check-input" type="checkbox" value="<?php echo $extra_items_row->$item.",".$extra_items_row->price; ?>" name="select_extra_item[]">
                         <label class="form-check-label" for="defaultCheck1">
-                          <span class="form-control-plaintext text-muted"><?php echo $extra_items_row->$item." <span style='color:#ff6b9d;font-weight:600;'>".$extra_items_row->price." KD</span>"; ?></span>
+                          <span class="form-control-plaintext text-muted"><?php echo $extra_items_row->$item." <span style='color:{$websiteColors["button1"]};font-weight:600;'>".$extra_items_row->price." KD</span>"; ?></span>
                         </label>
                       </div>
                     <?php } ?>
@@ -202,7 +202,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
                 <div class="row pt-4">
                   <div class="col-sm-5 col-md-4">&nbsp;</div>
                   <div class="col-sm-7 col-md-8">
-                    <button type="submit"  name="submit"  class="btn btn-lg btn-primary btn-block rounded-pill shadow-sm" style="font-weight:600; letter-spacing:1px; background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%); border:none; color:#fff;">
+                    <button type="submit"  name="submit"  class="btn btn-lg btn-primary btn-block rounded-pill shadow-sm" style="font-weight:600; letter-spacing:1px; background: linear-gradient(90deg, <?php echo $websiteColors["button1"] ?> 0%, <?php echo $websiteColors["button2"] ?> 100%); border:none; color:#fff;">
                       <?php echo direction("Continue to Payment","المتابعة إلى الدفع") ?>
                     </button>
                   </div>  

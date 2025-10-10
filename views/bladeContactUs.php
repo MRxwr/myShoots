@@ -29,7 +29,7 @@
                 <div class="form-group row mb-3">
                   <div class="col-md-12"><textarea class="form-control form-control-lg rounded-3" id="message" name="message" rows="3" placeholder="<?php echo direction("Message","الرسالة") ?>"></textarea></div>
                 </div>
-                <div class="mb-3"><button type="submit" class="btn btn-lg btn-primary btn-block rounded-pill shadow-sm" style="font-weight:600; letter-spacing:1px; background: linear-gradient(90deg, #ff6b9d 0%, #c471ed 100%); border:none; color:#fff;">
+                <div class="mb-3"><button type="submit" class="btn btn-lg btn-primary btn-block rounded-pill shadow-sm" style="font-weight:600; letter-spacing:1px; background: linear-gradient(90deg, <?php echo $websiteColors["button1"] ?> 0%, <?php echo $websiteColors["button2"] ?> 100%); border:none; color:#fff;">
                   <?php echo direction("Submit","إرسال") ?>
                 </button></div>
                 <div id="bars1" style="display:none">
