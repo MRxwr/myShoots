@@ -65,17 +65,17 @@ if( isset($_POST["openDate"]) ){
 			<input type="email" name="email" class="form-control" <?php if( $settings["email"] ): ?>value="<?php echo $settings["email"] ?>"<?php endif; ?>>
 			</div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
 			<label><?php echo direction("Mobile","رقم الجوال") ?></label>
 			<input type="number" step="1" name="mobile" class="form-control" <?php if( $settings["mobile"] ): ?>value="<?php echo $settings["mobile"] ?>"<?php endif; ?>>
 			</div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
 			<label><?php echo direction("Address","العنوان") ?></label>
 			<input type="text" name="address" class="form-control" <?php if( $settings["address"] ): ?>value="<?php echo $settings["address"] ?>"<?php endif; ?>>
 			</div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
 			<label><?php echo direction("Address Link","رابط العنوان") ?></label>
 			<input type="text" name="address_link" class="form-control" <?php if( $settings["address_link"] ): ?>value="<?php echo $settings["address_link"] ?>"<?php endif; ?>>
 			</div>
