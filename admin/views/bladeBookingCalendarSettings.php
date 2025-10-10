@@ -247,19 +247,19 @@ if( isset($_POST["openDate"]) ){
                                 </div>
                                 </div>
 
-                                <div class="col-md-3" style="padding-bottom: 5px;">
+                                <div class="col-md-4" style="padding-bottom: 5px;">
                                 <div class="text">
                                 <input class="form-control" name="smsNoti[username]" value="<?php echo (isset($smsNoti["username"]) ? "{$smsNoti["username"]}" : "") ?>" placeholder="<?php echo direction("username","اسم المستخدم") ?>">
                                 </div>
                                 </div>
 
-                                <div class="col-md-3" style="padding-bottom: 5px;">
+                                <div class="col-md-4" style="padding-bottom: 5px;">
                                 <div class="text">
                                 <input class="form-control" name="smsNoti[password]" value="<?php echo (isset($smsNoti["password"]) ? "{$smsNoti["password"]}" : "") ?>" placeholder="<?php echo direction("password","كلمة المرور") ?>">
                                 </div>
                                 </div>
 
-                                <div class="col-md-3" style="padding-bottom: 5px;">
+                                <div class="col-md-4" style="padding-bottom: 5px;">
                                 <div class="text">
                                 <input class="form-control" name="smsNoti[sender]" value="<?php echo (isset($smsNoti["sender"]) ? "{$smsNoti["sender"]}" : "") ?>" placeholder="<?php echo direction("sender","المرسل") ?>">
                                 </div>
