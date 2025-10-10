@@ -169,8 +169,8 @@ function checkProductDiscountDefault($id){
 function getPrice($settings){
 	GLOBAL $_GET;
 	$payment = json_decode($settings["payment"],true);
-	if ( $$payment["type"] == 0 ){
-		return numTo3Float($settings["price"]);
+	if ( $payment["type"] == 0 ){
+		return numTo3Float($payment["price"]);
 	}elseif( $payment["type"] == 1 ){
 		if( isset($_GET["id"]) && $package = selectDBNew("tbl_packages",[$_GET["id"]],"`id` = ?","") ){
 			return numTo3Float($package[0]["price"]);
