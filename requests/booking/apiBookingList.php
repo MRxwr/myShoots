@@ -83,11 +83,13 @@ if ($data_result && mysqli_num_rows($data_result) > 0) {
         $status_text = '';
         if ($row['status'] == 'Yes') {
             $status_text = direction("Successful","ناجح");
-        } else if ($row['status'] == 'No') {
+        }elseif($row['status'] == 'No') {
             $status_text = direction("Failed","فاشل");
-        } else if ($row['status'] == 'cancel') {
+        }elseif($row['status'] == 'cancel') {
             $status_text = direction("Cancel","ملغي");
-        } else {
+        }elseif($row['status'] == 'Rescheduled') {
+            $status_text = direction("Rescheduled","معاد جدولته");
+        }else{
             $status_text = $row['status'];
         }
         
