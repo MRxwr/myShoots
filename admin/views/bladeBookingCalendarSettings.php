@@ -105,7 +105,7 @@ if( isset($_POST["openDate"]) ){
                 <div class="panel-wrapper collapse in">
                 <div class="panel-body">
                     <!-- whatsapp Details -->
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="panel panel-default card-view">
                             <div class="panel-heading">
                                 <div class="pull-left"><h6 class="panel-title txt-dark"><?php echo direction("Type / Price","نوع / سعر") ?></h6></div>
@@ -128,7 +128,7 @@ if( isset($_POST["openDate"]) ){
                                 </div>
                                 </div>
 
-                                <div class="col-md-4" style="padding-bottom: 5px;">
+                                <div class="col-md-6" style="padding-bottom: 5px;">
                                 <div class="text">
                                 <input class="form-control" name="payment[price]" value="<?php echo (isset($payment["price"]) ? "{$payment["price"]}" : "") ?>" placeholder="<?php echo direction("Price","السعر") ?>">
                                 </div>
