@@ -116,7 +116,6 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
                   if (!empty($booking['extra_items'])) {
                     $extraItems = json_decode($booking['extra_items'], true);
                     if (is_array($extraItems) && count($extraItems) > 0) {
-                      echo '<div class="form-group mb-3">';
                       echo '<label class="font-weight-bold text-secondary">' . direction("Extra Items","الإضافات") . ':</label>';
                       foreach ($extraItems as $item) {
                         $itemName = isset($item['item']) ? htmlspecialchars($item['item']) : '';
@@ -127,7 +126,6 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
                         }
                         echo '</div>';
                       }
-                      echo '</div>';
                     }
                   }
                   
