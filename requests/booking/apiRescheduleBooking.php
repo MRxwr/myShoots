@@ -60,24 +60,37 @@ $newBookingData = [
     'package_id' => $originalBooking['package_id'],
     'booking_date' => $formattedDate,
     'booking_time' => $newTime,
-    'is_filming' => $originalBooking['is_filming'],
-    'extra_items' => $originalBooking['extra_items'],
     'booking_price' => $originalBooking['booking_price'],
     'customer_name' => $originalBooking['customer_name'],
     'customer_email' => $originalBooking['customer_email'],
     'mobile_number' => $originalBooking['mobile_number'],
     'personal_info' => $originalBooking['personal_info'],
     'transaction_id' => $originalBooking['transaction_id'] . '-R' . time(), // Add -R with timestamp to make it unique
-    'status' => 'Yes', // New booking is confirmed
-    'payload' => $originalBooking['payload'] ?? '',
-    'created_at' => date('Y-m-d H:i:s') // Current date/time
+    'status' => 'Yes' // New booking is confirmed
 ];
 
+// Add optional fields only if they exist and are not null
+if (isset($originalBooking['is_filming']) && $originalBooking['is_filming'] !== null) {
+    $newBookingData['is_filming'] = $originalBooking['is_filming'];
+}
+if (isset($originalBooking['extra_items']) && $originalBooking['extra_items'] !== null) {
+    $newBookingData['extra_items'] = $originalBooking['extra_items'];
+}
+if (isset($originalBooking['payload']) && $originalBooking['payload'] !== null) {
+    $newBookingData['payload'] = $originalBooking['payload'];
+}
+
 // Insert the new booking
-$insertResult = insertDB('tbl_booking', $newBookingData);
-if(!$insertResult) {
-    error_log("Failed to insert booking: " . print_r($newBookingData, true));
-    echo json_encode(['success' => false, 'message' => direction('Failed to create new booking', 'فشل في إنشاء حجز جديد')]);
+try {
+    $insertResult = insertDB('tbl_booking', $newBookingData);
+    if(!$insertResult) {
+        error_log("Failed to insert booking: " . print_r($newBookingData, true));
+        echo json_encode(['success' => false, 'message' => direction('Failed to create new booking', 'فشل في إنشاء حجز جديد')]);
+        exit();
+    }
+} catch (Exception $e) {
+    error_log("Exception inserting booking: " . $e->getMessage());
+    echo json_encode(['success' => false, 'message' => direction('Error creating new booking: ', 'خطأ في إنشاء حجز جديد: ') . $e->getMessage()]);
     exit();
 }
 
