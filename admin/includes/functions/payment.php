@@ -386,7 +386,6 @@ function createAPI($BookingDetails){
 		$response = curl_exec($curl);
 		curl_close($curl);
 		$resultMY = json_decode($response, true);
-		var_dump($resultMY);
 		if ( !empty($resultMY["data"]["InvoiceId"]) ) {
 			// Build DB insert data
 			unset($BookingDetails['InvoiceItems']);

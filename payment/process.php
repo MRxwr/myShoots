@@ -72,7 +72,7 @@ if(isset($_POST['submit'])){
 		if ( $response = createAPI($BookingDetails) ) {
 			if ( !empty($response) ) {
 				if( $paymentSettings["type"] == "2" ){
-					$response = $settingsWebsite."/?v=BookingComplete&booking_id=".$response["InvoiceId"];
+					$response = $settingsWebsite."?requested_order_id=".$response["InvoiceId"];
 				}elseif( $paymentSettings["type"] == "1" ){
 					$response = $response["PaymentURL"];
 				}elseif( $paymentSettings["type"] == "0" ){
