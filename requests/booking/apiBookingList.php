@@ -87,7 +87,7 @@ if ($data_result && mysqli_num_rows($data_result) > 0) {
             $status_text = direction("Failed","فاشل");
         }elseif($row['status'] == 'cancel') {
             $status_text = direction("Cancel","ملغي");
-        }elseif($row['status'] == 'Rescheduled') {
+        }elseif($row['status'] == 'Reschedule') {
             $status_text = direction("Rescheduled","معاد جدولته");
         }else{
             $status_text = $row['status'];
