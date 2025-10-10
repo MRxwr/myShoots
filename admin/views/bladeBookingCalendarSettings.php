@@ -34,22 +34,22 @@ if( isset($_POST["openDate"]) ){
 	<form class="" method="POST" action="" enctype="multipart/form-data">
 		<div class="row m-0">
 
-			<div class="col-md-4">
+			<div class="col-md-3">
 			<label><?php echo direction("Open Calendar","تاريخ الافتتاح") ?></label>
 			<input type="date" name="openDate" class="form-control" required value="<?php echo isset($settings["openDate"]) ? substr($settings["openDate"], 0, 10) : "" ?>">
 			</div>
 
-			<div class="col-md-4">
+			<div class="col-md-3">
 			<label><?php echo direction("Close Calendar","تاريخ الإغلاق") ?></label>
 			<input type="date" name="closeDate" class="form-control" required value="<?php echo isset($settings["closeDate"]) ? substr($settings["closeDate"], 0, 10) : "" ?>">
 			</div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
 			<label><?php echo direction("Number of days after today to block","أغلق عدد أيام بعد اليوم") ?></label>
 			<input type="number" step="1" min="0" max="6" name="closeAfter" class="form-control" <?php if( $settings["closeAfter"] ): ?>value="<?php echo $settings["closeAfter"] ?>"<?php endif; ?>>
 			</div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
 			<label><?php echo direction("Email","البريد الإلكتروني") ?></label>
 			<input type="email" name="email" class="form-control" <?php if( $settings["email"] ): ?>value="<?php echo $settings["email"] ?>"<?php endif; ?>>
 			</div>
