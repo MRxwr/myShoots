@@ -4,7 +4,7 @@ require_once('admin/includes/functions.php');
 require_once('admin/includes/translate.php');
 
 if( get_setting('is_maintenance') == 1 ){
-	header('LOCATION: error');die();
+	header('LOCATION: ?v=Error');die();
 } 
 
 if( isset($_GET["requested_order_id"]) && !empty($_GET["requested_order_id"]) ){
