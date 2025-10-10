@@ -30,7 +30,6 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
     ";
     die();
 }
-die("Invalid request");
   // Date formate			
   if( isset($_GET['date']) && !empty($_GET['date']) ) {
     $settings = selectDB("tbl_calendar_settings","`id`='1'");
@@ -57,6 +56,7 @@ die("Invalid request");
     ";
     die();
   }
+  die("Invalid request 2");
   // Get booked time slots for the selected date and package
   $booktimes = get_bookingTimeBydate($_GET['id'],$booking_date);
   $blockedTimeSlots = getBlockedTimeSlots($booking_date);
