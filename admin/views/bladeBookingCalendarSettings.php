@@ -37,7 +37,7 @@ if( isset($_POST["openDate"]) ){
 	<form class="" method="POST" action="" enctype="multipart/form-data">
 		<div class="row m-0">
 
-            <div class="col-md-12">
+            <div class="col-md-3">
 			<label><?php echo direction("Maintenance Mode","وضع الصيانة") ?></label>
 			<select name="is_maintenance" class="form-control">
 				<option value="0" <?php if( $settings["is_maintenance"] == 0 ): ?>selected<?php endif; ?>><?php echo direction("No","لا") ?></option>
@@ -65,17 +65,17 @@ if( isset($_POST["openDate"]) ){
 			<input type="email" name="email" class="form-control" <?php if( $settings["email"] ): ?>value="<?php echo $settings["email"] ?>"<?php endif; ?>>
 			</div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
 			<label><?php echo direction("Mobile","رقم الجوال") ?></label>
 			<input type="number" step="1" name="mobile" class="form-control" <?php if( $settings["mobile"] ): ?>value="<?php echo $settings["mobile"] ?>"<?php endif; ?>>
 			</div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
 			<label><?php echo direction("Address","العنوان") ?></label>
 			<input type="text" name="address" class="form-control" <?php if( $settings["address"] ): ?>value="<?php echo $settings["address"] ?>"<?php endif; ?>>
 			</div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
 			<label><?php echo direction("Address Link","رابط العنوان") ?></label>
 			<input type="text" name="address_link" class="form-control" <?php if( $settings["address_link"] ): ?>value="<?php echo $settings["address_link"] ?>"<?php endif; ?>>
 			</div>
