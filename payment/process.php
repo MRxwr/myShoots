@@ -9,7 +9,7 @@ if( $bookingSettings = selectDB('tbl_calendar_settings', "`id` = '1'") ){
 }else{
 	$bookingSettings = array();
 }
-
+die("check 1");
 if(isset($_POST['submit'])){
 	$select_extra_item = $_POST['select_extra_item'];
 	$comm = "";
