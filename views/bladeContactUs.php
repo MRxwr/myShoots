@@ -16,6 +16,19 @@
                 <?php echo direction("Note: Please fill in all fields.","ملاحظة: يرجى ملء جميع الحقول.") ?>
               </div>
             </div>
+            <?php
+            if( !empty($bookingSettings['googleMap']) ){
+            ?>
+            <div class="col-lg-6 p-4">
+              <div class="map-responsive rounded-3 overflow-hidden">
+                <?php echo $bookingSettings['googleMap'] ?>
+              </div>
+            </div>
+            <?php
+            }
+            ?>
+          </div>
+          <div class="row no-gutters align-items-center">
             <div class="col-lg-6 col-xl-6 p-4">
               <form class="contact-form" id="contactForm">
                 <div class="form-group row mb-3">
