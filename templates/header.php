@@ -93,7 +93,7 @@ if ( $banners = selectDB("tbl_banners","`status` = '0' AND `hidden` = '1' ORDER 
     
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav <?php echo direction('mr-auto','ml-auto') ?> mx-md-auto">
-        <li class="nav-item <?php echo ( isset($_GET['v']) && ($_GET['v'] == '' || $_GET["v"] == "Home") ) ? 'active' : '' ?>">
+        <li class="nav-item <?php echo ( (isset($_GET['v']) && ($_GET['v'] == '' || $_GET["v"] == "Home") ) || !isset($_GET['v'])) ? 'active' : '' ?>">
           <a class="nav-link" href="<?php echo $settingsWebsite; ?>?v=Home"><?php echo direction("Home","الرئيسية") ?></a>
         </li>
         <li class="nav-item <?php echo ( isset($_GET['v']) && $_GET["v"] == "Galleries" ) ? 'active' : '' ?>">
