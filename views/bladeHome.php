@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', showPopupBanner);
           ?>
           <!-- Package Div Start -->
           <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
-            <a href="<?php echo "?v=reservations&id={$package["id"]}"; ?>" style="text-decoration: none;">
+            <a href="<?php echo "?v=Reservations&id={$package["id"]}"; ?>" style="text-decoration: none;">
             <div class="package-card card h-100 shadow-sm border-0" style="transition: all 0.3s ease; overflow: hidden; border-radius: 15px;">
               <div class="card-body p-4">
                 <div class="row align-items-center">
