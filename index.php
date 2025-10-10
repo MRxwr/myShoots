@@ -9,10 +9,10 @@ if( get_setting('is_maintenance') == 1 ){
 
 if( isset($_GET["requested_order_id"]) && !empty($_GET["requested_order_id"]) ){
 	if( checkCreateAPI() ){
-		header("LOCATION : ?v=booking-complete&booking_id=".$_GET['requested_order_id']);die();
+		header("LOCATION : ?v=BookingComplete&booking_id=".$_GET['requested_order_id']);die();
 	}else{
 		$error = "Payment Error, Please try again later.";
-		header("LOCATION: ?v=booking-faild&error=".urlencode(base64_encode($error)));die();
+		header("LOCATION: ?v=BookingFailed&error=".urlencode(base64_encode($error)));die();
 	}
 }
 
@@ -26,10 +26,10 @@ if( isset($_GET['error']) && !empty($_GET['error']) ){
     ";
 }
 require_once('templates/header.php');
-if( isset($_GET["v"]) && searchFile("views","{$_GET["v"]}.php") ){
-	require_once("views/".searchFile("views","{$_GET["v"]}.php"));
+if( isset($_GET["v"]) && searchFile("views","blade{$_GET["v"]}.php") ){
+	require_once("views/".searchFile("views","blade{$_GET["v"]}.php"));
 }else{
-	require_once("views/home.php");
+	require_once("views/bladeHome.php");
 }
 
 require_once('templates/footer.php');

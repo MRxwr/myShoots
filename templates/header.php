@@ -94,16 +94,16 @@ if ( $banners = selectDB("tbl_banners","`status` = '0' AND `hidden` = '1' ORDER 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav <?php echo direction('mr-auto','ml-auto') ?> mx-md-auto">
         <li class="nav-item <?php echo ( isset($_GET['v']) && ($_GET['v'] == '' || $_GET["v"] == "home") ) ? 'active' : '' ?>">
-          <a class="nav-link" href="<?php echo $settingsWebsite; ?>"><?php echo direction("Home","الرئيسية") ?></a>
+          <a class="nav-link" href="<?php echo $settingsWebsite; ?>?v=Home"><?php echo direction("Home","الرئيسية") ?></a>
         </li>
         <li class="nav-item <?php echo ( isset($_GET['v']) && $_GET["v"] == "galleries" ) ? 'active' : '' ?>">
-          <a class="nav-link" href="<?php echo $settingsWebsite; ?>/?v=galleries"><?php echo direction("Gallery","المعرض") ?></a>
+          <a class="nav-link" href="<?php echo $settingsWebsite; ?>/?v=Galleries"><?php echo direction("Gallery","المعرض") ?></a>
         </li>
         <li class="nav-item <?php echo ( isset($_GET['v']) && $_GET["v"] == "reservations-check" ) ? 'active' : '' ?>">
-          <a class="nav-link" href="<?php echo $settingsWebsite; ?>/?v=reservations-check"><?php echo direction("Reservation","الحجز") ?></a>
+          <a class="nav-link" href="<?php echo $settingsWebsite; ?>/?v=ReservationsCheck"><?php echo direction("Reservation","الحجز") ?></a>
         </li>
         <li class="nav-item <?php echo ( isset($_GET['v']) && $_GET["v"] == "contact-us" ) ? 'active' : '' ?>">
-          <a class="nav-link" href="<?php echo $settingsWebsite; ?>/?v=contact-us"><?php echo direction("Contact Us","تواصل معنا") ?></a>
+          <a class="nav-link" href="<?php echo $settingsWebsite; ?>/?v=ContactUs"><?php echo direction("Contact Us","تواصل معنا") ?></a>
         </li>
         <li class="nav-item dropdown d-block d-lg-none">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo direction("Language","اللغة") ?></a>

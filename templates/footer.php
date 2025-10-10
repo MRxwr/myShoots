@@ -22,10 +22,10 @@ if( $socialMedia = selectDB("s_media","`id` = '1'")){
         <div class="col-md-6 mb-4 mb-md-0 <?php echo direction('','text-right') ?>">
           <h4 class="mb-4" style="font-weight: 600; color: white;"><?php echo direction("Sitemap","خريطة الموقع") ?></h4>
           <ul class="list-unstyled" style="line-height: 2.2;">
-            <li><a href="<?php echo $settingsWebsite; ?>" style="color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease;"><i class="fas fa-home <?php echo direction('mr-2','ml-2') ?>"></i><?php echo direction("Home","الرئيسية") ?></a></li>
-            <li><a href="<?php echo $settingsWebsite; ?>/?v=galleries" style="color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease;"><i class="fas fa-images <?php echo direction('mr-2','ml-2') ?>"></i><?php echo direction("Gallery","المعرض") ?></a></li>
-            <li><a href="<?php echo $settingsWebsite; ?>/?v=reservations-check" style="color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease;"><i class="fas fa-calendar-check <?php echo direction('mr-2','ml-2') ?>"></i><?php echo direction("Reservation","الحجز") ?></a></li>
-            <li><a href="<?php echo $settingsWebsite; ?>/?v=contact-us" style="color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease;"><i class="fas fa-envelope <?php echo direction('mr-2','ml-2') ?>"></i><?php echo direction("Contact Us","تواصل معنا") ?></a></li>
+            <li><a href="<?php echo $settingsWebsite; ?>?v=Home" style="color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease;"><i class="fas fa-home <?php echo direction('mr-2','ml-2') ?>"></i><?php echo direction("Home","الرئيسية") ?></a></li>
+            <li><a href="<?php echo $settingsWebsite; ?>?v=Galleries" style="color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease;"><i class="fas fa-images <?php echo direction('mr-2','ml-2') ?>"></i><?php echo direction("Gallery","المعرض") ?></a></li>
+            <li><a href="<?php echo $settingsWebsite; ?>?v=ReservationsCheck" style="color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease;"><i class="fas fa-calendar-check <?php echo direction('mr-2','ml-2') ?>"></i><?php echo direction("Reservation","الحجز") ?></a></li>
+            <li><a href="<?php echo $settingsWebsite; ?>?v=ContactUs" style="color: rgba(255,255,255,0.9); text-decoration: none; transition: all 0.3s ease;"><i class="fas fa-envelope <?php echo direction('mr-2','ml-2') ?>"></i><?php echo direction("Contact Us","تواصل معنا") ?></a></li>
           </ul>
         </div>
 
