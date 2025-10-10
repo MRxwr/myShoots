@@ -59,8 +59,9 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
 
   // Get booked time slots for the selected date and package
   $booktimes = get_bookingTimeBydate($_GET['id'],$booking_date);
-  die("Invalid request 3");	
+ 
   $blockedTimeSlots = getBlockedTimeSlots($booking_date);
+   die("Invalid request 4");	
   $booktimeArr = array(); 
   if( @count($booktimes) != 0 ){
     foreach( $booktimes as $key=>$booktime ){		
