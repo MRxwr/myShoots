@@ -62,7 +62,7 @@ if( isset($_POST["openDate"]) ){
                 if( !is_array($weekends) ) $weekends = array();
                     for( $i = 0; $i < 7; $i++ ){
                         $selected = in_array($i, $weekends) ? "selected" : "";
-                        echo "<option value='{$i}' {$selected}>".direction(date("l", strtotime("Sunday +{$i} days")),date("l", strtotime("الاحد +{$i} days")))."</option>";
+                        echo "<option value='{$i}' {$selected}>".direction(date("l", strtotime("Sunday +{$i} days")),date("l", strtotime("Sunday +{$i} days")))."</option>";
                     }
                 ?>
 			</select>
