@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row p-5" style="min-height: 100vh; align-items: center; justify-content: center;">
     <div class="col-6"><img src="https://i.imgur.com/yWCfKJE.png" class="img-fluid" /></div>
     <div class="col-6">
         <h1 class="font-weight-bold"><?php echo $settingsTitle ?></h1>
