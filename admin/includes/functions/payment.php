@@ -386,7 +386,6 @@ function createAPI($BookingDetails, $paymentSettings){
 		$response = curl_exec($curl);
 		curl_close($curl);
 		$resultMY = json_decode($response, true);
-		var_dump($resultMY);
 		if ( !empty($resultMY["data"]["InvoiceId"]) ) {
 			// Build DB insert data
 			unset($BookingDetails['InvoiceItems']);
@@ -401,6 +400,7 @@ function createAPI($BookingDetails, $paymentSettings){
 			$BookingDetails["payment"]     = json_encode($paymentSettings, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
 			$BookingDetails["parent_id"]     = (isset($BookingDetails["parent_id"]) ? $BookingDetails["parent_id"] : 0);
 			// Insert into DB
+			var_dump($BookingDetails);
 			if ( insertDB("tbl_booking", $BookingDetails) ){
 				return $resultMY["data"];die();
 			}else{
