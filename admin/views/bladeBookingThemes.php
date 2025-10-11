@@ -1,19 +1,19 @@
 <?php 
 if( isset($_GET["hide"]) && !empty($_GET["hide"]) ){
     if( updateDB("tbl_themes_categories",array('hidden'=> '2'),"`id` = '{$_GET["hide"]}'") ){
-		header("LOCATION: ?v=BookingGallery");
+		header("LOCATION: ?v=BookingThemes");
 	}
 }
 
 if( isset($_GET["show"]) && !empty($_GET["show"]) ){
     if( updateDB("tbl_themes_categories",array('hidden'=> '1'),"`id` = '{$_GET["show"]}'") ){
-		header("LOCATION: ?v=BookingGallery");
+		header("LOCATION: ?v=BookingThemes");
 	}
 }
 
 if( isset($_GET["delId"]) && !empty($_GET["delId"]) ){
     if( updateDB("tbl_themes_categories",array('status'=> '1'),"`id` = '{$_GET["delId"]}'") ){
-		header("LOCATION: ?v=BookingGallery");
+		header("LOCATION: ?v=BookingThemes");
 	}
 }
 
@@ -21,7 +21,7 @@ if( isset($_POST["updateRank"]) ){
 	for( $i = 0; $i < sizeof($_POST["rank"]); $i++){
         updateDB("tbl_themes_categories",array("rank"=>$_POST["rank"][$i]),"`id` = '{$_POST["id"][$i]}'");
 	}
-	header("LOCATION: ?v=BookingGallery");
+	header("LOCATION: ?v=BookingThemes");
 }
 
 if( isset($_POST["enTitle"]) ){
@@ -29,7 +29,7 @@ if( isset($_POST["enTitle"]) ){
 	unset($_POST["update"]);
 	if ( $id == 0 ){
     if( insertDB("tbl_themes_categories", $_POST) ){
-			header("LOCATION: ?v=BookingGallery");
+			header("LOCATION: ?v=BookingThemes");
 		}else{
 		?>
 		<script>
@@ -39,7 +39,7 @@ if( isset($_POST["enTitle"]) ){
 		}
 	}else{
     if( updateDB("tbl_themes_categories", $_POST, "`id` = '{$id}'") ){
-			header("LOCATION: ?v=BookingGallery");
+			header("LOCATION: ?v=BookingThemes");
 		}else{
 		?>
 		<script>
@@ -121,16 +121,16 @@ if( isset($_POST["enTitle"]) ){
 		
 		<tbody>
 		<?php 
-    if( $pages = selectDB("tbl_themes_categories","`status` = '0' ORDER BY `id` ASC") ){
-			for( $i = 0; $i < sizeof($pages); $i++ ){
+    if( $themes = selectDB("tbl_themes_categories","`status` = '0' ORDER BY `id` ASC") ){
+			for( $i = 0; $i < sizeof($themes); $i++ ){
 				$counter = $i + 1;
-			if ( $pages[$i]["hidden"] == 2 ){
+			if ( $themes[$i]["hidden"] == 2 ){
 				$icon = "fa fa-eye";
-				$link = "?v={$_GET["v"]}&show={$pages[$i]["id"]}";
+				$link = "?v={$_GET["v"]}&show={$themes[$i]["id"]}";
 				$hide = direction("Show","إظهار");
 			}else{
 				$icon = "fa fa-eye-slash";
-				$link = "?v={$_GET["v"]}&hide={$pages[$i]["id"]}";
+				$link = "?v={$_GET["v"]}&hide={$themes[$i]["id"]}";
 				$hide = direction("Hide","إخفاء");
 			}
 			?>
@@ -139,16 +139,16 @@ if( isset($_POST["enTitle"]) ){
 			<input name="rank[]" class="form-control" type="number" value="<?php echo str_pad($counter, 2, '0', STR_PAD_LEFT) ?>" style="width: 100px;">
 			<input name="id[]" class="form-control" type="hidden" value="<?php echo $extras[$i]["id"] ?>">
 			</td>   
-			<td id="enTitle<?php echo $pages[$i]["id"]?>" ><?php echo $pages[$i]["enTitle"] ?></td>
-			<td id="arTitle<?php echo $pages[$i]["id"]?>" ><?php echo $pages[$i]["arTitle"] ?></td>
+			<td id="enTitle<?php echo $themes[$i]["id"]?>" ><?php echo $themes[$i]["enTitle"] ?></td>
+			<td id="arTitle<?php echo $themes[$i]["id"]?>" ><?php echo $themes[$i]["arTitle"] ?></td>
 			<td class="text-nowrap">
-                <a id="<?php echo $pages[$i]["id"] ?>" class="mr-25 edit" data-toggle="tooltip" data-original-title="<?php echo direction("Edit","تعديل") ?>"> <i class="btn btn-warning btn-circle fa fa-pencil text-inverse m-r-10" style="align-content: center;"></i></a>
-                <a id="<?php echo $pages[$i]["id"] ?>" class="mr-25 photos" data-toggle="tooltip" data-original-title="<?php echo direction("Photos","صور") ?>"> <i class="btn btn-success btn-circle fa fa-image text-inverse m-r-10" style="align-content: center;"></i></a>
+                <a id="<?php echo $themes[$i]["id"] ?>" class="mr-25 edit" data-toggle="tooltip" data-original-title="<?php echo direction("Edit","تعديل") ?>"> <i class="btn btn-warning btn-circle fa fa-pencil text-inverse m-r-10" style="align-content: center;"></i></a>
+                <a id="<?php echo $themes[$i]["id"] ?>" class="mr-25 photos" data-toggle="tooltip" data-original-title="<?php echo direction("Photos","صور") ?>"> <i class="btn btn-success btn-circle fa fa-image text-inverse m-r-10" style="align-content: center;"></i></a>
                 <a href="<?php echo $link ?>" class="mr-25" data-toggle="tooltip" data-original-title="<?php echo $hide ?>"> <i class="btn btn-default btn-circle <?php echo $icon ?> text-inverse m-r-10" style="align-content: center;"></i></a>
-                <a href="<?php echo "?v={$_GET["v"]}&delId={$pages[$i]["id"]}" ?>" data-toggle="tooltip" data-original-title="<?php echo direction("Delete","حذف") ?>"><i class="btn btn-danger btn-circle fa fa-close" style="align-content: center;"></i></a>
+                <a href="<?php echo "?v={$_GET["v"]}&delId={$themes[$i]["id"]}" ?>" data-toggle="tooltip" data-original-title="<?php echo direction("Delete","حذف") ?>"><i class="btn btn-danger btn-circle fa fa-close" style="align-content: center;"></i></a>
 			</td>
             <div style="display: none">
-                <label id="hidden<?php echo $pages[$i]["id"]?>"><?php echo $pages[$i]["hidden"] ?></label>
+                <label id="hidden<?php echo $themes[$i]["id"]?>"><?php echo $themes[$i]["hidden"] ?></label>
             </div>
 			</tr>
 			<?php
