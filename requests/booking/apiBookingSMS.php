@@ -56,7 +56,7 @@ if ($booking = selectDBNew("tbl_booking", [$id] , "id = ?","")) {
             if (strpos($response, 'ERR') !== false) {
                 echo json_encode(['success' => false, 'message' => 'Could not send SMS - ' . $response]); exit();
             } else {
-                if( updateDB("tbl_booking", ["sms" => 1], "id = $id") ) {
+                if( updateDB("tbl_booking", ["sms" => 1], "`transaction_id` = '{$orderId}'") ) {
                     echo json_encode(['success' => true, 'message' => 'SMS sent successfully']); exit();
                 }else{
                     echo json_encode(['success' => false, 'message' => 'SMS sent but failed to update status']); exit();
