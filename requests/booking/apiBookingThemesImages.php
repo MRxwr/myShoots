@@ -51,7 +51,7 @@ switch ($action) {
                 $data = [
                     'category' => $themes_category_id,
                     'enTitle' => $enTitle,
-                    'arTitle' => $arTitle,
+                    'arTitle' => $arTitle, 
                     'enDetails' => $enDetails,
                     'arDetails' => $arDetails,
                     'imageurl' => $image,
