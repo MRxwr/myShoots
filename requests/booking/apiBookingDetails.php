@@ -42,10 +42,33 @@ if ( $result = selectJoinDB("tbl_booking", $joinData, "t.id = '{$id}'") ) {
         'Package ID' => htmlspecialchars($row['package_id']),
         'Booking Date' => htmlspecialchars($row['booking_date']),
         'Booking Time' => htmlspecialchars($row['booking_time']),
-        'Extra Items' => !empty($extra_items) ? implode('<br>', $extra_items) : '',
-        'Booking Price' => htmlspecialchars($row['booking_price']) . ' KD',
-        'Status' => $status_text,
     );
+    
+    // Add selected themes if available
+    if (!empty($row['themes'])) {
+        $themesHtml = '';
+        $themes = json_decode($row['themes'], true);
+        if ($themes && is_array($themes) && count($themes) > 0) {
+            $themesHtml .= '<div class="row" style="margin-top:10px;">';
+            foreach ($themes as $theme) {
+                $themeName = isset($theme['enTitle']) ? htmlspecialchars($theme['enTitle']) : '';
+                $themeImage = isset($theme['imageurl']) ? htmlspecialchars($theme['imageurl']) : '';
+                $themesHtml .= '<div class="col-xs-6 col-sm-4" style="margin-bottom:15px; text-align:center;">';
+                if (!empty($themeImage)) {
+                    $themesHtml .= '<img src="../logos/themes/' . $themeImage . '" class="img-responsive" alt="' . $themeName . '" style="width:100%; height:100px; object-fit:cover; border-radius:5px; margin-bottom:5px;">';
+                }
+                $themesHtml .= '<p style="margin:0; font-size:12px; font-weight:600;">' . $themeName . '</p>';
+                $themesHtml .= '</div>';
+            }
+            $themesHtml .= '</div>';
+            $data['Selected Themes'] = $themesHtml;
+        }
+    }
+    
+    // Add extra items
+    $data['Extra Items'] = !empty($extra_items) ? implode('<br>', $extra_items) : '';
+    $data['Booking Price'] = htmlspecialchars($row['booking_price']) . ' KD';
+    $data['Status'] = $status_text;
     // Add dynamic customer info fields (personal_info)
     if (!empty($row['personal_info'])) {
         $personalInfo = json_decode($row['personal_info'], true);
