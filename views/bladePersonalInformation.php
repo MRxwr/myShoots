@@ -251,7 +251,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
 <div class="modal fade" id="themesModal" tabindex="-1" role="dialog" aria-labelledby="themesModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-      <div class="modal-header" style="background: linear-gradient(90deg, <?php echo $websiteColors["button1"] ?> 0%, <?php echo $websiteColors["button2"] ?> 100%); color:#fff;">
+      <div class="modal-header" style="background: linear-gradient(90deg, <?php echo $websiteColors["main1"] ?> 0%, <?php echo $websiteColors["main2"] ?> 100%); color:#fff;">
         <h5 class="modal-title" id="themesModalLabel">
           <?php echo direction("Select Themes","اختر المواضيع") ?>
           <span id="themeSelectionCount" class="badge badge-light ml-2">0 / <?php echo $themes_count; ?></span>
@@ -278,7 +278,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
                   foreach ($themesInCategory as $theme) {
                     $themeId = $theme['id'];
                     $themeTitle = $theme[direction('en','ar').'Title'];
-                    $themeImage = $theme['image'];
+                    $themeImage = $theme['imageurl'];
                     ?>
                     <div class="col-md-4 col-sm-6 mb-3">
                       <div class="card theme-card h-100" data-theme-id="<?php echo $themeId; ?>" data-theme-title="<?php echo htmlspecialchars($themeTitle); ?>" data-theme-image="<?php echo htmlspecialchars($themeImage); ?>" style="cursor:pointer; transition: all 0.3s;">
