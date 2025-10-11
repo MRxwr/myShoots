@@ -392,6 +392,7 @@ function createAPI($BookingDetails, $paymentSettings){
 			unset($BookingDetails['customer_email']);
 			unset($BookingDetails['customer_name']);
 			unset($BookingDetails['mobile_number']);
+			unset($BookingDetails['id']);
 			$paymentSettings["booking_price"] = $BookingDetails['booking_price'];
 			$BookingDetails["transaction_id"]  = $resultMY["data"]["InvoiceId"];
 			$BookingDetails["payload"]         = json_encode($postMethodLines, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
