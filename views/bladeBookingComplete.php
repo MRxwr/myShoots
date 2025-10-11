@@ -47,7 +47,7 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
         $timeSlotAvailable = 1;
       } 
     }
-    if( $booking["parent_id"] == '' ){
+    if( empty($booking["parent_id"]) ){
       // Send WhatsApp notification using bookingWhatsapp API
       $whatsappApi = $settingsWebsite . "/requests/index.php?f=booking&endpoint=BookingWhatsapp";
       $ch = curl_init();
