@@ -96,7 +96,7 @@ if(isset($_POST['submit'])){
 		$is_filming = ( isset($_POST['is_filming']) ) ? $_POST['is_filming'] : 0 ;
 		date_default_timezone_set('Asia/Riyadh');
 		$created_at = date('Y-m-d H:i:s');
-
+die("here");
 		if( check_bookingTimeAndDate($booking_date,$booking_time,$package_id) ){
 			header("LOCATION: {$settingsWebsite}/?v=Reservations&id={$package_id}");die();
 		}	 
@@ -127,7 +127,6 @@ if(isset($_POST['submit'])){
 				)
 			)
 		);
-		var_dump($BookingDetails);
 		if( $checkBookingTime = checkBookingTime($booking_date, $booking_time, $package_id) ){
 			if ( $response = createAPI($BookingDetails, $paymentSettings) ) {
 				if ( !empty($response) ) {
