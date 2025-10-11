@@ -170,7 +170,7 @@ if( isset($_POST["openDate"]) ){
                             <div class="panel-wrapper collapse in">
                             <div class="panel-body">
 
-                                <div class="col-md-12" style="padding-bottom: 5px;">
+                                <div class="col-md-4" style="padding-bottom: 5px;">
                                 <div class="text">
                                     <select class="form-control" name="packageDetails[details]" >
                                         <option value=""><?php echo direction("Hide Package Details","ايقاف تفاصيل الباقة") ?></option>
@@ -180,7 +180,17 @@ if( isset($_POST["openDate"]) ){
                                 </div>
                                 </div>
 
-                                <div class="col-md-12" style="padding-bottom: 5px;">
+                                <div class="col-md-4" style="padding-bottom: 5px;">
+                                <div class="text">
+                                    <select class="form-control" name="packageDetails[subtitle]" >
+                                        <option value=""><?php echo direction("Hide Package Subtitle","ايقاف عنوان الباقة الفرعي") ?></option>
+                                        <option value="1" <?php if( isset($packageDetails["subtitle"]) && $packageDetails["subtitle"] == 1 ): ?>selected<?php endif; ?>><?php echo direction("Show Package Subtitle","اظهار عنوان الباقة الفرعي") ?></option>
+                                        <option value="2" <?php if( isset($packageDetails["subtitle"]) && $packageDetails["subtitle"] == 2 ): ?>selected<?php endif; ?>><?php echo direction("Hide Package Subtitle","إخفاء عنوان الباقة الفرعي") ?></option>
+                                    </select>
+                                </div>
+                                </div>
+
+                                <div class="col-md-4" style="padding-bottom: 5px;">
                                 <div class="text">
                                     <select class="form-control" name="packageDetails[price]" >
                                         <option value=""><?php echo direction("Hide Package Price","ايقاف سعر الباقة") ?></option>

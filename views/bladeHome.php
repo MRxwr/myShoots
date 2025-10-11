@@ -53,6 +53,9 @@ document.addEventListener('DOMContentLoaded', showPopupBanner);
                 <div class="row align-items-center">
                   <div class="col-lg-7 col-md-7 col-12 order-md-1 order-2">
                     <h5 class="package-head mb-3" style="font-weight: 600; color: #333;"><?= $package[direction('en','ar')."Title"] ?></h5>
+                    <?php if( $packageDetailsSettings["subTitle"] == 1 ): ?>
+                      <p style="color: #666; line-height: 1.8; margin-bottom: 20px;"><?= $package[direction('en','ar')."Subtitle"] ?></p>
+                    <?php endif; ?>
                     <?php if( $packageDetailsSettings["details"] == 1 ): ?>
                       <div style="color: #666; line-height: 1.8; margin-bottom: 20px;"><?= $package[direction('en','ar')."Details"] ?></div>
                     <?php endif; ?>
