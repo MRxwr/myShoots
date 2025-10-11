@@ -125,7 +125,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
                 <div class="form-group row mb-3">
                   <label for="" class="col-sm-5 col-md-4 col-form-label font-weight-bold text-secondary"><?php echo direction("Select Theme","اختر الموضوع") ?>:</label>
                   <div class="col-sm-7 col-md-8">
-                    <input type="hidden" id="selected_themes" name="selected_themes" value="" required>
+                    <input type="hidden" id="selected_themes" name="themes" value="" required>
                     <input type="hidden" id="max_themes_count" value="<?php echo $themes_count; ?>">
                     <button type="button" class="btn btn-outline-primary btn-lg rounded-3" id="selectThemesBtn" style="border-width:2px;">
                       <i class="fa fa-image"></i> <?php echo direction("Select Theme(s)","اختر الموضوع/المواضيع") ?>
