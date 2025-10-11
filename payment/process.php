@@ -51,7 +51,6 @@ if(isset($_POST['submit'])){
 					)
 				)
 			);
-			var_dump($BookingDetails);
 			if( $response = createAPI($BookingDetails, $newPaymentData) ){
 				$response = $response["PaymentURL"];
 				header("LOCATION: {$response}");die();
@@ -128,7 +127,7 @@ if(isset($_POST['submit'])){
 				)
 			)
 		);
-
+		var_dump($BookingDetails);
 		if( $checkBookingTime = checkBookingTime($booking_date, $booking_time, $package_id) ){
 			if ( $response = createAPI($BookingDetails, $paymentSettings) ) {
 				if ( !empty($response) ) {
