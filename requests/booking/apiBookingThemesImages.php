@@ -45,7 +45,7 @@ switch ($action) {
                 exit;
             }
             
-            echo $image = uploadImageThemesFreeImageHost($_FILES['image']['tmp_name']);die();
+            $image = uploadImageThemesFreeImageHost($_FILES['image']['tmp_name']);die();
             
             if ($image && $image !== '') {
                 $data = [
@@ -54,7 +54,7 @@ switch ($action) {
                     'arTitle' => $arTitle,
                     'enDetails' => $enDetails,
                     'arDetails' => $arDetails,
-                    'image' => $image,
+                    'imageurl' => $image,
                     'status' => '0'
                 ];
                 if (insertDB('tbl_themes', $data)) {
