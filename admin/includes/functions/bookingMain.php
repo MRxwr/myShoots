@@ -182,7 +182,6 @@ function get_disabledDate(){
 			return array();
 		}
 		$whereTime2 = implode(" OR ",$timeConditions);
-		var_dump($whereTime2);die();
 		if( empty($whereTime2) ){
 			return array();
 		}
