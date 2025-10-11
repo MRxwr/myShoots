@@ -13,7 +13,7 @@ if(isset($_POST['submit'])){
 		// Completion payment processing
 		$booking_id = isset($_POST['booking_id']) ? intval($_POST['booking_id']) : 0;
 		$completion_amount = isset($_POST['completion_amount']) ? floatval($_POST['completion_amount']) : 0;
-		if( $booking = selectDB("tbl_booking","`id` = '{$booking_id}'") ){
+		if( $booking = selectDB("tbl_booking","`transaction_id` = '{$booking_id}'") ){
 			$booking = $booking[0];
 			$package = get_packages_details($booking['package_id']);
 			$package_title = $package[direction('en','ar').'Title'];
