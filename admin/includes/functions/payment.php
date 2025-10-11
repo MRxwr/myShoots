@@ -415,13 +415,10 @@ function checkCreateAPI(){
 	if( isset($_GET["requested_order_id"]) && !empty($_GET["requested_order_id"]) ){
 		if( $_GET["result"] != "CAPTURED" ){
 			if( updateDB("tbl_booking", array("gatewayResponse" => json_encode($_GET), "status" => "No"), "transaction_id = {$_GET["requested_order_id"]} AND status = 'Pending'")){
-			}elseif( updateDB("tbl_booking", array("gatewayResponse" => json_encode($_GET), "status" => "No"), "parent_id = {$_GET["requested_order_id"]} AND status = 'Pending'")){
 			}
 			return 0;
 		}else{
 			if( updateDB("tbl_booking", array("gatewayResponse" => json_encode($_GET), "status" => "Yes"), "transaction_id = {$_GET["requested_order_id"]} AND status = 'Pending'") ){
-				return $_GET["requested_order_id"];
-			}elseif( updateDB("tbl_booking", array("gatewayResponse" => json_encode($_GET), "status" => "Completed"), "parent_id = {$_GET["requested_order_id"]} AND status = 'Pending'") ){
 				return $_GET["requested_order_id"];
 			}
 			return 0;
