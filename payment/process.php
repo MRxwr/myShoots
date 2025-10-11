@@ -35,6 +35,7 @@ if(isset($_POST['submit'])){
 				'booking_time' => $booking['booking_time'],
 				'is_filming' => $booking['is_filming'],
 				'extra_items' => $booking['extra_items'],
+				'themes' => $booking['themes'],
 				'booking_price' => $booking_price,
 				'customer_name' => "{$package_title}",
 				'customer_email' => "{$bookingSettings['email']}",
@@ -85,6 +86,7 @@ if(isset($_POST['submit'])){
 		$personalInfo = $_POST['personalInfo'];
 		$bookingSettings['mobile'] = ( isset($personalInfo['1']) && !empty($personalInfo['1']) )  ? $personalInfo['1'] : $bookingSettings['mobile'];
 		$extra_items = "[{$select_extra_item_val}]"; 
+		$themes = json_encode($_POST['themes'],JSON_UNESCAPED_UNICODE);
 		$package_id = $_POST['id'];
 		$booking_date = $_POST['booking_date'];
 		$date = explode('-',$booking_date);
@@ -108,6 +110,7 @@ if(isset($_POST['submit'])){
 			'booking_time' => $booking_time,
 			'is_filming' => $is_filming,
 			'extra_items' => $extra_items,
+			'themes' => $themes,
 			'booking_price' => $booking_price,
 			'customer_name' => "{$package_title}",
 			'customer_email' => "{$bookingSettings['email']}",

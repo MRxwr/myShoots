@@ -14,6 +14,8 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
     $extra_items = $package['extra_items'];
     $times = $package['time'];
     $personalInfoFields = json_decode($package['personalInfo'], true);
+    $themes = json_decode($package['themes'], true);
+    $themes_count = isset($package['themes_count']) && !empty($package['themes_count']) ? intval($package['themes_count']) : 1;
   }else{
     echo "
     <script>
@@ -117,6 +119,26 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
                     </select>
                   </div>
                 </div>
+                
+                <!-- Theme Selection Section -->
+                <?php if (!empty($themes) && is_array($themes) && count($themes) > 0): ?>
+                <div class="form-group row mb-3">
+                  <label for="" class="col-sm-5 col-md-4 col-form-label font-weight-bold text-secondary"><?php echo direction("Select Theme","اختر الموضوع") ?>:</label>
+                  <div class="col-sm-7 col-md-8">
+                    <input type="hidden" id="selected_themes" name="selected_themes" value="" required>
+                    <input type="hidden" id="max_themes_count" value="<?php echo $themes_count; ?>">
+                    <button type="button" class="btn btn-outline-primary btn-lg rounded-3" id="selectThemesBtn" style="border-width:2px;">
+                      <i class="fa fa-image"></i> <?php echo direction("Select Theme(s)","اختر الموضوع/المواضيع") ?>
+                      <span id="selectedThemesCount" class="badge badge-primary ml-2" style="display:none;">0</span>
+                    </button>
+                    <div id="selectedThemesPreview" class="mt-3" style="display:none;">
+                      <!-- Selected themes will be displayed here -->
+                    </div>
+                  </div>
+                </div>
+                <?php endif; ?>
+                <!-- End Theme Selection Section -->
+                
                 <div class="form-group row mb-3">
                   <label for="" class="col-sm-5 col-md-4 col-form-label font-weight-bold text-secondary"><?php echo direction("Extra","اضافي") ?>:</label>
                   <div class="col-sm-7 col-md-8">
@@ -224,5 +246,175 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
     </div>
   </div>
 </section>
+
+<!-- Theme Selection Modal -->
+<div class="modal fade" id="themesModal" tabindex="-1" role="dialog" aria-labelledby="themesModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background: linear-gradient(90deg, <?php echo $websiteColors["button1"] ?> 0%, <?php echo $websiteColors["button2"] ?> 100%); color:#fff;">
+        <h5 class="modal-title" id="themesModalLabel">
+          <?php echo direction("Select Themes","اختر المواضيع") ?>
+          <span id="themeSelectionCount" class="badge badge-light ml-2">0 / <?php echo $themes_count; ?></span>
+        </h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row" id="themesContainer">
+          <?php 
+          if (!empty($themes) && is_array($themes)) {
+            foreach ($themes as $themeCategory) {
+              // Get all themes for this category
+              $categoryId = isset($themeCategory['id']) ? $themeCategory['id'] : 0;
+              $categoryTitle = isset($themeCategory[direction('en','ar').'Title']) ? $themeCategory[direction('en','ar').'Title'] : '';
+              
+              if ($categoryId > 0) {
+                $themesInCategory = selectDB("tbl_themes", "`category` = '{$categoryId}' AND `status` = '0'");
+                
+                if ($themesInCategory) {
+                  echo '<div class="col-12 mb-3"><h6 class="font-weight-bold text-secondary border-bottom pb-2">'.$categoryTitle.'</h6></div>';
+                  
+                  foreach ($themesInCategory as $theme) {
+                    $themeId = $theme['id'];
+                    $themeTitle = $theme[direction('en','ar').'Title'];
+                    $themeImage = $theme['image'];
+                    ?>
+                    <div class="col-md-4 col-sm-6 mb-3">
+                      <div class="card theme-card h-100" data-theme-id="<?php echo $themeId; ?>" data-theme-title="<?php echo htmlspecialchars($themeTitle); ?>" data-theme-image="<?php echo htmlspecialchars($themeImage); ?>" style="cursor:pointer; transition: all 0.3s;">
+                        <img src="logos/themes/<?php echo $themeImage; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($themeTitle); ?>" style="height:200px; object-fit:cover;">
+                        <div class="card-body text-center p-2">
+                          <p class="card-text mb-0" style="font-size:14px; font-weight:600;"><?php echo $themeTitle; ?></p>
+                          <div class="theme-check-icon" style="display:none; position:absolute; top:10px; right:10px; background:#fff; border-radius:50%; padding:5px;">
+                            <i class="fa fa-check-circle" style="color:<?php echo $websiteColors["button1"]; ?>; font-size:24px;"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <?php
+                  }
+                }
+              }
+            }
+          }
+          ?>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo direction("Cancel","إلغاء") ?></button>
+        <button type="button" class="btn btn-primary" id="confirmThemesBtn" style="background: linear-gradient(90deg, <?php echo $websiteColors["button1"] ?> 0%, <?php echo $websiteColors["button2"] ?> 100%); border:none;">
+          <?php echo direction("Confirm Selection","تأكيد الاختيار") ?>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.theme-card {
+  border: 2px solid transparent;
+  position: relative;
+}
+.theme-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+.theme-card.selected {
+  border-color: <?php echo $websiteColors["button1"]; ?>;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+</style>
+
+<script>
+$(document).ready(function() {
+  var selectedThemes = [];
+  var maxThemes = parseInt($('#max_themes_count').val()) || 1;
+  
+  // Open modal
+  $('#selectThemesBtn').click(function() {
+    $('#themesModal').modal('show');
+  });
+  
+  // Theme card click
+  $('.theme-card').click(function() {
+    var themeId = $(this).data('theme-id');
+    var themeTitle = $(this).data('theme-title');
+    var themeImage = $(this).data('theme-image');
+    
+    var themeIndex = selectedThemes.findIndex(t => t.id === themeId);
+    
+    if (themeIndex > -1) {
+      // Deselect
+      selectedThemes.splice(themeIndex, 1);
+      $(this).removeClass('selected');
+      $(this).find('.theme-check-icon').hide();
+    } else {
+      // Check if max limit reached
+      if (selectedThemes.length >= maxThemes) {
+        alert('<?php echo direction("You can select maximum","يمكنك اختيار كحد أقصى") ?> ' + maxThemes + ' <?php echo direction("theme(s)","موضوع/مواضيع") ?>');
+        return;
+      }
+      // Select
+      selectedThemes.push({
+        id: themeId,
+        imageurl: themeImage,
+        enTitle: themeTitle
+      });
+      $(this).addClass('selected');
+      $(this).find('.theme-check-icon').show();
+    }
+    
+    updateThemeCount();
+  });
+  
+  // Update theme count
+  function updateThemeCount() {
+    $('#themeSelectionCount').text(selectedThemes.length + ' / ' + maxThemes);
+    if (selectedThemes.length > 0) {
+      $('#selectedThemesCount').text(selectedThemes.length).show();
+    } else {
+      $('#selectedThemesCount').hide();
+    }
+  }
+  
+  // Confirm selection
+  $('#confirmThemesBtn').click(function() {
+    if (selectedThemes.length === 0) {
+      alert('<?php echo direction("Please select at least one theme","الرجاء اختيار موضوع واحد على الأقل") ?>');
+      return;
+    }
+    
+    // Update hidden field
+    $('#selected_themes').val(JSON.stringify(selectedThemes));
+    
+    // Update preview
+    var previewHtml = '<div class="row">';
+    selectedThemes.forEach(function(theme) {
+      previewHtml += '<div class="col-4 col-md-3 mb-2">' +
+        '<img src="logos/themes/' + theme.imageurl + '" class="img-fluid rounded shadow-sm" alt="' + theme.enTitle + '" style="height:80px; width:100%; object-fit:cover;">' +
+        '<p class="text-center mb-0 mt-1" style="font-size:12px;">' + theme.enTitle + '</p>' +
+        '</div>';
+    });
+    previewHtml += '</div>';
+    
+    $('#selectedThemesPreview').html(previewHtml).show();
+    $('#selectThemesBtn').html('<i class="fa fa-check-circle"></i> <?php echo direction("Themes Selected","تم اختيار المواضيع") ?> <span class="badge badge-success ml-2">' + selectedThemes.length + '</span>');
+    
+    $('#themesModal').modal('hide');
+  });
+  
+  // Form validation
+  $('.personal-information').submit(function(e) {
+    <?php if (!empty($themes) && is_array($themes) && count($themes) > 0): ?>
+    if (selectedThemes.length === 0) {
+      e.preventDefault();
+      alert('<?php echo direction("Please select theme(s) before continuing","الرجاء اختيار الموضوع/المواضيع قبل المتابعة") ?>');
+      $('#selectThemesBtn').focus();
+      return false;
+    }
+    <?php endif; ?>
+  });
+});
+</script>
   
  
