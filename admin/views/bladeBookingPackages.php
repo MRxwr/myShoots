@@ -77,6 +77,22 @@ if( isset($_POST["arTitle"]) ){
 	}
 	unset($_POST["personal_info"]);
 
+	// Convert array of themes to JSON string
+	if(isset($_POST["themes"]) && is_array($_POST["themes"])) {
+		$parsedThemesArray = [];
+		foreach($_POST["themes"] as $themeEntry) {
+			if(is_string($themeEntry)) {
+				$decodedTheme = json_decode($themeEntry, true);
+				if(is_array($decodedTheme) && isset($decodedTheme['id']) && isset($decodedTheme['enTitle'])) {
+					$parsedThemesArray[] = $decodedTheme;
+				}
+			}
+		}
+		$_POST["themes"] = json_encode($parsedThemesArray, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+	} else {
+		$_POST["themes"] = "[]";
+	}
+
 	if ( $id == 0 ){
 		if (is_uploaded_file($_FILES['imageurl']['tmp_name'])) {
 			$_POST["imageurl"] = uploadImageBannerFreeImageHost($_FILES['imageurl']['tmp_name']);
@@ -214,6 +230,27 @@ if( isset($_POST["arTitle"]) ){
 			<small class="text-muted"><?php echo direction("Hold Ctrl/Cmd key to select multiple personal info fields","اضغط مع الاستمرار على مفتاح Ctrl/Cmd لتحديد معلومات شخصية متعددة") ?></small>
 			</div>
 
+			<div class="col-md-12">
+			<label><?php echo direction("Available Theme Categories","فئات المواضيع المتاحة") ?></label>
+			<select name="themes[]" class="form-control" multiple style="height: 150px;">
+				<?php 
+				if($themeCategories = selectDB("tbl_themes_categories", "`status` = '0' AND `hidden` = '1' ORDER BY `rank` ASC")){
+					foreach($themeCategories as $themeCategory){
+						$themeCategoryObj = array(
+							'id' => $themeCategory["id"],
+							'enTitle' => $themeCategory["enTitle"],
+							'arTitle' => $themeCategory["arTitle"]
+						);
+						$themeCategoryData = json_encode($themeCategoryObj, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+						echo '<option value="' . htmlspecialchars($themeCategoryData, ENT_QUOTES, 'UTF-8') . '">' . 
+							$themeCategory["enTitle"] . ' / ' . $themeCategory["arTitle"] . '</option>';
+					}
+				}
+				?>
+			</select>
+			<small class="text-muted"><?php echo direction("Hold Ctrl/Cmd key to select multiple theme categories","اضغط مع الاستمرار على مفتاح Ctrl/Cmd لتحديد فئات متعددة") ?></small>
+			</div>
+
 			<div class="col-md-6">
 			<label><?php echo direction("English Details","التفاصيل بالإنجليزي") ?></label>
 			<textarea name="enDetails" class="tinymce"></textarea>
@@ -317,6 +354,7 @@ if( isset($_POST["arTitle"]) ){
 			<div style="display:none"><label id="time<?php echo $packages[$i]["id"]?>"><?php echo htmlspecialchars($packages[$i]["time"]) ?></label></div>
 			<div style="display:none"><label id="extras<?php echo $packages[$i]["id"]?>"><?php echo htmlspecialchars($packages[$i]["extra_items"]) ?></label></div>
 			<div style="display:none"><label id="personalInfo<?php echo $packages[$i]["id"]?>"><?php echo htmlspecialchars($packages[$i]["personalInfo"]) ?></label></div>
+			<div style="display:none"><label id="themes<?php echo $packages[$i]["id"]?>"><?php echo htmlspecialchars($packages[$i]["themes"]) ?></label></div>
 			</td>
 			</tr>
 			<?php
@@ -347,6 +385,7 @@ $(document).on("click",".edit", function(){
 	$("select[name='time[]']").val(null);
 	$("select[name='extras[]']").val(null);
 	$("select[name='personal_info[]']").val(null);
+	$("select[name='themes[]']").val(null);
 	$("input[name=price]").val($("#price"+id).html());
 
 	// Set multiple time selections
@@ -485,6 +524,51 @@ $(document).on("click",".edit", function(){
 			}
 		} catch(e) {
 			console.error("Error handling personal info data:", e);
+		}
+	}
+
+	// Set multiple themes selections
+	if($("#themes"+id).html() && $("#themes"+id).html() !== ""){
+		try {
+			var themesContent = $("#themes"+id).html();
+			var themesData;
+			try {
+				themesData = JSON.parse(themesContent);
+			} catch (e) {
+				if (themesContent.startsWith('[') && themesContent.endsWith(']')) {
+					try {
+						themesContent = themesContent.replace(/\\\\/g, "\\").replace(/\\"/g, '"');
+						themesData = JSON.parse(themesContent);
+					} catch (innerE) {
+						console.error("Could not parse themes data even after cleanup:", innerE);
+						themesData = [];
+					}
+				} else {
+					console.error("Themes data is not in expected format:", e);
+					themesData = [];
+				}
+			}
+			var themesSelect = $("select[name='themes[]']");
+			themesSelect.val(null);
+			if (Array.isArray(themesData)) {
+				themesData.forEach(function(themeItem) {
+					themesSelect.find("option").each(function() {
+						var optionVal = $(this).val();
+						var optionData;
+						try {
+							optionData = JSON.parse(optionVal);
+						} catch (e) {
+							return;
+						}
+						if (themeItem.id && optionData.id &&
+							themeItem.id == optionData.id) {
+							$(this).prop('selected', true);
+						}
+					});
+				});
+			}
+		} catch(e) {
+			console.error("Error handling themes data:", e);
 		}
 	}
 
