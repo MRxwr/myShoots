@@ -21,7 +21,7 @@ if(isset($_POST['submit'])){
 			$paidAmount = isset($paymentData['price']) ? floatval($paymentData['price']) : 0;
 			$booking_price = isset($paymentData['booking_price']) ? floatval($paymentData['booking_price']) : $booking['booking_price'];
 			$totalAmount = floatval($booking_price);
-			echo $remainingAmount = $totalAmount - $paidAmount;die();
+			$remainingAmount = $totalAmount - $paidAmount;
 			$newPaymentData = array(
 				'type' => isset($paymentData['type']) ? $paymentData['type'] : '1',
 				'price' => $paidAmount,
@@ -50,6 +50,8 @@ if(isset($_POST['submit'])){
 					)
 				)
 			);
+			var_dump($BookingDetails);
+			var_dump($response = createAPI($booking, $newPaymentData));
 			if( $response = createAPI($booking, $newPaymentData) ){
 				$response = $response["PaymentURL"];
 				header("LOCATION: {$response}");die();
