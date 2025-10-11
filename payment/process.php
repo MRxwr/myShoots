@@ -86,7 +86,8 @@ if(isset($_POST['submit'])){
 		$personalInfo = $_POST['personalInfo'];
 		$bookingSettings['mobile'] = ( isset($personalInfo['1']) && !empty($personalInfo['1']) )  ? $personalInfo['1'] : $bookingSettings['mobile'];
 		$extra_items = "[{$select_extra_item_val}]"; 
-		$themes = json_encode($_POST['themes'],JSON_UNESCAPED_UNICODE);
+		// Themes are already JSON encoded from JavaScript, just use directly
+		$themes = isset($_POST['themes']) ? $_POST['themes'] : '[]';
 		$package_id = $_POST['id'];
 		$booking_date = $_POST['booking_date'];
 		$date = explode('-',$booking_date);
