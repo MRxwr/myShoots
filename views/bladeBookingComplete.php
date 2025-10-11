@@ -130,7 +130,7 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
               </span>
             </h2>
             <div class="row">
-              <div class="col-12 mb-4">
+              <div class="col-12 mb-4"> 
                 <div class="personal-information">
                   <div class="form-group mb-3">
                     <label class="font-weight-bold text-secondary"><?php echo direction("Reservation ID","رقم الحجز") ?></label>
