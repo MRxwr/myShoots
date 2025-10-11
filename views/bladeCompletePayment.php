@@ -4,7 +4,7 @@ date_default_timezone_set('Asia/Riyadh');
 if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
     $booking_id = intval($_GET["booking_id"]);
     
-    if( $bookingDetails = selectDB("tbl_booking", "`id` = '{$booking_id}'") ){
+    if( $bookingDetails = selectDB("tbl_booking", "`transaction_id` = '{$booking_id}'") ){
         $booking = $bookingDetails[0];
         $orderId = str_pad($booking['id'], 6, "0", STR_PAD_LEFT);
         
