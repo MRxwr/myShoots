@@ -1,7 +1,6 @@
 <?php
-require_once("../../admin/includes/config.php");
-require_once("../../admin/includes/functions.php");
-require_once("../../admin/includes/translate.php");
+// Files already included by requests/index.php
+// No need to include them again
 
 // CRUD API for tbl_themes and tbl_themes_categories images
 error_reporting(E_ALL);
