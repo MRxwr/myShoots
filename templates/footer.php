@@ -248,6 +248,83 @@ $(document).ready(function(){
     submitForm();
   });
 
+    var selectedThemes = [];
+    var maxThemes = parseInt($('#max_themes_count').val()) || 1;
+    
+    // Open modal
+    $('#selectThemesBtn').click(function() {
+      $('#themesModal').modal('show');
+    });
+    
+    // Theme card click
+    $('.theme-card').click(function() {
+      var themeId = $(this).data('theme-id');
+      var themeTitle = $(this).data('theme-title');
+      var themeImage = $(this).data('theme-image');
+      
+      var themeIndex = selectedThemes.findIndex(t => t.id === themeId);
+      
+      if (themeIndex > -1) {
+        // Deselect
+        selectedThemes.splice(themeIndex, 1);
+        $(this).removeClass('selected');
+        $(this).find('.theme-check-icon').hide();
+      } else {
+        // Check if max limit reached
+        if (selectedThemes.length >= maxThemes) {
+          alert('<?php echo direction("You can select maximum","يمكنك اختيار كحد أقصى") ?> ' + maxThemes + ' <?php echo direction("theme(s)","موضوع/مواضيع") ?>');
+          return;
+        }
+        // Select
+        selectedThemes.push({
+          id: themeId,
+          imageurl: themeImage,
+          enTitle: themeTitle
+        });
+        $(this).addClass('selected');
+        $(this).find('.theme-check-icon').show();
+      }
+      
+      updateThemeCount();
+    });
+
+    // Confirm selection
+    $('#confirmThemesBtn').click(function() {
+      if (selectedThemes.length === 0) {
+        alert('<?php echo direction("Please select at least one theme","الرجاء اختيار موضوع واحد على الأقل") ?>');
+        return;
+      }
+      
+      // Update hidden field
+      $('#selected_themes').val(JSON.stringify(selectedThemes));
+      
+      // Update preview
+      var previewHtml = '<div class="row">';
+      selectedThemes.forEach(function(theme) {
+        previewHtml += '<div class="col-4 col-md-3 mb-2">' +
+          '<img src="logos/themes/' + theme.imageurl + '" class="img-fluid rounded shadow-sm" alt="' + theme.enTitle + '" style="height:80px; width:100%; object-fit:cover;">' +
+          '<p class="text-center mb-0 mt-1" style="font-size:12px;">' + theme.enTitle + '</p>' +
+          '</div>';
+      });
+      previewHtml += '</div>';
+      
+      $('#selectedThemesPreview').html(previewHtml).show();
+      $('#selectThemesBtn').html('<i class="fa fa-check-circle"></i> <?php echo direction("Themes Selected","تم اختيار المواضيع") ?> <span class="badge badge-success ml-2">' + selectedThemes.length + '</span>');
+      
+      $('#themesModal').modal('hide');
+    });
+    
+    // Form validation
+    $('.personal-information').submit(function(e) {
+      <?php if (!empty($themes) && is_array($themes) && count($themes) > 0): ?>
+      if (selectedThemes.length === 0) {
+        e.preventDefault();
+        alert('<?php echo direction("Please select theme(s) before continuing","الرجاء اختيار الموضوع/المواضيع قبل المتابعة") ?>');
+        $('#selectThemesBtn').focus();
+        return false;
+      }
+      <?php endif; ?>
+    });
   // For booking-faild page auto refresh and session out
   <?php
   if(isset($_GET['v'] ) && $_GET['v'] == "booking-faild"){
@@ -267,6 +344,16 @@ $(document).ready(function(){
   }
   ?> 
 });
+
+// Update theme count
+function updateThemeCount() {
+  $('#themeSelectionCount').text(selectedThemes.length + ' / ' + maxThemes);
+  if (selectedThemes.length > 0) {
+    $('#selectedThemesCount').text(selectedThemes.length).show();
+  } else {
+    $('#selectedThemesCount').hide();
+  }
+}
 
 function truncateDate(date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
