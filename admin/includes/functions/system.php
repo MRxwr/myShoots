@@ -198,8 +198,8 @@ function uploadImageThemesFreeImageHost($imageLocation){
 	$response = json_decode(curl_exec($curl),true);
 	curl_close($curl);
 	if( isset($response["success"]) && $response["success"] == true ){
-		// Use absolute path based on document root
-		$targetDir = $_SERVER['DOCUMENT_ROOT'] . '/logos/themes/';
+		// Use path relative to current file location
+		$targetDir = __DIR__ . '/../../../logos/themes/';
 		// Create directory if it doesn't exist
 		if (!is_dir($targetDir)) {
 			mkdir($targetDir, 0777, true);
