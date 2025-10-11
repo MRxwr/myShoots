@@ -11,7 +11,7 @@ $image_id = $_POST['image_id'] ?? '';
 switch ($action) {
     case 'load':
         // Load images for a given themes_category_id
-        $images = selectDB("tbl_themes", "`themes_category_id` = '{$themes_category_id}' AND `status` = '0'");
+        $images = selectDB("tbl_themes", "`category` = '{$themes_category_id}' AND `status` = '0'");
         if ($images) {
             foreach ($images as $img) {
                 echo '<div class="gallery-image-item col-md-3">';
