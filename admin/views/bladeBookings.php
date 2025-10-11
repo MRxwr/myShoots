@@ -138,6 +138,50 @@
     </div>
 </div>
 
+<!-- Complete Payment Modal -->
+<div class="modal fade" id="completePaymentModal" tabindex="-1" role="dialog" aria-labelledby="completePaymentModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="completePaymentModalLabel"><?php echo direction("Complete Payment", "إكمال الدفع") ?></h4>
+            </div>
+            <div class="modal-body">
+                <form id="complete-payment-form">
+                    <input type="hidden" id="complete-payment-booking-id" name="booking_id">
+                    
+                    <div class="form-group">
+                        <label><?php echo direction("Booking Details", "تفاصيل الحجز") ?></label>
+                        <div id="complete-payment-booking-details" style="background: #f5f5f5; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                            <div class="text-center">
+                                <i class="fa fa-spinner fa-spin"></i> <?php echo direction("Loading...", "جاري التحميل...") ?>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="complete-payment-amount"><?php echo direction("Amount to Complete (KD)", "المبلغ المطلوب (د.ك)") ?></label>
+                        <input type="number" class="form-control" id="complete-payment-amount" name="amount" step="0.001" min="0" required>
+                        <small class="form-text text-muted" id="payment-type-info"></small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="send-method"><?php echo direction("Send Link Via", "إرسال الرابط عبر") ?></label>
+                        <select class="form-control" id="send-method" name="send_method" required>
+                            <option value="whatsapp" selected><?php echo direction("WhatsApp", "واتساب") ?></option>
+                            <option value="sms"><?php echo direction("SMS", "رسالة نصية") ?></option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo direction("Cancel", "إلغاء") ?></button>
+                <button type="button" class="btn btn-primary" id="complete-payment-send-link"><?php echo direction("Send Payment Link", "إرسال رابط الدفع") ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 $(document).ready(function() {
     // Show loading spinner and dim the table
@@ -217,6 +261,7 @@ $(document).ready(function() {
                     <ul class='dropdown-menu' style='min-width:120px; padding:0;'>
                         <li><a href='#' class='show-status-options' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>Change Status</a></li>
                         <li><a href='#' class='reschedule-booking' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>Reschedule</a></li>
+                        <li><a href='#' class='complete-payment' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>Complete Payment</a></li>
                         <li><a href='#' class='send-sms' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>Send SMS</a></li>
                         <li><a href='#' class='send-whatsapp' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>Send WhatsApp</a></li>
                         <li><a href='#' class='show-details' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>More details</a></li>
@@ -596,6 +641,72 @@ $(document).ready(function() {
                 alert('<?php echo direction("Error rescheduling booking", "خطأ في إعادة جدولة الحجز") ?>');
             }
         });
+    });
+    
+    // Complete Payment handler
+    $('#datable_1 tbody').on('click', '.complete-payment', function(e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        
+        // Reset modal
+        $('#complete-payment-booking-id').val(id);
+        $('#complete-payment-amount').val('');
+        $('#payment-type-info').text('');
+        $('#complete-payment-booking-details').html('<div class="text-center"><i class="fa fa-spinner fa-spin"></i> <?php echo direction("Loading...", "جاري التحميل...") ?></div>');
+        
+        // Show modal immediately
+        $('#completePaymentModal').modal('show');
+        
+        // Fetch booking details
+        $.ajax({
+            url: '../requests/index.php?f=booking&endpoint=BookingDetails',
+            type: 'POST',
+            data: {id: id},
+            dataType: 'json',
+            success: function(res) {
+                if (res.success && res.data) {
+                    var data = res.data;
+                    
+                    // Display booking details
+                    var detailsHtml = '<div style="font-size: 13px;">';
+                    detailsHtml += '<p style="margin: 5px 0;"><strong><?php echo direction("Booking ID", "رقم الحجز") ?>:</strong> ' + data['S.N.'] + '</p>';
+                    detailsHtml += '<p style="margin: 5px 0;"><strong><?php echo direction("Package", "الباقة") ?>:</strong> ' + data['Package Name'] + '</p>';
+                    detailsHtml += '<p style="margin: 5px 0;"><strong><?php echo direction("Date", "التاريخ") ?>:</strong> ' + data['Booking Date'] + '</p>';
+                    detailsHtml += '<p style="margin: 5px 0;"><strong><?php echo direction("Time", "الوقت") ?>:</strong> ' + data['Booking Time'] + '</p>';
+                    detailsHtml += '<p style="margin: 5px 0;"><strong><?php echo direction("Total Price", "السعر الإجمالي") ?>:</strong> ' + data['Booking Price'] + '</p>';
+                    detailsHtml += '</div>';
+                    $('#complete-payment-booking-details').html(detailsHtml);
+                    
+                    // Set initial amount (for now, just use booking price)
+                    // We'll add the payment type calculation in the next step
+                    var bookingPrice = parseFloat(data['Booking Price'].replace(/[^\d.]/g, ''));
+                    $('#complete-payment-amount').val(bookingPrice.toFixed(3));
+                    $('#payment-type-info').text('<?php echo direction("Default: Full booking amount", "افتراضي: المبلغ الكامل للحجز") ?>');
+                    
+                } else {
+                    $('#complete-payment-booking-details').html('<div class="alert alert-danger"><?php echo direction("Failed to load booking details", "فشل في تحميل تفاصيل الحجز") ?></div>');
+                }
+            },
+            error: function(xhr) {
+                console.error('Error:', xhr.responseText);
+                $('#complete-payment-booking-details').html('<div class="alert alert-danger"><?php echo direction("Error loading booking details", "خطأ في تحميل تفاصيل الحجز") ?></div>');
+            }
+        });
+    });
+    
+    // Handle send payment link button (placeholder for next step)
+    $('#complete-payment-send-link').on('click', function() {
+        var amount = parseFloat($('#complete-payment-amount').val());
+        var bookingId = $('#complete-payment-booking-id').val();
+        var sendMethod = $('#send-method').val();
+        
+        if (!amount || amount <= 0) {
+            alert('<?php echo direction("Please enter a valid amount", "الرجاء إدخال مبلغ صحيح") ?>');
+            return;
+        }
+        
+        var methodText = sendMethod === 'sms' ? '<?php echo direction("SMS", "رسالة نصية") ?>' : '<?php echo direction("WhatsApp", "واتساب") ?>';
+        alert('<?php echo direction("Booking ID: ", "رقم الحجز: ") ?>' + bookingId + '\n<?php echo direction("Amount: ", "المبلغ: ") ?>' + amount + ' KD\n<?php echo direction("Send via: ", "إرسال عبر: ") ?>' + methodText + '\n\n<?php echo direction("This will be connected to the backend in the next step", "سيتم ربطه بالخادم في الخطوة التالية") ?>');
     });
 });
 </script>
