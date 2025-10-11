@@ -305,8 +305,10 @@ function loadThemesImages(categoryId) {
         success: function(response) {
             $("#existing-images-container").html(response);
         },
-        error: function() {
-            $("#existing-images-container").html('<p class="text-danger"><?php echo direction("Error loading images","خطأ في تحميل الصور") ?></p>');
+        error: function(xhr, status, error) {
+            var debugMsg = 'Error loading images: ' + error + '\nStatus: ' + status + '\nResponse: ' + (xhr && xhr.responseText ? xhr.responseText : 'No response');
+            $("#existing-images-container").html('<p class="text-danger">' + debugMsg + '</p>');
+            console.error(debugMsg);
         }
     });
 }
@@ -408,9 +410,11 @@ $(document).on("click", ".upload-single-btn", function(){
                 alert('<?php echo direction("Error uploading image","خطأ في رفع الصورة") ?>: ' + result.error);
             }
         },
-        error: function() {
+        error: function(xhr, status, error) {
             btn.prop('disabled', false).html('<?php echo direction("Upload","رفع") ?>');
-            alert('<?php echo direction("Error uploading image","خطأ في رفع الصورة") ?>');
+            var debugMsg = 'Error uploading image: ' + error + '\nStatus: ' + status + '\nResponse: ' + (xhr && xhr.responseText ? xhr.responseText : 'No response');
+            alert(debugMsg);
+            console.error(debugMsg);
         }
     });
 });
