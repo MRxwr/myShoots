@@ -264,7 +264,6 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
         <div class="row" id="themesContainer">
           <?php 
           if (!empty($themes) && is_array($themes)) {
-            var_dump($themes); // Debugging line to check the contents of $themes
             foreach ($themes as $themeCategory) {
               // Get all themes for this category
               $categoryId = isset($themeCategory['id']) ? $themeCategory['id'] : 0;
@@ -272,7 +271,6 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
               
               if ($categoryId > 0) {
                 $themesInCategory = selectDB("tbl_themes", "`category` = '{$categoryId}' AND `status` = '0'");
-                var_dump($themesInCategory); // Debugging line to check the contents of $themesInCategory
                 if ($themesInCategory) {
                   echo '<div class="col-12 mb-3"><h6 class="font-weight-bold text-secondary border-bottom pb-2">'.$categoryTitle.'</h6></div>';
                   
