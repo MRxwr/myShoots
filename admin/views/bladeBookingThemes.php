@@ -397,17 +397,25 @@ $(document).on("click", ".upload-single-btn", function(){
         contentType: false,
         success: function(response) {
             btn.prop('disabled', false).html('<?php echo direction("Upload","رفع") ?>');
-            var result = JSON.parse(response);
-            if (result.success) {
-                alert('<?php echo direction("Image uploaded successfully","تم رفع الصورة بنجاح") ?>');
-                loadThemesImages(categoryId);
-                row.find('.enTitle-input').val('');
-                row.find('.arTitle-input').val('');
-                row.find('.enDetails-input').val('');
-                row.find('.arDetails-input').val('');
-                fileInput.value = '';
-            } else {
-                alert('<?php echo direction("Error uploading image","خطأ في رفع الصورة") ?>: ' + result.error);
+            try {
+                // Trim whitespace and try to parse JSON
+                response = response.trim();
+                var result = JSON.parse(response);
+                if (result.success) {
+                    alert('<?php echo direction("Image uploaded successfully","تم رفع الصورة بنجاح") ?>');
+                    loadThemesImages(categoryId);
+                    row.find('.enTitle-input').val('');
+                    row.find('.arTitle-input').val('');
+                    row.find('.enDetails-input').val('');
+                    row.find('.arDetails-input').val('');
+                    fileInput.value = '';
+                } else {
+                    alert('<?php echo direction("Error uploading image","خطأ في رفع الصورة") ?>: ' + (result.error || 'Unknown error'));
+                }
+            } catch (e) {
+                console.error('JSON Parse Error:', e);
+                console.error('Response:', response);
+                alert('<?php echo direction("Error: Invalid server response","خطأ: استجابة خادم غير صالحة") ?>\n' + response);
             }
         },
         error: function(xhr, status, error) {
@@ -434,12 +442,19 @@ $(document).on("click", ".delete-image-btn", function(){
         type: 'POST',
         data: { image_id: imageId, action: 'delete' },
         success: function(response) {
-            var result = JSON.parse(response);
-            if (result.success) {
-                imageItem.fadeOut(300, function() {
-                    $(this).remove();
-                });
-            } else {
+            try {
+                response = response.trim();
+                var result = JSON.parse(response);
+                if (result.success) {
+                    imageItem.fadeOut(300, function() {
+                        $(this).remove();
+                    });
+                } else {
+                    alert('<?php echo direction("Error deleting image","خطأ في حذف الصورة") ?>: ' + (result.error || 'Unknown error'));
+                }
+            } catch (e) {
+                console.error('JSON Parse Error:', e);
+                console.error('Response:', response);
                 alert('<?php echo direction("Error deleting image","خطأ في حذف الصورة") ?>');
             }
         },
