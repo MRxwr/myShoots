@@ -65,9 +65,9 @@ if(isset($_POST['submit'])){
 			header("LOCATION: {$settingsWebsite}/?v=BookingFailed&error={$error}");die();
 		}
 	}else{
-		var_dump($_POST);
+		
 		// New booking processing
-		$select_extra_item = $_POST['select_extra_item'];
+		$select_extra_item = $_POST['extra_items'] ?? array();
 		$comm = "";
 		$extra_price = 0;
 		$select_extra_item_val = "";
@@ -83,7 +83,7 @@ if(isset($_POST['submit'])){
 			$select_extra_item_val = "";
 			$extra_price = 0;
 		}
-
+var_dump($_POST);
 		$personalInfo = $_POST['personalInfo'];
 		$bookingSettings['mobile'] = ( isset($personalInfo['1']) && !empty($personalInfo['1']) )  ? $personalInfo['1'] : $bookingSettings['mobile'];
 		$extra_items = "[{$select_extra_item_val}]"; 
