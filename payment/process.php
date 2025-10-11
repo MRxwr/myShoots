@@ -51,6 +51,7 @@ if(isset($_POST['submit'])){
 					)
 				)
 			);
+			var_dump($BookingDetails);
 			if( $response = createAPI($BookingDetails, $newPaymentData) ){
 				$response = $response["PaymentURL"];
 				header("LOCATION: {$response}");die();
