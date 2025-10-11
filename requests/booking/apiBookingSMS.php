@@ -40,9 +40,6 @@ if ($booking = selectDBNew("tbl_booking", [$id] , "id = ?","")) {
         
         $message = str_replace(' ','+',$message);
         $url = "http://www.kwtsms.com/API/send/?username={$smsSettings["username"]}&password={$smsSettings["password"]}&sender={$smsSettings["sender"]}&mobile=965{$mobile}&lang=1&message={$message}";
-        if( $booking[0]['sms'] == 1 ){
-            echo json_encode(['success' => false, 'message' => 'SMS already sent for this booking.']); exit();
-        }
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => $url,
