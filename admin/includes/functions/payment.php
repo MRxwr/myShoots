@@ -371,6 +371,7 @@ function createAPI($BookingDetails, $paymentSettings){
 		"ErrorUrl"             => "{$settingsWebsite}/index.php",
 		"invoiceItems"         => $BookingDetails['InvoiceItems'],
 	);
+	var_dump($postMethodLines);
 	$headers = ['Content-Type: application/json'];
 	for ($i = 0; $i < 3; $i++) {
 		$curl = curl_init();
