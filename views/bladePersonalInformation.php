@@ -89,7 +89,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
               <form class="personal-information" method="post" action="payment/process.php">
                 <input type="hidden" id="id" name="id" value="<?php echo $id; ?>" />
                 <input type="hidden" id="booking_price" name="booking_price" value="<?php echo $price; ?>" />
-                <input type="hidden" id="hid_extra_items" name="extra_items" value='<?php echo $extra_items; ?>' />
+                <input type="hidden" id="hid_extra_items" name="hid_extra_items" value='<?php echo $extra_items; ?>' />
                 <div class="form-group row mb-3">
                   <label for="" class="col-sm-5 col-md-4 col-form-label font-weight-bold text-secondary"><?php echo direction("Package Choosen","الباقة المختارة") ?>:</label>
                   <div class="col-sm-7 col-md-8">
