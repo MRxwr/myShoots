@@ -212,7 +212,8 @@ function get_disabledDate(){
 		$blockedDates = array_unique($blockedDates);
 		sort($blockedDates);
 	}
-	if( $result = selectDB("tbl_booking","`booking_date` BETWEEN '{$openDate}' AND '{$closeDate}' AND ({$whereTime2}) AND `package_id` = '{$id}' AND `status` = 'Yes'") ){
+	// Check for fully booked dates (including pending bookings within 10 minutes)
+	if( $result = selectDB("tbl_booking","`booking_date` BETWEEN '{$openDate}' AND '{$closeDate}' AND ({$whereTime2}) AND `package_id` = '{$id}' AND ( `status` = 'Yes' OR ( `status` = 'Pending' AND TIMESTAMPDIFF(MINUTE, `created_at`, CONVERT_TZ(NOW(), '+00:00', '+03:00')) < 10 ) )") ){
 		$numberOfTimeSlots = count($times);
 		$bookedDates = array();
 		if( count($result) > 0 ){
