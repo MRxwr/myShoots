@@ -74,7 +74,6 @@ if(isset($_POST['submit'])){
 			header("LOCATION: {$settingsWebsite}/?v=BookingFailed&error={$error}");die();
 		}
 	}else{
-		var_dump($_POST);
 		// New booking processing
 		$select_extra_item = isset($_POST['select_extra_item']) && is_array($_POST['select_extra_item']) ? $_POST['select_extra_item'] : array();
 		$comm = "";
