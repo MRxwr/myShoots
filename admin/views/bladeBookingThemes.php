@@ -399,7 +399,7 @@ $(document).on("click", ".upload-single-btn", function(){
             btn.prop('disabled', false).html('<?php echo direction("Upload","رفع") ?>');
             var result = JSON.parse(response);
             if (result.success) {
-                alert('<?php echo direction("Image uploaded successfully","تم رفع الصورة بنجاح") ?>' + result);
+                alert('<?php echo direction("Image uploaded successfully","تم رفع الصورة بنجاح") ?>');
                 loadThemesImages(categoryId);
                 row.find('.enTitle-input').val('');
                 row.find('.arTitle-input').val('');
