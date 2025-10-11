@@ -30,8 +30,9 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
         // Calculate payment details
         $paymentData = json_decode($booking['payment'], true);
         $paymentType = isset($paymentData['type']) ? $paymentData['type'] : '1'; // 0=partial, 1=full, 2=cash
-        $paidAmount = isset($paymentData['amount']) ? floatval($paymentData['amount']) : 0;
-        
+        $paidAmount = isset($paymentData['price']) ? floatval($paymentData['price']) : 0;
+        $booking_price = isset($paymentData['booking_price']) ? floatval($paymentData['booking_price']) : $booking_price;
+
         // Calculate total and remaining
         $totalAmount = floatval($booking_price);
         $remainingAmount = $totalAmount - $paidAmount;
