@@ -150,7 +150,7 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
                   <input type="hidden" name="is_completion_payment" value="1">
                   <input type="hidden" name="booking_date" value="<?= $booking_date ?>">
                   <input type="hidden" name="booking_time" value="<?= $booking_time ?>">
-                  <input type="hidden" name="completion_amount" value="<?= $booking_price ?>">
+                  <input type="hidden" name="completion_amount" value="<?= $remainingAmount ?>">
                   <?php
                   // Pass personal info
                   if ($personalInfo && is_array($personalInfo)) {
