@@ -43,8 +43,7 @@
                                 <button type="button" class="btn btn-success status-filter" data-status="Yes" style="margin-right:10px;"><?php echo direction("Success", "ناجح") ?></button>
                                 <button type="button" class="btn btn-danger status-filter" data-status="No" style="margin-right:10px;"><?php echo direction("Failed", "فاشل") ?></button>
                                 <button type="button" class="btn btn-warning status-filter" data-status="Cancel" style="margin-right:10px;"><?php echo direction("Cancelled", "ملغي") ?></button>
-                                <button type="button" class="btn btn-info status-filter" data-status="Rescheduled" style="margin-right:10px;"><?php echo direction("Rescheduled", "معاد جدولته") ?></button>
-                                <button type="button" class="btn btn-primary status-filter" data-status="Completed"><?php echo direction("Completed", "مكتمل") ?></button>
+                                <button type="button" class="btn btn-info status-filter" data-status="Rescheduled"><?php echo direction("Rescheduled", "معاد جدولته") ?></button>
                             </div>
                         </div>
                         <div class="table-wrap">
@@ -139,54 +138,6 @@
     </div>
 </div>
 
-<!-- Complete Payment Modal -->
-<div class="modal fade" id="completePaymentModal" tabindex="-1" role="dialog" aria-labelledby="completePaymentModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="completePaymentModalLabel"><?php echo direction("Complete Payment", "إكمال الدفع") ?></h4>
-            </div>
-            <div class="modal-body">
-                <form id="complete-payment-form">
-                    <input type="hidden" id="complete-payment-booking-id" name="booking_id">
-                    
-                    <div class="form-group">
-                        <label><?php echo direction("Booking Details", "تفاصيل الحجز") ?></label>
-                        <div id="complete-payment-booking-details" style="background: #f5f5f5; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
-                            <!-- Details will be injected here -->
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="complete-payment-amount"><?php echo direction("Amount to Complete (KD)", "المبلغ المطلوب (د.ك)") ?></label>
-                        <input type="number" class="form-control" id="complete-payment-amount" name="amount" step="0.001" min="0" required>
-                        <small class="form-text text-muted" id="payment-type-info"></small>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label><?php echo direction("Send Link Via", "إرسال الرابط عبر") ?></label>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" id="send-sms-check" checked> <?php echo direction("SMS", "رسالة نصية") ?>
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" id="send-whatsapp-check" checked> <?php echo direction("WhatsApp", "واتساب") ?>
-                            </label>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo direction("Cancel", "إلغاء") ?></button>
-                <button type="button" class="btn btn-primary" id="complete-payment-send-link"><?php echo direction("Send Payment Link", "إرسال رابط الدفع") ?></button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
 $(document).ready(function() {
     // Show loading spinner and dim the table
@@ -207,7 +158,6 @@ $(document).ready(function() {
     var failedBooking = '<?php echo direction("Failed","فاشل"); ?>';
     var cancelBooking = '<?php echo direction("Cancelled","ملغي"); ?>';
     var rescheduledBooking = '<?php echo direction("Rescheduled","معاد جدولته"); ?>';
-    var completedBooking = '<?php echo direction("Completed","مكتمل"); ?>';
     // Initialize DataTable
     var dataTable = $('#datable_1').DataTable({
         "processing": true,
@@ -267,7 +217,6 @@ $(document).ready(function() {
                     <ul class='dropdown-menu' style='min-width:120px; padding:0;'>
                         <li><a href='#' class='show-status-options' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>Change Status</a></li>
                         <li><a href='#' class='reschedule-booking' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>Reschedule</a></li>
-                        <li><a href='#' class='complete-payment' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>Complete Payment</a></li>
                         <li><a href='#' class='send-sms' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>Send SMS</a></li>
                         <li><a href='#' class='send-whatsapp' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>Send WhatsApp</a></li>
                         <li><a href='#' class='show-details' data-id='${id}' style='padding:8px 16px; color:#333; font-size:13px;'>More details</a></li>
@@ -276,8 +225,7 @@ $(document).ready(function() {
                         <a href='#' class='change-status btn' data-id='${id}' data-status='Yes' style='display:block; padding:8px 16px; background:#27ae60; color:#fff; font-size:13px; margin-bottom:5px; border-radius:3px;'>${successBooking}</a>
                         <a href='#' class='change-status btn' data-id='${id}' data-status='No' style='display:block; padding:8px 16px; background:#e74c3c; color:#fff; font-size:13px; border-radius:3px; margin-bottom:5px;'>${failedBooking}</a>
                         <a href='#' class='change-status btn' data-id='${id}' data-status='Cancel' style='display:block; padding:8px 16px; background:#f39c12; color:#fff; font-size:13px; border-radius:3px; margin-bottom:5px;'>${cancelBooking}</a>
-                        <a href='#' class='change-status btn' data-id='${id}' data-status='Rescheduled' style='display:block; padding:8px 16px; background:#3498db; color:#fff; font-size:13px; border-radius:3px; margin-bottom:5px;'>${rescheduledBooking}</a>
-                        <a href='#' class='change-status btn' data-id='${id}' data-status='Completed' style='display:block; padding:8px 16px; background:#9b59b6; color:#fff; font-size:13px; border-radius:3px;'>${completedBooking}</a>
+                        <a href='#' class='change-status btn' data-id='${id}' data-status='Rescheduled' style='display:block; padding:8px 16px; background:#3498db; color:#fff; font-size:13px; border-radius:3px;'>${rescheduledBooking}</a>
                     </div>
                 </div>`;
             }
@@ -646,131 +594,6 @@ $(document).ready(function() {
                 hideLoading();
                 console.error('Error rescheduling:', status, error, xhr.responseText);
                 alert('<?php echo direction("Error rescheduling booking", "خطأ في إعادة جدولة الحجز") ?>');
-            }
-        });
-    });
-    
-    // Complete Payment handler
-    $('#datable_1 tbody').on('click', '.complete-payment', function(e) {
-        e.preventDefault();
-        var id = $(this).data('id');
-        showLoading();
-        
-        // Get booking details to calculate the payment amount
-        $.ajax({
-            url: '../requests/index.php?f=booking&endpoint=BookingDetails',
-            type: 'POST',
-            data: {id: id},
-            dataType: 'json',
-            success: function(res) {
-                hideLoading();
-                if (res.success) {
-                    var bookingData = res.data;
-                    $('#complete-payment-booking-id').val(bookingData['S.N.']);
-                    
-                    // Display booking details
-                    var detailsHtml = '<div>';
-                    detailsHtml += '<p><strong><?php echo direction("Package", "الباقة") ?>:</strong> ' + bookingData['Package Name'] + '</p>';
-                    detailsHtml += '<p><strong><?php echo direction("Date", "التاريخ") ?>:</strong> ' + bookingData['Booking Date'] + '</p>';
-                    detailsHtml += '<p><strong><?php echo direction("Time", "الوقت") ?>:</strong> ' + bookingData['Booking Time'] + '</p>';
-                    detailsHtml += '<p><strong><?php echo direction("Total Price", "السعر الإجمالي") ?>:</strong> ' + bookingData['Booking Price'] + '</p>';
-                    detailsHtml += '</div>';
-                    $('#complete-payment-booking-details').html(detailsHtml);
-                    
-                    // Calculate initial amount based on payment type
-                    // We need to fetch the full booking record to get the payment JSON
-                    $.ajax({
-                        url: '../requests/index.php?f=booking&endpoint=GetBookingPaymentInfo',
-                        type: 'POST',
-                        data: {id: id},
-                        dataType: 'json',
-                        success: function(paymentRes) {
-                            if (paymentRes.success) {
-                                var payment = paymentRes.payment;
-                                var bookingPrice = parseFloat(paymentRes.booking_price) || 0;
-                                var initialAmount = 0;
-                                var typeInfo = '';
-                                
-                                if (payment && payment.type !== undefined) {
-                                    if (payment.type == '0') {
-                                        // Type 0: Partial payment - remaining = booking_price - price
-                                        var paidAmount = parseFloat(payment.price) || 0;
-                                        initialAmount = bookingPrice - paidAmount;
-                                        typeInfo = '<?php echo direction("Type: Partial Payment - Remaining amount", "النوع: دفع جزئي - المبلغ المتبقي") ?>';
-                                    } else if (payment.type == '1') {
-                                        // Type 1: Fully paid - any additional is extra
-                                        initialAmount = 0;
-                                        typeInfo = '<?php echo direction("Type: Fully Paid - Any amount is additional", "النوع: مدفوع بالكامل - أي مبلغ إضافي") ?>';
-                                    } else if (payment.type == '2') {
-                                        // Type 2: Cash - full booking_price
-                                        initialAmount = bookingPrice;
-                                        typeInfo = '<?php echo direction("Type: Cash Payment - Full amount required", "النوع: دفع نقدي - المبلغ الكامل مطلوب") ?>';
-                                    }
-                                } else {
-                                    // Default if no payment info
-                                    initialAmount = bookingPrice;
-                                    typeInfo = '<?php echo direction("No payment info - Using full booking price", "لا توجد معلومات دفع - استخدام السعر الكامل") ?>';
-                                }
-                                
-                                $('#complete-payment-amount').val(initialAmount.toFixed(3));
-                                $('#payment-type-info').text(typeInfo);
-                                $('#completePaymentModal').modal('show');
-                            } else {
-                                alert('<?php echo direction("Failed to get payment information", "فشل في الحصول على معلومات الدفع") ?>');
-                            }
-                        },
-                        error: function() {
-                            hideLoading();
-                            alert('<?php echo direction("Error getting payment information", "خطأ في الحصول على معلومات الدفع") ?>');
-                        }
-                    });
-                } else {
-                    alert('<?php echo direction("Failed to get booking details", "فشل في الحصول على تفاصيل الحجز") ?>');
-                }
-            },
-            error: function() {
-                hideLoading();
-                alert('<?php echo direction("Error getting booking details", "خطأ في الحصول على تفاصيل الحجز") ?>');
-            }
-        });
-    });
-    
-    // Handle complete payment form submission
-    $('#complete-payment-send-link').on('click', function() {
-        var amount = parseFloat($('#complete-payment-amount').val());
-        if (!amount || amount <= 0) {
-            alert('<?php echo direction("Please enter a valid amount", "الرجاء إدخال مبلغ صحيح") ?>');
-            return;
-        }
-        
-        showLoading();
-        
-        var formData = {
-            booking_id: $('#complete-payment-booking-id').val(),
-            amount: amount,
-            send_sms: $('#send-sms-check').is(':checked') ? 1 : 0,
-            send_whatsapp: $('#send-whatsapp-check').is(':checked') ? 1 : 0
-        };
-        
-        $.ajax({
-            url: '../requests/index.php?f=booking&endpoint=CompletePaymentLink',
-            type: 'POST',
-            data: formData,
-            dataType: 'json',
-            success: function(res) {
-                hideLoading();
-                if (res.success) {
-                    alert('<?php echo direction("Payment link sent successfully!", "تم إرسال رابط الدفع بنجاح!") ?>');
-                    $('#completePaymentModal').modal('hide');
-                    dataTable.ajax.reload();
-                } else {
-                    alert(res.message || '<?php echo direction("Failed to send payment link", "فشل في إرسال رابط الدفع") ?>');
-                }
-            },
-            error: function(xhr) {
-                hideLoading();
-                console.error('Error:', xhr.responseText);
-                alert('<?php echo direction("Error sending payment link", "خطأ في إرسال رابط الدفع") ?>');
             }
         });
     });

@@ -18,8 +18,6 @@ if ($status_filter != 'all') {
         $status_query = " AND b.status = 'Cancel'";
     } else if ($status_filter == 'Rescheduled') {
         $status_query = " AND b.status = 'Rescheduled'";
-    } else if ($status_filter == 'Completed') {
-        $status_query = " AND b.status = 'Completed'";
     }
 }
 
@@ -93,8 +91,6 @@ if ($data_result && mysqli_num_rows($data_result) > 0) {
             $status_text = direction("Cancel","ملغي");
         }elseif($row['status'] == 'Rescheduled') {
             $status_text = direction("Rescheduled","معاد جدولته");
-        }elseif($row['status'] == 'Completed') {
-            $status_text = direction("Completed","مكتمل");
         }else{
             $status_text = $row['status'];
         }
