@@ -248,16 +248,31 @@ $(document).ready(function(){
     submitForm();
   });
 
-    var selectedThemes = [];
-    var maxThemes = parseInt($('#max_themes_count').val()) || 1;
+  var selectedThemes = [];
+  var maxThemes = 1;
+  
+  // Update theme count
+  function updateThemeCount() {
+    $('#themeSelectionCount').text(selectedThemes.length + ' / ' + maxThemes);
+    if (selectedThemes.length > 0) {
+      $('#selectedThemesCount').text(selectedThemes.length).show();
+    } else {
+      $('#selectedThemesCount').hide();
+    }
+  }
+
+  // Only run theme selection code if elements exist
+  if ($('#selectThemesBtn').length > 0) {
+    maxThemes = parseInt($('#max_themes_count').val()) || 1;
     
     // Open modal
-    $('#selectThemesBtn').click(function() {
+    $('#selectThemesBtn').on('click', function(e) {
+      e.preventDefault();
       $('#themesModal').modal('show');
     });
     
     // Theme card click
-    $('.theme-card').click(function() {
+    $(document).on('click', '.theme-card', function() {
       var themeId = $(this).data('theme-id');
       var themeTitle = $(this).data('theme-title');
       var themeImage = $(this).data('theme-image');
@@ -325,6 +340,8 @@ $(document).ready(function(){
       }
       <?php endif; ?>
     });
+  }
+  
   // For booking-faild page auto refresh and session out
   <?php
   if(isset($_GET['v'] ) && $_GET['v'] == "booking-faild"){
@@ -344,16 +361,6 @@ $(document).ready(function(){
   }
   ?> 
 });
-
-// Update theme count
-function updateThemeCount() {
-  $('#themeSelectionCount').text(selectedThemes.length + ' / ' + maxThemes);
-  if (selectedThemes.length > 0) {
-    $('#selectedThemesCount').text(selectedThemes.length).show();
-  } else {
-    $('#selectedThemesCount').hide();
-  }
-}
 
 function truncateDate(date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
