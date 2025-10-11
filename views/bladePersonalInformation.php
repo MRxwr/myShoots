@@ -264,6 +264,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
         <div class="row" id="themesContainer">
           <?php 
           if (!empty($themes) && is_array($themes)) {
+            var_dump($themes); // Debugging line to check the contents of $themes
             foreach ($themes as $themeCategory) {
               // Get all themes for this category
               $categoryId = isset($themeCategory['id']) ? $themeCategory['id'] : 0;
@@ -271,7 +272,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
               
               if ($categoryId > 0) {
                 $themesInCategory = selectDB("tbl_themes", "`category` = '{$categoryId}' AND `status` = '0'");
-                
+                var_dump($themesInCategory); // Debugging line to check the contents of $themesInCategory
                 if ($themesInCategory) {
                   echo '<div class="col-12 mb-3"><h6 class="font-weight-bold text-secondary border-bottom pb-2">'.$categoryTitle.'</h6></div>';
                   
@@ -282,7 +283,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
                     ?>
                     <div class="col-md-4 col-sm-6 mb-3">
                       <div class="card theme-card h-100" data-theme-id="<?php echo $themeId; ?>" data-theme-title="<?php echo htmlspecialchars($themeTitle); ?>" data-theme-image="<?php echo htmlspecialchars($themeImage); ?>" style="cursor:pointer; transition: all 0.3s;">
-                        <img src="logos/themes/<?php echo $themeImage; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($themeTitle); ?>" style="height:200px; object-fit:cover;">
+                        <img src="logos/themes/<?php echo $themeImage; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($themeTitle); ?>" style="height:200px; object-fit:cover;" onerror="this.src='assets/img/placeholder.png';">
                         <div class="card-body text-center p-2">
                           <p class="card-text mb-0" style="font-size:14px; font-weight:600;"><?php echo $themeTitle; ?></p>
                           <div class="theme-check-icon" style="display:none; position:absolute; top:10px; right:10px; background:#fff; border-radius:50%; padding:5px;">
@@ -293,9 +294,13 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
                     </div>
                     <?php
                   }
+                } else {
+                  echo '<div class="col-12 mb-3"><p class="text-muted">No themes found for category: '.$categoryTitle.' (ID: '.$categoryId.')</p></div>';
                 }
               }
             }
+          } else {
+            echo '<div class="col-12"><p class="text-muted">No theme categories available for this package.</p></div>';
           }
           ?>
         </div>
