@@ -371,7 +371,6 @@ function createAPI($BookingDetails, $paymentSettings){
 		"ErrorUrl"             => "{$settingsWebsite}/index.php",
 		"invoiceItems"         => $BookingDetails['InvoiceItems'],
 	);
-	print_r($postMethodLines);die();
 	$headers = ['Content-Type: application/json'];
 	for ($i = 0; $i < 3; $i++) {
 		$curl = curl_init();
@@ -391,9 +390,6 @@ function createAPI($BookingDetails, $paymentSettings){
 			// Build DB insert data
 			unset($BookingDetails['InvoiceItems']);
 			unset($BookingDetails['customer_email']);
-			unset($BookingDetails['customer_name']);
-			unset($BookingDetails['mobile_number']);
-			unset($BookingDetails['id']);
 			$paymentSettings["booking_price"] = $BookingDetails['booking_price'];
 			$BookingDetails["transaction_id"]  = $resultMY["data"]["InvoiceId"];
 			$BookingDetails["payload"]         = json_encode($postMethodLines, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
