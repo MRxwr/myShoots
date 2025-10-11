@@ -705,8 +705,39 @@ $(document).ready(function() {
             return;
         }
         
-        var methodText = sendMethod === 'sms' ? '<?php echo direction("SMS", "رسالة نصية") ?>' : '<?php echo direction("WhatsApp", "واتساب") ?>';
-        alert('<?php echo direction("Booking ID: ", "رقم الحجز: ") ?>' + bookingId + '\n<?php echo direction("Amount: ", "المبلغ: ") ?>' + amount + ' KD\n<?php echo direction("Send via: ", "إرسال عبر: ") ?>' + methodText + '\n\n<?php echo direction("This will be connected to the backend in the next step", "سيتم ربطه بالخادم في الخطوة التالية") ?>');
+        // Disable button and show loading
+        var $btn = $(this);
+        $btn.prop('disabled', true).text('<?php echo direction("Sending...", "جاري الإرسال...") ?>');
+        
+        // Determine which endpoint to call
+        var endpoint = sendMethod === 'sms' ? 'BookingSMS' : 'BookingWhatsapp';
+        
+        // Send the payment link
+        $.ajax({
+            url: '../requests/index.php?f=booking&endpoint=' + endpoint,
+            type: 'POST',
+            data: {
+                id: bookingId,
+                message_type: 'payment'
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    alert('<?php echo direction("Payment link sent successfully!", "تم إرسال رابط الدفع بنجاح!") ?>');
+                    $('#completePaymentModal').modal('hide');
+                } else {
+                    alert('<?php echo direction("Error: ", "خطأ: ") ?>' + response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('<?php echo direction("Failed to send payment link. Please try again.", "فشل إرسال رابط الدفع. الرجاء المحاولة مرة أخرى.") ?>');
+                console.error('Error:', error);
+            },
+            complete: function() {
+                // Re-enable button
+                $btn.prop('disabled', false).text('<?php echo direction("Send Payment Link", "إرسال رابط الدفع") ?>');
+            }
+        });
     });
 });
 </script>

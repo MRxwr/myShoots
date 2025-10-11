@@ -1,5 +1,5 @@
 <?php
-function bookingWhatsappUltraMsg($order){
+function bookingWhatsappUltraMsg($order, $messageType = 'booking'){
 	GLOBAL $settingsTitle, $settingslogo, $settingsWebsite;
 	if( $settings = selectDB("tbl_calendar_settings","`id` = '1'") ){
 		$whatsappNoti1 = json_decode($settings[0]["whatsappNoti"],true);
@@ -19,7 +19,22 @@ function bookingWhatsappUltraMsg($order){
             } elseif (substr($phone, 0, 3) !== '965') {
                 $phone = '965' . $phone;
             }
-            $message = "Your booking has been confirmed with {$settingsTitle}, Date: {$booking["booking_date"]}, Time: {$booking["booking_time"]}, Booking#: {$booking["transaction_id"]}.  \n\nThis is an automated message, Courtesy of createkuwait.com.";
+            
+            // Prepare message based on type
+            if ($messageType === 'payment') {
+                // Complete payment message
+                $paymentLink = $settingsWebsite . "/?v=CompletePayment&booking_id=" . $booking['id'];
+                $bookingPrice = $booking['booking_price'];
+                $orderId = $booking['transaction_id'];
+                $message = "Complete your payment for booking #{$orderId}.\n\n";
+                $message .= "Amount: {$bookingPrice} KD\n";
+                $message .= "Click here to pay: {$paymentLink}\n\n";
+                $message .= "This is an automated message, Courtesy of createkuwait.com.";
+            } else {
+                // Default booking confirmation message
+                $message = "Your booking has been confirmed with {$settingsTitle}, Date: {$booking["booking_date"]}, Time: {$booking["booking_time"]}, Booking#: {$booking["transaction_id"]}.  \n\nThis is an automated message, Courtesy of createkuwait.com.";
+            }
+            
             $params = array(
                 "token" => $whatsappNoti1["ultraToken"],
                 "to" => $phone,
@@ -62,9 +77,11 @@ function bookingWhatsappUltraMsg($order){
 }
 
 $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+$messageType = isset($_POST['message_type']) ? $_POST['message_type'] : 'booking'; // 'booking' or 'payment'
+
 if (!$id) {
     echo json_encode(['success' => false, 'message' => 'Invalid parameters']);
     exit();
 }
-$response = bookingWhatsappUltraMsg($id);
+$response = bookingWhatsappUltraMsg($id, $messageType);
 ?>

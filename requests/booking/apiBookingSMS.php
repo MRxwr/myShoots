@@ -1,5 +1,7 @@
 <?php
 $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+$messageType = isset($_POST['message_type']) ? $_POST['message_type'] : 'booking'; // 'booking' or 'payment'
+
 if (!$id) {
     echo json_encode(['success' => false, 'message' => 'Invalid parameters']);
     exit();
@@ -7,22 +9,34 @@ if (!$id) {
 
 // Select all needed columns
 if ($booking = selectDBNew("tbl_booking", [$id] , "id = ?","")) {
-    GLOBAL $settingsTitle;
+    GLOBAL $settingsTitle, $settingsWebsite;
     $settings = selectDB("tbl_calendar_settings", "`id` = '1'")[0];
     $smsSettings = json_decode($settings['smsNoti'], true);
     if( empty($smsSettings) || $smsSettings["status"] != 1 ){
         echo json_encode(['success' => false, 'message' => 'SMS notifications are disabled in settings.']); exit();
     }else{
-        // Here you would integrate with your SMS API
+        // Get booking details
         $booking_date = $booking[0]['booking_date'];
         $booking_time = $booking[0]['booking_time'];
         $orderId = $booking[0]['transaction_id'];
+        $bookingId = $booking[0]['id'];
+        $bookingPrice = $booking[0]['booking_price'];
         $bookingPersonalInfo = json_decode($booking[0]['personal_info'], true);
         $arabic = ['١','٢','٣','٤','٥','٦','٧','٨','٩','٠'];
         $english = [ 1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 , 0];
         $phone = str_replace($arabic, $english, $bookingPersonalInfo[1]);
         $mobile = $phone;
-        $message = "Your booking has been confirmed with {$settingsTitle}, Date: ".$booking_date.", Time:".$booking_time.", Booking#: ".$orderId;
+        
+        // Prepare message based on type
+        if ($messageType === 'payment') {
+            // Complete payment message
+            $paymentLink = $settingsWebsite . "/?v=CompletePayment&booking_id=" . $bookingId;
+            $message = "Complete your payment for booking #{$orderId}. Amount: {$bookingPrice} KD. Click: {$paymentLink}";
+        } else {
+            // Default booking confirmation message
+            $message = "Your booking has been confirmed with {$settingsTitle}, Date: ".$booking_date.", Time:".$booking_time.", Booking#: ".$orderId;
+        }
+        
         $message = str_replace(' ','+',$message);
         $url = "http://www.kwtsms.com/API/send/?username={$smsSettings["username"]}&password={$smsSettings["password"]}&sender={$smsSettings["sender"]}&mobile=965{$mobile}&lang=1&message={$message}";
         $curl = curl_init();
