@@ -182,6 +182,7 @@ function get_disabledDate(){
 			return array();
 		}
 		$whereTime2 = implode(" OR ",$timeConditions);
+		var_dump($whereTime2);die();
 		if( empty($whereTime2) ){
 			return array();
 		}
@@ -212,18 +213,15 @@ function get_disabledDate(){
 		$blockedDates = array_unique($blockedDates);
 		sort($blockedDates);
 	}
-	// Check for fully booked dates (including all active bookings)
-	// Count all successful bookings for each date
-	if( $result = selectDB("tbl_booking","`booking_date` BETWEEN '{$openDate}' AND '{$closeDate}' AND `package_id` = '{$id}' AND ( `status` = 'Yes' OR `status` = '0' OR `status` = 'Pending' OR ( `status` = '' AND TIMESTAMPDIFF(MINUTE, `created_at`, CONVERT_TZ(NOW(), '+00:00', '+03:00')) < 10 ) )") ){
+	if( $result = selectDB("tbl_booking","`booking_date` BETWEEN '{$openDate}' AND '{$closeDate}' AND ({$whereTime2}) AND `package_id` = '{$id}' AND `status` = 'Yes'") ){
 		$numberOfTimeSlots = count($times);
 		$bookedDates = array();
 		if( count($result) > 0 ){
 			foreach($result as $r){
-				$bookingDate = $r['booking_date'];
-				if( isset($bookedDates[$bookingDate]) ){
-					$bookedDates[$bookingDate] += 1;
+				if( isset($bookedDates[$r['booking_date']]) ){
+					$bookedDates[$r['booking_date']] += 1;
 				}else{
-					$bookedDates[$bookingDate] = 1;
+					$bookedDates[$r['booking_date']] = 1;
 				}
 			}
 			$booked2 = array();
