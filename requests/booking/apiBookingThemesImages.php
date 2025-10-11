@@ -38,7 +38,7 @@ switch ($action) {
             $target_file = $target_dir . basename($_FILES['image']['name']);
             if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
                 $data = [
-                    'themes_category_id' => $themes_category_id,
+                    'category' => $themes_category_id,
                     'enTitle' => $enTitle,
                     'arTitle' => $arTitle,
                     'enDetails' => $enDetails,
