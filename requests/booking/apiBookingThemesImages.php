@@ -1,27 +1,7 @@
 <?php
-// Files already included by requests/index.php
-// No need to include them again
-
-// CRUD API for tbl_themes and tbl_themes_categories images
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 $action = $_POST['action'] ?? '';
 $themes_category_id = $_POST['themes_category_id'] ?? '';
 $image_id = $_POST['image_id'] ?? '';
-
-// Debug: Output incoming POST data for troubleshooting
-if (isset($_POST['debug']) || isset($_GET['debug'])) {
-    header('Content-Type: application/json');
-    echo json_encode([
-        'POST' => $_POST,
-        'FILES' => $_FILES,
-        'action' => $action,
-        'themes_category_id' => $themes_category_id,
-        'image_id' => $image_id
-    ]);
-    exit;
-}
 
 switch ($action) {
     case 'load':
