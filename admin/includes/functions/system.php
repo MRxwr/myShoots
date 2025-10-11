@@ -198,8 +198,16 @@ function uploadImageThemesFreeImageHost($imageLocation){
 	$response = json_decode(curl_exec($curl),true);
 	curl_close($curl);
 	if( isset($response["success"]) && $response["success"] == true ){
-		file_put_contents("../logos/themes/{$response["data"]["id"]}.{$response["data"]["image"]["extension"]}", file_get_contents($response["data"]["image"]["url"]));
-		return "{$response["data"]["id"]}.{$response["data"]["image"]["extension"]}"; 
+		// Use absolute path based on document root
+		$targetDir = $_SERVER['DOCUMENT_ROOT'] . '/logos/themes/';
+		// Create directory if it doesn't exist
+		if (!is_dir($targetDir)) {
+			mkdir($targetDir, 0777, true);
+		}
+		$filename = "{$response["data"]["id"]}.{$response["data"]["image"]["extension"]}";
+		$targetPath = $targetDir . $filename;
+		file_put_contents($targetPath, file_get_contents($response["data"]["image"]["url"]));
+		return $filename; 
 	}else{
 		return "";
 	}

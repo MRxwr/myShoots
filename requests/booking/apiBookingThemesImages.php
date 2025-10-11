@@ -13,7 +13,7 @@ switch ($action) {
         if ($images) {
             foreach ($images as $img) {
                 echo '<div class="gallery-image-item col-md-3">';
-                echo '<img src="../../assets/img/' . htmlspecialchars($img['image']) . '" alt="" />';
+                echo '<img src="../logos/themes/' . htmlspecialchars($img['image']) . '" alt="" />';
                 echo '<div class="gallery-image-info">';
                 echo '<strong>' . htmlspecialchars($img['enTitle']) . '</strong>';
                 echo '<span>' . htmlspecialchars($img['arTitle']) . '</span>';
@@ -31,14 +31,23 @@ switch ($action) {
         $arTitle = $_POST['arTitle'] ?? '';
         $enDetails = $_POST['enDetails'] ?? '';
         $arDetails = $_POST['arDetails'] ?? '';
+        
         if (!empty($_FILES['image']['name'])) {
-            // Debug: Check if uploadImageThemesFreeImageHost exists
+            // Check for upload errors
+            if ($_FILES['image']['error'] !== UPLOAD_ERR_OK) {
+                echo json_encode(['success' => false, 'error' => 'File upload error: ' . $_FILES['image']['error']]);
+                exit;
+            }
+            
+            // Check if function exists
             if (!function_exists('uploadImageThemesFreeImageHost')) {
                 echo json_encode(['success' => false, 'error' => 'Function uploadImageThemesFreeImageHost does not exist']);
                 exit;
             }
+            
             $image = uploadImageThemesFreeImageHost($_FILES['image']['tmp_name']);
-            if ($image) {
+            
+            if ($image && $image !== '') {
                 $data = [
                     'category' => $themes_category_id,
                     'enTitle' => $enTitle,
@@ -51,13 +60,13 @@ switch ($action) {
                 if (insertDB('tbl_themes', $data)) {
                     echo json_encode(['success' => true]);
                 } else {
-                    echo json_encode(['success' => false, 'error' => 'DB insert failed', 'data' => $data]);
+                    echo json_encode(['success' => false, 'error' => 'DB insert failed']);
                 }
             } else {
-                echo json_encode(['success' => false, 'error' => 'File upload failed', 'file' => $_FILES['image']]);
+                echo json_encode(['success' => false, 'error' => 'Image hosting service failed. Please check your internet connection or try again later.']);
             }
         } else {
-            echo json_encode(['success' => false, 'error' => 'No image uploaded', 'files' => $_FILES]);
+            echo json_encode(['success' => false, 'error' => 'No image file selected']);
         }
         break;
     case 'delete':
