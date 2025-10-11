@@ -43,7 +43,8 @@
                                 <button type="button" class="btn btn-success status-filter" data-status="Yes" style="margin-right:10px;"><?php echo direction("Success", "ناجح") ?></button>
                                 <button type="button" class="btn btn-danger status-filter" data-status="No" style="margin-right:10px;"><?php echo direction("Failed", "فاشل") ?></button>
                                 <button type="button" class="btn btn-warning status-filter" data-status="Cancel" style="margin-right:10px;"><?php echo direction("Cancelled", "ملغي") ?></button>
-                                <button type="button" class="btn btn-info status-filter" data-status="Rescheduled"><?php echo direction("Rescheduled", "معاد جدولته") ?></button>
+                                <button type="button" class="btn btn-info status-filter" data-status="Rescheduled" style="margin-right:10px;"><?php echo direction("Rescheduled", "معاد جدولته") ?></button>
+                                <button type="button" class="btn btn-primary status-filter" data-status="Completed"><?php echo direction("Completed", "مكتمل") ?></button>
                             </div>
                         </div>
                         <div class="table-wrap">
@@ -202,6 +203,7 @@ $(document).ready(function() {
     var failedBooking = '<?php echo direction("Failed","فاشل"); ?>';
     var cancelBooking = '<?php echo direction("Cancelled","ملغي"); ?>';
     var rescheduledBooking = '<?php echo direction("Rescheduled","معاد جدولته"); ?>';
+    var completedBooking = '<?php echo direction("Completed","مكتمل"); ?>';
     // Initialize DataTable
     var dataTable = $('#datable_1').DataTable({
         "processing": true,
@@ -270,7 +272,8 @@ $(document).ready(function() {
                         <a href='#' class='change-status btn' data-id='${id}' data-status='Yes' style='display:block; padding:8px 16px; background:#27ae60; color:#fff; font-size:13px; margin-bottom:5px; border-radius:3px;'>${successBooking}</a>
                         <a href='#' class='change-status btn' data-id='${id}' data-status='No' style='display:block; padding:8px 16px; background:#e74c3c; color:#fff; font-size:13px; border-radius:3px; margin-bottom:5px;'>${failedBooking}</a>
                         <a href='#' class='change-status btn' data-id='${id}' data-status='Cancel' style='display:block; padding:8px 16px; background:#f39c12; color:#fff; font-size:13px; border-radius:3px; margin-bottom:5px;'>${cancelBooking}</a>
-                        <a href='#' class='change-status btn' data-id='${id}' data-status='Rescheduled' style='display:block; padding:8px 16px; background:#3498db; color:#fff; font-size:13px; border-radius:3px;'>${rescheduledBooking}</a>
+                        <a href='#' class='change-status btn' data-id='${id}' data-status='Rescheduled' style='display:block; padding:8px 16px; background:#3498db; color:#fff; font-size:13px; border-radius:3px; margin-bottom:5px;'>${rescheduledBooking}</a>
+                        <a href='#' class='change-status btn' data-id='${id}' data-status='Completed' style='display:block; padding:8px 16px; background:#8e44ad; color:#fff; font-size:13px; border-radius:3px;'>${completedBooking}</a>
                     </div>
                 </div>`;
             }
@@ -337,6 +340,8 @@ $(document).ready(function() {
                         statusText = cancelBooking;
                     } else if (newStatus === 'Rescheduled') {
                         statusText = rescheduledBooking;
+                    } else if (newStatus === 'Completed') {
+                        statusText = completedBooking;
                     } else {
                         statusText = newStatus;
                     }

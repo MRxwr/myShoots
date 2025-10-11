@@ -27,6 +27,15 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
         $booking_time  = $booking['booking_time'];
         $booking_price = $booking['booking_price'];
         
+        // Calculate payment details
+        $paymentData = json_decode($booking['payment'], true);
+        $paymentType = isset($paymentData['type']) ? $paymentData['type'] : '1'; // 0=partial, 1=full, 2=cash
+        $paidAmount = isset($paymentData['amount']) ? floatval($paymentData['amount']) : 0;
+        
+        // Calculate total and remaining
+        $totalAmount = floatval($booking_price);
+        $remainingAmount = $totalAmount - $paidAmount;
+        
         // Get payment settings for the payment gateway
         if( $bookingSettings = selectDB('tbl_calendar_settings', "`id` = '1'") ){
             $bookingSettings = $bookingSettings[0];
@@ -67,9 +76,20 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
                     <label class="font-weight-bold text-secondary"><?php echo direction("Time","الوقت") ?>:</label>
                     <input type="text" readonly class="form-control-plaintext" value="<?= $booking_time; ?>">
                   </div>
+                  
+                  <hr class="my-4">
+                  
                   <div class="form-group mb-3">
-                    <label class="font-weight-bold text-secondary"><?php echo direction("Amount to Pay","المبلغ المطلوب دفعه") ?>:</label>
-                    <input type="text" readonly class="form-control-plaintext" style="font-size: 20px; color: #e74c3c; font-weight: bold;" value="<?= $booking_price ?> <?= $currency ?>">
+                    <label class="font-weight-bold text-secondary"><?php echo direction("Total Booking Amount","المبلغ الإجمالي للحجز") ?>:</label>
+                    <input type="text" readonly class="form-control-plaintext" style="font-size: 18px; color: #2c3e50; font-weight: bold;" value="<?= number_format($totalAmount, 3) ?> <?= $currency ?>">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label class="font-weight-bold text-secondary"><?php echo direction("Amount Already Paid","المبلغ المدفوع مسبقاً") ?>:</label>
+                    <input type="text" readonly class="form-control-plaintext" style="font-size: 18px; color: #27ae60; font-weight: bold;" value="<?= number_format($paidAmount, 3) ?> <?= $currency ?>">
+                  </div>
+                  <div class="form-group mb-4">
+                    <label class="font-weight-bold text-secondary"><?php echo direction("Remaining Amount to Pay","المبلغ المتبقي للدفع") ?>:</label>
+                    <input type="text" readonly class="form-control-plaintext" style="font-size: 22px; color: #e74c3c; font-weight: bold;" value="<?= number_format($remainingAmount, 3) ?> <?= $currency ?>">
                   </div>
                    <?php
                   // Show extra items if available
