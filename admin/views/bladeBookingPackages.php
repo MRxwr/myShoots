@@ -355,6 +355,7 @@ if( isset($_POST["arTitle"]) ){
 			<div style="display:none"><label id="enDetails<?php echo $packages[$i]["id"]?>"><?php echo $packages[$i]["enDetails"] ?></label></div>
 			<div style="display:none"><label id="arDetails<?php echo $packages[$i]["id"]?>"><?php echo $packages[$i]["arDetails"] ?></label></div>
 			<div style="display:none"><label id="price<?php echo $packages[$i]["id"]?>"><?php echo $packages[$i]["price"] ?></label></div>
+			<div style="display:none"><label id="themes_count<?php echo $packages[$i]["id"]?>"><?php echo $packages[$i]["themes_count"] ?></label></div>
 			<div style="display:none"><label id="logo<?php echo $packages[$i]["id"]?>"><?php echo $packages[$i]["imageurl"] ?></label></div>
 			<div style="display:none"><label id="time<?php echo $packages[$i]["id"]?>"><?php echo htmlspecialchars($packages[$i]["time"]) ?></label></div>
 			<div style="display:none"><label id="extras<?php echo $packages[$i]["id"]?>"><?php echo htmlspecialchars($packages[$i]["extra_items"]) ?></label></div>
@@ -392,6 +393,7 @@ $(document).on("click",".edit", function(){
 	$("select[name='personal_info[]']").val(null);
 	$("select[name='themes[]']").val(null);
 	$("input[name=price]").val($("#price"+id).html());
+	$("input[name=themes_count]").val($("#themes_count"+id).html());
 
 	// Set multiple time selections
 	if($("#time"+id).html() && $("#time"+id).html() !== ""){
