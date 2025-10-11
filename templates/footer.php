@@ -344,7 +344,7 @@ $(document).ready(function(){
   
   // For booking-faild page auto refresh and session out
   <?php
-  if(isset($_GET['v'] ) && $_GET['v'] == "booking-faild"){
+  if(isset($_GET['v'] ) && $_GET['v'] == "BookingFailed"){
   ?>
     $(document).ready(function(){
       function fetchdata(){
