@@ -92,30 +92,31 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
         $timeSlotAvailable = 1;
       } 
     }
+    if( $booking["parent_id"] == '' ){
+      // Send WhatsApp notification using bookingWhatsapp API
+      $whatsappApi = $settingsWebsite . "/requests/index.php?f=booking&endpoint=BookingWhatsapp";
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $whatsappApi);
+      curl_setopt($ch, CURLOPT_POST, 1);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(['id' => $booking['id']]));
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+      $waResponse = curl_exec($ch);
+      curl_close($ch);
+      // Optionally, handle $waResponse if needed
 
-    // Send WhatsApp notification using bookingWhatsapp API
-    $whatsappApi = $settingsWebsite . "/requests/index.php?f=booking&endpoint=BookingWhatsapp";
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $whatsappApi);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(['id' => $booking['id']]));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-    $waResponse = curl_exec($ch);
-    curl_close($ch);
-    // Optionally, handle $waResponse if needed
-
-    // Send SMS notification using bookingSMS API
-    $smsApi = $settingsWebsite . "/requests/index.php?f=booking&endpoint=BookingSMS";
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $smsApi);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(['id' => $booking['id']]));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-    $smsResponse = curl_exec($ch);
-    curl_close($ch);
-    // Optionally, handle $smsResponse if needed
+      // Send SMS notification using bookingSMS API
+      $smsApi = $settingsWebsite . "/requests/index.php?f=booking&endpoint=BookingSMS";
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $smsApi);
+      curl_setopt($ch, CURLOPT_POST, 1);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(['id' => $booking['id']]));
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+      $smsResponse = curl_exec($ch);
+      curl_close($ch);
+      // Optionally, handle $smsResponse if needed
+    }
 ?>
 <section class="py-5 bg-white">
   <div class="container">
