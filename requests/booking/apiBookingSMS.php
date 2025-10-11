@@ -29,8 +29,8 @@ if ($booking = selectDBNew("tbl_booking", [$id] , "id = ?","")) {
         
         // Prepare message based on type
         if ($messageType === 'payment') {
-            // Complete payment message
-            $paymentLink = $settingsWebsite . "/?v=CompletePayment&booking_id=" . $bookingId;
+            // Complete payment message - use transaction_id (orderId) in the URL
+            $paymentLink = $settingsWebsite . "/?v=CompletePayment&booking_id=" . $orderId;
             $message = "Complete your payment for booking #{$orderId}. Amount: {$bookingPrice} KD. Click: {$paymentLink}";
         } else {
             // Default booking confirmation message

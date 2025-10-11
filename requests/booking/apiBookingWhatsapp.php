@@ -22,10 +22,10 @@ function bookingWhatsappUltraMsg($order, $messageType = 'booking'){
             
             // Prepare message based on type
             if ($messageType === 'payment') {
-                // Complete payment message
-                $paymentLink = $settingsWebsite . "/?v=CompletePayment&booking_id=" . $booking['id'];
-                $bookingPrice = $booking['booking_price'];
+                // Complete payment message - use transaction_id (orderId) in the URL
                 $orderId = $booking['transaction_id'];
+                $paymentLink = $settingsWebsite . "/?v=CompletePayment&booking_id=" . $orderId;
+                $bookingPrice = $booking['booking_price'];
                 $message = "Complete your payment for booking #{$orderId}.\n\n";
                 $message .= "Amount: {$bookingPrice} KD\n";
                 $message .= "Click here to pay: {$paymentLink}\n\n";
