@@ -371,7 +371,6 @@ function createAPI($BookingDetails, $paymentSettings){
 		"ErrorUrl"             => "{$settingsWebsite}/index.php",
 		"invoiceItems"         => $BookingDetails['InvoiceItems'],
 	);
-	var_dump($postMethodLines);
 	$headers = ['Content-Type: application/json'];
 	for ($i = 0; $i < 3; $i++) {
 		$curl = curl_init();
@@ -387,7 +386,6 @@ function createAPI($BookingDetails, $paymentSettings){
 		$response = curl_exec($curl);
 		curl_close($curl);
 		$resultMY = json_decode($response, true);
-		var_dump($resultMY);
 		if ( !empty($resultMY["data"]["InvoiceId"]) ) {
 			// Build DB insert data
 			unset($BookingDetails['InvoiceItems']);
