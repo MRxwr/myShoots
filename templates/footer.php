@@ -265,10 +265,28 @@ $(document).ready(function(){
   if ($('#selectThemesBtn').length > 0) {
     maxThemes = parseInt($('#max_themes_count').val()) || 1;
     
-    // Open modal
+    // Open modal with fallback
     $('#selectThemesBtn').on('click', function(e) {
       e.preventDefault();
-      $('#themesModal').modal('show');
+      // Check if Bootstrap modal is available
+      if (typeof $.fn.modal === 'function') {
+        $('#themesModal').modal('show');
+      } else {
+        // Fallback: manually show modal
+        $('#themesModal').addClass('show').css('display', 'block');
+        $('body').addClass('modal-open');
+        // Add backdrop
+        if ($('.modal-backdrop').length === 0) {
+          $('<div class="modal-backdrop fade show"></div>').appendTo('body');
+        }
+      }
+    });
+    
+    // Close modal handlers
+    $('[data-dismiss="modal"]').on('click', function() {
+      $('#themesModal').removeClass('show').css('display', 'none');
+      $('body').removeClass('modal-open');
+      $('.modal-backdrop').remove();
     });
     
     // Theme card click
@@ -326,7 +344,14 @@ $(document).ready(function(){
       $('#selectedThemesPreview').html(previewHtml).show();
       $('#selectThemesBtn').html('<i class="fa fa-check-circle"></i> <?php echo direction("Themes Selected","تم اختيار المواضيع") ?> <span class="badge badge-success ml-2">' + selectedThemes.length + '</span>');
       
-      $('#themesModal').modal('hide');
+      // Close modal with fallback
+      if (typeof $.fn.modal === 'function') {
+        $('#themesModal').modal('hide');
+      } else {
+        $('#themesModal').removeClass('show').css('display', 'none');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+      }
     });
     
     // Form validation
