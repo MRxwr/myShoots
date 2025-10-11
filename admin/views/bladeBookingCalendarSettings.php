@@ -5,6 +5,7 @@ if( isset($_POST["openDate"]) ){
     $_POST["smsNoti"] = isset($_POST["smsNoti"]) ? json_encode($_POST["smsNoti"]) : json_encode([]);
     $_POST["websiteColors"] = isset($_POST["websiteColors"]) ? json_encode($_POST["websiteColors"]) : json_encode([]);
     $_POST["payment"] = isset($_POST["payment"]) ? json_encode($_POST["payment"]) : json_encode([]);
+    $_POST["packageDetails"] = isset($_POST["packageDetails"]) ? json_encode($_POST["packageDetails"]) : json_encode([]);
 	if( updateDB("tbl_calendar_settings", $_POST, "`id` = '1'") ){
         header("LOCATION: ?v=BookingCalendarSettings");
     }else{
@@ -21,6 +22,7 @@ if( isset($_POST["openDate"]) ){
     $weekends = json_decode($settings["weekend"],true);
     $websiteColors = json_decode($settings["websiteColors"],true);
     $payment = json_decode($settings["payment"],true);
+    $packageDetails = json_decode($settings["packageDetails"],true);
 }
 ?>
 <div class="row">
@@ -167,6 +169,18 @@ if( isset($_POST["openDate"]) ){
                             </div>
                             <div class="panel-wrapper collapse in">
                             <div class="panel-body">
+
+                                <div class="col-md-12" style="padding-bottom: 5px;">
+                                <div class="text">
+                                    <select class="form-control" name="packageDetails[details]" >
+                                        <option value=""><?php echo direction("Hide Package Details","ايقاف تفاصيل الباقة") ?></option>
+                                        <option value="1" <?php if( isset($packageDetails["details"]) && $packageDetails["details"] == 1 ): ?>selected<?php endif; ?>><?php echo direction("Show Package Details","اظهار تفاصيل الباقة") ?></option>
+                                        <option value="2" <?php if( isset($packageDetails["details"]) && $packageDetails["details"] == 2 ): ?>selected<?php endif; ?>><?php echo direction("Hide Package Details","إخفاء تفاصيل الباقة") ?></option>
+                                    </select>
+                                </div>
+                                </div>
+
+                    
                                 <div class="col-md-6" style="padding-bottom: 5px;">
                                 <div class="text">
                                 <input class="form-control" type="color" name="websiteColors[main1]" value="<?php echo $main1 = isset($websiteColors["main1"]) ? "{$websiteColors["main1"]}" : "" ?>">
