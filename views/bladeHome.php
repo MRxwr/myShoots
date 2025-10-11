@@ -53,11 +53,15 @@ document.addEventListener('DOMContentLoaded', showPopupBanner);
                 <div class="row align-items-center">
                   <div class="col-lg-7 col-md-7 col-12 order-md-1 order-2">
                     <h5 class="package-head mb-3" style="font-weight: 600; color: #333;"><?= $package[direction('en','ar')."Title"] ?></h5>
-                    <div style="color: #666; line-height: 1.8; margin-bottom: 20px;"><?= $package[direction('en','ar')."Details"] ?></div>
-                    <div class="theme-color package-price-tag d-flex align-items-center" style="font-size: 1.2rem; font-weight: 600;">
-                      <span style="color: #999; font-size: 0.9rem; margin-right: 8px;"><?php echo direction("Price","القيمة") ?>:</span>
-                      <span style="background: linear-gradient(90deg, <?php echo $websiteColors["main1"] ?> 0%, <?php echo $websiteColors["main2"] ?> 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><?= $package["price"] ?> <?= $package["currency"] ?></span>
+                    <?php if( $packageDetailsSettings["details"] == 1 ): ?>
+                      <div style="color: #666; line-height: 1.8; margin-bottom: 20px;"><?= $package[direction('en','ar')."Details"] ?></div>
+                    <?php endif; ?>
+                    <?php if( $packageDetailsSettings["price"] == 1 ): ?>
+                      <div class="theme-color package-price-tag d-flex align-items-center" style="font-size: 1.2rem; font-weight: 600;">
+                        <span style="color: #999; font-size: 0.9rem; margin-right: 8px;"><?php echo direction("Price","القيمة") ?>:</span>
+                        <span style="background: linear-gradient(90deg, <?php echo $websiteColors["main1"] ?> 0%, <?php echo $websiteColors["main2"] ?> 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><?= $package["price"] ?> <?= $package["currency"] ?></span>
                     </div>
+                    <?php endif; ?>
                   </div>
                   <div class="col-lg-5 col-md-5 col-12 order-md-2 order-1 mb-md-0 mb-3">
                     <div style="position: relative; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">

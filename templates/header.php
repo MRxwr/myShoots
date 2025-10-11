@@ -10,6 +10,7 @@ if( $mainSettings = selectDB("tbl_calendar_settings", "`id` = '1'") ){
     if( is_array($mainSettings) && sizeof($mainSettings) > 0 ){
         $mainSettings = $mainSettings[0];
         $websiteColors = json_decode($mainSettings["websiteColors"],true);
+        $packageDetailsSettings = json_decode($mainSettings["packageDetails"],true);
     }else{
         $mainSettings = array();
     }

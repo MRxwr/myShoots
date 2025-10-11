@@ -180,6 +180,15 @@ if( isset($_POST["openDate"]) ){
                                 </div>
                                 </div>
 
+                                <div class="col-md-12" style="padding-bottom: 5px;">
+                                <div class="text">
+                                    <select class="form-control" name="packageDetails[price]" >
+                                        <option value=""><?php echo direction("Hide Package Price","ايقاف سعر الباقة") ?></option>
+                                        <option value="1" <?php if( isset($packageDetails["price"]) && $packageDetails["price"] == 1 ): ?>selected<?php endif; ?>><?php echo direction("Show Package Price","اظهار سعر الباقة") ?></option>
+                                        <option value="2" <?php if( isset($packageDetails["price"]) && $packageDetails["price"] == 2 ): ?>selected<?php endif; ?>><?php echo direction("Hide Package Price","إخفاء سعر الباقة") ?></option>
+                                    </select>
+                                </div>
+                                </div>
                     
                                 <div class="col-md-6" style="padding-bottom: 5px;">
                                 <div class="text">
