@@ -45,7 +45,7 @@ switch ($action) {
                 exit;
             }
             
-            $image = uploadImageThemesFreeImageHost($_FILES['image']['tmp_name']);
+            echo $image = uploadImageThemesFreeImageHost($_FILES['image']['tmp_name']);die();
             
             if ($image && $image !== '') {
                 $data = [
