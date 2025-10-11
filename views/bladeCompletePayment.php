@@ -7,7 +7,13 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
     if( $bookingDetails = selectDB("tbl_booking", "`transaction_id` = '{$booking_id}'") ){
         $booking = $bookingDetails[0];
         $orderId = str_pad($booking['id'], 6, "0", STR_PAD_LEFT);
-        
+        if( $booking["status"] == "Completed" ){
+            $error = direction("This booking is already completed.","تم إكمال هذا الحجز بالفعل.");
+            echo "<script>
+                alert('This booking is already completed.');
+                window.location.href = '?v=Home&error=".urlencode(base64_encode($error))."';
+            </script>";die();
+        }
         if( $packageDetails = selectDB("tbl_packages", "`id` = {$booking['package_id']}") ){
             $package = $packageDetails[0];
         } else {

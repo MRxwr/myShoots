@@ -74,7 +74,9 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
         curl_close($ch);
         // Optionally, handle $smsResponse if needed
       }
-      
+    }else{
+      if( updateDB("tbl_booking", ["status" => "Completed"], "`id` = '{$booking['id']}'") ) {
+      }
     }
 ?>
 <section class="py-5 bg-white">
