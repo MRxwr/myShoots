@@ -151,6 +151,16 @@ if( isset($_POST["arTitle"]) ){
 			<input type="text" name="arTitle" class="form-control" required>
 			</div>
 
+			<div class="col-md-6">
+			<label><?php echo direction("English Subtitle","العنوان الفرعي بالإنجليزي") ?></label>
+			<input type="text" name="enSubtitle" class="form-control" required>
+			</div>
+
+			<div class="col-md-6">
+			<label><?php echo direction("Arabic Subtitle","العنوان الفرعي بالعربي") ?></label>
+			<input type="text" name="arSubtitle" class="form-control" required>
+			</div>
+
 			<div class="col-md-4">
 			<label><?php echo direction("Price","السعر") ?></label>
 			<input type="number" step="any" name="price" class="form-control" required>
