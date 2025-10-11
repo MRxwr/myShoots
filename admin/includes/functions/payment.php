@@ -412,16 +412,56 @@ function createAPI($BookingDetails, $paymentSettings){
 function checkCreateAPI(){
 	GLOBAL $_GET;
 	if( isset($_GET["requested_order_id"]) && !empty($_GET["requested_order_id"]) ){
-		if( $_GET["result"] != "CAPTURED" ){
-			if( updateDB("tbl_booking", array("gatewayResponse" => json_encode($_GET), "status" => "No"), "transaction_id = {$_GET["requested_order_id"]} AND status = 'Pending'")){
+		// Get the booking to check if it's a completion payment
+		$bookingResult = selectDB("tbl_booking", "transaction_id = '{$_GET["requested_order_id"]}'");
+		
+		if ($bookingResult && count($bookingResult) > 0) {
+			$booking = $bookingResult[0];
+			$payment = json_decode($booking['payment'], true);
+			$is_completion = isset($payment['completion_status']);
+			
+			if( $_GET["result"] != "CAPTURED" ){
+				// Payment failed
+				if ($is_completion) {
+					// Update completion_status in payment JSON
+					$payment['completion_status'] = 'failed';
+					updateDB("tbl_booking", array(
+						"gatewayResponse" => json_encode($_GET), 
+						"payment" => json_encode($payment, JSON_UNESCAPED_UNICODE)
+					), "transaction_id = {$_GET["requested_order_id"]} AND status = 'Pending'");
+				} else {
+					// Regular booking failure
+					updateDB("tbl_booking", array(
+						"gatewayResponse" => json_encode($_GET), 
+						"status" => "No"
+					), "transaction_id = {$_GET["requested_order_id"]} AND status = 'Pending'");
+				}
+				return 0;
+			}else{
+				// Payment successful
+				if ($is_completion) {
+					// Update completion_status and booking status to "Completed"
+					$payment['completion_status'] = 'success';
+					if( updateDB("tbl_booking", array(
+						"gatewayResponse" => json_encode($_GET), 
+						"status" => "Completed",
+						"payment" => json_encode($payment, JSON_UNESCAPED_UNICODE)
+					), "transaction_id = {$_GET["requested_order_id"]} AND status = 'Pending'") ){
+						return $_GET["requested_order_id"];
+					}
+				} else {
+					// Regular booking success
+					if( updateDB("tbl_booking", array(
+						"gatewayResponse" => json_encode($_GET), 
+						"status" => "Yes"
+					), "transaction_id = {$_GET["requested_order_id"]} AND status = 'Pending'") ){
+						return $_GET["requested_order_id"];
+					}
+				}
+				return 0;
 			}
-			return 0;
-		}else{
-			if( updateDB("tbl_booking", array("gatewayResponse" => json_encode($_GET), "status" => "Yes"), "transaction_id = {$_GET["requested_order_id"]} AND status = 'Pending'") ){
-				return $_GET["requested_order_id"];
-			}
-			return 0;
 		}
+		return 0;
 	}else{
 		return 0;
 	}
