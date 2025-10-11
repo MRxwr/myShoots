@@ -104,21 +104,48 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
                     <label class="font-weight-bold text-secondary"><?php echo direction("Time","الوقت") ?>:</label>
                     <input type="text" readonly class="form-control-plaintext" value="<?= $booking_time; ?>">
                   </div>
+                  <?php
+                  // Show selected themes if available
+                  if (!empty($booking['themes'])) {
+                    $selectedThemes = json_decode($booking['themes'], true);
+                    if (is_array($selectedThemes) && count($selectedThemes) > 0) {
+                      echo '<div class="form-group mb-3">';
+                      echo '<label class="font-weight-bold text-secondary">' . direction("Selected Themes", "المواضيع المختارة") . ':</label>';
+                      echo '<div class="row mt-2">';
+                      foreach ($selectedThemes as $theme) {
+                        $themeName = isset($theme['enTitle']) ? htmlspecialchars($theme['enTitle']) : '';
+                        $themeImage = isset($theme['imageurl']) ? htmlspecialchars($theme['imageurl']) : '';
+                        echo '<div class="col-6 col-md-4 col-lg-3 mb-3">';
+                        if (!empty($themeImage)) {
+                          echo '<img src="logos/themes/' . $themeImage . '" class="img-fluid rounded shadow-sm mb-2" alt="' . $themeName . '" style="height:120px; width:100%; object-fit:cover;">';
+                        }
+                        echo '<p class="text-center mb-0" style="font-size:14px; font-weight:600;">' . $themeName . '</p>';
+                        echo '</div>';
+                      }
+                      echo '</div>';
+                      echo '</div>';
+                    }
+                  }
+                  ?>
                    <?php
                   // Show extra items if available
                   if (!empty($booking['extra_items'])) {
                     $extraItems = json_decode($booking['extra_items'], true);
                     if (is_array($extraItems) && count($extraItems) > 0) {
+                      echo '<div class="form-group mb-3">';
                       echo '<label class="font-weight-bold text-secondary">' . direction("Extra Items","الإضافات") . ':</label>';
+                      echo '<div class="mt-2">';
                       foreach ($extraItems as $item) {
                         $itemName = isset($item['item']) ? htmlspecialchars($item['item']) : '';
                         $itemPrice = isset($item['price']) ? htmlspecialchars($item['price']) : '';
-                        echo '<div><strong>' . $itemName . '</strong>';
+                        echo '<div class="mb-1"><i class="fa fa-check-circle" style="color:#28a745;"></i> <strong>' . $itemName . '</strong>';
                         if ($itemPrice !== '') {
-                          echo ': ' . $itemPrice . "{$currency}";
+                          echo ' - <span style="color:' . $websiteColors["button1"] . '; font-weight:600;">' . $itemPrice . ' ' . $currency . '</span>';
                         }
                         echo '</div>';
                       }
+                      echo '</div>';
+                      echo '</div>';
                     }
                   }
                   
