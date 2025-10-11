@@ -13,7 +13,7 @@ switch ($action) {
         if ($images) {
             foreach ($images as $img) {
                 echo '<div class="gallery-image-item col-md-3">';
-                echo '<img src="../logos/themes/' . htmlspecialchars($img['image']) . '" alt="" />';
+                echo '<img src="../logos/themes/' . htmlspecialchars($img['imageurl']) . '" alt="" />';
                 echo '<div class="gallery-image-info">';
                 echo '<strong>' . htmlspecialchars($img['enTitle']) . '</strong>';
                 echo '<span>' . htmlspecialchars($img['arTitle']) . '</span>';
