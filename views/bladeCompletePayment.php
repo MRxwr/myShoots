@@ -36,6 +36,7 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
         // Calculate total and remaining
         $totalAmount = floatval($booking_price);
         $remainingAmount = $totalAmount - $paidAmount;
+        $remainingAmount = $paymentData["booking_price"];
         
         // Get payment settings for the payment gateway
         if( $bookingSettings = selectDB('tbl_calendar_settings', "`id` = '1'") ){
@@ -79,15 +80,6 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
                   </div>
                   
                   <hr class="my-4">
-                  
-                  <div class="form-group mb-3">
-                    <label class="font-weight-bold text-secondary"><?php echo direction("Total Booking Amount","المبلغ الإجمالي للحجز") ?>:</label>
-                    <input type="text" readonly class="form-control-plaintext" style="font-size: 18px; color: #2c3e50; font-weight: bold;" value="<?= number_format($totalAmount, 3) ?> <?= $currency ?>">
-                  </div>
-                  <div class="form-group mb-3">
-                    <label class="font-weight-bold text-secondary"><?php echo direction("Amount Already Paid","المبلغ المدفوع مسبقاً") ?>:</label>
-                    <input type="text" readonly class="form-control-plaintext" style="font-size: 18px; color: #27ae60; font-weight: bold;" value="<?= number_format($paidAmount, 3) ?> <?= $currency ?>">
-                  </div>
                   <div class="form-group mb-4">
                     <label class="font-weight-bold text-secondary"><?php echo direction("Remaining Amount to Pay","المبلغ المتبقي للدفع") ?>:</label>
                     <input type="text" readonly class="form-control-plaintext" style="font-size: 22px; color: #e74c3c; font-weight: bold;" value="<?= number_format($remainingAmount, 3) ?> <?= $currency ?>">
