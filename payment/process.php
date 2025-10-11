@@ -50,6 +50,7 @@ if(isset($_POST['submit'])){
 					)
 				)
 			);
+			var_dump($BookingDetails);die();
 			var_dump($response = createAPI($booking, $newPaymentData));die();
 			if( $response = createAPI($booking, $newPaymentData) ){
 				$response = $response["PaymentURL"];
