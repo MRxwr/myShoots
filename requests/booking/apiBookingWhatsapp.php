@@ -43,6 +43,10 @@ function bookingWhatsappUltraMsg($order, $messageType = 'booking'){
                 "caption" => $message,
                 "image" => "{$settingsWebsite}/logos/{$settingslogo}",
             );
+            if( $booking["whatsapp"] == 1 ){
+                echo json_encode(['success' => false, 'message' => 'WhatsApp message already sent for this booking.']);
+                exit();
+            }
 			$curl = curl_init();
             curl_setopt_array($curl, array(
                 CURLOPT_URL => "https://api.ultramsg.com/{$whatsappNoti1["instance"]}/messages/image",
