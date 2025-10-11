@@ -21,7 +21,7 @@ if(isset($_POST['submit'])){
 			$paidAmount = isset($paymentData['price']) ? floatval($paymentData['price']) : 0;
 			$booking_price = isset($paymentData['booking_price']) ? floatval($paymentData['booking_price']) : $booking['booking_price'];
 			$totalAmount = floatval($booking_price);
-			$remainingAmount = $totalAmount - $paidAmount;
+			echo $remainingAmount = $totalAmount - $paidAmount;die();
 			$newPaymentData = array(
 				'type' => isset($paymentData['type']) ? $paymentData['type'] : '1',
 				'price' => $paidAmount,
