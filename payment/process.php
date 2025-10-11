@@ -35,7 +35,7 @@ if(isset($_POST['submit'])){
 				'booking_time' => $booking['booking_time'],
 				'is_filming' => $booking['is_filming'],
 				'extra_items' => $booking['extra_items'],
-				'booking_price' => $remainingAmount,
+				'booking_price' => $booking_price,
 				'customer_name' => "{$package_title}",
 				'customer_email' => "{$bookingSettings['email']}",
 				'mobile_number' => "{$bookingSettings['mobile']}",
@@ -46,7 +46,7 @@ if(isset($_POST['submit'])){
 					array(
 						"ItemName" => $package_title.'- Completion of ['.$booking['booking_date'].'] ['.$booking['booking_time'].']',
 						"Quantity" => 1,
-						"UnitPrice" => $remainingAmount,
+						"UnitPrice" => $booking_price,
 					)
 				)
 			);
