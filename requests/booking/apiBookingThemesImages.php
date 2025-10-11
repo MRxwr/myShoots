@@ -34,16 +34,14 @@ switch ($action) {
         $enDetails = $_POST['enDetails'] ?? '';
         $arDetails = $_POST['arDetails'] ?? '';
         if (!empty($_FILES['image']['name'])) {
-            $target_dir = '../../assets/img/';
-            $target_file = $target_dir . time() . basename($_FILES['image']['name']);
-            if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
+            if ( $image = uploadImageThemesFreeImageHost($_FILES['image']['tmp_name'])) {
                 $data = [
                     'category' => $themes_category_id,
                     'enTitle' => $enTitle,
                     'arTitle' => $arTitle,
                     'enDetails' => $enDetails,
                     'arDetails' => $arDetails,
-                    'image' => $_FILES['image']['name'],
+                    'image' => $image,
                     'status' => '0'
                 ];
                 if (insertDB('tbl_themes', $data)) {
