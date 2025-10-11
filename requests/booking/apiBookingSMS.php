@@ -20,7 +20,8 @@ if ($booking = selectDBNew("tbl_booking", [$id] , "id = ?","")) {
         $booking_time = $booking[0]['booking_time'];
         $orderId = $booking[0]['transaction_id'];
         $bookingId = $booking[0]['id'];
-        $bookingPrice = $booking[0]['booking_price'];
+        $paymentData = json_decode($booking[0]['payment'], true);
+        $bookingPrice = $paymentData['booking_price'];
         $bookingPersonalInfo = json_decode($booking[0]['personal_info'], true);
         $arabic = ['١','٢','٣','٤','٥','٦','٧','٨','٩','٠'];
         $english = [ 1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 , 0];

@@ -8,6 +8,7 @@ function bookingWhatsappUltraMsg($order, $messageType = 'booking'){
             exit();
 		}elseif( $booking = selectDB("tbl_booking","`id` = '{$order}'") ){
             $booking = $booking[0];
+            $paymentData = json_decode($booking['payment'], true);
             $bookingPersonalInfo = json_decode($booking['personal_info'], true);
             $arabic = ['١','٢','٣','٤','٥','٦','٧','٨','٩','٠'];
             $english = [ 1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 , 0];
@@ -25,7 +26,7 @@ function bookingWhatsappUltraMsg($order, $messageType = 'booking'){
                 // Complete payment message - use transaction_id (orderId) in the URL
                 $orderId = $booking['transaction_id'];
                 $paymentLink = $settingsWebsite . "/?v=CompletePayment&booking_id=" . $orderId;
-                $bookingPrice = $booking['booking_price'];
+                $bookingPrice = $paymentData['booking_price'];
                 $message = "Complete your payment for booking #{$orderId}.\n\n";
                 $message .= "Amount: {$bookingPrice} KD\n";
                 $message .= "Click here to pay: {$paymentLink}\n\n";

@@ -699,7 +699,7 @@ $(document).ready(function() {
         });
     });
     
-    // Handle send payment link button (placeholder for next step)
+    // Handle send payment link button
     $('#complete-payment-send-link').on('click', function() {
         var amount = parseFloat($('#complete-payment-amount').val());
         var bookingId = $('#complete-payment-booking-id').val();
@@ -714,32 +714,53 @@ $(document).ready(function() {
         var $btn = $(this);
         $btn.prop('disabled', true).text('<?php echo direction("Sending...", "جاري الإرسال...") ?>');
         
-        // Determine which endpoint to call
-        var endpoint = sendMethod === 'sms' ? 'BookingSMS' : 'BookingWhatsapp';
-        
-        // Send the payment link
+        // First, update the booking payment amount
         $.ajax({
-            url: '../requests/index.php?f=booking&endpoint=' + endpoint,
+            url: '../requests/index.php?f=booking&endpoint=UpdatePaymentAmount',
             type: 'POST',
             data: {
                 id: bookingId,
-                message_type: 'payment'
+                new_amount: amount
             },
             dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    alert('<?php echo direction("Payment link sent successfully!", "تم إرسال رابط الدفع بنجاح!") ?>');
-                    $('#completePaymentModal').modal('hide');
+            success: function(updateResponse) {
+                if (updateResponse.success) {
+                    // After updating, send the payment link
+                    var endpoint = sendMethod === 'sms' ? 'BookingSMS' : 'BookingWhatsapp';
+                    
+                    $.ajax({
+                        url: '../requests/index.php?f=booking&endpoint=' + endpoint,
+                        type: 'POST',
+                        data: {
+                            id: bookingId,
+                            message_type: 'payment'
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response.success) {
+                                alert('<?php echo direction("Payment link sent successfully!", "تم إرسال رابط الدفع بنجاح!") ?>');
+                                $('#completePaymentModal').modal('hide');
+                                dataTable.ajax.reload();
+                            } else {
+                                alert('<?php echo direction("Error: ", "خطأ: ") ?>' + response.message);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            alert('<?php echo direction("Failed to send payment link. Please try again.", "فشل إرسال رابط الدفع. الرجاء المحاولة مرة أخرى.") ?>');
+                            console.error('Error:', error);
+                        },
+                        complete: function() {
+                            $btn.prop('disabled', false).text('<?php echo direction("Send Payment Link", "إرسال رابط الدفع") ?>');
+                        }
+                    });
                 } else {
-                    alert('<?php echo direction("Error: ", "خطأ: ") ?>' + response.message);
+                    alert('<?php echo direction("Error updating amount: ", "خطأ في تحديث المبلغ: ") ?>' + updateResponse.message);
+                    $btn.prop('disabled', false).text('<?php echo direction("Send Payment Link", "إرسال رابط الدفع") ?>');
                 }
             },
             error: function(xhr, status, error) {
-                alert('<?php echo direction("Failed to send payment link. Please try again.", "فشل إرسال رابط الدفع. الرجاء المحاولة مرة أخرى.") ?>');
+                alert('<?php echo direction("Failed to update payment amount. Please try again.", "فشل تحديث مبلغ الدفع. الرجاء المحاولة مرة أخرى.") ?>');
                 console.error('Error:', error);
-            },
-            complete: function() {
-                // Re-enable button
                 $btn.prop('disabled', false).text('<?php echo direction("Send Payment Link", "إرسال رابط الدفع") ?>');
             }
         });
