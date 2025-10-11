@@ -2,6 +2,15 @@
 require_once('../admin/includes/config.php');
 require_once('../admin/includes/functions.php');
 require_once('../admin/includes/translate.php');
+
+// DEBUG: Check what's in POST
+if(isset($_POST['submit'])){
+	error_log("=== POST DEBUG ===");
+	error_log("hid_extra_items: " . (isset($_POST['hid_extra_items']) ? $_POST['hid_extra_items'] : 'NOT SET'));
+	error_log("select_extra_item: " . (isset($_POST['select_extra_item']) ? print_r($_POST['select_extra_item'], true) : 'NOT SET'));
+	error_log("themes: " . (isset($_POST['themes']) ? $_POST['themes'] : 'NOT SET'));
+}
+
 if( $bookingSettings = selectDB('tbl_calendar_settings', "`id` = '1'") ){
 	$bookingSettings = $bookingSettings[0];
 	$paymentSettings = json_decode($bookingSettings['payment'], true);
@@ -65,9 +74,9 @@ if(isset($_POST['submit'])){
 			header("LOCATION: {$settingsWebsite}/?v=BookingFailed&error={$error}");die();
 		}
 	}else{
-		
+		var_dump($_POST);
 		// New booking processing
-		$select_extra_item = $_POST['extra_items'] ?? array();
+		$select_extra_item = isset($_POST['select_extra_item']) && is_array($_POST['select_extra_item']) ? $_POST['select_extra_item'] : array();
 		$comm = "";
 		$extra_price = 0;
 		$select_extra_item_val = "";
@@ -83,7 +92,7 @@ if(isset($_POST['submit'])){
 			$select_extra_item_val = "";
 			$extra_price = 0;
 		}
-var_dump($_POST);
+
 		$personalInfo = $_POST['personalInfo'];
 		$bookingSettings['mobile'] = ( isset($personalInfo['1']) && !empty($personalInfo['1']) )  ? $personalInfo['1'] : $bookingSettings['mobile'];
 		$extra_items = "[{$select_extra_item_val}]"; 
