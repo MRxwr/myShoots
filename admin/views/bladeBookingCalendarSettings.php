@@ -173,7 +173,7 @@ if( isset($_POST["openDate"]) ){
                                 <div class="col-md-4" style="padding-bottom: 5px;">
                                 <div class="text">
                                     <select class="form-control" name="packageDetails[details]" >
-                                        <option value=""><?php echo direction("Hide Package Details","ايقاف تفاصيل الباقة") ?></option>
+                                        <option value="" disabled selected><?php echo direction("Control Package Details","ايقاف تفاصيل الباقة") ?></option>
                                         <option value="1" <?php if( isset($packageDetails["details"]) && $packageDetails["details"] == 1 ): ?>selected<?php endif; ?>><?php echo direction("Show Package Details","اظهار تفاصيل الباقة") ?></option>
                                         <option value="2" <?php if( isset($packageDetails["details"]) && $packageDetails["details"] == 2 ): ?>selected<?php endif; ?>><?php echo direction("Hide Package Details","إخفاء تفاصيل الباقة") ?></option>
                                     </select>
@@ -183,7 +183,7 @@ if( isset($_POST["openDate"]) ){
                                 <div class="col-md-4" style="padding-bottom: 5px;">
                                 <div class="text">
                                     <select class="form-control" name="packageDetails[subtitle]" >
-                                        <option value=""><?php echo direction("Hide Package Subtitle","ايقاف عنوان الباقة الفرعي") ?></option>
+                                        <option value="" disabled selected><?php echo direction("Control Package Subtitle","ايقاف عنوان الباقة الفرعي") ?></option>
                                         <option value="1" <?php if( isset($packageDetails["subtitle"]) && $packageDetails["subtitle"] == 1 ): ?>selected<?php endif; ?>><?php echo direction("Show Package Subtitle","اظهار عنوان الباقة الفرعي") ?></option>
                                         <option value="2" <?php if( isset($packageDetails["subtitle"]) && $packageDetails["subtitle"] == 2 ): ?>selected<?php endif; ?>><?php echo direction("Hide Package Subtitle","إخفاء عنوان الباقة الفرعي") ?></option>
                                     </select>
@@ -193,7 +193,7 @@ if( isset($_POST["openDate"]) ){
                                 <div class="col-md-4" style="padding-bottom: 5px;">
                                 <div class="text">
                                     <select class="form-control" name="packageDetails[price]" >
-                                        <option value=""><?php echo direction("Hide Package Price","ايقاف سعر الباقة") ?></option>
+                                        <option value="" disabled selected><?php echo direction("Control Package Price","ايقاف سعر الباقة") ?></option>
                                         <option value="1" <?php if( isset($packageDetails["price"]) && $packageDetails["price"] == 1 ): ?>selected<?php endif; ?>><?php echo direction("Show Package Price","اظهار سعر الباقة") ?></option>
                                         <option value="2" <?php if( isset($packageDetails["price"]) && $packageDetails["price"] == 2 ): ?>selected<?php endif; ?>><?php echo direction("Hide Package Price","إخفاء سعر الباقة") ?></option>
                                     </select>
