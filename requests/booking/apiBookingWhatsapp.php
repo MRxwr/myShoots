@@ -8,6 +8,7 @@ function bookingWhatsappUltraMsg($order, $messageType = 'booking'){
             exit();
 		}elseif( $booking = selectDB("tbl_booking","`id` = '{$order}'") ){
             $booking = $booking[0];
+            $orderId = $booking['transaction_id'];
             $paymentData = json_decode($booking['payment'], true);
             $bookingPersonalInfo = json_decode($booking['personal_info'], true);
             $arabic = ['١','٢','٣','٤','٥','٦','٧','٨','٩','٠'];
@@ -61,6 +62,7 @@ function bookingWhatsappUltraMsg($order, $messageType = 'booking'){
             $response = json_decode(curl_exec($curl), true);
 			curl_close($curl);
             if( $response["sent"] == "true" ){
+                updateDB("tbl_booking", ["whatsapp" => 1], "`transaction_id` = '{$orderId}'");
                 echo json_encode(['success' => true, 'message' => 'Message sent successfully.']);
                 exit();
             }else{
