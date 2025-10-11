@@ -2,7 +2,7 @@
 date_default_timezone_set('Asia/Riyadh');
 $check = ["'",'"',")","(",";","?",">","<","~","!","#","$","%","^","&","*","-","_","=","+","/","|",":"];
 if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
-  if( $bookingDetails = selectDBNew("tbl_booking",[$_GET["booking_id"]],"`transaction_id` = ?","") ){
+  if( $bookingDetails = selectDBNew("tbl_booking",[$_GET["booking_id"]],"`parent_id` = ?","") ){
     $gatewayResponse = json_decode($bookingDetails[0]['gatewayResponse'],true);
     if( isset($gatewayResponse['result']) && $gatewayResponse['result'] != 'CAPTURED' ){
         $error = "Payment not captured, Please try again later.";
@@ -30,6 +30,69 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
     $booking_date = $booking['booking_date'];
     $booking_time  = $booking['booking_time'];
 
+    ///////////////// Check booking slot //////////////////////////////
+    $booktimes = get_bookingTimeBydate('', $booking_date);
+    $booktimeArr = array(); 
+    if(@count($booktimes) != 0){
+      foreach($booktimes as $key=>$booktime){		
+          $booktimeArr[] = $booktime['booking_time'];
+      }
+    }
+    $times = $package['time'];
+    $rows = json_decode($times); 
+    $timeSlotAvailable = 0;
+    foreach($rows as $row ){
+      $time = $row->startDate." - ".$row->endDate;
+      if (!in_array($time, $booktimeArr)){
+        $timeSlotAvailable = 1;
+      } 
+    }
+  }elseif( $bookingDetails = selectDBNew("tbl_booking",[$_GET["booking_id"]],"`transaction_id` = ?","") ){
+    $gatewayResponse = json_decode($bookingDetails[0]['gatewayResponse'],true);
+    if( isset($gatewayResponse['result']) && $gatewayResponse['result'] != 'CAPTURED' ){
+        $error = "Payment not captured, Please try again later.";
+        echo "<script>
+            alert('Payment not captured, Please try again later.');
+            window.location.href = '?v=BookingFailed&error=".urlencode(base64_encode($error))."';
+        </script>";die();
+    }
+    $booking = $bookingDetails[0];
+    $orderId = str_pad($booking['id'], 6, "0", STR_PAD_LEFT);
+    if( $packageDetails = selectDB("tbl_packages", "`id` = {$booking['package_id']}") ){
+      $package = $packageDetails[0];
+    } else {
+      $error = "Invalid Package.";
+      echo "<script>
+          alert('Invalid Package.');
+          window.location.href = '?v=Home&error=".urlencode(base64_encode($error))."';
+      </script>";die();
+    }
+    $id = $package['id'];
+    $price = $package['price'];
+    $currency = $package['currency'];
+    $post_title = $package[direction("en","ar").'Title'];
+    $extra_items = json_decode($booking['extra_items'], true);
+    $booking_date = $booking['booking_date'];
+    $booking_time  = $booking['booking_time'];
+
+    ///////////////// Check booking slot //////////////////////////////
+    $booktimes = get_bookingTimeBydate('', $booking_date);
+    $booktimeArr = array(); 
+    if(@count($booktimes) != 0){
+      foreach($booktimes as $key=>$booktime){		
+          $booktimeArr[] = $booktime['booking_time'];
+      }
+    }
+    $times = $package['time'];
+    $rows = json_decode($times); 
+    $timeSlotAvailable = 0;
+    foreach($rows as $row ){
+      $time = $row->startDate." - ".$row->endDate;
+      if (!in_array($time, $booktimeArr)){
+        $timeSlotAvailable = 1;
+      } 
+    }
+
     // Send WhatsApp notification using bookingWhatsapp API
     $whatsappApi = $settingsWebsite . "/requests/index.php?f=booking&endpoint=BookingWhatsapp";
     $ch = curl_init();
@@ -53,32 +116,6 @@ if ( isset($_GET["booking_id"]) && !empty($_GET["booking_id"]) ){
     $smsResponse = curl_exec($ch);
     curl_close($ch);
     // Optionally, handle $smsResponse if needed
-
-    ///////////////// Check booking slot //////////////////////////////
-    $booktimes = get_bookingTimeBydate('', $booking_date);
-    $booktimeArr = array(); 
-      if(@count($booktimes) != 0){
-        foreach($booktimes as $key=>$booktime){		
-            $booktimeArr[] = $booktime['booking_time'];
-        }
-      }
-      $times = $package['time'];
-      $rows = json_decode($times); 
-      $timeSlotAvailable = 0;
-      foreach($rows as $row ){
-        $time = $row->startDate." - ".$row->endDate;
-        if (!in_array($time, $booktimeArr)){
-          $timeSlotAvailable = 1;
-        } 
-      }
-      /*
-      ///////////////////////// Update tbl_disabled_date table /////////////////////
-      if( $timeSlotAvailable == 0 ){
-        $date = explode('-',$booking_date);
-        $booking_date_format = $date[1].'/'.$date[2].'/'.$date[0];
-        insertDB("tbl_disabled_date", array("disabled_date" => $booking_date_format) );
-      }
-        */
 ?>
 <section class="py-5 bg-white">
   <div class="container">

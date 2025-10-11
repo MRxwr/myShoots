@@ -396,6 +396,7 @@ function createAPI($BookingDetails, $paymentSettings){
 			$BookingDetails["payloadResponse"] = json_encode($resultMY, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
 			$BookingDetails["gatewayLink"]     = $resultMY["data"]["PaymentURL"];
 			$BookingDetails["payment"]     = json_encode($paymentSettings, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+			$BookingDetails["parent_id"]     = (isset($BookingDetails["parent_id"]) ? $BookingDetails["parent_id"] : 0);
 			// Insert into DB
 			if ( insertDB("tbl_booking", $BookingDetails) ){
 				return $resultMY["data"];die();
@@ -414,10 +415,13 @@ function checkCreateAPI(){
 	if( isset($_GET["requested_order_id"]) && !empty($_GET["requested_order_id"]) ){
 		if( $_GET["result"] != "CAPTURED" ){
 			if( updateDB("tbl_booking", array("gatewayResponse" => json_encode($_GET), "status" => "No"), "transaction_id = {$_GET["requested_order_id"]} AND status = 'Pending'")){
+			}elseif( updateDB("tbl_booking", array("gatewayResponse" => json_encode($_GET), "status" => "No"), "parent_id = {$_GET["requested_order_id"]} AND status = 'Pending'")){
 			}
 			return 0;
 		}else{
 			if( updateDB("tbl_booking", array("gatewayResponse" => json_encode($_GET), "status" => "Yes"), "transaction_id = {$_GET["requested_order_id"]} AND status = 'Pending'") ){
+				return $_GET["requested_order_id"];
+			}elseif( updateDB("tbl_booking", array("gatewayResponse" => json_encode($_GET), "status" => "Completed"), "parent_id = {$_GET["requested_order_id"]} AND status = 'Pending'") ){
 				return $_GET["requested_order_id"];
 			}
 			return 0;
