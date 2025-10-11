@@ -65,7 +65,6 @@ if(isset($_POST['submit'])){
 			header("LOCATION: {$settingsWebsite}/?v=BookingFailed&error={$error}");die();
 		}
 	}else{
-		die("here");
 		// New booking processing
 		$select_extra_item = $_POST['select_extra_item'];
 		$comm = "";
@@ -97,7 +96,7 @@ if(isset($_POST['submit'])){
 		$is_filming = ( isset($_POST['is_filming']) ) ? $_POST['is_filming'] : 0 ;
 		date_default_timezone_set('Asia/Riyadh');
 		$created_at = date('Y-m-d H:i:s');
-
+die("here1");
 		if( check_bookingTimeAndDate($booking_date,$booking_time,$package_id) ){
 			header("LOCATION: {$settingsWebsite}/?v=Reservations&id={$package_id}");die();
 		}	 
