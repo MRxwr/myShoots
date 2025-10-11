@@ -2,7 +2,6 @@
 require_once('../admin/includes/config.php');
 require_once('../admin/includes/functions.php');
 require_once('../admin/includes/translate.php');
-var_dump($_POST);
 if( $bookingSettings = selectDB('tbl_calendar_settings', "`id` = '1'") ){
 	$bookingSettings = $bookingSettings[0];
 	$paymentSettings = json_decode($bookingSettings['payment'], true);
