@@ -364,6 +364,8 @@ if( isset($_POST["arTitle"]) ){
 			<div style="display:none"><label id="hidden<?php echo $packages[$i]["id"]?>"><?php echo $packages[$i]["hidden"] ?></label></div>
 			<div style="display:none"><label id="enDetails<?php echo $packages[$i]["id"]?>"><?php echo $packages[$i]["enDetails"] ?></label></div>
 			<div style="display:none"><label id="arDetails<?php echo $packages[$i]["id"]?>"><?php echo $packages[$i]["arDetails"] ?></label></div>
+			<div style="display:none"><label id="enSubtitle<?php echo $packages[$i]["id"]?>"><?php echo $packages[$i]["enSubtitle"] ?></label></div>
+			<div style="display:none"><label id="arSubtitle<?php echo $packages[$i]["id"]?>"><?php echo $packages[$i]["arSubtitle"] ?></label></div>
 			<div style="display:none"><label id="price<?php echo $packages[$i]["id"]?>"><?php echo $packages[$i]["price"] ?></label></div>
 			<div style="display:none"><label id="themes_count<?php echo $packages[$i]["id"]?>"><?php echo $packages[$i]["themes_count"] ?></label></div>
 			<div style="display:none"><label id="logo<?php echo $packages[$i]["id"]?>"><?php echo $packages[$i]["imageurl"] ?></label></div>
@@ -395,6 +397,8 @@ $(document).on("click",".edit", function(){
 
 	$("input[name=arTitle]").val($("#arTitle"+id).html()).focus();
 	$("input[name=enTitle]").val($("#enTitle"+id).html());
+	$("input[name=arSubtitle]").val($("#arSubtitle"+id).html());
+	$("input[name=enSubtitle]").val($("#enSubtitle"+id).html());
 	tinymce.get('enDetails').setContent($("#enDetails"+id).html());
 	tinymce.get('arDetails').setContent($("#arDetails"+id).html());
 	$("select[name=hidden]").val($("#hidden"+id).html());
