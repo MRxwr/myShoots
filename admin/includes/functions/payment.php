@@ -400,7 +400,7 @@ function createAPI($BookingDetails, $paymentSettings){
 			$BookingDetails["payment"]     = json_encode($paymentSettings, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
 			$BookingDetails["parent_id"]     = (isset($BookingDetails["parent_id"]) ? $BookingDetails["parent_id"] : 0);
 			// Insert into DB
-			echo json_encode($BookingDetails);
+			echo json_encode($BookingDetails);die();
 			if ( insertDB("tbl_booking", $BookingDetails) ){
 				return $resultMY["data"];die();
 			}else{
