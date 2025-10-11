@@ -16,7 +16,7 @@ if(isset($_POST['submit'])){
 		if( $booking = selectDB("tbl_booking","`transaction_id` = '{$booking_id}'") ){
 			$booking = $booking[0];
 			$package = get_packages_details($booking['package_id']);
-			echo $package_title = $package[direction('en','ar').'Title'];
+			$package_title = $package[direction('en','ar').'Title'];
 			$paymentData = json_decode($booking['payment'], true);
 			$paidAmount = isset($paymentData['price']) ? floatval($paymentData['price']) : 0;
 			$booking_price = isset($paymentData['booking_price']) ? floatval($paymentData['booking_price']) : $booking['booking_price'];
@@ -50,7 +50,6 @@ if(isset($_POST['submit'])){
 					)
 				)
 			);
-			var_dump($BookingDetails);die();
 			var_dump($response = createAPI($booking, $newPaymentData));die();
 			if( $response = createAPI($booking, $newPaymentData) ){
 				$response = $response["PaymentURL"];
