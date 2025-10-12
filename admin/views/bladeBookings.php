@@ -3,7 +3,7 @@
         <h5 class="txt-dark"><?php echo direction("Bookings", "الحجوزات") ?></h5>
     </div>
     <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12 text-right">
-        <button type="button" class="btn btn-success btn-icon-anim btn-circle" id="create-new-booking-btn">
+        <button type="button" class="btn btn-success btn-icon-anim" id="create-new-booking-btn">
             <i class="fa fa-plus"></i> <?php echo direction("Create New Booking", "إنشاء حجز جديد") ?>
         </button>
     </div>
