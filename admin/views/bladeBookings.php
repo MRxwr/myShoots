@@ -2,6 +2,12 @@
     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
         <h5 class="txt-dark"><?php echo direction("Bookings", "الحجوزات") ?></h5>
     </div>
+    <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12 text-right">
+        <button type="button" class="btn btn-success btn-icon-anim btn-circle" id="create-new-booking-btn">
+            <i class="fa fa-plus"></i> <?php echo direction("Create New Booking", "إنشاء حجز جديد") ?>
+        </button>
+    </div>
+</div>
     <!-- Row -->
     <div class="row">
         <div class="col-sm-12">
@@ -34,6 +40,24 @@
                                     text-align: center !important;
                                     width: 100% !important;
                                 }
+                            }
+                            
+                            .theme-item {
+                                position: relative;
+                                transition: all 0.3s ease;
+                            }
+                            
+                            .theme-item:hover {
+                                transform: translateY(-3px);
+                                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+                            }
+                            
+                            .mb-15 {
+                                margin-bottom: 15px;
+                            }
+                            
+                            .mb-20 {
+                                margin-bottom: 20px;
                             }
                         </style>
                         <!-- Status Filter Buttons -->
@@ -178,6 +202,102 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo direction("Cancel", "إلغاء") ?></button>
                 <button type="button" class="btn btn-primary" id="complete-payment-send-link"><?php echo direction("Send Payment Link", "إرسال رابط الدفع") ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create New Booking Modal -->
+<div class="modal fade" id="createBookingModal" tabindex="-1" role="dialog" aria-labelledby="createBookingModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="createBookingModalLabel"><?php echo direction("Create New Booking", "إنشاء حجز جديد") ?></h4>
+            </div>
+            <div class="modal-body">
+                <form id="create-booking-form">
+                    <!-- Step 1: Package Selection -->
+                    <div id="step-1" class="booking-step">
+                        <h5 class="mb-20"><?php echo direction("Step 1: Select Package", "الخطوة 1: اختر الباقة") ?></h5>
+                        <div class="form-group">
+                            <label for="new-booking-package"><?php echo direction("Package", "الباقة") ?></label>
+                            <select class="form-control" id="new-booking-package" name="package_id" required>
+                                <option value=""><?php echo direction("Select Package", "اختر الباقة") ?></option>
+                                <?php
+                                $packages = selectDB("tbl_packages", "`status` = '0' AND `hidden` = '1'");
+                                foreach($packages as $pkg) {
+                                    echo '<option value="'.$pkg['id'].'" data-price="'.$pkg['price'].'">'.$pkg[direction('en','ar').'Title'].' - '.$pkg['price'].' KD</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="text-right">
+                            <button type="button" class="btn btn-primary" id="goto-step-2"><?php echo direction("Next", "التالي") ?></button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Date & Time Selection -->
+                    <div id="step-2" class="booking-step" style="display:none;">
+                        <h5 class="mb-20"><?php echo direction("Step 2: Select Date & Time", "الخطوة 2: اختر التاريخ والوقت") ?></h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="new-booking-date"><?php echo direction("Date", "التاريخ") ?></label>
+                                    <input type="text" class="form-control" id="new-booking-date" name="booking_date" placeholder="<?php echo direction("Select Date", "اختر التاريخ") ?>" required readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="new-booking-time"><?php echo direction("Time", "الوقت") ?></label>
+                                    <select class="form-control" id="new-booking-time" name="booking_time" required>
+                                        <option value=""><?php echo direction("Select date first", "اختر التاريخ أولاً") ?></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <button type="button" class="btn btn-default" id="goto-step-1"><?php echo direction("Back", "رجوع") ?></button>
+                            <button type="button" class="btn btn-primary" id="goto-step-3"><?php echo direction("Next", "التالي") ?></button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Personal Info & Extras -->
+                    <div id="step-3" class="booking-step" style="display:none;">
+                        <h5 class="mb-20"><?php echo direction("Step 3: Personal Information & Extras", "الخطوة 3: المعلومات الشخصية والإضافات") ?></h5>
+                        
+                        <!-- Dynamic Personal Info Fields -->
+                        <div id="personal-info-fields"></div>
+                        
+                        <!-- Themes Selection -->
+                        <div id="themes-selection-container" style="display:none;">
+                            <hr>
+                            <h6><?php echo direction("Select Themes", "اختر المواضيع") ?></h6>
+                            <input type="hidden" id="new-booking-themes" name="themes" value="[]">
+                            <div id="themes-list" class="row"></div>
+                        </div>
+
+                        <!-- Extra Items -->
+                        <div id="extra-items-container" style="display:none;">
+                            <hr>
+                            <h6><?php echo direction("Extra Items", "الإضافات") ?></h6>
+                            <div id="extra-items-list"></div>
+                        </div>
+
+                        <hr>
+                        <div class="form-group">
+                            <label><?php echo direction("Total Price", "السعر الإجمالي") ?>: <span id="total-price-display">0</span> KD</label>
+                            <input type="hidden" id="total-booking-price" name="booking_price" value="0">
+                        </div>
+
+                        <div class="text-right">
+                            <button type="button" class="btn btn-default" id="goto-step-2-back"><?php echo direction("Back", "رجوع") ?></button>
+                            <button type="submit" class="btn btn-success" id="create-booking-submit">
+                                <i class="fa fa-check"></i> <?php echo direction("Create Booking", "إنشاء الحجز") ?>
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -762,6 +882,347 @@ $(document).ready(function() {
                 alert('<?php echo direction("Failed to update payment amount. Please try again.", "فشل تحديث مبلغ الدفع. الرجاء المحاولة مرة أخرى.") ?>');
                 console.error('Error:', error);
                 $btn.prop('disabled', false).text('<?php echo direction("Send Payment Link", "إرسال رابط الدفع") ?>');
+            }
+        });
+    });
+    
+    // ============= CREATE NEW BOOKING FUNCTIONALITY =============
+    var selectedPackageData = null;
+    var selectedThemes = [];
+    var maxThemes = 1;
+    
+    // Open Create Booking Modal
+    $('#create-new-booking-btn').on('click', function() {
+        $('#createBookingModal').modal('show');
+        resetBookingForm();
+    });
+    
+    function resetBookingForm() {
+        $('#create-booking-form')[0].reset();
+        $('.booking-step').hide();
+        $('#step-1').show();
+        selectedPackageData = null;
+        selectedThemes = [];
+        $('#total-price-display').text('0');
+        $('#total-booking-price').val('0');
+    }
+    
+    // Step Navigation
+    $('#goto-step-2').on('click', function() {
+        var packageId = $('#new-booking-package').val();
+        if (!packageId) {
+            alert('<?php echo direction("Please select a package", "الرجاء اختيار الباقة") ?>');
+            return;
+        }
+        loadPackageData(packageId);
+    });
+    
+    $('#goto-step-1').on('click', function() {
+        $('#step-2').hide();
+        $('#step-1').show();
+    });
+    
+    $('#goto-step-2-back').on('click', function() {
+        $('#step-3').hide();
+        $('#step-2').show();
+    });
+    
+    $('#goto-step-3').on('click', function() {
+        var date = $('#new-booking-date').val();
+        var time = $('#new-booking-time').val();
+        if (!date || !time) {
+            alert('<?php echo direction("Please select date and time", "الرجاء اختيار التاريخ والوقت") ?>');
+            return;
+        }
+        loadPersonalInfoFields();
+    });
+    
+    // Load Package Data
+    function loadPackageData(packageId) {
+        showLoading();
+        $.ajax({
+            url: '../requests/index.php?f=booking&endpoint=GetPackageForBooking',
+            type: 'POST',
+            data: {package_id: packageId},
+            dataType: 'json',
+            success: function(res) {
+                hideLoading();
+                if (res.success && res.data) {
+                    selectedPackageData = res.data;
+                    initDatePicker(packageId);
+                    $('#step-1').hide();
+                    $('#step-2').show();
+                } else {
+                    alert(res.message || '<?php echo direction("Failed to load package data", "فشل في تحميل بيانات الباقة") ?>');
+                }
+            },
+            error: function() {
+                hideLoading();
+                alert('<?php echo direction("Error loading package data", "خطأ في تحميل بيانات الباقة") ?>');
+            }
+        });
+    }
+    
+    // Initialize Date Picker
+    function initDatePicker(packageId) {
+        if ($('#new-booking-date').data('DateTimePicker')) {
+            $('#new-booking-date').data('DateTimePicker').destroy();
+        }
+        
+        $.ajax({
+            url: '../requests/index.php?f=booking&endpoint=GetDisabledDatesForAdmin',
+            type: 'POST',
+            data: {package_id: packageId},
+            dataType: 'json',
+            success: function(res) {
+                var disabledDates = [];
+                if (res.success && res.data) {
+                    disabledDates = res.data.map(function(d) { return moment(d, 'DD-MM-YYYY'); });
+                }
+                
+                $('#new-booking-date').datetimepicker({
+                    format: 'DD-MM-YYYY',
+                    minDate: moment(),
+                    disabledDates: disabledDates,
+                    showClear: true,
+                    showClose: true,
+                    icons: {
+                        time: "fa fa-clock-o",
+                        date: "fa fa-calendar",
+                        up: "fa fa-arrow-up",
+                        down: "fa fa-arrow-down",
+                        previous: "fa fa-chevron-left",
+                        next: "fa fa-chevron-right",
+                        today: "fa fa-calendar-check-o",
+                        clear: "fa fa-trash",
+                        close: "fa fa-times"
+                    }
+                }).on('dp.change', function(e) {
+                    if (e.date) {
+                        var selectedDate = e.date.format('DD-MM-YYYY');
+                        loadAvailableTimeSlotsForBooking(packageId, selectedDate);
+                    }
+                });
+            }
+        });
+    }
+    
+    // Load Available Time Slots
+    function loadAvailableTimeSlotsForBooking(packageId, selectedDate) {
+        $('#new-booking-time').html('<option value="">Loading...</option>');
+        
+        $.ajax({
+            url: '../requests/index.php?f=booking&endpoint=GetAvailableTimeSlots',
+            type: 'POST',
+            data: {package_id: packageId, date: selectedDate},
+            dataType: 'json',
+            success: function(res) {
+                var options = '<option value=""><?php echo direction("Select Time", "اختر الوقت") ?></option>';
+                if (res.success && res.data && res.data.length > 0) {
+                    for (var i = 0; i < res.data.length; i++) {
+                        options += '<option value="' + res.data[i] + '">' + res.data[i] + '</option>';
+                    }
+                } else {
+                    options = '<option value=""><?php echo direction("No available times", "لا توجد أوقات متاحة") ?></option>';
+                }
+                $('#new-booking-time').html(options);
+            },
+            error: function() {
+                $('#new-booking-time').html('<option value=""><?php echo direction("Error loading time slots", "خطأ في تحميل المواعيد") ?></option>');
+            }
+        });
+    }
+    
+    // Load Personal Info Fields
+    function loadPersonalInfoFields() {
+        var packageId = $('#new-booking-package').val();
+        showLoading();
+        
+        $.ajax({
+            url: '../requests/index.php?f=booking&endpoint=GetPersonalInfoFields',
+            type: 'POST',
+            data: {package_id: packageId},
+            dataType: 'json',
+            success: function(res) {
+                hideLoading();
+                if (res.success && res.data) {
+                    renderPersonalInfoFields(res.data.personalInfo);
+                    renderThemes(res.data.themes, res.data.themes_count);
+                    renderExtraItems(res.data.extra_items);
+                    updateTotalPrice();
+                    $('#step-2').hide();
+                    $('#step-3').show();
+                } else {
+                    alert(res.message || '<?php echo direction("Failed to load form fields", "فشل في تحميل حقول النموذج") ?>');
+                }
+            },
+            error: function() {
+                hideLoading();
+                alert('<?php echo direction("Error loading form fields", "خطأ في تحميل حقول النموذج") ?>');
+            }
+        });
+    }
+    
+    // Render Personal Info Fields
+    function renderPersonalInfoFields(fields) {
+        var html = '';
+        if (fields && fields.length > 0) {
+            fields.forEach(function(field) {
+                var fieldName = 'personalInfo[' + field.id + ']';
+                var label = field.title;
+                html += '<div class="form-group">';
+                html += '<label>' + label + '</label>';
+                
+                switch(parseInt(field.type)) {
+                    case 1: // text
+                        html += '<input type="text" class="form-control" name="' + fieldName + '" required>';
+                        break;
+                    case 2: // textarea
+                        html += '<textarea class="form-control" name="' + fieldName + '" required></textarea>';
+                        break;
+                    case 3: // number
+                        html += '<input type="number" class="form-control" name="' + fieldName + '" required>';
+                        break;
+                    case 4: // email
+                        html += '<input type="email" class="form-control" name="' + fieldName + '" required>';
+                        break;
+                    case 5: // date
+                        html += '<input type="date" class="form-control" name="' + fieldName + '" required>';
+                        break;
+                    case 6: // time
+                        html += '<input type="time" class="form-control" name="' + fieldName + '" required>';
+                        break;
+                    case 7: // phone
+                        html += '<input type="tel" class="form-control" name="' + fieldName + '" pattern="[0-9]{11}" maxlength="11" required>';
+                        break;
+                    default:
+                        html += '<input type="text" class="form-control" name="' + fieldName + '" required>';
+                }
+                html += '</div>';
+            });
+        }
+        $('#personal-info-fields').html(html);
+    }
+    
+    // Render Themes
+    function renderThemes(themes, themesCount) {
+        if (!themes || themes.length === 0) {
+            $('#themes-selection-container').hide();
+            return;
+        }
+        
+        maxThemes = parseInt(themesCount) || 1;
+        selectedThemes = [];
+        $('#themes-selection-container').show();
+        
+        var html = '';
+        themes.forEach(function(category) {
+            html += '<div class="col-xs-12"><h6>' + category.title + '</h6></div>';
+            if (category.themes && category.themes.length > 0) {
+                category.themes.forEach(function(theme) {
+                    html += '<div class="col-xs-6 col-sm-4 col-md-3 mb-15">';
+                    html += '<div class="theme-item" data-theme-id="' + theme.id + '" data-theme-title="' + theme.title + '" data-theme-image="' + theme.imageurl + '" style="cursor:pointer; border:2px solid transparent; padding:10px; text-align:center; border-radius:5px;">';
+                    html += '<img src="../logos/themes/' + theme.imageurl + '" style="width:100%; height:100px; object-fit:cover; border-radius:5px; margin-bottom:5px;">';
+                    html += '<p style="margin:0; font-size:12px;">' + theme.title + '</p>';
+                    html += '<i class="fa fa-check-circle theme-check" style="display:none; color:#4CAF50; font-size:24px; position:absolute; top:5px; right:5px;"></i>';
+                    html += '</div>';
+                    html += '</div>';
+                });
+            }
+        });
+        $('#themes-list').html(html);
+        
+        // Theme click handler
+        $(document).on('click', '.theme-item', function() {
+            var themeId = $(this).data('theme-id');
+            var themeTitle = $(this).data('theme-title');
+            var themeImage = $(this).data('theme-image');
+            
+            var index = selectedThemes.findIndex(function(t) { return t.id === themeId; });
+            
+            if (index > -1) {
+                selectedThemes.splice(index, 1);
+                $(this).css('border-color', 'transparent');
+                $(this).find('.theme-check').hide();
+            } else {
+                if (selectedThemes.length >= maxThemes) {
+                    alert('<?php echo direction("Maximum themes selected", "تم اختيار الحد الأقصى من المواضيع") ?>: ' + maxThemes);
+                    return;
+                }
+                selectedThemes.push({id: themeId, enTitle: themeTitle, imageurl: themeImage});
+                $(this).css('border-color', '#4CAF50');
+                $(this).find('.theme-check').show();
+            }
+            
+            $('#new-booking-themes').val(JSON.stringify(selectedThemes));
+        });
+    }
+    
+    // Render Extra Items
+    function renderExtraItems(extraItems) {
+        if (!extraItems || extraItems.length === 0) {
+            $('#extra-items-container').hide();
+            return;
+        }
+        
+        $('#extra-items-container').show();
+        var html = '';
+        extraItems.forEach(function(item) {
+            html += '<div class="checkbox">';
+            html += '<label>';
+            html += '<input type="checkbox" class="extra-item-checkbox" name="select_extra_item[]" value="' + item.item + ',' + item.price + '" data-price="' + item.price + '">';
+            html += ' ' + item.item + ' - ' + item.price + ' KD';
+            html += '</label>';
+            html += '</div>';
+        });
+        $('#extra-items-list').html(html);
+        
+        // Extra items change handler
+        $(document).on('change', '.extra-item-checkbox', function() {
+            updateTotalPrice();
+        });
+    }
+    
+    // Update Total Price
+    function updateTotalPrice() {
+        var basePrice = parseFloat($('#new-booking-package option:selected').data('price')) || 0;
+        var extraPrice = 0;
+        
+        $('.extra-item-checkbox:checked').each(function() {
+            extraPrice += parseFloat($(this).data('price')) || 0;
+        });
+        
+        var totalPrice = basePrice + extraPrice;
+        $('#total-price-display').text(totalPrice.toFixed(3));
+        $('#total-booking-price').val(totalPrice.toFixed(3));
+    }
+    
+    // Submit Create Booking Form
+    $('#create-booking-form').on('submit', function(e) {
+        e.preventDefault();
+        
+        var formData = $(this).serialize();
+        showLoading();
+        
+        $.ajax({
+            url: '../requests/index.php?f=booking&endpoint=CreateManualBooking',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            success: function(res) {
+                hideLoading();
+                if (res.success) {
+                    alert('<?php echo direction("Booking created successfully!", "تم إنشاء الحجز بنجاح!") ?>');
+                    $('#createBookingModal').modal('hide');
+                    dataTable.ajax.reload();
+                } else {
+                    alert(res.message || '<?php echo direction("Failed to create booking", "فشل في إنشاء الحجز") ?>');
+                }
+            },
+            error: function(xhr) {
+                hideLoading();
+                console.error('Error:', xhr.responseText);
+                alert('<?php echo direction("Error creating booking", "خطأ في إنشاء الحجز") ?>');
             }
         });
     });

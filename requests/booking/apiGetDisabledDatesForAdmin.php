@@ -1,10 +1,9 @@
 <?php
 /**
- * GetDisabledDates Endpoint
- * Returns an array of disabled dates for the given package
+ * GetDisabledDatesForAdmin Endpoint
+ * Returns disabled dates for admin booking creation
  */
 
-// Check for required parameters
 if(!isset($_POST['package_id'])) {
     echo json_encode(['success' => false, 'message' => direction('Missing package ID', 'معرف الباقة مفقود')]);
     exit();
@@ -12,7 +11,8 @@ if(!isset($_POST['package_id'])) {
 
 $packageId = intval($_POST['package_id']);
 
-$_GET["id"] = $packageId;
+// Temporarily set $_GET['id'] for get_disabledDate() function
+$_GET['id'] = $packageId;
 
 // Get disabled dates from the bookingMain function
 $disabledDates = get_disabledDate();
