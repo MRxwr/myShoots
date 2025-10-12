@@ -244,7 +244,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="new-booking-date"><?php echo direction("Date", "التاريخ") ?></label>
-                                    <input type="text" class="form-control" id="new-booking-date" name="booking_date" placeholder="<?php echo direction("Select Date", "اختر التاريخ") ?>" required readonly>
+                                    <input type="text" class="form-control" id="new-booking-date" name="booking_date" placeholder="<?php echo direction("Select Date", "اختر التاريخ") ?>" required >
                                 </div>
                             </div>
                             <div class="col-md-6">
