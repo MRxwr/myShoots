@@ -144,7 +144,7 @@ if( isset($_POST["enTitle"]) ){
 			?>
 			<tr>
 			<td>
-			<input name="rank[]" class="form-control" type="number" value="<?php echo str_pad($extras[$i]["rank"], 2, '0', STR_PAD_LEFT) ?>" style="width: 100px;">
+			<input name="rank[]" class="form-control" type="number" value="<?php echo str_pad($counter, 2, '0', STR_PAD_LEFT) ?>" style="width: 100px;">
 			<input name="id[]" class="form-control" type="hidden" value="<?php echo $extras[$i]["id"] ?>">
 			</td>
 			<td id="enTitle<?php echo $extras[$i]["id"]?>" ><?php echo $extras[$i]["enTitle"] ?></td>

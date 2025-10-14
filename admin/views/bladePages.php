@@ -148,6 +148,7 @@ if( isset($_POST["enTitle"]) ){
 		<?php 
 		if( $pages = selectDB("pages","`status` = '0' ORDER BY `section` ASC") ){
 		for( $i = 0; $i < sizeof($pages); $i++ ){
+			$counter = $i + 1;
             if ($section = selectDB("pages","`id` = '{$pages[$i]["section"]}'") ){
             }else{
                 $section[0]["enTitle"] = "Main";
