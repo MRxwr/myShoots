@@ -167,7 +167,7 @@ if( isset($_POST["enTitle"]) ){
 		<tr>
 		<td id="section<?php echo $pages[$i]["id"]?>" ><?php echo direction($section[0]["enTitle"],$section[0]["arTitle"]) ?><label id="sectionHidden<?php echo $pages[$i]["id"]?>" style="display:none"><?php echo $pages[$i]["section"]?></label></td>
 		<td>
-		<input name="rank[]" class="form-control" type="number" value="<?php echo str_pad($counter, 2, '0', STR_PAD_LEFT) ?>" style="width: 100px;">
+		<input name="rank[]" class="form-control" type="number" value="<?php echo str_pad($pages[$i]["rank"], 2, '0', STR_PAD_LEFT) ?>" style="width: 100px;">
 		<input name="id[]" class="form-control" type="hidden" value="<?php echo $pages[$i]["id"] ?>">
 		</td>
 		<td id="enTitle<?php echo $pages[$i]["id"]?>" ><?php echo $pages[$i]["enTitle"] ?></td>
