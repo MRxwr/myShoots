@@ -8,6 +8,16 @@ body{
     text-align: right!important;
     font-family: 'Almarai', sans-serif;
   }
+
+/* Fix Owl Carousel RTL Support */
+.owl-carousel {
+    direction: ltr !important;
+}
+.owl-carousel .owl-stage-outer,
+.owl-carousel .owl-stage,
+.owl-carousel .owl-item {
+    direction: ltr !important;
+}
   .package-card .package-head::after {
     content: "";
     width: 40px!important;

@@ -170,6 +170,7 @@ $(document).ready(function(){
         margin:10,
         nav:true,
         dots:true,
+        rtl: <?php echo ($directionHTML == 'rtl') ? 'true' : 'false'; ?>,
         responsive:{
           0: { items: 1 },
           768: { items: 2 },
