@@ -125,6 +125,9 @@ if( isset($_POST["enTitle"]) ){
 </div>
 <div class="panel-wrapper collapse in">
 <div class="panel-body">
+	<button class="btn btn-primary">
+	<?php echo direction("Submit rank","أرسل الترتيب") ?>
+	</button>  
 <div class="table-wrap mt-40">
 <div class="table-responsive">
 	<table class="table display responsive product-overview mb-30" id="myTable">
