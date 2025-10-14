@@ -18,6 +18,7 @@ if( isset($_GET["delId"]) && !empty($_GET["delId"]) ){
 }
 
 if( isset($_POST["updateRank"]) ){
+	var_dump($_POST);
 	for( $i = 0; $i < sizeof($_POST["rank"]); $i++){
 		updateDB("pages",array("rank"=>$_POST["rank"][$i]),"`id` = '{$_POST["id"][$i]}'");
 	}
