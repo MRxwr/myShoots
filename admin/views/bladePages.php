@@ -17,6 +17,13 @@ if( isset($_GET["delId"]) && !empty($_GET["delId"]) ){
 	}
 }
 
+if( isset($_POST["updateRank"]) ){
+	for( $i = 0; $i < sizeof($_POST["rank"]); $i++){
+		updateDB("pages",array("rank"=>$_POST["rank"][$i]),"`id` = '{$_POST["id"][$i]}'");
+	}
+	header("LOCATION: ?v=Pages");
+}
+
 if( isset($_POST["enTitle"]) ){
 	$id = $_POST["update"];
 	unset($_POST["update"]);
@@ -43,7 +50,7 @@ if( isset($_POST["enTitle"]) ){
 		}
 	}
 }
-?>
+?> 
 <div class="row">
 <div class="col-sm-12">
 <div class="panel panel-default card-view">
@@ -106,6 +113,8 @@ if( isset($_POST["enTitle"]) ){
 </div>
 				
 				<!-- Bordered Table -->
+<form method="post" action="">
+<input name="updateRank" type="hidden" value="1">
 <div class="col-sm-12">
 <div class="panel panel-default card-view">
 <div class="panel-heading">
@@ -122,6 +131,7 @@ if( isset($_POST["enTitle"]) ){
 		<thead>
 		<tr>
 		<th><?php echo direction("Section","العنوان") ?></th>
+		<th><?php echo direction("Rank","الترتيب") ?></th>
 		<th><?php echo direction("English Title","العنوان") ?></th>
 		<th><?php echo direction("Arabic Title","الرابط") ?></th>
 		<th><?php echo direction("Icon","الصورة") ?></th>
@@ -151,6 +161,10 @@ if( isset($_POST["enTitle"]) ){
 		?>
 		<tr>
 		<td id="section<?php echo $pages[$i]["id"]?>" ><?php echo direction($section[0]["enTitle"],$section[0]["arTitle"]) ?><label id="sectionHidden<?php echo $pages[$i]["id"]?>" style="display:none"><?php echo $pages[$i]["section"]?></label></td>
+		<td>
+		<input name="rank[]" class="form-control" type="number" value="<?php echo str_pad($counter, 2, '0', STR_PAD_LEFT) ?>" style="width: 100px;">
+		<input name="id[]" class="form-control" type="hidden" value="<?php echo $times[$i]["id"] ?>">
+		</td>
 		<td id="enTitle<?php echo $pages[$i]["id"]?>" ><?php echo $pages[$i]["enTitle"] ?></td>
 		<td id="arTitle<?php echo $pages[$i]["id"]?>" ><?php echo $pages[$i]["arTitle"] ?></td>
 		<td id="icon<?php echo $pages[$i]["id"]?>" ><label class="<?php echo $pages[$i]["icon"] ?>"></label><label id="iconHidden<?php echo $pages[$i]["id"]?>" style="display:none"><?php echo $pages[$i]["icon"] ?></label></td>
@@ -178,6 +192,7 @@ if( isset($_POST["enTitle"]) ){
 </div>
 </div>
 </div>
+</form>
 </div>
 	
 	<script>

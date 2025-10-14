@@ -33,7 +33,7 @@ if( $pages = selectDB("pages","`status` = '0' AND `section` = '0'") ){
 					<div class="clearfix"></div>
 				</a>
 			<?php
-			if ( $subSections = selectDB("pages","`section` = '{$pages[$i]["id"]}'") ){
+			if ( $subSections = selectDB("pages","`section` = '{$pages[$i]["id"]}' ORDER BY `rank` ASC") ){
 				?>
 				<ul id="<?php echo str_replace(" ","_",$pages[$i]["enTitle"]) ?>" class="collapse-level-1 collapse" aria-expanded="true">
 				<?php
