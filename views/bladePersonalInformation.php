@@ -205,7 +205,7 @@ if( isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) ){
                     <div class="form-check mb-2">
                       <input class="form-check-input" type="checkbox" value="" name="termsandcondition" required>
                       <label class="form-check-label" for="defaultCheck1">
-                        <span class="form-control-plaintext"> <?php echo direction("I agree","أوافق") ?> <a href="<?php echo "?v=terms-and-condition"; ?>" target="_blank"><?php echo direction("Terms and Conditions","الشروط والأحكام") ?></a> </span>
+                        <span class="form-control-plaintext"> <?php echo direction("I agree","أوافق") ?> <a href="<?php echo "?v=TermsAndCondition"; ?>" target="_blank"><?php echo direction("Terms and Conditions","الشروط والأحكام") ?></a> </span>
                       </label>
                     </div>
                     <?php 
