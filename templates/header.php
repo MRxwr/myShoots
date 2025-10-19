@@ -95,7 +95,7 @@ if ( $banners = selectDB("tbl_banners","`status` = '0' AND `hidden` = '1' ORDER 
   <nav class="navbar fixed-top navbar-expand-md navbar-light bg-white"> 
     <div class="container">
 
-    <a class="navbar-brand d-lg-none" href="<?php echo $settingsWebsite; ?>"><img src="logos/<?php echo $settingslogo ?>" style="max-height:50px"></a>
+    <a class="navbar-brand d-lg-none" href="<?php echo $settingsWebsite; ?>"><img src="logos/<?php echo $settingslogo ?>" style="max-height:40px"></a>
     <button class="<?php echo direction('ml-auto mr-3','mr-auto ml-3') ?> navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
     </button>
